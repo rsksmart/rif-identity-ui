@@ -1,7 +1,6 @@
 {
   "devDependencies": {
-    "lerna": "^3.22.1",
-    "react-native": "^0.62.2"
+    "lerna": "^3.22.1"
   },
   "name": "rif-identity-ui",
   "private": true

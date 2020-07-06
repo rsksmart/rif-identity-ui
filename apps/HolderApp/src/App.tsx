@@ -24,11 +24,13 @@ import {
 
 import { DummyText } from '@rsksmart/rif-id-react-native/components/DummyText'
 import { getMyMessage } from '@rsksmart/rif-id-commons-sample'
+import capitalize from 'lodash/capitalize'
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   const myMessage = getMyMessage()
+  const myUpperMessage = capitalize(myMessage)
 
   return (
     <>
@@ -57,6 +59,10 @@ const App = () => {
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Imported from RIF Identity commons package</Text>
               <Text>{myMessage}</Text>
+            </View>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Imported from git</Text>
+              <Text>Capitalized {myUpperMessage}</Text>
             </View>
           </View>
         </ScrollView>

@@ -1,17 +1,20 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import {RootState} from '../../../state/store';
-import {newMnemonicError, clearMnemonicError} from '../../../state/localUi/actions';
+import {RootState} from '../../../../state/store';
+import {
+  newMnemonicError,
+  clearMnemonicError,
+} from '../../../../state/localUi/actions';
 
 interface statePropsInterface {
-  words: string[],
-  isError: string | false,
+  words: string[];
+  isError: string | false;
 }
 
 interface dispatchInterface {
-  start: Function,
-  onSubmit: Function,
+  start: Function;
+  onSubmit: Function;
 }
 
 interface ownPropsInterface {
@@ -23,7 +26,7 @@ const mapStateToProps = (state: RootState) => ({
   isError: state.localUi.mnemonicError,
 });
 
-const mapDispatchToProps = (dispatch: any):dispatchInterface => ({
+const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
   start: () => {
     dispatch(clearMnemonicError());
   },
@@ -40,12 +43,13 @@ const mapDispatchToProps = (dispatch: any):dispatchInterface => ({
 
 const mergeProps = (
   stateProps: statePropsInterface,
-  dispatchProps:dispatchInterface,
-  ownProps: ownPropsInterface
+  dispatchProps: dispatchInterface,
+  ownProps: ownPropsInterface,
 ) => ({
   ...stateProps,
   ...dispatchProps,
-  onSubmit: (words: string[]) => dispatchProps.onSubmit(words, ownProps.navigation),
+  onSubmit: (words: string[]) =>
+    dispatchProps.onSubmit(words, ownProps.navigation),
 });
 
 export default connect(

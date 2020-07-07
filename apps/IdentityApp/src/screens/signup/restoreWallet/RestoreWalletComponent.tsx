@@ -1,12 +1,20 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, NativeSyntheticEvent, TextInputChangeEventData, GestureResponderEvent} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  GestureResponderEvent,
+} from 'react-native';
 
-import {layoutStyles, typeStyles} from '../../styles';
+import {layoutStyles, typeStyles} from '../../../styles';
 
-import SquareButton from '../../components/shareable/buttons/SquareButton';
+import SquareButton from '../../../components/shareable/buttons/SquareButton';
 
 interface RestoreWalletComponentProps {
-  onSubmit: (event: GestureResponderEvent) => void | null
+  onSubmit: (event: GestureResponderEvent) => void | null;
 }
 
 const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
@@ -30,7 +38,9 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
               multiline={true}
               numberOfLines={4}
               value={textValue}
-              onChange={(evt: NativeSyntheticEvent<TextInputChangeEventData>): void => setTextValue(evt.target.text)}
+              onChange={(
+                evt: NativeSyntheticEvent<TextInputChangeEventData>,
+              ): void => setTextValue(evt.target.text)}
               placeholder="enter your seed phrase"
             />
           </View>

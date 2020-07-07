@@ -1,8 +1,8 @@
 import {LOCALUI_ACTION_TYPES} from './actions';
-import sampleMnemonic from '../../screens/mnemonic/sampleMnemonic';
+import sampleMnemonic from './sampleMnemonic';
 
 type LocalUiState = {
-  sampleMnemonic: string[],
+  sampleMnemonic: string[];
   mnemonicError: string | false;
   tempPin: number;
   setPinError: string | false;

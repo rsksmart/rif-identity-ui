@@ -3,12 +3,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import WelcomeContainer from './screens/welcome/WelcomeContainer';
-import ViewMnemonicContainer from './screens/mnemonic/containers/ViewMnemonicContainer';
-import ConformMnemonicContainer from './screens/mnemonic/containers/ConfirmMnemonicContainer';
-import CreatePinContainer from './screens/createPin/containers/CreatePinContainer';
-import ConfirmPinContainer from './screens/createPin/containers/ConfirmPinContainer';
-import RestoreWalletContainer from './screens/restoreWallet/RestoreWalletContainer';
-import CredentialsHomeContainer from './screens/credentials/containers/CredentialsHomeContainer';
+import {
+  ViewMnemonicContainer,
+  ConfirmMenommicContainer,
+  CreatePinContainer,
+  ConfirmPinContainer,
+  RestoreWalletContainer,
+} from './screens/signup';
+
+import {CredentialsHomeContainer} from './screens/credentials/';
 
 interface AppComponentProps {}
 
@@ -30,7 +33,7 @@ const AppComponent: React.FC<AppComponentProps> = () => {
         />
         <Stack.Screen
           name="MnemonicConfirm"
-          component={ConformMnemonicContainer}
+          component={ConfirmMenommicContainer}
           options={{title: 'Confirm the phase'}}
         />
 
@@ -59,7 +62,6 @@ const AppComponent: React.FC<AppComponentProps> = () => {
           component={CredentialsHomeContainer}
           options={{title: 'Credentials', headerShown: false}}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

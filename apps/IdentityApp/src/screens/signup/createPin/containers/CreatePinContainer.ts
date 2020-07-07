@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import CreatePinComponent from '../components/CreatePinComponent';
-import {setPin, setPinError} from '../../../state/localUi/actions';
+import {setPin, setPinError} from '../../../../state/localUi/actions';
 
 const mapStateToProps = (state: RootState) => ({
   errorMessage: state.localUi.setPinError,

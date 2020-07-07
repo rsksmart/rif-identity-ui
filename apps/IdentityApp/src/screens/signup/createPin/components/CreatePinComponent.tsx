@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-import PinButtons from '../../../components/shareable/pin/PinButtonsComponent';
-import {layoutStyles, typeStyles} from '../../../styles';
+import PinButtons from '../../../../components/shareable/pin/PinButtonsComponent';
+import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface CreatePinScreenProps {
   onSubmit: () => {};

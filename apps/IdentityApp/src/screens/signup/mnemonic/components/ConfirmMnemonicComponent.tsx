@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import SquareButton from '../../../components/shareable/buttons/SquareButton';
+import SquareButton from '../../../../components/shareable/buttons/SquareButton';
 
-import {layoutStyles, typeStyles} from '../../../styles';
+import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ConfirmMnemonicComponentProps {
   words: string[];

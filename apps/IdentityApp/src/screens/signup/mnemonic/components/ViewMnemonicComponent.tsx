@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, Text, GestureResponderEvent} from 'react-native';
 
-import SquareButton from '../../../components/shareable/buttons/SquareButton';
-import {layoutStyles, typeStyles} from '../../../styles';
+import SquareButton from '../../../../components/shareable/buttons/SquareButton';
+import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ViewMnemonicComponentProps {
   words: string[];

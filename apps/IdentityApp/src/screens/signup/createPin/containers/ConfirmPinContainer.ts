@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import ConfirmPinComponent from '../components/ConfirmPinComponent';
-import {RootState} from '../../../state/store';
-import {setPinError} from '../../../state/localUi/actions';
+import {RootState} from '../../../../state/store';
+import {setPinError} from '../../../../state/localUi/actions';
 
 const mapStateToProps = (state: RootState) => ({
   tempPin: state.localUi.tempPin,

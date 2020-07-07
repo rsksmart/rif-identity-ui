@@ -5,14 +5,14 @@ import {SquareButton} from '../../../../Libraries/Button';
 import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ConfirmMnemonicComponentProps {
-  words: string[];
+  mnemonic: string[];
   isError: string | null;
   onSubmit: Function;
   start: Function;
 }
 
 const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
-  words,
+  mnemonic,
   isError,
   onSubmit,
   start,
@@ -25,10 +25,10 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
 
   // "randomize" the words for the user
   useEffect(() => {
-    const randomList = [...words].sort(() => 0.5 - Math.random());
+    const randomList = [...mnemonic].sort(() => 0.5 - Math.random());
     setWordList(randomList);
     start(); // clears the error state
-  }, [words]);
+  }, [mnemonic]);
 
   // add or remove the item from the selected list
   const toggleClick = (word: string) => {
@@ -72,7 +72,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
         <View style={layoutStyles.column1}>
           <SquareButton
             title="Next"
-            disabled={selectedWords.length !== words.length}
+            disabled={selectedWords.length !== mnemonic.length}
             onPress={() => onSubmit(selectedWords)}
           />
         </View>

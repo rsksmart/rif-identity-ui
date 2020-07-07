@@ -1,4 +1,4 @@
-const sample = [
+const sampleLong = [
   'apple',
   'taco',
   'dragon',
@@ -12,5 +12,7 @@ const sample = [
   'airport',
   'nope',
 ];
+
+const sample = ['jesse', 'eats', 'tacos'];
 
 export default sample;

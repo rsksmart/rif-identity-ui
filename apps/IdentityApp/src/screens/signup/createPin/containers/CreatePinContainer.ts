@@ -9,7 +9,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (navigation: NavigationScreenProp<any, any>, pin: number) => {
-    if (pin < 1000) {
+    if (pin.toString().length < 4) {
       dispatch(setPinError('Your pin should be at least 4 characters.'));
     } else {
       dispatch(setPinError(false));

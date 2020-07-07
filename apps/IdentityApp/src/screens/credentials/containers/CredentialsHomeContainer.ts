@@ -5,7 +5,7 @@ import CredentialsHomeComponent from '../components/CredentialsHomeComponent';
 // const mapStateToProps = (state: RootState) => ({});
 
 const mapDispatchToProps = () => ({
-  onSubmit: (navigation: NavigationScreenProp<any, any>) => navigation.navigate('Welcome'),
+  onSubmit: (navigation: NavigationScreenProp<any, any>) => navigation.navigate('WelcomeHome'),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

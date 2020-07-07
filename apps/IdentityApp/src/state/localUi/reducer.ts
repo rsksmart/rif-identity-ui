@@ -6,6 +6,7 @@ type LocalUiState = {
   mnemonicError: string | false;
   tempPin: number;
   setPinError: string | false;
+  isSignedUp: boolean;
 };
 
 export const initialState = {
@@ -13,6 +14,7 @@ export const initialState = {
   mnemonicError: false,
   tempPin: 0,
   setPinError: false,
+  isSignedUp: true,
 };
 
 const reducer = (state: LocalUiState = initialState, action: any) => {

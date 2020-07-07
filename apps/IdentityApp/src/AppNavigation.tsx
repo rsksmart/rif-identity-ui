@@ -5,16 +5,19 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {CredentialsHomeContainer} from './screens/credentials';
 import SignupNavigation from './screens/signup/SignupNavigation';
 
-interface AppComponentProps {}
+interface AppComponentProps {
+  isSignedUp: boolean;
+}
 
-const AppComponent: React.FC<AppComponentProps> = () => {
+const AppComponent: React.FC<AppComponentProps> = ({isSignedUp}) => {
   const Stack = createStackNavigator();
-
+  console.log('isSignedUp?', isSignedUp);
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName={isSignedUp ? 'CredentialsHome' : 'WelcomeHome'}>
         <Stack.Screen
-          name="Home"
+          name="WelcomeHome"
           component={SignupNavigation}
           options={{headerShown: false}}
         />

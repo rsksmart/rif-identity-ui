@@ -5,14 +5,15 @@ import {SquareButton} from '../../../../Libraries/Button';
 import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ViewMnemonicComponentProps {
-  words: string[];
+  mnemonic: string[];
   onSubmit: (event: GestureResponderEvent) => void | null;
 }
 
 const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
-  words,
+  mnemonic,
   onSubmit,
 }) => {
+  console.log(mnemonic);
   return (
     <>
       <View style={layoutStyles.row}>
@@ -28,7 +29,7 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
             ...layoutStyles.borderRow,
             ...styles.wordRow,
           }}>
-          {words.map((word, index) => (
+          {mnemonic.map((word, index) => (
             <View style={layoutStyles.column3} key={word}>
               <View style={{...layoutStyles.row, ...styles.innerRow}}>
                 <View style={styles.circleView}>
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   circleNumber: {
     textAlign: 'center',
     paddingTop: 3,
-  }
+  },
 });
 
 export default ViewMnemonicComponent;

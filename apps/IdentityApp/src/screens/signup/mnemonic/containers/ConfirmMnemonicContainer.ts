@@ -2,10 +2,7 @@ import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
 import {RootState} from '../../../../state/store';
-import {
-  newMnemonicError,
-  clearMnemonicError,
-} from '../../../../state/localUi/actions';
+import {newMnemonicError, clearError} from '../../actions';
 
 interface statePropsInterface {
   mnemonic: string[];
@@ -22,13 +19,13 @@ interface ownPropsInterface {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  mnemonic: state.localUi.sampleMnemonic,
-  isError: state.localUi.mnemonicError,
+  mnemonic: state.signup.mnemonic,
+  isError: state.signup.mnemonicError,
 });
 
 const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
   start: () => {
-    dispatch(clearMnemonicError());
+    dispatch(clearError());
   },
   onSubmit: (
     userInput: string[],
@@ -37,7 +34,7 @@ const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
   ) => {
     // does each word in array match expected input?
     if (userInput.every((val, index) => val === expectedInput[index])) {
-      dispatch(clearMnemonicError());
+      dispatch(clearError());
       navigation.navigate('PinCreate');
     } else {
       dispatch(newMnemonicError('Word order is not correct :('));

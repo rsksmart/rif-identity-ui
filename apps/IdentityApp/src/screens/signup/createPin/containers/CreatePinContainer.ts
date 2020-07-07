@@ -1,10 +1,11 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import CreatePinComponent from '../components/CreatePinComponent';
-import {setPin, setPinError} from '../../../../state/localUi/actions';
+import {RootState} from '../../../../state/store';
+import {setPin, setPinError} from '../../actions';
 
 const mapStateToProps = (state: RootState) => ({
-  errorMessage: state.localUi.setPinError,
+  errorMessage: state.signup.pinError,
 });
 
 const mapDispatchToProps = (dispatch) => ({

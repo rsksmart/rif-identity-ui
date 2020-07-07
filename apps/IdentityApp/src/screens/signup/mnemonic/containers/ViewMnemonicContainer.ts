@@ -1,8 +1,7 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import ViewMnemonicComponent from '../components/ViewMnemonicComponent';
-import { RootState } from '../../../state/store';
-
+import {RootState} from '../../../state/store';
 
 interface statePropsInterface {
   words: string[];
@@ -17,7 +16,7 @@ interface ownPropsInterface {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  words: state.localUi.sampleMnemonic,
+  mnemonic: state.signup.mnemonic,
 });
 
 const mapDispatchToProps = () => ({

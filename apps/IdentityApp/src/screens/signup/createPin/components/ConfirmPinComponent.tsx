@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-import PinButtons from '../../../../components/shareable/pin/PinButtonsComponent';
+import PinInput from '../../../../Libraries/PinInput/PinInputComponent';
 import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ConfirmPinComponentProps {
@@ -17,7 +17,7 @@ const ConfirmPinComponent: React.FC<ConfirmPinComponentProps> = ({
     <View style={layoutStyles.column1}>
       <Text style={typeStyles.paragraph}>Confirm your pin</Text>
       {errorMessage && <Text style={typeStyles.error}>Pin did not match!</Text>}
-      <PinButtons maxDigits={8} onSubmit={onSubmit} hidePin />
+      <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
     </View>
   );
 };

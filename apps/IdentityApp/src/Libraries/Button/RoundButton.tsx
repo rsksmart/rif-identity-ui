@@ -1,6 +1,6 @@
 import React from 'react'
 import {StyleSheet} from 'react-native';
-import colors from '../../../styles/colors';
+import colors from '../../styles/colors';
 
 import {ButtonInterface} from './interface';
 import BaseButton from './BaseButton';

@@ -11,7 +11,7 @@ import {
 
 import {layoutStyles, typeStyles} from '../../../styles';
 
-import SquareButton from '../../../components/shareable/buttons/SquareButton';
+import {SquareButton} from '../../../Libraries/Button';
 
 interface RestoreWalletComponentProps {
   onSubmit: (event: GestureResponderEvent) => void | null;

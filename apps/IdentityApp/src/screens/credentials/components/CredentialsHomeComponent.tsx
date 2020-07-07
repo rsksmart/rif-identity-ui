@@ -1,8 +1,14 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, GestureResponderEvent} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  GestureResponderEvent,
+} from 'react-native';
 
 import {layoutStyles, typeStyles} from '../../../styles';
-import SquareButton from '../../../components/shareable/buttons/SquareButton';
+import {SquareButton} from '../../../Libraries/Button';
 
 interface CredentialsHomeComponentProps {
   startOverPress: (event: GestureResponderEvent) => void | null;

@@ -1,5 +1,10 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, GestureResponderEvent} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  GestureResponderEvent,
+} from 'react-native';
 
 interface Style {
   button: Object;

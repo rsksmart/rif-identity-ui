@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import layoutStyles from '../../../styles/layout';
-import typeStyles from '../../../styles/typography';
-import RoundButton from '../buttons/RoundButton';
-import SquareButton from '../buttons/SquareButton';
+
+import {layoutStyles, typeStyles} from '../../styles';
+import {RoundButton, SquareButton} from '../Button';
 
 interface PinButtonsProps {
   onSubmit: () => {};

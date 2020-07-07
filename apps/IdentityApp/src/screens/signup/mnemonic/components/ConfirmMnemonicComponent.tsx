@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import SquareButton from '../../../../components/shareable/buttons/SquareButton';
+import {SquareButton} from '../../../../Libraries/Button';
 
 import {layoutStyles, typeStyles} from '../../../../styles';
 

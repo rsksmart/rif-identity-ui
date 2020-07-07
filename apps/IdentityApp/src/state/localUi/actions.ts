@@ -3,11 +3,11 @@ export enum LOCALUI_ACTION_TYPES {
   RECEIVE_IS_SIGNED_IN = 'RECEIVE_IS_SIGNED_IN',
 }
 
-export const requestIsSignedIn = () => ({
+export const requestIsSignedUp = () => ({
   type: LOCALUI_ACTION_TYPES.RECEIVE_IS_SIGNED_IN,
 });
 
-export const receiveIsSignedIn = (isSignedIn: boolean) => ({
+export const receiveIsSignedUp = (isSignedUp: boolean) => ({
   type: LOCALUI_ACTION_TYPES.RECEIVE_IS_SIGNED_IN,
-  isSignedIn,
+  isSignedUp,
 });

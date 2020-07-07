@@ -19,7 +19,7 @@ export const setPin = (pin: number) => ({
   pin,
 });
 
-export const setPinError = (message: string | false) => ({
+export const setPinError = (message: string) => ({
   type: SETUP_ACTION_TYPES.SET_PIN_ERROR,
   message,
 });

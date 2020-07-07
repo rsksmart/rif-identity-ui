@@ -4,10 +4,12 @@
 import RNSecureStorage, {ACCESSIBLE} from 'rn-secure-storage';
 
 const set = async (key: string, value: string) => {
-  RNSecureStorage.set(key, value, {accessible: ACCESSIBLE.WHEN_UNLOCKED}).then(
+  await RNSecureStorage.set(key, value, {
+    accessible: ACCESSIBLE.WHEN_UNLOCKED,
+  }).then(
     (res: any) => {
       console.log('value set', res);
-      return res;
+      return value;
     },
     (err: any) => {
       console.log(err);

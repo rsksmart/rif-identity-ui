@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import ConfirmPinComponent from '../components/ConfirmPinComponent';
 import {RootState} from '../../../../state/store';
-import {setPinError} from '../../actions';
+import {checkPinMatchAndSet} from '../../operations';
 
 const mapStateToProps = (state: RootState) => ({
   pin: state.signup.pin,
@@ -14,14 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
     navigation: NavigationScreenProp<any, any>,
     userPin: string,
     expectedPin: string,
-  ) => {
-    if (userPin === expectedPin) {
-      dispatch(setPinError(false));
-      navigation.navigate('CredentialsHome');
-    } else {
-      dispatch(setPinError('PIN did not match'));
-    }
-  },
+  ) => dispatch(checkPinMatchAndSet(navigation, userPin, expectedPin)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

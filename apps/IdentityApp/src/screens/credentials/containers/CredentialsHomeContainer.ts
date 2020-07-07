@@ -4,6 +4,7 @@ import CredentialsHomeComponent from '../components/CredentialsHomeComponent';
 import {RootState} from '../../../state/store';
 
 const mapStateToProps = (state: RootState) => ({
+  state,
 });
 
 const mapDispatchToProps = () => ({

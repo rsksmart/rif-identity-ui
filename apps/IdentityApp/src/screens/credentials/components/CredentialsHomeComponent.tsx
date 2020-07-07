@@ -16,7 +16,9 @@ interface CredentialsHomeComponentProps {
 
 const CredentialsHomeComponent: React.FC<CredentialsHomeComponentProps> = ({
   startOverPress,
+  state,
 }) => {
+  console.log(state);
   return (
     <View style={{...layoutStyles.row, ...styles.container}}>
       <View style={{...layoutStyles.column1, ...styles.default}}>

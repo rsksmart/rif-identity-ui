@@ -1,10 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import userReducer from './usersSample/reducer';
 import localUiReducer from './localUi/reducer';
 import signupReducer from '../screens/signup/reducer';
 
-const middleware = [createLogger()];
+const middleware = [thunk, createLogger()];
 
 const rootReducer = combineReducers({
   localUi: localUiReducer,

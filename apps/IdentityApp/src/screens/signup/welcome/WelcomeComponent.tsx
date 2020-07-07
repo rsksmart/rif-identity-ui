@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, Image, GestureResponderEvent} from 'react-native';
 
-import {layoutStyles} from '../../styles';
+import {layoutStyles} from '../../../styles';
 
-import SquareButton from '../../components/shareable/buttons/SquareButton';
+import SquareButton from '../../../components/shareable/buttons/SquareButton';
 
 interface WelcomeComponentProps {
   restoreButtonPress: (event: GestureResponderEvent) => void | null;
@@ -20,11 +20,11 @@ const WelcomeComponent: React.FC<WelcomeComponentProps> = ({
         <View style={styles.imageContainer}>
           <Image
             style={styles.brandingImage}
-            source={require('../../assets/images/branding-logo.png')}
+            source={require('../../../assets/images/branding-logo.png')}
           />
           <Image
             style={styles.poweredByImage}
-            source={require('../../assets/images/powered-by-rif.png')}
+            source={require('../../../assets/images/powered-by-rif.png')}
           />
         </View>
       </View>

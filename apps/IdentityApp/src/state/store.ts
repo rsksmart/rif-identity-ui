@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const configureStore = (prelodedState: any) => {
+const configureStore = (prelodedState?: any) => {
   const store = createStore(
     rootReducer,
     prelodedState,

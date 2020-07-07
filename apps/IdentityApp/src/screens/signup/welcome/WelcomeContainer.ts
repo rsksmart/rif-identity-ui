@@ -1,17 +1,17 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
-import {RootState} from '../../state/store';
+import {RootState} from '../../../state/store';
 import WelcomeComponent from './WelcomeComponent';
 
 interface dispatchInterface {
-  handlePress: (navigateion: any, path: string) => any;
+  handlePress: (navigation: any, path: string) => any;
 }
 
 interface ownPropsInterface {
   navigation: NavigationScreenProp<any, any>;
 }
 
-const mapDispatchToProps = (dispatch: any):dispatchInterface => ({
+const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
   handlePress: (navigation: NavigationScreenProp<any, any>, path: string) =>
     navigation.navigate(path),
 });

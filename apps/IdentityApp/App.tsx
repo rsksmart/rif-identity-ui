@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {Provider} from 'react-redux';
 import configureStore from './src/state/store';
-import AppComponent from './src/AppComponent';
+import AppNavigation from './src/AppNavigation';
 
 const App = () => {
   const store = configureStore();
@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaView style={{'flex': 1}}>
-        <AppComponent />
+        <AppNavigation />
       </SafeAreaView>
     </Provider>
   );

@@ -19,10 +19,10 @@ const CredentialsHomeComponent: React.FC<CredentialsHomeComponentProps> = ({
         <Image source={require('../../../assets/images/high-five.png')} />
       </View>
       <View style={layoutStyles.row}>
-          <View style={layoutStyles.column1}>
-            <SquareButton title="Start Over" onPress={startOverPress} />
-          </View>
+        <View style={layoutStyles.column1}>
+          <SquareButton title="Start Over" onPress={startOverPress} />
         </View>
+      </View>
     </View>
   );
 };

@@ -1,11 +1,14 @@
 import {connect} from 'react-redux';
 import {NavigationScreenProp} from 'react-navigation';
 import CredentialsHomeComponent from '../components/CredentialsHomeComponent';
+import {RootState} from '../../../state/store';
 
-// const mapStateToProps = (state: RootState) => ({});
+const mapStateToProps = (state: RootState) => ({
+});
 
 const mapDispatchToProps = () => ({
-  onSubmit: (navigation: NavigationScreenProp<any, any>) => navigation.navigate('WelcomeHome'),
+  onSubmit: (navigation: NavigationScreenProp<any, any>) =>
+    navigation.navigate('WelcomeHome'),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -16,7 +19,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
   mergeProps,
 )(CredentialsHomeComponent);

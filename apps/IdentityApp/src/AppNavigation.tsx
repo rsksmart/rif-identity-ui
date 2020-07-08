@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {CredentialsHomeContainer} from './screens/credentials';
 import SignupNavigation from './screens/signup/SignupNavigation';
+import CredentialsNavigation from './screens/credentials/CredentialsNavigation';
 
 interface AppComponentProps {
   checkingSingedUp: boolean;
@@ -16,7 +16,7 @@ const AppComponent: React.FC<AppComponentProps> = ({
   isSignedUp,
 }) => {
   if (checkingSingedUp || isSignedUp === undefined) {
-    return <Text>Loading</Text>;
+    return <View><Text>Loading...</Text></View>;
   }
 
   const Stack = createStackNavigator();
@@ -24,16 +24,16 @@ const AppComponent: React.FC<AppComponentProps> = ({
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isSignedUp ? 'CredentialsHome' : 'WelcomeHome'}>
+        initialRouteName={isSignedUp ? 'CredentialsFlow' : 'SignupFlow'}>
         <Stack.Screen
-          name="WelcomeHome"
+          name="SignupFlow"
           component={SignupNavigation}
           options={{headerShown: false}}
         />
 
         <Stack.Screen
-          name="CredentialsHome"
-          component={CredentialsHomeContainer}
+          name="CredentialsFlow"
+          component={CredentialsNavigation}
           options={{title: 'Credentials', headerShown: false}}
         />
       </Stack.Navigator>

@@ -3,7 +3,7 @@ import {Dispatch} from 'redux';
 
 import {StorageProvider} from '../../Providers/index';
 import {clearError, setPinError} from './actions';
-import {receiveIsSignedUp} from '../../state/localUi/actions';
+import {receiveIsSignedUp, receiveLoggedIn} from '../../state/localUi/actions';
 
 /**
  *
@@ -25,7 +25,8 @@ export const checkPinMatchAndSet = (
     .then(() => {
       dispatch(clearError());
       dispatch(receiveIsSignedUp(true));
-      navigation.navigate('CredentialsHome');
+      dispatch(receiveLoggedIn(true));
+      navigation.navigate('CredentialsFlow', {screen: 'CredentialsHome'});
     })
     .catch((error) => {
       console.log('error', error.message);

@@ -12,10 +12,11 @@ import {SquareButton} from '../../../Libraries/Button';
 
 interface CredentialsHomeComponentProps {
   startOverPress: (event: GestureResponderEvent) => void | null;
+  version: string,
 }
 
 const CredentialsHomeComponent: React.FC<CredentialsHomeComponentProps> = ({
-  startOverPress,
+  startOverPress, version,
 }) => {
   return (
     <View style={{...layoutStyles.row, ...styles.container}}>
@@ -26,6 +27,7 @@ const CredentialsHomeComponent: React.FC<CredentialsHomeComponentProps> = ({
         <Text style={{...typeStyles.paragraph, textAlign: 'center'}}>
           Close this app completly and relaunch it. You should be asked for your pin.
         </Text>
+        <Text>version: {version}</Text>
       </View>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>

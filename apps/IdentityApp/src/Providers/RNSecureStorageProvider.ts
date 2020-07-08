@@ -17,8 +17,17 @@ const set = async (key: string, value: string) => {
   );
 };
 
+const remove = async (key: string) => {
+  await RNSecureStorage.remove(key)
+  .then((val) => {
+    return val;
+  }).catch((err) => {
+    return err.message;
+  });
+}
+
 const get = async (key: string) => {
   return await RNSecureStorage.get(key);
 };
 
-export default {get, set};
+export default {get, set, remove};

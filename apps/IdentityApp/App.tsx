@@ -1,9 +1,9 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import {Provider} from 'react-redux';
+import { SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
 import configureStore from './src/state/store';
-import AppContainer from './src/AppContainer';
-import {initialAppStart} from './src/state/operations';
+import AppNavigation from './src/AppNavigation';
+import { initialAppStart } from './src/state/operations';
 
 const App = () => {
   const store = configureStore();
@@ -12,8 +12,8 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={{flex: 1}}>
-        <AppContainer />
+      <SafeAreaView style={{ flex: 1 }}>
+        <AppNavigation />
       </SafeAreaView>
     </Provider>
   );

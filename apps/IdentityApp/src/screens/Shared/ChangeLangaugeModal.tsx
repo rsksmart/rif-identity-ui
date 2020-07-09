@@ -27,7 +27,7 @@ const ChangeLangaugeModal: React.FC<ChangeLangaugeModalProps> = ({
   return (
     <>
       <SquareButton
-        title="Change Language"
+        title={strings.change_language}
         onPress={() => setLanguageModalVisible(true)}
         variation="hollow"
       />

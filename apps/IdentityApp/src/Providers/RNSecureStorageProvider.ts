@@ -3,6 +3,11 @@
  */
 import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
 
+export enum STORAGE_KEYS {
+  PIN = 'PIN',
+  LANGUAGE = 'LANGUAGE',
+}
+
 const set = async (key: string, value: string) => {
   return await RNSecureStorage.set(key, value, {
     accessible: ACCESSIBLE.WHEN_UNLOCKED,

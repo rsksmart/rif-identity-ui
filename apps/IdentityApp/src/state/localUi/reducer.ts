@@ -1,7 +1,7 @@
-import {LOCALUI_ACTION_TYPES} from './actions';
+import { LOCALUI_ACTION_TYPES } from './actions';
 
 type LocalUiState = {
-  appVersion: string,
+  appVersion: string;
   checkingSingedUp: boolean;
   isSignedUp: boolean;
   isLoggedIn: boolean;
@@ -9,7 +9,7 @@ type LocalUiState = {
 };
 
 export const initialState = {
-  appVersion: '0.0.1',
+  appVersion: '0.0.2',
   checkingSingedUp: true,
   isSignedUp: false,
   isLoggedIn: false,
@@ -30,12 +30,12 @@ const reducer = (state: LocalUiState = initialState, action: any) => {
         checkingSingedUp: false,
         isSignedUp: action.isSignedUp,
       };
-    case LOCALUI_ACTION_TYPES.RECEIVE_LOGGED_IN: 
+    case LOCALUI_ACTION_TYPES.RECEIVE_LOGGED_IN:
       return {
         ...state,
         isLoggedIn: action.isLoggedIn,
         loginError: action.loginError,
-      }
+      };
     default:
       return state;
   }

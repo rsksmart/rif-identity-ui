@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image, GestureResponderEvent} from 'react-native';
+import { StyleSheet, View, Image, GestureResponderEvent } from 'react-native';
+import { multilanguage } from 'redux-multilanguage';
 
-import {layoutStyles} from '../../../styles';
-
-import {SquareButton} from '../../../Libraries/Button';
+import { layoutStyles } from '../../../styles';
+import { SquareButton } from '../../../Libraries/Button';
+import ChangeLangaugeModalContainer from '../../Shared/ChangeLangaugeModalContainer';
 
 interface WelcomeComponentProps {
   restoreButtonPress: (event: GestureResponderEvent) => void | null;
@@ -13,10 +14,11 @@ interface WelcomeComponentProps {
 const WelcomeComponent: React.FC<WelcomeComponentProps> = ({
   restoreButtonPress,
   getStartedPress,
+  strings,
 }) => {
   return (
-    <View style={{...layoutStyles.container, ...styles.containerTop}}>
-      <View style={{...layoutStyles.container, ...styles.topContainer}}>
+    <View style={{ ...layoutStyles.container, ...styles.containerTop }}>
+      <View style={{ ...layoutStyles.container, ...styles.topContainer }}>
         <View style={styles.imageContainer}>
           <Image
             style={styles.brandingImage}
@@ -28,20 +30,23 @@ const WelcomeComponent: React.FC<WelcomeComponentProps> = ({
           />
         </View>
       </View>
-      <View style={{...layoutStyles.row, ...styles.containerBottom}}>
-        <View style={{...layoutStyles.column2, ...styles.buttonContainer}}>
+      <View style={{ ...layoutStyles.row, ...styles.containerBottom }}>
+        <View style={{ ...layoutStyles.column2, ...styles.buttonContainer }}>
           <SquareButton
-            title="Restore Backup"
+            title={strings.restore}
             variation="hollow"
             onPress={restoreButtonPress}
           />
         </View>
-        <View style={{...layoutStyles.column2, ...styles.buttonContainer}}>
+        <View style={{ ...layoutStyles.column2, ...styles.buttonContainer }}>
           <SquareButton
-            title="Get Started"
+            title={strings.get_started}
             variation="solid"
             onPress={getStartedPress}
           />
+        </View>
+        <View style={{ ...layoutStyles.row, ...styles.containerBottom }}>
+          <ChangeLangaugeModalContainer />
         </View>
       </View>
     </View>
@@ -82,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomeComponent;
+export default multilanguage(WelcomeComponent);

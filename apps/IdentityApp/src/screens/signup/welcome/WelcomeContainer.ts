@@ -1,32 +1,17 @@
-import {connect} from 'react-redux';
-import {NavigationScreenProp} from 'react-navigation';
-import {RootState} from '../../../state/store';
+import { connect } from 'react-redux';
 import WelcomeComponent from './WelcomeComponent';
+import * as RootNavigation from '../../../AppNavigation';
 
 interface dispatchInterface {
-  handlePress: (navigation: any, path: string) => any;
+  restoreButtonPress: (path: string) => any;
+  getStartedPress: (path: string) => any;
 }
 
-interface ownPropsInterface {
-  navigation: NavigationScreenProp<any, any>;
-}
-
-const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
-  handlePress: (navigation: NavigationScreenProp<any, any>, path: string) =>
-    navigation.navigate(path),
-});
-
-const mergeProps = (
-  stateProps: RootState,
-  dispatchProps: dispatchInterface,
-  ownProps: ownPropsInterface
-) => ({
-  ...stateProps,
-  ...dispatchProps,
+const mapDispatchToProps = (): dispatchInterface => ({
   restoreButtonPress: () =>
-    dispatchProps.handlePress(ownProps.navigation, 'RestoreWallet'),
+    RootNavigation.navigate('SignupFlow', { screen: 'RestoreWallet' }),
   getStartedPress: () =>
-    dispatchProps.handlePress(ownProps.navigation, 'MnemonicView'),
+    RootNavigation.navigate('SignupFlow', { screen: 'MnemonicView' }),
 });
 
-export default connect(null, mapDispatchToProps, mergeProps)(WelcomeComponent);
+export default connect(null, mapDispatchToProps)(WelcomeComponent);

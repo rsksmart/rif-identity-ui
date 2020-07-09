@@ -1,11 +1,11 @@
-import {SETUP_ACTION_TYPES} from './actions';
+import { SETUP_ACTION_TYPES } from './actions';
 import sampleMnemonic from '../../state/localUi/sampleMnemonic';
 
 export type SetupState = {
   mnemonic: string[];
-  mnemonicError: string | false;
-  pin: number;
-  pinError: string | false;
+  mnemonicError: string | boolean;
+  pin: number | null;
+  pinError: string | boolean;
 };
 
 export const initialState = {

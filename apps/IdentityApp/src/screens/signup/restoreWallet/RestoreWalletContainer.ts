@@ -1,23 +1,10 @@
-import {connect} from 'react-redux';
-import {NavigationScreenProp} from 'react-navigation';
+import { connect } from 'react-redux';
 import RestoreWalletComponent from './RestoreWalletComponent';
-
-// const mapStateToProps = (state: RootState) => ({});
+import * as RootNavigation from '../../../AppNavigation';
 
 const mapDispatchToProps = () => ({
-  onSubmit: (navigation: NavigationScreenProp<any, any>) =>
-    navigation.navigate('PinCreate'),
+  onSubmit: () =>
+    RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' }),
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
-  onSubmit: () => dispatchProps.onSubmit(ownProps.navigation),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-  mergeProps,
-)(RestoreWalletComponent);
+export default connect(null, mapDispatchToProps)(RestoreWalletComponent);

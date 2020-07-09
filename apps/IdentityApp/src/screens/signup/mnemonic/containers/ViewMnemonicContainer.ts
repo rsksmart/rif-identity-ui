@@ -1,41 +1,18 @@
-import {connect} from 'react-redux';
-import {NavigationScreenProp} from 'react-navigation';
+import { connect } from 'react-redux';
 import ViewMnemonicComponent from '../components/ViewMnemonicComponent';
-import {RootState} from '../../../state/store';
-
-interface statePropsInterface {
-  words: string[];
-}
-
-interface dispatchPropsInterface {
-  onSubmit: Function;
-}
-
-interface ownPropsInterface {
-  navigation: NavigationScreenProp<any, any>;
-}
+import { RootState } from '../../../../state/store';
+import * as RootNavigation from '../../../../AppNavigation';
 
 const mapStateToProps = (state: RootState) => ({
   mnemonic: state.signup.mnemonic,
 });
 
 const mapDispatchToProps = () => ({
-  onSubmit: (navigation: NavigationScreenProp<any, any>) =>
-    navigation.navigate('MnemonicConfirm'),
-});
-
-const mergeProps = (
-  stateProps: statePropsInterface,
-  dispatchProps: dispatchPropsInterface,
-  ownProps: ownPropsInterface,
-) => ({
-  ...stateProps,
-  ...dispatchProps,
-  onSubmit: () => dispatchProps.onSubmit(ownProps.navigation),
+  onSubmit: () =>
+    RootNavigation.navigate('SignupFlow', { screen: 'MnemonicConfirm' }),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
 )(ViewMnemonicComponent);

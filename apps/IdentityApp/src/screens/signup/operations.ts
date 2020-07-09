@@ -1,18 +1,19 @@
-import {NavigationScreenProp} from 'react-navigation';
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 
-import {StorageProvider} from '../../Providers/index';
-import {clearError, setPinError} from './actions';
-import {receiveIsSignedUp, receiveLoggedIn} from '../../state/localUi/actions';
+import { StorageProvider } from '../../Providers/index';
+import { clearError, setPinError } from './actions';
+import {
+  receiveIsSignedUp,
+  receiveLoggedIn,
+} from '../../state/localUi/actions';
+import * as RootNavigation from '../../AppNavigation';
 
 /**
- *
- * @param navigation Navigation object passed from ownProps
+ * Confirm pin matches and move to home screen
  * @param userPin the user confirm pin
  * @param expectedPin the users initial pin
  */
 export const checkPinMatchAndSet = (
-  navigation: NavigationScreenProp<any, any>,
   userPin: string,
   expectedPin: string,
 ) => async (dispatch: Dispatch) => {
@@ -26,9 +27,9 @@ export const checkPinMatchAndSet = (
       dispatch(clearError());
       dispatch(receiveIsSignedUp(true));
       dispatch(receiveLoggedIn(true));
-      navigation.navigate('CredentialsFlow', {screen: 'CredentialsHome'});
+      RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
     })
-    .catch((error) => {
+    .catch(error => {
       console.log('error', error.message);
     });
 };

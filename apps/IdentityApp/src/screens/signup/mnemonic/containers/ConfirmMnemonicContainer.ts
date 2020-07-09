@@ -1,8 +1,8 @@
-import {connect} from 'react-redux';
-import {NavigationScreenProp} from 'react-navigation';
+import { connect } from 'react-redux';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import {RootState} from '../../../../state/store';
-import {newMnemonicError, clearError} from '../../actions';
+import { RootState } from '../../../../state/store';
+import { newMnemonicError, clearError } from '../../actions';
+import * as RootNavigation from '../../../../AppNavigation';
 
 interface statePropsInterface {
   mnemonic: string[];
@@ -14,10 +14,6 @@ interface dispatchInterface {
   onSubmit: Function;
 }
 
-interface ownPropsInterface {
-  navigation: NavigationScreenProp<any, any>;
-}
-
 const mapStateToProps = (state: RootState) => ({
   mnemonic: state.signup.mnemonic,
   isError: state.signup.mnemonicError,
@@ -27,15 +23,11 @@ const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
   start: () => {
     dispatch(clearError());
   },
-  onSubmit: (
-    userInput: string[],
-    expectedInput: string[],
-    navigation: NavigationScreenProp<any, any>,
-  ) => {
+  onSubmit: (userInput: string[], expectedInput: string[]) => {
     // does each word in array match expected input?
     if (userInput.every((val, index) => val === expectedInput[index])) {
       dispatch(clearError());
-      navigation.navigate('PinCreate');
+      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
     } else {
       dispatch(newMnemonicError('Word order is not correct :('));
     }
@@ -45,12 +37,11 @@ const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
 const mergeProps = (
   stateProps: statePropsInterface,
   dispatchProps: dispatchInterface,
-  ownProps: ownPropsInterface,
 ) => ({
   ...stateProps,
   ...dispatchProps,
   onSubmit: (userInput: string[]) =>
-    dispatchProps.onSubmit(userInput, stateProps.mnemonic, ownProps.navigation),
+    dispatchProps.onSubmit(userInput, stateProps.mnemonic),
 });
 
 export default connect(

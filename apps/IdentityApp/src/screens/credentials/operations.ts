@@ -5,10 +5,10 @@ import {
   receiveIsSignedUp,
   receiveLoggedIn,
 } from '../../state/localUi/actions';
-import { StorageProvider } from '../../Providers/index';
+import { StorageProvider, STORAGE_KEYS } from '../../Providers/index';
 
 export const signOutAndReset = () => async (dispatch: Dispatch) => {
-  await StorageProvider.remove('PIN')
+  await StorageProvider.remove(STORAGE_KEYS.PIN)
     .then(() => {
       dispatch(receiveIsSignedUp(false));
       dispatch(receiveLoggedIn(false));
@@ -20,7 +20,7 @@ export const signOutAndReset = () => async (dispatch: Dispatch) => {
 export const checkPinAndSignIn = (userPin: string) => async (
   dispatch: Dispatch,
 ) => {
-  await StorageProvider.get('PIN')
+  await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(expectedPin => {
       if (userPin === expectedPin) {
         dispatch(receiveLoggedIn(true));

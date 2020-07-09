@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { StorageProvider } from '../../Providers/index';
+import { StorageProvider, STORAGE_KEYS } from '../../Providers/index';
 import { clearError, setPinError } from './actions';
 import {
   receiveIsSignedUp,
@@ -22,7 +22,7 @@ export const checkPinMatchAndSet = (
     return dispatch(setPinError('PIN did not match'));
   }
 
-  await StorageProvider.set('PIN', expectedPin)
+  await StorageProvider.set(STORAGE_KEYS.PIN, expectedPin)
     .then(() => {
       dispatch(clearError());
       dispatch(receiveIsSignedUp(true));

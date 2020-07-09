@@ -28,7 +28,7 @@ export const checkPinAndSignIn = (userPin: string) => async (
           screen: 'CredentialsHome',
         });
       } else {
-        dispatch(receiveLoggedIn(false, 'Pin is Incorrect'));
+        dispatch(receiveLoggedIn(false, 'pin_is_incorrect'));
       }
     })
     .catch(error => {

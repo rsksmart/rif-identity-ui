@@ -31,6 +31,11 @@ const PinButtons: React.FC<PinButtonsProps> = ({
     setSequence(newSequence);
   };
 
+  const handleSubmit = () => {
+    onSubmit(sequence.join(''));
+    setSequence([]);
+  }
+
   return (
     <>
       <View style={layoutStyles.row}>
@@ -74,7 +79,7 @@ const PinButtons: React.FC<PinButtonsProps> = ({
         <View style={layoutStyles.column1}>
           <SquareButton
             title="Next"
-            onPress={() => onSubmit(sequence.join(''))}
+            onPress={handleSubmit}
           />
         </View>
       </View>

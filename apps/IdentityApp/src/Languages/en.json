@@ -1,3 +1,7 @@
 {
-  "credentials": "Credentials"
+  "credentials": "Credentials",
+  "login_with_pin": "Login with your pin",
+  "pin_is_incorrect": "Pin is not correct",
+  "restore_backup": "Restore Backup",
+  "get_started": "Get Started"
 }

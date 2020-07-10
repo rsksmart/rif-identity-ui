@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import colors from './colors';
 
 // editable variables:
-const gutter = 10;
+const gutter = 20;
 
 // helpers:
 const columnGutter = {
@@ -49,6 +49,8 @@ const layout = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#919191',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 

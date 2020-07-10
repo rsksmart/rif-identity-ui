@@ -9,17 +9,17 @@ const typeMargin = {
 const styles = StyleSheet.create({
   header1: {
     ...typeMargin,
-    fontSize: 45,
+    fontSize: 30,
     color: colors.typography.primary,
   },
   header2: {
     ...typeMargin,
-    fontSize: 35,
+    fontSize: 25,
     color: colors.typography.primary,
   },
   paragraph: {
     ...typeMargin,
-    fontSize: 20,
+    fontSize: 18,
   },
   bold: {
     fontWeight: 'bold',

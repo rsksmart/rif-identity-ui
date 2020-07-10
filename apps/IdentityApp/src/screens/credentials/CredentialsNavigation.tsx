@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {CredentialsHomeContainer, SigninWithPinContainer} from './containers';
 import {RootState} from '../../state/store';
 
@@ -11,22 +13,38 @@ interface CredentialsNavigationProps {
 const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({
   isLoggedIn,
 }) => {
-  console.log('isLoggedIn?', isLoggedIn);
+  if (!isLoggedIn) {
+    return <SigninWithPinContainer />
+  }
 
-  const Stack = createStackNavigator();
+  const Tab = createBottomTabNavigator();
   return (
-    <Stack.Navigator initialRouteName={isLoggedIn ? 'CredentialsHome' : 'SigninWithPin'}>
-      <Stack.Screen
+    <Tab.Navigator initialRouteName="CredentialsHome">
+      <Tab.Screen
         name="CredentialsHome"
         component={CredentialsHomeContainer}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel:"Credentials",
+          tabBarIcon: () => <Icon name="home-outline" size={28} />
+        }}
       />
-      <Stack.Screen
-        name="SigninWithPin"
+      <Tab.Screen
+        name="AddCredential"
+        component={CredentialsHomeContainer}
+        options={{
+          tabBarLabel:"Add",
+          tabBarIcon: () => <Icon name="add-circle-outline" size={28} />
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
         component={SigninWithPinContainer}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: () => <Icon name="person-outline" size={28} />
+        }}
       />
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
 };
 

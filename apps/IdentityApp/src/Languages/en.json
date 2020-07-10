@@ -12,5 +12,6 @@
   "personal_info": "Personal Info",
   "full_name": "Full Name",
   "edit_personal_info": "Edit Personal Info",
-  "birthdate": "Birthdate"
+  "birthdate": "Birthdate",
+  "id_number": "Id Number"
 }

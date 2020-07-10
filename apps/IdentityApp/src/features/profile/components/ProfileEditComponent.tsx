@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
@@ -18,8 +18,9 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   handleSave,
 }) => {
   const [localProfile, setLocalProfile] = useState({
-    fullName: profile.fullName,
-    birthdate: profile.birthdate,
+    fullName: profile.fullName || '',
+    birthdate: profile.birthdate || '',
+    idNumber: profile.idNumber || '',
   });
 
   const handleChange = (field: string, value: string) => {
@@ -36,14 +37,21 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
           <Text style={typeStyles.header1}>{strings.edit_personal_info}</Text>
           <EditItem
             name={strings.full_name}
-            value={profile.fullName}
+            value={localProfile.fullName}
             onChange={async text => handleChange('fullName', text)}
           />
 
           <EditItem
             name={strings.birthdate}
-            value={profile.birthdate}
+            value={localProfile.birthdate}
             onChange={async text => handleChange('birthdate', text)}
+          />
+
+          <EditItem
+            name={strings.id_number}
+            value={localProfile.idNumber}
+            onChange={async text => handleChange('idNumber', text)}
+            keyboardType="number-pad"
           />
 
           <SquareButton
@@ -56,7 +64,5 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default multilanguage(ProfileEditComponent);

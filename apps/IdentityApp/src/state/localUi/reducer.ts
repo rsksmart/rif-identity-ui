@@ -17,7 +17,6 @@ export const initialState = {
 };
 
 const reducer = (state: LocalUiState = initialState, action: any) => {
-  console.log('LocalUiReducer', action);
   switch (action.type) {
     case LOCALUI_ACTION_TYPES.REQUEST_IS_SIGNED_IN:
       return {

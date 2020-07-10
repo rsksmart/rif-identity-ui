@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from './colors';
 
 // editable variables:
@@ -43,6 +43,12 @@ const layout = StyleSheet.create({
     borderColor: colors.primary,
     borderWidth: 3,
     borderRadius: 8,
+  },
+
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#919191',
   },
 });
 

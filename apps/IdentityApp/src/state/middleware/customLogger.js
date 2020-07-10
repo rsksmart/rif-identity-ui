@@ -2,12 +2,12 @@
  * This is a custom logger which is better for Metro's console log on Windows.
  */
 const logger = store => next => action => {
-  console.log('ACTION: ' + action.type);
+  console.log('ACTION: ' + JSON.stringify(action));
   let result = next(action);
 
   const modifiedState = {
     ...store.getState(),
-    multilanguage: 'OMITTED',
+    multilanguage: '[OMITTED]',
   };
   console.log('STATE:' + JSON.stringify(modifiedState));
   console.log(' ');

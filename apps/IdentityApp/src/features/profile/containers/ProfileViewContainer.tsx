@@ -5,7 +5,7 @@ import { RootState } from '../../../state/store';
 import { toggleEdit } from '../actions';
 
 const mapStateToProps = (state: RootState) => ({
-  fullName: state.profile.profile.fullName,
+  profile: state.profile.profile,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

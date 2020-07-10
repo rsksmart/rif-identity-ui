@@ -6,7 +6,7 @@ import { saveProfile } from '../operations';
 import { ProfileInterface } from '../reducer';
 
 const mapStateToProps = (state: RootState) => ({
-  fullName: state.profile.profile.fullName,
+  profile: state.profile.profile,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

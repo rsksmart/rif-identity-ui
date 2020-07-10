@@ -8,10 +8,6 @@ interface DisplayItemProps {
 }
 
 const DisplayItem: React.FC<DisplayItemProps> = ({ name, value }) => {
-  if (!value) {
-    return <></>;
-  }
-
   return (
     <View>
       <Text

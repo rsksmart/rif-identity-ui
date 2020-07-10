@@ -4,25 +4,27 @@ import { StyleSheet, View, Text } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
+import { ProfileInterface } from '../reducer';
 
 interface ProfileEditComponentProps {
   strings: any;
-  fullName: string;
+  profile: ProfileInterface;
   handleSave: (profile: any) => void | null;
 }
 
 const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   strings,
-  fullName,
+  profile,
   handleSave,
 }) => {
-  const [profile, setProfile] = useState({
-    fullName: fullName,
+  const [localProfile, setLocalProfile] = useState({
+    fullName: profile.fullName,
+    birthdate: profile.birthdate,
   });
 
   const handleChange = (field: string, value: string) => {
-    setProfile({
-      ...profile,
+    setLocalProfile({
+      ...localProfile,
       [field]: value,
     });
   };
@@ -38,9 +40,15 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             onChange={async text => handleChange('fullName', text)}
           />
 
+          <EditItem
+            name={strings.birthdate}
+            value={profile.birthdate}
+            onChange={async text => handleChange('birthdate', text)}
+          />
+
           <SquareButton
             title="Save!"
-            onPress={() => handleSave(profile)}
+            onPress={() => handleSave(localProfile)}
             variation="hollow"
           />
         </View>

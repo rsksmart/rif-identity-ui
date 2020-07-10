@@ -4,16 +4,17 @@ import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles/';
 import DisplayItem from './DisplayItem';
 import { SquareButton } from '../../../Libraries/Button';
+import { ProfileInterface } from '../reducer';
 
 interface ProfileViewComponentProps {
   strings: any;
-  fullName: string;
+  profile: ProfileInterface;
   handleEdit: (event: GestureResponderEvent) => void | null;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   strings,
-  fullName,
+  profile,
   handleEdit,
 }) => {
   return (
@@ -26,7 +27,8 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           </Text>
 
           <View style={styles.viewProfile}>
-            <DisplayItem name={strings.full_name} value={fullName} />
+            <DisplayItem name={strings.full_name} value={profile.fullName} />
+            <DisplayItem name={strings.birthdate} value={profile.birthdate} />
           </View>
 
           <SquareButton title="Edit" onPress={handleEdit} variation="hollow" />

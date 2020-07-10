@@ -29,6 +29,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <View style={styles.viewProfile}>
             <DisplayItem name={strings.full_name} value={profile.fullName} />
             <DisplayItem name={strings.birthdate} value={profile.birthdate} />
+            <DisplayItem name={strings.id_number} value={profile.idNumber} />
           </View>
 
           <SquareButton title="Edit" onPress={handleEdit} variation="hollow" />

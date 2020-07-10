@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { typeStyles, layoutStyles } from '../../../styles/';
 
 interface EditItemProps {
   name: string;
   value: string;
   onChange: (text: string) => {};
+  keyboardType?: 'default' | 'number-pad';
 }
 
-const EditItem: React.FC<EditItemProps> = ({ name, value, onChange }) => {
+const EditItem: React.FC<EditItemProps> = ({
+  name,
+  value,
+  onChange,
+  keyboardType,
+}) => {
   return (
     <View>
       <Text style={typeStyles.paragraph}>{name}</Text>
@@ -18,11 +24,10 @@ const EditItem: React.FC<EditItemProps> = ({ name, value, onChange }) => {
         value={value}
         editable
         maxLength={40}
+        keyboardType={keyboardType ? keyboardType : 'default'}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default EditItem;

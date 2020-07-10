@@ -9,6 +9,7 @@ export type ProfileState = {
 export interface ProfileInterface {
   fullName: string;
   birthdate: string;
+  idNumber: string;
 }
 
 export const initialState = {
@@ -16,7 +17,8 @@ export const initialState = {
   isEditing: false,
   profile: {
     fullName: '',
-    birthdate: 'today',
+    birthdate: '',
+    idNumber: '',
   },
 };
 

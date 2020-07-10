@@ -16,7 +16,6 @@ const set = async (key: string, value: string) => {
 };
 
 const remove = async (key: string) => {
-  console.log('removing', key);
   return await RNSecureStorage.remove(key);
 };
 
@@ -25,7 +24,9 @@ const get = async (key: string) => {
 };
 
 const removeAll = async () => {
-  Object.keys(STORAGE_KEYS).forEach(key => remove(key));
+  Object.keys(STORAGE_KEYS).forEach(key => {
+    remove(key).catch(() => {});
+  });
 };
 
 export default { get, set, remove, removeAll };

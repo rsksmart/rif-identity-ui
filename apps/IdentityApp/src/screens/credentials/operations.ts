@@ -8,13 +8,10 @@ import {
 import { StorageProvider, STORAGE_KEYS } from '../../Providers/index';
 
 export const signOutAndReset = () => async (dispatch: Dispatch) => {
-  await StorageProvider.remove(STORAGE_KEYS.PIN)
-    .then(() => {
-      dispatch(receiveIsSignedUp(false));
-      dispatch(receiveLoggedIn(false));
-      RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
-    })
-    .catch((error: string) => console.log(error));
+  await StorageProvider.removeAll();
+  dispatch(receiveIsSignedUp(false));
+  dispatch(receiveLoggedIn(false));
+  RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
 };
 
 export const checkPinAndSignIn = (userPin: string) => async (

@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     ...typeMargin,
     fontSize: 20,
   },
+  bold: {
+    fontWeight: 'bold',
+  },
   error: {
     ...typeMargin,
     fontSize: 20,

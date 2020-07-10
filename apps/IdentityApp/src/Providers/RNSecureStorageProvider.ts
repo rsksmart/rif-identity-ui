@@ -6,6 +6,7 @@ import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
 export enum STORAGE_KEYS {
   PIN = 'PIN',
   LANGUAGE = 'LANGUAGE',
+  PROFILE = 'PROFILE',
 }
 
 const set = async (key: string, value: string) => {

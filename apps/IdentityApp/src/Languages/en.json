@@ -7,5 +7,9 @@
   "change_language": "Change Language",
   "close": "Close",
   "en": "English",
-  "es": "Spanish"
+  "es": "Spanish",
+  "profile_explanation": "You are the ony one who can read or disclose this information.",
+  "personal_info": "Personal Info",
+  "full_name": "Full Name",
+  "edit_personal_info": "Edit Personal Info"
 }

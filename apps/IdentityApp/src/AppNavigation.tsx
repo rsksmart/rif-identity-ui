@@ -27,7 +27,9 @@ const AppComponent: React.FC<AppComponentProps> = ({}) => {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Loading">
+      <Stack.Navigator
+        initialRouteName="Loading"
+        screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
         <Stack.Screen
           name="Loading"
           component={LoadingComponent}

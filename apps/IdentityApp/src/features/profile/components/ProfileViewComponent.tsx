@@ -22,9 +22,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
           <Text style={typeStyles.header1}>{strings.personal_info}</Text>
-          <Text style={typeStyles.paragraph}>
-            {strings.profile_explanation}
-          </Text>
+          <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
             <DisplayItem name={strings.full_name} value={profile.fullName} />
@@ -32,7 +30,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             <DisplayItem name={strings.id_number} value={profile.idNumber} />
           </View>
 
-          <SquareButton title="Edit" onPress={handleEdit} variation="hollow" />
+          <SquareButton title={strings.edit} onPress={handleEdit} variation="hollow" />
         </View>
       </View>
     </View>
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
     borderRadius: 10,
-    backgroundColor: '#ccc',
+    backgroundColor: '#F0F0F0',
   },
 });
 

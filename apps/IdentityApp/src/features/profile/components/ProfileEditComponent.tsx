@@ -54,11 +54,13 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             keyboardType="number-pad"
           />
 
-          <SquareButton
-            title="Save!"
-            onPress={() => handleSave(localProfile)}
-            variation="hollow"
-          />
+          <View style={{ marginTop: 15 }}>
+            <SquareButton
+              title={strings.save}
+              onPress={() => handleSave(localProfile)}
+              variation="hollow"
+            />
+          </View>
         </View>
       </View>
     </View>

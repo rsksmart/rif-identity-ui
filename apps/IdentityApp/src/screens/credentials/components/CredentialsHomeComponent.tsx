@@ -28,17 +28,14 @@ const CredentialsHomeComponent: React.FC<CredentialsHomeComponentProps> = ({
         <Text style={typeStyles.header1}>{strings.credentials}</Text>
         <Text style={typeStyles.header2}>High Five!</Text>
         <Image source={require('../../../assets/images/high-five.png')} />
-        <Text style={{ ...typeStyles.paragraph, textAlign: 'center' }}>
-          Close this app completly and relaunch it. You should be asked for your
-          pin.
-        </Text>
-        <Text>version: {version}</Text>
+        <Text>APK version: {version}</Text>
       </View>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
           <SquareButton
-            title="Clear Persistant Storage and Start Over"
+            title="Clear Storage and Start Over"
             onPress={startOverPress}
+            variation="hollow"
           />
         </View>
       </View>

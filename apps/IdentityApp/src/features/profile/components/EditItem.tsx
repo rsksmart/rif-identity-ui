@@ -6,7 +6,7 @@ interface EditItemProps {
   name: string;
   value: string;
   onChange: (text: string) => {};
-  keyboardType?: 'default' | 'number-pad';
+  keyboardType?: 'default' | 'number-pad' | 'phone-pad' | 'email-address';
 }
 
 const EditItem: React.FC<EditItemProps> = ({ name, value, onChange, keyboardType }) => {

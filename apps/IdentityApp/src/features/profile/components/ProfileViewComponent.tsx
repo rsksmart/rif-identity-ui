@@ -1,6 +1,6 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, GestureResponderEvent } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles/';
 import DisplayItem from './DisplayItem';
 import { SquareButton } from '../../../Libraries/Button';
@@ -18,7 +18,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   handleEdit,
 }) => {
   return (
-    <View style={layoutStyles.container}>
+    <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
           <Text style={typeStyles.header1}>{strings.personal_info}</Text>
@@ -28,12 +28,15 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             <DisplayItem name={strings.full_name} value={profile.fullName} />
             <DisplayItem name={strings.birthdate} value={profile.birthdate} />
             <DisplayItem name={strings.id_number} value={profile.idNumber} />
+            <DisplayItem name={strings.civilStatus} value={profile.civilStatus} />
+            <DisplayItem name={strings.phone} value={profile.phone} />
+            <DisplayItem name={strings.email} value={profile.email} />
           </View>
 
           <SquareButton title={strings.edit} onPress={handleEdit} variation="hollow" />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

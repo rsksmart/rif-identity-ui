@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
@@ -21,6 +21,9 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     fullName: profile.fullName || '',
     birthdate: profile.birthdate || '',
     idNumber: profile.idNumber || '',
+    civilStatus: profile.civilStatus,
+    phone: profile.phone,
+    email: profile.email,
   });
 
   const handleChange = (field: string, value: string) => {
@@ -31,7 +34,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   };
 
   return (
-    <View style={layoutStyles.container}>
+    <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
           <Text style={typeStyles.header1}>{strings.edit_personal_info}</Text>
@@ -54,6 +57,24 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             keyboardType="number-pad"
           />
 
+          <EditItem
+            name={strings.civilStatus}
+            value={localProfile.civilStatus}
+            onChange={async text => handleChange('civilStatus', text)}
+          />
+
+          <EditItem
+            name={strings.phone}
+            value={localProfile.phone}
+            onChange={async text => handleChange('phone', text)}
+          />
+
+          <EditItem
+            name={strings.email}
+            value={localProfile.email}
+            onChange={async text => handleChange('email', text)}
+          />
+
           <View style={{ marginTop: 15 }}>
             <SquareButton
               title={strings.save}
@@ -63,7 +84,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

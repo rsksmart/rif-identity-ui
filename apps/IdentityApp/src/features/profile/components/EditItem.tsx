@@ -9,12 +9,7 @@ interface EditItemProps {
   keyboardType?: 'default' | 'number-pad';
 }
 
-const EditItem: React.FC<EditItemProps> = ({
-  name,
-  value,
-  onChange,
-  keyboardType,
-}) => {
+const EditItem: React.FC<EditItemProps> = ({ name, value, onChange, keyboardType }) => {
   return (
     <View>
       <Text style={typeStyles.paragraph}>{name}</Text>

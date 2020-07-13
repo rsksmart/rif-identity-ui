@@ -20,6 +20,7 @@ export const addBorder = {
 const layout = StyleSheet.create({
   container: {
     flexDirection: 'column',
+    backgroundColor: '#ffffff',
   },
   row: {
     flexDirection: 'row',

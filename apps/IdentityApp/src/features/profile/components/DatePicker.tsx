@@ -32,7 +32,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ name, value, onChange }) => {
         <TouchableOpacity
           style={{ ...layoutStyles.textInput, ...styles.display }}
           onPress={showDatepicker}>
-          <Text style={typeStyles.paragraph}>{date ? moment(date).format('MMM D YYYY') : ''}</Text>
+          <Text>{date ? moment(date).format('MMM D YYYY') : ''}</Text>
         </TouchableOpacity>
       </View>
       {show && (
@@ -51,8 +51,8 @@ const DatePicker: React.FC<DatePickerProps> = ({ name, value, onChange }) => {
 
 const styles = StyleSheet.create({
   display: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 16,
+    paddingBottom: 16,
   },
 });
 

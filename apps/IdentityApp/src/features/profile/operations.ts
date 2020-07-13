@@ -29,3 +29,19 @@ export const saveProfile = (profile: ProfileInterface) => async (
     })
     .catch(error => console.log(error));
 };
+
+/**
+ * Helper function to determin if Profile is empty
+ * @param profile 
+ */
+export const isEmpty = (profile: ProfileInterface) => {
+  let isEmpty = true;
+  Object.keys(profile).map(item => {
+    if (profile[item] !== '' && profile[item] !== null) {
+      console.log('item', item);
+      isEmpty = false;
+    }
+  });
+  console.log('retuning empty!', isEmpty);
+  return isEmpty;
+};

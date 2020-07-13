@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import DatePicker from './DatePicker';
 import DropDown from './DropDown';
 
@@ -36,8 +36,6 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     });
   };
 
-  console.log(localProfile);
-
   return (
     <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
@@ -52,9 +50,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
           <DatePicker
             name={strings.birthdate}
             value={localProfile.birthdate}
-            onChange={(text: string) => {
-              return handleChange('birthdate', text);
-            }}
+            onChange={(text: string) => handleChange('birthdate', text)}
           />
 
           <EditItem
@@ -79,15 +75,17 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             name={strings.phone}
             value={localProfile.phone}
             onChange={async text => handleChange('phone', text)}
+            keyboardType="phone-pad"
           />
 
           <EditItem
             name={strings.email}
             value={localProfile.email}
             onChange={async text => handleChange('email', text)}
+            keyboardType="email-address"
           />
 
-          <View style={{ marginTop: 15 }}>
+          <View style={styles.button}>
             <SquareButton
               title={strings.save}
               onPress={() => handleSave(localProfile)}
@@ -99,5 +97,11 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 15,
+  },
+});
 
 export default multilanguage(ProfileEditComponent);

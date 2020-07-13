@@ -6,8 +6,8 @@ import { typeStyles, layoutStyles } from '../../../styles';
 
 interface DatePickerProps {
   name: string;
-  value: Date | null;
-  onChange: (currentDate: String) => void;
+  value: string | Date | null;
+  onChange: (currentDate: string) => void;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ name, value, onChange }) => {

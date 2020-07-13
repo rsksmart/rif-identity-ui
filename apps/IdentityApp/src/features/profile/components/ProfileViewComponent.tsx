@@ -1,6 +1,8 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text, GestureResponderEvent } from 'react-native';
+import moment from 'moment';
+
 import { layoutStyles, typeStyles } from '../../../styles/';
 import DisplayItem from './DisplayItem';
 import { SquareButton } from '../../../Libraries/Button';
@@ -26,7 +28,10 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
 
           <View style={styles.viewProfile}>
             <DisplayItem name={strings.full_name} value={profile.fullName} />
-            <DisplayItem name={strings.birthdate} value={profile.birthdate} />
+            <DisplayItem
+              name={strings.birthdate}
+              value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
+            />
             <DisplayItem name={strings.id_number} value={profile.idNumber} />
             <DisplayItem name={strings.civilStatus} value={profile.civilStatus} />
             <DisplayItem name={strings.phone} value={profile.phone} />

@@ -10,6 +10,9 @@ export interface ProfileInterface {
   fullName: string;
   birthdate: string;
   idNumber: string;
+  civilStatus: string;
+  phone: string;
+  email: string;
 }
 
 export const initialState = {
@@ -19,6 +22,9 @@ export const initialState = {
     fullName: '',
     birthdate: '',
     idNumber: '',
+    civilStatus: '',
+    phone: '',
+    email: '',
   },
 };
 

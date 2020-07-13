@@ -15,5 +15,8 @@
   "birthdate": "Birthdate",
   "id_number": "Id Number",
   "save": "Save",
-  "edit": "Edit"
+  "edit": "Edit",
+  "civilStatus": "Civil Status",
+  "phone": "Phone",
+  "email": "Email"
 }

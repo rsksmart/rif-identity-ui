@@ -18,5 +18,7 @@
   "edit": "Edit",
   "civilStatus": "Civil Status",
   "phone": "Phone",
-  "email": "Email"
+  "email": "Email",
+  "married": "Married",
+  "single": "Single"
 }

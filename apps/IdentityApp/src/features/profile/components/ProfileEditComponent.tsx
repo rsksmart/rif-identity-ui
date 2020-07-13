@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import { ScrollView, View, Text } from 'react-native';
 import DatePicker from './DatePicker';
+import DropDown from './DropDown';
 
 import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
@@ -63,9 +64,14 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             keyboardType="number-pad"
           />
 
-          <EditItem
+          <DropDown
             name={strings.civilStatus}
             value={localProfile.civilStatus}
+            items={[
+              { label: '', value: '' },
+              { label: strings.married, value: 'married' },
+              { label: strings.single, value: 'single' },
+            ]}
             onChange={async text => handleChange('civilStatus', text)}
           />
 

@@ -33,7 +33,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
             />
             <DisplayItem name={strings.id_number} value={profile.idNumber} />
-            <DisplayItem name={strings.civilStatus} value={profile.civilStatus} />
+            <DisplayItem name={strings.civilStatus} value={strings[profile.civilStatus]} />
             <DisplayItem name={strings.phone} value={profile.phone} />
             <DisplayItem name={strings.email} value={profile.email} />
           </View>

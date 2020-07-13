@@ -1,22 +1,25 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, ScrollView, View, Text, GestureResponderEvent } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, Text, GestureResponderEvent } from 'react-native';
 import moment from 'moment';
 
 import { layoutStyles, typeStyles } from '../../../styles/';
 import DisplayItem from './DisplayItem';
-import { SquareButton } from '../../../Libraries/Button';
+
 import { ProfileInterface } from '../reducer';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 interface ProfileViewComponentProps {
   strings: any;
   profile: ProfileInterface;
+  isEmpty: boolean;
   handleEdit: (event: GestureResponderEvent) => void | null;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   strings,
   profile,
+  isEmpty,
   handleEdit,
 }) => {
   return (
@@ -27,6 +30,17 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
+
+            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+              <FontAwesome
+                name={isEmpty ? 'plus-circle' : 'edit'}
+                size={35}
+                color="#50555C"
+                style={styles.editIcon}
+              />
+            </TouchableOpacity>
+
+            {isEmpty && <Text style={typeStyles.paragraph}>{strings.no_personal_details}</Text>}
             <DisplayItem name={strings.full_name} value={profile.fullName} />
             <DisplayItem
               name={strings.birthdate}
@@ -40,8 +54,6 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             <DisplayItem name={strings.phone} value={profile.phone} />
             <DisplayItem name={strings.email} value={profile.email} />
           </View>
-
-          <SquareButton title={strings.edit} onPress={handleEdit} variation="hollow" />
         </View>
       </View>
     </ScrollView>
@@ -55,6 +67,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#F0F0F0',
   },
+  editButton: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    width: 60,
+    height: 60,    
+    zIndex: 1000,
+  },
+  editIcon: {
+    textAlign: 'right',
+  }
 });
 
 export default multilanguage(ProfileViewComponent);

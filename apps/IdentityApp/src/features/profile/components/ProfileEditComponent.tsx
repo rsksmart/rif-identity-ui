@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import { ScrollView, View, Text } from 'react-native';
+import DatePicker from './DatePicker';
+
 import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
@@ -18,9 +20,9 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   handleSave,
 }) => {
   const [localProfile, setLocalProfile] = useState({
-    fullName: profile.fullName || '',
-    birthdate: profile.birthdate || '',
-    idNumber: profile.idNumber || '',
+    fullName: profile.fullName,
+    birthdate: profile.birthdate,
+    idNumber: profile.idNumber,
     civilStatus: profile.civilStatus,
     phone: profile.phone,
     email: profile.email,
@@ -33,6 +35,8 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     });
   };
 
+  console.log(localProfile);
+
   return (
     <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
@@ -44,10 +48,12 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             onChange={async text => handleChange('fullName', text)}
           />
 
-          <EditItem
+          <DatePicker
             name={strings.birthdate}
             value={localProfile.birthdate}
-            onChange={async text => handleChange('birthdate', text)}
+            onChange={(text: string) => {
+              return handleChange('birthdate', text);
+            }}
           />
 
           <EditItem

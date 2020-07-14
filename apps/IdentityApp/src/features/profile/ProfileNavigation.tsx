@@ -1,34 +1,44 @@
 import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { RootState } from '../../state/store';
 import ProfileEditContainer from './containers/ProfileEditContainer';
 import ProfileViewContainer from './containers/ProfileViewContainer';
 import { initialStart } from './operations';
 
+export const Stack = createStackNavigator();
+
 interface ProfileNavigationProps {
-  isLoaded: boolean;
-  isEditing: boolean;
   start: () => {};
 }
 
-const ProfileNavigation: React.FC<ProfileNavigationProps> = ({
-  isEditing,
-  start,
-}) => {
+const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
   useEffect(() => {
-    console.log('running initialStart()');
     start();
   }, [start]);
-  return isEditing ? <ProfileEditContainer /> : <ProfileViewContainer />;
+
+  return (
+    <Stack.Navigator
+      screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
+      <Stack.Screen
+        name="View"
+        component={ProfileViewContainer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Edit"
+        component={ProfileEditContainer}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  isEditing: state.profile.isEditing,
-});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => dispatch(initialStart()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileNavigation);
+export default connect(null, mapDispatchToProps)(ProfileNavigation);

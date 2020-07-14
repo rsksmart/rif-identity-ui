@@ -1,6 +1,6 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text, GestureResponderEvent } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import moment from 'moment';
 
 import { layoutStyles, typeStyles } from '../../../styles/';
@@ -13,14 +13,14 @@ interface ProfileViewComponentProps {
   strings: any;
   profile: ProfileInterface;
   isEmpty: boolean;
-  handleEdit: (event: GestureResponderEvent) => void | null;
+  navigation: any;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   strings,
   profile,
   isEmpty,
-  handleEdit,
+  navigation,
 }) => {
   return (
     <ScrollView style={layoutStyles.container}>
@@ -31,7 +31,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
 
           <View style={styles.viewProfile}>
 
-            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('Edit', {})}>
               <FontAwesome
                 name={isEmpty ? 'plus-circle' : 'edit'}
                 size={35}

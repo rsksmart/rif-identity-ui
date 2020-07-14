@@ -13,12 +13,14 @@ interface ProfileEditComponentProps {
   strings: any;
   profile: ProfileInterface;
   handleSave: (profile: any) => void | null;
+  navigation: any,
 }
 
 const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   strings,
   profile,
   handleSave,
+  navigation,
 }) => {
   const [localProfile, setLocalProfile] = useState({
     fullName: profile.fullName,
@@ -35,6 +37,11 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
       [field]: value,
     });
   };
+  
+  const handleSavePress = () => {
+    navigation.navigate('View');
+    handleSave(localProfile);
+  }
 
   return (
     <ScrollView style={layoutStyles.container}>
@@ -88,7 +95,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
           <View style={styles.button}>
             <SquareButton
               title={strings.save}
-              onPress={() => handleSave(localProfile)}
+              onPress={handleSavePress}
               variation="hollow"
             />
           </View>

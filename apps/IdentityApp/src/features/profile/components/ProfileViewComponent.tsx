@@ -30,8 +30,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
-
-            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('Edit', {})}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => navigation.navigate('Edit', {})}>
               <FontAwesome
                 name={isEmpty ? 'plus-circle' : 'edit'}
                 size={35}

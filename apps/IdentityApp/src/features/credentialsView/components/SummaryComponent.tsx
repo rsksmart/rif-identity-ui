@@ -17,10 +17,8 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   navigation,
 }) => {
   const handleClick = (clickType: string, credential: Credential) => {
-    console.log("handlin' Click", clickType, credential);
     if (clickType === 'DETAILS') {
-      // navigation.navigate('Details', {}, params: {  } );
-      navigation.navigate('Details', { credential });
+      return navigation.navigate('Details', { credential });
     }
   };
 

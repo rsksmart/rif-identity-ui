@@ -11,9 +11,10 @@ import LoadingComponent from './screens/Shared/LoadingComponent';
  */
 export const navigationRef: any = React.createRef();
 
-export function navigate(name: string, params: any) {
+export const navigate = (name: string, params: any) =>
   navigationRef.current?.navigate(name, params);
-}
+
+export const goBack = () => navigationRef.current?.goBack();
 
 /**
  * App Navigation Component

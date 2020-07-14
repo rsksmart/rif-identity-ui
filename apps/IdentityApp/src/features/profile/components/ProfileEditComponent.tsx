@@ -37,7 +37,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
       [field]: value,
     });
   };
-  
+
   const handleSavePress = () => {
     navigation.navigate('View');
     handleSave(localProfile);

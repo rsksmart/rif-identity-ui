@@ -22,5 +22,11 @@
   "married": "Married",
   "single": "Single",
   "no_personal_details": "No personal information added.",
-  "my_credentials": "My Credentials"
+  "my_credentials": "My Credentials",
+  "issuer": "Issuer",
+  "information_shared": "Information Shared",
+  "status": "Status",
+  "certified": "Certified",
+  "pending": "Pending",
+  "denied": "Denied"
 }

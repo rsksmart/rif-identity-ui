@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Credential } from '../reducer';
+import StatusIcon from './StatusIcon';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface SingleSummaryComponentProps {
   credential: Credential;
@@ -26,19 +26,6 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
     }
   };
 
-  const status = () => {
-    switch (credential.status) {
-      case 'CERTIFIED':
-        return <Ionicons name="checkmark-circle-outline" size={30} color="#008FF7" />;
-      case 'PENDING':
-        return <Ionicons name="time-outline" size={30} color="#FFB800" />;
-      case 'DENIED':
-        return <Ionicons name="close-circle-outline" size={30} color="#BD0000" />;
-      default:
-        return <FontAwesome name="question" size={15} />;
-    }
-  };
-
   const showQR = credential.status === 'CERTIFIED';
 
   return (
@@ -46,7 +33,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
       <TouchableOpacity style={styles.detailsTouch} onPress={() => onPress('DETAILS')}>
         {icon()}
         <Text style={styles.name}>{credential.name}</Text>
-        {status()}
+        <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>
         <TouchableOpacity disabled={!showQR} style={styles.qrTouch} onPress={() => onPress('QR')}>

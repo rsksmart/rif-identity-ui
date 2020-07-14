@@ -3,18 +3,33 @@
     "id": 1,
     "name": "Driver's License",
     "type": "AUTO",
-    "status": "CERTIFIED"
+    "status": "CERTIFIED",
+    "issuer": {
+      "name": "USA"
+    },
+    "infoShared": {
+      "full_name": "Jesse Clark",
+      "birthdate": "03/31/84"
+    }
   },
   {
     "id": 2,
     "name": "Passport",
     "type": "PASSPORT",
-    "status": "PENDING"
+    "status": "PENDING",
+    "infoShared": {},
+    "issuer": {
+      "name": "Government of Cyprus"
+    }
   },
   {
     "id": 3,
     "name": "State ID",
     "type": "ID",
-    "status": "DENIED"
+    "status": "DENIED",
+    "infoShared": {},
+    "issuer": {
+      "name": "Government of Argentia"
+    }
   }
 ]

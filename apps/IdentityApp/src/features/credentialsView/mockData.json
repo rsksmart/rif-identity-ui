@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Driver's License",
+    "type": "AUTO",
+    "status": "CERTIFIED"
+  },
+  {
+    "id": 2,
+    "name": "Passport",
+    "type": "PASSPORT",
+    "status": "PENDING"
+  },
+  {
+    "id": 3,
+    "name": "State ID",
+    "type": "ID",
+    "status": "DENIED"
+  }
+]

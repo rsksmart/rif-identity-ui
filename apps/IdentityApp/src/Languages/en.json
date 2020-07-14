@@ -21,5 +21,6 @@
   "email": "Email",
   "married": "Married",
   "single": "Single",
-  "no_personal_details": "No personal information added "
+  "no_personal_details": "No personal information added.",
+  "my_credentials": "My Credentials"
 }

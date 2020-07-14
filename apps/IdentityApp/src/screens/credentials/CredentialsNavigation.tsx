@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { CredentialsHomeContainer, SigninWithPinContainer } from './containers';
+import CredentailsViewNavigation from '../../features/credentialsView/CredentailsViewNavigation';
 import { ProfileNavigation } from '../../features/profile/index';
 import { RootState } from '../../state/store';
 
@@ -24,7 +25,7 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
       tabBarOptions={{ style: { height: 95 } }}>
       <Tab.Screen
         name="CredentialsHome"
-        component={CredentialsHomeContainer}
+        component={CredentailsViewNavigation}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused }) => (

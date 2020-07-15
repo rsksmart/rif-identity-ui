@@ -4,20 +4,15 @@ import { layoutStyles } from '../../styles';
 
 interface ModalComponentProps {
   visible: boolean;
-  children: any;
+  children: React.ReactChild;
 }
 
-const ModalComponent: React.FC<ModalComponentProps> = ({
-  visible,
-  children,
-}) => {
+const ModalComponent: React.FC<ModalComponentProps> = ({ visible, children }) => {
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
       <View style={styles.centeredView}>
-        <View style={layoutStyles.container}>
-          <View style={{ ...styles.modalView, ...layoutStyles.row }}>
-            {children}
-          </View>
+        <View style={styles.modalContainer}>
+          <View style={[styles.modalView, layoutStyles.row]}>{children}</View>
         </View>
       </View>
     </Modal>
@@ -25,11 +20,14 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flexDirection: 'column',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 0,
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
   },
   modalView: {

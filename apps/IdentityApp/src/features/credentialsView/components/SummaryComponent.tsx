@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { typeStyles, layoutStyles } from '../../../styles';
 import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
+import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import { SquareButton } from '../../../Libraries/Button';
+import QRDetailsComponent from './QRDetailsComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -16,9 +19,12 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   strings,
   navigation,
 }) => {
+  const [modalContent, setModalContent] = useState<Credential | null>(null);
   const handleClick = (clickType: string, credential: Credential) => {
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credential });
+    } else {
+      setModalContent(credential);
     }
   };
 
@@ -39,6 +45,17 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           </View>
         ))}
       </View>
+
+      <ModalComponent visible={modalContent !== null}>
+        <View style={layoutStyles.column1}>
+          <QRDetailsComponent credential={modalContent} />
+          <SquareButton
+            title={strings.close}
+            variation="hollow"
+            onPress={() => setModalContent(null)}
+          />
+        </View>
+      </ModalComponent>
     </ScrollView>
   );
 };

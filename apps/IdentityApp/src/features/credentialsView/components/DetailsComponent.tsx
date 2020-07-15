@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { Credential } from '../reducer';
@@ -7,6 +7,9 @@ import StatusIcon from './StatusIcon';
 import { layoutStyles, typeStyles } from '../../../styles';
 import DisplayItem from '../../profile/components/DisplayItem';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
+import { SquareButton } from '../../../Libraries/Button';
+import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import QRDetailsComponent from './QRDetailsComponent';
 
 interface DetailsComponentProps {
   route: {
@@ -21,6 +24,8 @@ interface DetailsComponentProps {
 
 const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) => {
   const credential = route.params.credential;
+  const [showQr, setShowQr] = useState<boolean>(false);
+
   return (
     <BackScreenComponent>
       <ScrollView style={layoutStyles.container}>
@@ -50,6 +55,24 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) =
             </View>
           </View>
         </View>
+        {credential.status === 'CERTIFIED' && (
+          <View style={layoutStyles.row}>
+            <View style={layoutStyles.column1}>
+              <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
+
+              <ModalComponent visible={showQr}>
+                <View style={layoutStyles.column1}>
+                  <QRDetailsComponent credential={credential} />
+                  <SquareButton
+                    title={strings.close}
+                    variation="hollow"
+                    onPress={() => setShowQr(false)}
+                  />
+                </View>
+              </ModalComponent>
+            </View>
+          </View>
+        )}
       </ScrollView>
     </BackScreenComponent>
   );

@@ -4,8 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { CredentialsHomeContainer, SigninWithPinContainer } from './containers';
+import { SigninWithPinContainer } from './containers';
 import CredentailsViewNavigation from '../../features/credentialsView/CredentailsViewNavigation';
+import CredentialsRequestNavigation from '../../features/credentialsRequest/CredentialsRequestNavigation';
 import { ProfileNavigation } from '../../features/profile/index';
 import { RootState } from '../../state/store';
 
@@ -39,7 +40,7 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
       />
       <Tab.Screen
         name="AddCredential"
-        component={CredentialsHomeContainer}
+        component={CredentialsRequestNavigation}
         options={{
           tabBarLabel: '',
           tabBarIcon: () => (

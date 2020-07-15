@@ -28,5 +28,13 @@
   "status": "Status",
   "certified": "Certified",
   "pending": "Pending",
-  "denied": "Denied"
+  "denied": "Denied",
+  "request_credential": "Request Credential",
+  "request_credential_explanation": "Select the credential you need to be issued. This credential is stored in your phone, no one will be able to use it but you.",
+  "confirm": "Confirm",
+  "confirm_request": "Confirm Request",
+  "confirm_request_explanation": "Confirm sharing the information requested by the credential issuer.",
+  "id": "ID",
+  "passport": "Passport",
+  "auto": "Driver's License"
 }

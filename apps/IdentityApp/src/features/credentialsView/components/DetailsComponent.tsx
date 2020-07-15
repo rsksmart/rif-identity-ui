@@ -38,9 +38,9 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) =
               <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>
                 {strings.information_shared}:
               </Text>
-              {Object.keys(credential.infoShared).map(item => (
+              {credential.infoShared.map(item => (
                 <Text style={{ ...typeStyles.paragraph, ...styles.indent }} key={item}>
-                  {strings[item]}
+                  {item}
                 </Text>
               ))}
               <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>{strings.status}:</Text>

@@ -49,7 +49,8 @@ const sharedStyles = {
 const solidStyles = StyleSheet.create({
   button: {
     ...sharedStyles.button,
-    backgroundColor: '#000000',
+    backgroundColor: '#50555C',
+    borderWidth: 0,
   },
   text: {
     ...sharedStyles.text,

@@ -1,5 +1,4 @@
 import mockData from './mockData.json';
-import { ProfileInterface } from '../profile/reducer';
 
 export enum CredentialTypes {
   AUTO = 'AUTO',
@@ -22,7 +21,7 @@ export interface Credential {
   name: string;
   type: CredentialTypes;
   status: CredentialStatus;
-  infoShared: ProfileInterface;
+  infoShared: string[];
   issuer: IssuerInterface;
 }
 

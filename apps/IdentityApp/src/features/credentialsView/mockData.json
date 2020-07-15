@@ -7,29 +7,34 @@
     "issuer": {
       "name": "USA"
     },
-    "infoShared": {
-      "full_name": "Jesse Clark",
-      "birthdate": "03/31/84"
-    }
+    "infoShared": [ "Full Name", "Email", "Driver's ID"],
+    "data": [
+      {
+        "key": "value",
+        "key2": "value"
+      }
+    ]
   },
   {
     "id": 2,
     "name": "Passport",
     "type": "PASSPORT",
     "status": "PENDING",
-    "infoShared": {},
+    "infoShared": [],
     "issuer": {
       "name": "Government of Cyprus"
-    }
+    },
+    "data": []
   },
   {
     "id": 3,
     "name": "State ID",
     "type": "ID",
     "status": "DENIED",
-    "infoShared": {},
+    "infoShared": [ "Fingerprint" ],
     "issuer": {
       "name": "Government of Argentia"
-    }
+    },
+    "data": []
   }
 ]

@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SignupNavigation from './screens/signup/SignupNavigation';
 import CredentialsNavigation from './screens/credentials/CredentialsNavigation';
+import LoadingComponent from './screens/Shared/LoadingComponent';
 
 /**
  * Create a reference for the Navigation container and navigate function
@@ -23,29 +23,23 @@ interface AppComponentProps {
   isSignedUp: boolean;
 }
 
-const AppComponent: React.FC<AppComponentProps> = ({
-  checkingSingedUp,
-  isSignedUp,
-}) => {
-  if (checkingSingedUp || isSignedUp === undefined) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
+const AppComponent: React.FC<AppComponentProps> = ({}) => {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
-        initialRouteName={isSignedUp ? 'CredentialsFlow' : 'SignupFlow'}>
+        initialRouteName="Loading"
+        screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
+        <Stack.Screen
+          name="Loading"
+          component={LoadingComponent}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SignupFlow"
           component={SignupNavigation}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="CredentialsFlow"
           component={CredentialsNavigation}

@@ -5,22 +5,19 @@ import {
   receiveIsSignedUp,
   receiveLoggedIn,
 } from '../../state/localUi/actions';
-import { StorageProvider } from '../../Providers/index';
+import { StorageProvider, STORAGE_KEYS } from '../../Providers/index';
 
 export const signOutAndReset = () => async (dispatch: Dispatch) => {
-  await StorageProvider.remove('PIN')
-    .then(() => {
-      dispatch(receiveIsSignedUp(false));
-      dispatch(receiveLoggedIn(false));
-      RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
-    })
-    .catch((error: string) => console.log(error));
+  await StorageProvider.removeAll();
+  dispatch(receiveIsSignedUp(false));
+  dispatch(receiveLoggedIn(false));
+  RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
 };
 
 export const checkPinAndSignIn = (userPin: string) => async (
   dispatch: Dispatch,
 ) => {
-  await StorageProvider.get('PIN')
+  await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(expectedPin => {
       if (userPin === expectedPin) {
         dispatch(receiveLoggedIn(true));
@@ -28,7 +25,7 @@ export const checkPinAndSignIn = (userPin: string) => async (
           screen: 'CredentialsHome',
         });
       } else {
-        dispatch(receiveLoggedIn(false, 'Pin is Incorrect'));
+        dispatch(receiveLoggedIn(false, 'pin_is_incorrect'));
       }
     })
     .catch(error => {

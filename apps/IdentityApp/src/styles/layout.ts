@@ -1,8 +1,8 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from './colors';
 
 // editable variables:
-const gutter = 10;
+const gutter = 20;
 
 // helpers:
 const columnGutter = {
@@ -20,6 +20,7 @@ export const addBorder = {
 const layout = StyleSheet.create({
   container: {
     flexDirection: 'column',
+    backgroundColor: '#ffffff',
   },
   row: {
     flexDirection: 'row',
@@ -43,6 +44,14 @@ const layout = StyleSheet.create({
     borderColor: colors.primary,
     borderWidth: 3,
     borderRadius: 8,
+  },
+
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#919191',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 

@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
-import CredentialsHomeComponent from '../components/CredentialsHomeComponent';
+import ProfileEditComponent from '../components/ProfileEditComponent';
 import { RootState } from '../../../state/store';
-import { signOutAndReset } from '../operations';
+import { saveProfile } from '../operations';
+import { ProfileInterface } from '../reducer';
 
 const mapStateToProps = (state: RootState) => ({
-  version: state.localUi.appVersion,
+  profile: state.profile.profile,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  startOverPress: () => dispatch(signOutAndReset()),
+  handleSave: (profile: ProfileInterface) => dispatch(saveProfile(profile)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CredentialsHomeComponent);
+)(ProfileEditComponent);

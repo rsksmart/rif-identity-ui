@@ -1,32 +1,62 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {createStackNavigator} from '@react-navigation/stack';
-import {CredentialsHomeContainer, SigninWithPinContainer} from './containers';
-import {RootState} from '../../state/store';
+import { connect } from 'react-redux';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { CredentialsHomeContainer, SigninWithPinContainer } from './containers';
+import { ProfileNavigation } from '../../features/profile/index';
+import { RootState } from '../../state/store';
 
 interface CredentialsNavigationProps {
   isLoggedIn: boolean;
 }
 
-const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({
-  isLoggedIn,
-}) => {
-  console.log('isLoggedIn?', isLoggedIn);
+const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return <SigninWithPinContainer />;
+  }
 
-  const Stack = createStackNavigator();
+  const Tab = createBottomTabNavigator();
   return (
-    <Stack.Navigator initialRouteName={isLoggedIn ? 'CredentialsHome' : 'SigninWithPin'}>
-      <Stack.Screen
+    <Tab.Navigator
+      initialRouteName="CredentialsHome"
+      tabBarOptions={{ style: { height: 95 } }}>
+      <Tab.Screen
         name="CredentialsHome"
         component={CredentialsHomeContainer}
-        options={{headerShown: false}}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({ focused }) => (
+            <IconMaterial
+              name={focused ? 'badge-account-horizontal' : 'badge-account-horizontal-outline'}
+              size={35}
+              color="#50555C"
+            />
+          ),
+        }}
       />
-      <Stack.Screen
-        name="SigninWithPin"
-        component={SigninWithPinContainer}
-        options={{headerShown: false}}
+      <Tab.Screen
+        name="AddCredential"
+        component={CredentialsHomeContainer}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: () => (
+            <Icon name="add-circle" size={75} color={'#50555C'} style={{ marginTop: 15 }} />
+          ),
+        }}
       />
-    </Stack.Navigator>
+      <Tab.Screen
+        name="Profile"
+        component={ProfileNavigation}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({ focused }) => (
+            <Icon name={focused ? 'person' : 'person-outline'} size={35} color={'#50555C'} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 

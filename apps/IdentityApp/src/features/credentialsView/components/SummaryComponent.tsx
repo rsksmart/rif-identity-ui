@@ -12,6 +12,7 @@ interface SummaryComponentProps {
   credentials: Credential[];
   strings: any;
   navigation: any;
+  isLoading: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -27,7 +28,6 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       setModalContent(credential);
     }
   };
-
   return (
     <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>

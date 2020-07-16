@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import RequestTypeContainer from './containers/RequestTypeContainer';
-import ConfirmComponent from './components/ConfirmComponent';
+import ConfirmContainer from './containers/ConfirmContainer';
 
 interface CredentialsRequestNavigationProps {}
 
@@ -16,7 +16,7 @@ const CredentialsRequestNavigation: React.FC<CredentialsRequestNavigationProps> 
       />
       <Stack.Screen
         name="ConfirmRequest"
-        component={ConfirmComponent}
+        component={ConfirmContainer}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

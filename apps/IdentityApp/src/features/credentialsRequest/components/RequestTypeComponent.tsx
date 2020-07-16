@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import { Dimensions, StyleSheet, ScrollView, View, Text } from 'react-native';
 import { layoutStyles, typeStyles } from '../../../styles';
@@ -8,16 +8,26 @@ import { SquareButton } from '../../../Libraries/Button';
 interface RequestTypeComponentProps {
   strings: any;
   types: string[];
+  navigation: any;
+  start: () => {};
 }
 
-const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({ strings, types }) => {
+const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
+  strings,
+  types,
+  navigation,
+  start,
+}) => {
   const [type, setType] = useState();
+  useEffect(() => {
+    start();
+  }, [start]);
 
   const items = types.map(item => ({ label: strings[item.toLowerCase()], value: item }));
 
   const handlePress = () => {
     if (type) {
-      console.log(type);
+      navigation.navigate('ConfirmRequest', { type: type });
     }
   };
 
@@ -44,7 +54,6 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({ strings, ty
     </ScrollView>
   );
 };
-
 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
+import moment from 'moment';
+
 import { Credential } from '../reducer';
-import { ScrollView } from 'react-native-gesture-handler';
 import StatusIcon from './StatusIcon';
 import { layoutStyles, typeStyles } from '../../../styles';
 import DisplayItem from '../../profile/components/DisplayItem';
@@ -45,12 +46,16 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) =
               </Text>
               {credential.infoShared.map(item => (
                 <Text style={{ ...typeStyles.paragraph, ...styles.indent }} key={item}>
-                  {item}
+                  {strings[item] ? strings[item] : item}
                 </Text>
               ))}
               <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>{strings.status}:</Text>
               <Text style={{ ...typeStyles.paragraph, ...styles.indent }}>
                 {strings[credential.status.toLowerCase()]} <StatusIcon status={credential.status} />
+              </Text>
+              <Text style={[typeStyles.paragraph, typeStyles.bold]}>{strings.date_requested}:</Text>
+              <Text style={[typeStyles.paragraph, styles.indent]}>
+                {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
               </Text>
             </View>
           </View>

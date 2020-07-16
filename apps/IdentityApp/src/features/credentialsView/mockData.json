@@ -5,26 +5,16 @@
     "type": "AUTO",
     "status": "CERTIFIED",
     "issuer": {
-      "name": "USA"
+      "name": "Initial App"
     },
-    "infoShared": [ "Full Name", "Email", "Driver's ID"],
+    "infoShared": [ "fullName", "email", "civilStatus"],
     "data": [
       {
         "key": "value",
         "key2": "value"
       }
-    ]
-  },
-  {
-    "id": 2,
-    "name": "Passport",
-    "type": "PASSPORT",
-    "status": "PENDING",
-    "infoShared": [],
-    "issuer": {
-      "name": "Government of Cyprus"
-    },
-    "data": []
+    ],
+    "dateRequested": "2020-07-16T16:59:10+03:00"
   },
   {
     "id": 3,
@@ -33,8 +23,9 @@
     "status": "DENIED",
     "infoShared": [ "Fingerprint" ],
     "issuer": {
-      "name": "Government of Argentia"
+      "name": "Initial App"
     },
-    "data": []
+    "data": [],
+    "dateRequested": "2020-07-14T16:59:10+03:00"
   }
 ]

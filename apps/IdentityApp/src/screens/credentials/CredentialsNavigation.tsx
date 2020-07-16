@@ -21,9 +21,7 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
 
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator
-      initialRouteName="CredentialsHome"
-      tabBarOptions={{ style: { height: 95 } }}>
+    <Tab.Navigator initialRouteName="CredentialsHome" tabBarOptions={{ style: { height: 95 } }}>
       <Tab.Screen
         name="CredentialsHome"
         component={CredentailsViewNavigation}

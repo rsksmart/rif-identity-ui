@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import RequestTypeComponent from '../components/RequestTypeComponent';
-import { RootState } from '../../../state/store';
+import { initialStart as profileStart } from '../../profile/operations';
 
-const mapStateToProps = (state: RootState) => ({
-  types: state.request.allTypes,
+const mapStateToProps = () => ({
+  types: ['AUTO', 'PASSPORT', 'ID'],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-
+  start: () => dispatch(profileStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestTypeComponent);

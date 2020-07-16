@@ -8,7 +8,6 @@ import signupReducer from '../screens/signup/reducer';
 import profileReducer from '../features/profile/reducer';
 import multiLanguageReducer from './multiLanguageReducer';
 import credentialReducer from '../features/credentialsView/reducer';
-import requestReducer from '../features/credentialsRequest/reducer';
 
 const middleware = [thunk, customLogger];
 
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   signup: signupReducer,
   profile: profileReducer,
   credentials: credentialReducer,
-  request: requestReducer,
   multilanguage: multiLanguageReducer,
 });
 

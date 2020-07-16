@@ -42,12 +42,12 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             </TouchableOpacity>
 
             {isEmpty && <Text style={typeStyles.paragraph}>{strings.no_personal_details}</Text>}
-            <DisplayItem name={strings.full_name} value={profile.fullName} />
+            <DisplayItem name={strings.fullName} value={profile.fullName} />
             <DisplayItem
               name={strings.birthdate}
               value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
             />
-            <DisplayItem name={strings.id_number} value={profile.idNumber} />
+            <DisplayItem name={strings.idNumber} value={profile.idNumber} />
             <DisplayItem
               name={strings.civilStatus}
               value={profile.civilStatus ? strings[profile.civilStatus] : ''}
@@ -73,12 +73,12 @@ const styles = StyleSheet.create({
     right: 20,
     top: 20,
     width: 60,
-    height: 60,    
+    height: 60,
     zIndex: 1000,
   },
   editIcon: {
     textAlign: 'right',
-  }
+  },
 });
 
 export default multilanguage(ProfileViewComponent);

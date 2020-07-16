@@ -3,7 +3,6 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { RootState } from '../../state/store';
 import ProfileEditContainer from './containers/ProfileEditContainer';
 import ProfileViewContainer from './containers/ProfileViewContainer';
 import { initialStart } from './operations';
@@ -21,21 +20,13 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
 
   return (
     <Stack.Navigator
-      screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
-      <Stack.Screen
-        name="View"
-        component={ProfileViewContainer}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Edit"
-        component={ProfileEditContainer}
-        options={{ headerShown: false }}
-      />
+      screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}
+      initialRouteName="View">
+      <Stack.Screen name="View" component={ProfileViewContainer} options={{ headerShown: false }} />
+      <Stack.Screen name="Edit" component={ProfileEditContainer} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
-
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => dispatch(initialStart()),

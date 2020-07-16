@@ -1,6 +1,13 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  GestureResponderEvent,
+} from 'react-native';
 import moment from 'moment';
 
 import { layoutStyles, typeStyles } from '../../../styles/';
@@ -8,12 +15,15 @@ import DisplayItem from './DisplayItem';
 
 import { ProfileInterface } from '../reducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { SquareButton } from '../../../Libraries/Button';
 
 interface ProfileViewComponentProps {
   strings: any;
   profile: ProfileInterface;
   isEmpty: boolean;
   navigation: any;
+  startOverPress: (event: GestureResponderEvent) => void | null;
+  version: string;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
@@ -21,6 +31,8 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   profile,
   isEmpty,
   navigation,
+  startOverPress,
+  version,
 }) => {
   return (
     <ScrollView style={layoutStyles.container}>
@@ -41,7 +53,11 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               />
             </TouchableOpacity>
 
-            {isEmpty && <Text style={typeStyles.paragraph}>{strings.no_personal_details}</Text>}
+            {isEmpty && (
+              <Text style={[typeStyles.paragraph, styles.empty]}>
+                {strings.no_personal_details}
+              </Text>
+            )}
             <DisplayItem name={strings.fullName} value={profile.fullName} />
             <DisplayItem
               name={strings.birthdate}
@@ -54,6 +70,12 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             />
             <DisplayItem name={strings.phone} value={profile.phone} />
             <DisplayItem name={strings.email} value={profile.email} />
+          </View>
+          <View style={styles.resetButton}>
+            <SquareButton title="Reset entire App" variation="hollow" onPress={startOverPress} />
+          </View>
+          <View>
+            <Text>APK Version: {version}</Text>
           </View>
         </View>
       </View>
@@ -78,6 +100,13 @@ const styles = StyleSheet.create({
   },
   editIcon: {
     textAlign: 'right',
+  },
+  empty: {
+    marginRight: 30,
+  },
+  resetButton: {
+    marginTop: 50,
+    marginBottom: 20,
   },
 });
 

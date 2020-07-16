@@ -23,7 +23,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   const [modalContent, setModalContent] = useState<Credential | null>(null);
   const handleClick = (clickType: string, credential: Credential) => {
     if (clickType === 'DETAILS') {
-      return navigation.navigate('Details', { credential });
+      return navigation.navigate('Details', { credentialId: credential.id });
     } else {
       setModalContent(credential);
     }

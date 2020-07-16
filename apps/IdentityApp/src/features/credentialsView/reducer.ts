@@ -1,4 +1,4 @@
-import mockData from './mockData.json';
+// import mockData from './mockData.json';
 import { CREDENTIAL_ACTION_TYPES } from './actions';
 
 export enum CredentialTypes {
@@ -33,7 +33,7 @@ export interface CredentialsStateInterface {
 }
 
 export const initialState = {
-  credentials: mockData,
+  credentials: [],
   isLoading: true,
 };
 
@@ -55,6 +55,8 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
         isLoading: false,
         credentials: action.credentials,
       };
+    case CREDENTIAL_ACTION_TYPES.RESET:
+      return initialState;
     default:
       return state;
   }

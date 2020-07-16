@@ -4,6 +4,7 @@ export enum CREDENTIAL_ACTION_TYPES {
   REQUEST_CREDENTIALS = 'REQUEST_CREDENTIALS',
   RECEIVE_CREDENTIALS = 'RECEIVE_CREDENTIALS',
   ADD_CREDENTIAL = 'ADD_CREDENTIAL',
+  RESET = 'RESET',
 }
 
 export const addCredential = (credential: Credential) => ({
@@ -18,4 +19,8 @@ export const requestCredentials = () => ({
 export const receiveCredentials = (credentials: Credential[]) => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTIALS,
   credentials,
+});
+
+export const resetCredentials = () => ({
+  type: CREDENTIAL_ACTION_TYPES.RESET,
 });

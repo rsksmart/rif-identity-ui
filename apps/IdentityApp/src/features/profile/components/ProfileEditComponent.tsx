@@ -54,7 +54,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
               <SquareButton title={strings.save} onPress={handleSavePress} />
             </View>
             <EditItem
-              name={strings.full_name}
+              name={strings.fullName}
               value={localProfile.fullName}
               onChange={async text => handleChange('fullName', text)}
             />
@@ -66,7 +66,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             />
 
             <EditItem
-              name={strings.id_number}
+              name={strings.idNumber}
               value={localProfile.idNumber}
               onChange={async text => handleChange('idNumber', text)}
               keyboardType="number-pad"

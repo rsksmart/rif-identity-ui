@@ -2,6 +2,7 @@ import { Credential } from './reducer';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { addCredential, requestCredentials, receiveCredentials } from './actions';
 import * as RootNavigation from '../../AppNavigation';
+import mockData from './mockData.json';
 
 export const requestCredential = (credential: Credential, credentialList: Credential[]) => async (dispatch: Dispatch) => {
   // save credential in redux
@@ -26,5 +27,7 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     })
     .catch(() => {
       console.log('no credentials storage key');
+      // add mockCredentials
+      dispatch(receiveCredentials(mockData));
     });
 };

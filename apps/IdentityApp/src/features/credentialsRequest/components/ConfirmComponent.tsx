@@ -43,13 +43,15 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   const type: string = route.params.type;
 
   const meetsRequirements = () => {
-    const results = requirements[type].filter((item: string) => profile[item] === '');
+    const results = requirements[type].filter(
+      (item: string) => profile[item] === '' || profile[item] === null,
+    );
     return results.length === 0;
   };
 
   const requiredItem = (item: string) => {
     const icon =
-      profile[item] === '' ? (
+      profile[item] === '' || !profile[item] ? (
         <MaterialCommunityIcons name="close" size={20} color="#BD0000" />
       ) : (
         <MaterialCommunityIcons name="check" size={20} color="#008000" />

@@ -33,7 +33,7 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
             <View style={layoutStyles.column3} key={word}>
               <View style={{...layoutStyles.row, ...styles.innerRow}}>
                 <View style={styles.circleView}>
-                  <Text style={styles.circleNumber}>{index+1}</Text>
+                  <Text style={styles.circleNumber}>{index + 1}</Text>
                 </View>
                 <Text style={{...typeStyles.paragraph, ...styles.singleWord}}>
                   {word}
@@ -59,21 +59,21 @@ const styles = StyleSheet.create({
   innerRow: {
     marginTop: 10,
     marginBottom: 10,
+    alignContent: 'center',
   },
   singleWord: {
     textAlign: 'center',
+    width: '100%',
     marginTop: 0,
     marginBottom: 10,
   },
   circleView: {
+    marginLeft: '25%',
     marginTop: 3,
-    marginRight: 5,
     backgroundColor: '#cccccc',
     width: 26,
     height: 26,
     borderRadius: 13,
-    alignContent: 'center',
-    textAlign: 'center',
   },
   circleNumber: {
     textAlign: 'center',

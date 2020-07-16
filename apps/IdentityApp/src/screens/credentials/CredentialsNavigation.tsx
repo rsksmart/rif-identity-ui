@@ -35,6 +35,12 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('CredentialsHome', { screen: 'Summary' });
+          },
+        })}
       />
       <Tab.Screen
         name="AddCredential"
@@ -45,6 +51,12 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
             <Icon name="add-circle" size={75} color={'#50555C'} style={{ marginTop: 15 }} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('AddCredential', { screen: 'RequestType' });
+          },
+        })}
       />
       <Tab.Screen
         name="Profile"
@@ -55,6 +67,12 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
             <Icon name={focused ? 'person' : 'person-outline'} size={35} color={'#50555C'} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('Profile', { screen: 'View' });
+          },
+        })}
       />
     </Tab.Navigator>
   );

@@ -13,18 +13,11 @@ import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import QRDetailsComponent from './QRDetailsComponent';
 
 interface DetailsComponentProps {
-  route: {
-    key: string;
-    name: string;
-    params: {
-      credential: Credential;
-    };
-  };
+  credential: Credential;
   strings: any;
 }
 
-const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) => {
-  const credential = route.params.credential;
+const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings }) => {
   const [showQr, setShowQr] = useState<boolean>(false);
 
   return (
@@ -57,27 +50,25 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ route, strings }) =
               <Text style={[typeStyles.paragraph, styles.indent]}>
                 {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
               </Text>
+
+              {credential.status === 'CERTIFIED' && (
+                <View style={styles.buttonView}>
+                  <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
+                  <ModalComponent visible={showQr}>
+                    <View style={layoutStyles.column1}>
+                      <QRDetailsComponent credential={credential} />
+                      <SquareButton
+                        title={strings.close}
+                        variation="hollow"
+                        onPress={() => setShowQr(false)}
+                      />
+                    </View>
+                  </ModalComponent>
+                </View>
+              )}
             </View>
           </View>
         </View>
-        {credential.status === 'CERTIFIED' && (
-          <View style={layoutStyles.row}>
-            <View style={layoutStyles.column1}>
-              <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
-
-              <ModalComponent visible={showQr}>
-                <View style={layoutStyles.column1}>
-                  <QRDetailsComponent credential={credential} />
-                  <SquareButton
-                    title={strings.close}
-                    variation="hollow"
-                    onPress={() => setShowQr(false)}
-                  />
-                </View>
-              </ModalComponent>
-            </View>
-          </View>
-        )}
       </ScrollView>
     </BackScreenComponent>
   );
@@ -94,6 +85,9 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 2,
     marginTop: 2,
+  },
+  buttonView: {
+    marginTop: 10,
   },
 });
 

@@ -7,14 +7,18 @@ import { SquareButton } from '../../../Libraries/Button';
 
 interface RequestTypeComponentProps {
   strings: any;
-  types: string[];
+  route: {
+    params: {
+      types: string[];
+    };
+  };
   navigation: any;
   start: () => {};
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
-  types,
+  route,
   navigation,
   start,
 }) => {
@@ -23,7 +27,10 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
     start();
   }, [start]);
 
-  const items = types.map(item => ({ label: strings[item.toLowerCase()], value: item }));
+  const items = route.params.types.map(item => ({
+    label: strings[item.toLowerCase()],
+    value: item,
+  }));
 
   const handlePress = () => {
     if (type) {

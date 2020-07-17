@@ -26,7 +26,7 @@ const get = async (key: string) => {
 
 const removeAll = async () => {
   Object.keys(STORAGE_KEYS).forEach(key => {
-    remove(key).catch(error => console.log(key, error));
+    remove(key).catch(() => {});
   });
 };
 

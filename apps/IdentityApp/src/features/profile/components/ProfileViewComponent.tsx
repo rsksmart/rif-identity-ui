@@ -22,8 +22,6 @@ interface ProfileViewComponentProps {
   profile: ProfileInterface;
   isEmpty: boolean;
   navigation: any;
-  startOverPress: (event: GestureResponderEvent) => void | null;
-  version: string;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
@@ -31,14 +29,19 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   profile,
   isEmpty,
   navigation,
-  startOverPress,
-  version,
 }) => {
   return (
     <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.personal_info}</Text>
+          <Text style={typeStyles.header1}>
+            {strings.personal_info}
+          </Text>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => navigation.navigate('Settings', {})}>
+            <FontAwesome name="cog" size={25} />
+          </TouchableOpacity>
           <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
@@ -71,12 +74,6 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             <DisplayItem name={strings.phone} value={profile.phone} />
             <DisplayItem name={strings.email} value={profile.email} />
           </View>
-          <View style={styles.resetButton}>
-            <SquareButton title="Reset entire App" variation="hollow" onPress={startOverPress} />
-          </View>
-          <View>
-            <Text>APK Version: {version}</Text>
-          </View>
         </View>
       </View>
     </ScrollView>
@@ -103,11 +100,7 @@ const styles = StyleSheet.create({
   },
   empty: {
     marginRight: 30,
-  },
-  resetButton: {
-    marginTop: 50,
-    marginBottom: 20,
-  },
+  }
 });
 
 export default multilanguage(ProfileViewComponent);

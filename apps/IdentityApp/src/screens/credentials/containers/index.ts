@@ -1,2 +1,1 @@
-export {default as CredentialsHomeContainer} from './CredentialsHomeContainer';
-export {default as SigninWithPinContainer} from './SigninWithPinContainer';
+export { default as SigninWithPinContainer } from './SigninWithPinContainer';

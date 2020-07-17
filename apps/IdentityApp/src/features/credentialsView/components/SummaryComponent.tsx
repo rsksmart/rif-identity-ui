@@ -6,7 +6,7 @@ import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
-import QRDetailsComponent from './QRDetailsComponent';
+import { QRDetailsContainer } from '../containers';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -20,14 +20,15 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   strings,
   navigation,
 }) => {
-  const [modalContent, setModalContent] = useState<Credential | null>(null);
-  const handleClick = (clickType: string, credential: Credential) => {
+  const [qrModalId, setQrModalId] = useState(0);
+  const handleClick = (clickType: string, credentialId: number) => {
     if (clickType === 'DETAILS') {
-      return navigation.navigate('Details', { credentialId: credential.id });
+      return navigation.navigate('Details', { credentialId: credentialId });
     } else {
-      setModalContent(credential);
+      setQrModalId(credentialId);
     }
   };
+
   return (
     <ScrollView style={layoutStyles.container}>
       <View style={layoutStyles.row}>
@@ -40,20 +41,16 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           <View style={styles.single} key={credential.id}>
             <SingleSummaryComponent
               credential={credential}
-              onPress={async clickType => handleClick(clickType, credential)}
+              onPress={async clickType => handleClick(clickType, credential.id)}
             />
           </View>
         ))}
       </View>
 
-      <ModalComponent visible={modalContent !== null}>
+      <ModalComponent visible={qrModalId !== 0}>
         <View style={layoutStyles.column1}>
-          <QRDetailsComponent credential={modalContent} />
-          <SquareButton
-            title={strings.close}
-            variation="hollow"
-            onPress={() => setModalContent(null)}
-          />
+          <QRDetailsContainer credentialId={qrModalId} />
+          <SquareButton title={strings.close} variation="hollow" onPress={() => setQrModalId(0)} />
         </View>
       </ModalComponent>
     </ScrollView>

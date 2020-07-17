@@ -10,7 +10,7 @@ import DisplayItem from '../../profile/components/DisplayItem';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
-import QRDetailsComponent from './QRDetailsComponent';
+import { QRDetailsContainer } from '../containers';
 
 interface DetailsComponentProps {
   credential: Credential;
@@ -56,7 +56,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
                   <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
                   <ModalComponent visible={showQr}>
                     <View style={layoutStyles.column1}>
-                      <QRDetailsComponent credential={credential} />
+                      <QRDetailsContainer credentialId={credential.id} />
                       <SquareButton
                         title={strings.close}
                         variation="hollow"

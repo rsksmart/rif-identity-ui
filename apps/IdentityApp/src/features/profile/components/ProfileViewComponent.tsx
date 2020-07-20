@@ -1,6 +1,13 @@
 import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text, GestureResponderEvent } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  GestureResponderEvent,
+} from 'react-native';
 import moment from 'moment';
 
 import { layoutStyles, typeStyles } from '../../../styles/';
@@ -8,19 +15,24 @@ import DisplayItem from './DisplayItem';
 
 import { ProfileInterface } from '../reducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { SquareButton } from '../../../Libraries/Button';
 
 interface ProfileViewComponentProps {
   strings: any;
   profile: ProfileInterface;
   isEmpty: boolean;
-  handleEdit: (event: GestureResponderEvent) => void | null;
+  navigation: any;
+  startOverPress: (event: GestureResponderEvent) => void | null;
+  version: string;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   strings,
   profile,
   isEmpty,
-  handleEdit,
+  navigation,
+  startOverPress,
+  version,
 }) => {
   return (
     <ScrollView style={layoutStyles.container}>
@@ -30,8 +42,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
-
-            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => navigation.navigate('Edit', {})}>
               <FontAwesome
                 name={isEmpty ? 'plus-circle' : 'edit'}
                 size={35}
@@ -40,19 +53,29 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               />
             </TouchableOpacity>
 
-            {isEmpty && <Text style={typeStyles.paragraph}>{strings.no_personal_details}</Text>}
-            <DisplayItem name={strings.full_name} value={profile.fullName} />
+            {isEmpty && (
+              <Text style={[typeStyles.paragraph, styles.empty]}>
+                {strings.no_personal_details}
+              </Text>
+            )}
+            <DisplayItem name={strings.fullName} value={profile.fullName} />
             <DisplayItem
               name={strings.birthdate}
               value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
             />
-            <DisplayItem name={strings.id_number} value={profile.idNumber} />
+            <DisplayItem name={strings.idNumber} value={profile.idNumber} />
             <DisplayItem
               name={strings.civilStatus}
               value={profile.civilStatus ? strings[profile.civilStatus] : ''}
             />
             <DisplayItem name={strings.phone} value={profile.phone} />
             <DisplayItem name={strings.email} value={profile.email} />
+          </View>
+          <View style={styles.resetButton}>
+            <SquareButton title="Reset entire App" variation="hollow" onPress={startOverPress} />
+          </View>
+          <View>
+            <Text>APK Version: {version}</Text>
           </View>
         </View>
       </View>
@@ -72,12 +95,19 @@ const styles = StyleSheet.create({
     right: 20,
     top: 20,
     width: 60,
-    height: 60,    
+    height: 60,
     zIndex: 1000,
   },
   editIcon: {
     textAlign: 'right',
-  }
+  },
+  empty: {
+    marginRight: 30,
+  },
+  resetButton: {
+    marginTop: 50,
+    marginBottom: 20,
+  },
 });
 
 export default multilanguage(ProfileViewComponent);

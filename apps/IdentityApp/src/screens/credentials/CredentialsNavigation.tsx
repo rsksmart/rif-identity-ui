@@ -4,7 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { CredentialsHomeContainer, SigninWithPinContainer } from './containers';
+import { SigninWithPinContainer } from './containers';
+import CredentailsViewNavigation from '../../features/credentialsView/CredentailsViewNavigation';
+import CredentialsRequestNavigation from '../../features/credentialsRequest/CredentialsRequestNavigation';
 import { ProfileNavigation } from '../../features/profile/index';
 import { RootState } from '../../state/store';
 
@@ -19,12 +21,10 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
 
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator
-      initialRouteName="CredentialsHome"
-      tabBarOptions={{ style: { height: 95 } }}>
+    <Tab.Navigator initialRouteName="CredentialsHome" tabBarOptions={{ style: { height: 95 } }}>
       <Tab.Screen
         name="CredentialsHome"
-        component={CredentialsHomeContainer}
+        component={CredentailsViewNavigation}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused }) => (
@@ -35,16 +35,28 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('CredentialsHome', { screen: 'Summary' });
+          },
+        })}
       />
       <Tab.Screen
         name="AddCredential"
-        component={CredentialsHomeContainer}
+        component={CredentialsRequestNavigation}
         options={{
           tabBarLabel: '',
           tabBarIcon: () => (
             <Icon name="add-circle" size={75} color={'#50555C'} style={{ marginTop: 15 }} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('AddCredential', { screen: 'RequestType' });
+          },
+        })}
       />
       <Tab.Screen
         name="Profile"
@@ -55,6 +67,12 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
             <Icon name={focused ? 'person' : 'person-outline'} size={35} color={'#50555C'} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('Profile', { screen: 'View' });
+          },
+        })}
       />
     </Tab.Navigator>
   );

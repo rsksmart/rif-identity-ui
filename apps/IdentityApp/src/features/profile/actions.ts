@@ -4,6 +4,7 @@ export enum PROFILE_ACTION_TYPES {
   TOGGLE_EDIT = 'TOGGLE_EDIT',
   EDIT_PROFILE = 'EDIT_PROFILE',
   RECEIVE_PROFILE = 'RECEIVE_PROFILE',
+  RESET = 'RESET',
 }
 
 export const toggleEdit = (isEditing: boolean) => ({
@@ -18,4 +19,8 @@ export const updateProfile = (profile: ProfileInterface) => ({
 
 export const receiveProfile = () => ({
   type: PROFILE_ACTION_TYPES.RECEIVE_PROFILE,
+});
+
+export const resetProfile = () => ({
+  type: PROFILE_ACTION_TYPES.RESET,
 });

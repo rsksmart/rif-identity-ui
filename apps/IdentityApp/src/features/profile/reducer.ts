@@ -45,6 +45,8 @@ const reducer = (state: ProfileState = initialState, action: any) => {
         ...state,
         isLoaded: true,
       };
+    case PROFILE_ACTION_TYPES.RESET:
+      return initialState;
     default:
       return state;
   }

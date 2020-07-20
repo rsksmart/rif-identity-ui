@@ -22,12 +22,3 @@ target 'W3CVerifier' do
     flipper_post_install(installer)
   end
 end
-
-target 'W3CVerifier-tvOS' do
-  # Pods for W3CVerifier-tvOS
-
-  target 'W3CVerifier-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { RootState } from '../state/store';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ScanQRContainer from './scan-qr/ScanQRContainer';
 import ProfileContainer from './profile/ProfileContainer';
 import PresentationNavigation from './presentations/PresentationNavigation';
@@ -25,12 +24,6 @@ const MainFlowNavigation: React.FC<{}> = () => {
       <Tab.Screen
         name="Profile"
         component={ProfileContainer}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({ focused }) => (
-            <Icon name={focused ? 'person' : 'person-outline'} size={35} color={'#50555C'} />
-          ),
-        }}
       />
     </Tab.Navigator>
   );

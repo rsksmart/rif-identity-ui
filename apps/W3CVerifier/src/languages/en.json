@@ -1,3 +1,6 @@
 {
-
+  "verify_credentials": "Verify Credentials",
+  "scan_citizen_qr": "Scan the QR code in the citizens app",
+  "enter_jwt": "Enter JWT",
+  "verify_jwt": "Verify JWT"
 }

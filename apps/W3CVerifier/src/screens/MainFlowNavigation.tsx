@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { RootState } from '../state/store';
-import ScannedPresentationsContainer from './scanned-presentations/ScannedPresentationsContainer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ScanQRContainer from './scan-qr/ScanQRContainer';
 import ProfileContainer from './profile/ProfileContainer';
+import PresentationNavigation from './presentations/PresentationNavigation';
 
 const MainFlowNavigation: React.FC<{}> = () => {
   const Tab = createBottomTabNavigator();
@@ -15,8 +15,8 @@ const MainFlowNavigation: React.FC<{}> = () => {
       initialRouteName="ScannedPresentations"
       tabBarOptions={{ style: { height: 95 } }}>
       <Tab.Screen
-        name="ScannedPresentations"
-        component={ScannedPresentationsContainer}
+        name="PresentationNavigation"
+        component={PresentationNavigation}
       />
       <Tab.Screen
         name="ScanQR"

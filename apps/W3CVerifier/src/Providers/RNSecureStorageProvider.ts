@@ -5,7 +5,7 @@ import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
 
 export enum STORAGE_KEYS {
   LANGUAGE = 'LANGUAGE',
-  VERIFIED_CREDENTIALS = 'VERIFIED_CREDENTIALS'
+  SCANNED_CREDENTIALS = 'SCANNED_CREDENTIALS'
 }
 
 const set = async (key: string, value: string) => {

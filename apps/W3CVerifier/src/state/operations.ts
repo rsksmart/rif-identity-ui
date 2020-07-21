@@ -3,21 +3,21 @@ import { changeLanguage } from 'redux-multilanguage';
 import * as RootNavigation from '../AppNavigation';
 import { StorageProvider, STORAGE_KEYS } from '../Providers/index';
 import { 
-  requestVerifiedPresentations, receiveVerifiedPresentations,
-  receiveEmptyVerifiedPresentations
-} from '../screens/verified-presentations/actions';
+  requestScannedPresentations, receiveScannedPresentations,
+  receiveEmptyScannedPresentations
+} from '../screens/scanned-presentations/actions';
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
-  dispatch(requestVerifiedPresentations());
+  dispatch(requestScannedPresentations());
 
-  await StorageProvider.get(STORAGE_KEYS.VERIFIED_CREDENTIALS)
+  await StorageProvider.get(STORAGE_KEYS.SCANNED_CREDENTIALS)
     .then(presentations => {
-      dispatch(receiveVerifiedPresentations(presentations!));
-      RootNavigation.navigate('MainFlow', { screen: 'VerifiedPresentations' });
+      dispatch(receiveScannedPresentations(presentations!));
+      RootNavigation.navigate('MainFlow', { screen: 'ScannedPresentations' });
     })
     .catch(() => {
-      dispatch(receiveEmptyVerifiedPresentations());
-      RootNavigation.navigate('MainFlow', { screen: 'VerifiedPresentations' });
+      dispatch(receiveEmptyScannedPresentations());
+      RootNavigation.navigate('MainFlow', { screen: 'ScannedPresentations' });
     })
 
   await StorageProvider.get('LANGUAGE')

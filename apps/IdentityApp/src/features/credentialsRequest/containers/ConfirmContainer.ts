@@ -3,17 +3,18 @@ import { Dispatch } from 'redux';
 import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import requirements from '../demoRequirements';
-import { requestCredential } from '../../credentialsView/operations';
+import { sendRequestToServer } from '../../credentialsView/operations';
 
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
   requirements: requirements,
   profile: state.profile.profile,
   did: state.localUi.did,
+  isRequestingCredential: state.credentials.isRequestingCredential,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  requestCredential: metaData => dispatch(requestCredential(metaData)),
+  requestCredential: metaData => dispatch(sendRequestToServer(metaData)),
 });
 
 /*

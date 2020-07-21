@@ -8,6 +8,7 @@ import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
+import LoadingComponent from '../../../screens/Shared/LoadingComponent';
 
 interface RequestTypeComponentProps {
   route: {
@@ -20,6 +21,7 @@ interface RequestTypeComponentProps {
   requestCredential: (metadata: []) => {};
   strings: any;
   did: string;
+  isRequestingCredential: boolean;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
@@ -29,6 +31,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   requirements,
   did,
   requestCredential,
+  isRequestingCredential,
 }) => {
   const handlePress = () => {
     let metaData = { type: type, did: did };
@@ -92,10 +95,11 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
             {!meetsRequirements() && (
               <Text style={styles.warning}>{strings.missing_requirements}</Text>
             )}
+            {isRequestingCredential && <LoadingComponent />}
             <SquareButton
               title={strings.confirm}
               onPress={handlePress}
-              disabled={!meetsRequirements()}
+              disabled={!meetsRequirements() || isRequestingCredential}
             />
           </View>
         </View>

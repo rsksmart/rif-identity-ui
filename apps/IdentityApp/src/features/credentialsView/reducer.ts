@@ -14,7 +14,7 @@ export enum CredentialStatus {
 }
 
 export interface Credential {
-  hash: number;
+  hash: string;
   status: CredentialStatus;
   dateRequested: Date;
   VerifiedCredential?: VerifiedCredential;
@@ -33,26 +33,35 @@ export interface VerifiedCredential {
 export interface CredentialsStateInterface {
   credentials: Credential[];
   isLoading: boolean;
+  isRequestingCredential: boolean;
 }
 
 export const initialState = {
   credentials: [],
   isLoading: true,
+  isRequestingCredential: false,
 };
 
 const reducer = (state: CredentialsStateInterface = initialState, action: any) => {
   switch (action.type) {
-    case CREDENTIAL_ACTION_TYPES.ADD_CREDENTIAL:
+    case CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIAL:
+      return {
+        ...state,
+        isRequestingCredential: true,
+      };
+    case CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL:
       return {
         ...state,
         credentials: [...state.credentials, action.credential],
+        isRequestingCredential: false,
       };
-    case CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIALS:
+
+    case CREDENTIAL_ACTION_TYPES.REQUEST_ALL_CREDENTIALS:
       return {
         ...state,
         isLoading: true,
       };
-    case CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTIALS:
+    case CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_CREDENTIALS:
       return {
         ...state,
         isLoading: false,

@@ -1,23 +1,29 @@
 import { Credential } from './reducer';
 
 export enum CREDENTIAL_ACTION_TYPES {
-  REQUEST_CREDENTIALS = 'REQUEST_CREDENTIALS',
-  RECEIVE_CREDENTIALS = 'RECEIVE_CREDENTIALS',
-  ADD_CREDENTIAL = 'ADD_CREDENTIAL',
+  REQUEST_ALL_CREDENTIALS = 'REQUEST_ALL_CREDENTIALS',
+  RECEIVE_ALL_CREDENTIALS = 'RECEIVE_ALL_CREDENTIALS',
+
+  REQUEST_CREDENTIAL = 'REQUEST_CREDENTIAL',
+  RECEIVE_CREDENTAIL = 'RECEIVE_CREDENTAIL',
   RESET = 'RESET',
 }
 
-export const addCredential = (credential: Credential) => ({
-  type: CREDENTIAL_ACTION_TYPES.ADD_CREDENTIAL,
+export const requestCredential = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIAL,
+});
+
+export const receiveCredential = (credential: Credential) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL,
   credential,
 });
 
-export const requestCredentials = () => ({
-  type: CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIALS,
+export const requestAllCredentials = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_ALL_CREDENTIALS,
 });
 
-export const receiveCredentials = (credentials: Credential[]) => ({
-  type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTIALS,
+export const receiveAllCredentials = (credentials: Credential[]) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_CREDENTIALS,
   credentials,
 });
 

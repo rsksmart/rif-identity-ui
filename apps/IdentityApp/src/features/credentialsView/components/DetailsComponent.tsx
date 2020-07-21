@@ -6,7 +6,6 @@ import moment from 'moment';
 import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
 import { layoutStyles, typeStyles } from '../../../styles';
-import DisplayItem from '../../profile/components/DisplayItem';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
@@ -41,6 +40,9 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
               <Text style={[typeStyles.paragraph, styles.indent]}>
                 {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
               </Text>
+
+              <Text style={[typeStyles.paragraph, typeStyles.bold]}>Hash:</Text>
+              <Text>{credential.hash}</Text>
 
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>

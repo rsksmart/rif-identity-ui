@@ -12,7 +12,11 @@ interface SingleSummaryComponentProps {
   strings: any;
 }
 
-const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({ strings, credential, onPress }) => {
+const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
+  strings,
+  credential,
+  onPress,
+}) => {
   const icon = () => {
     switch (credential.type) {
       case 'AUTO':
@@ -33,6 +37,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({ strings
       <TouchableOpacity style={styles.detailsTouch} onPress={() => onPress('DETAILS')}>
         {icon()}
         <Text style={styles.name}>{strings[credential.type.toLowerCase()]}</Text>
+        <Text>{credential.hash.substr(0, 8)}</Text>
         <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>

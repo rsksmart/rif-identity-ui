@@ -7,6 +7,7 @@ import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import { QRDetailsContainer } from '../containers';
+import LoadingComponent from '../../../screens/Shared/LoadingComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -19,15 +20,21 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   credentials,
   strings,
   navigation,
+  isLoading,
 }) => {
   const [qrModalId, setQrModalId] = useState(0);
-  const handleClick = (clickType: string, credentialId: number) => {
+  const handleClick = (clickType: string, credentialHash: string) => {
     if (clickType === 'DETAILS') {
-      return navigation.navigate('Details', { credentialId: credentialId });
+      return navigation.navigate('Details', { credentialHash: credentialHash });
     } else {
-      setQrModalId(credentialId);
+      //@TODO!
+      //setQrModalId(credentialHash);
     }
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <ScrollView style={layoutStyles.container}>
@@ -41,7 +48,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
               credential={credential}
-              onPress={async clickType => handleClick(clickType, credential.hash)}
+              onPress={async (clickType: string) => handleClick(clickType, credential.hash)}
             />
           </View>
         ))}

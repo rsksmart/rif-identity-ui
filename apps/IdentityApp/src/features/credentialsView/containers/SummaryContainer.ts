@@ -5,8 +5,8 @@ import { Credential } from '../reducer';
 
 const simpleCredentials = (credentials: Credential[]) => {
   return credentials.map((item: Credential) => {
-    const { name, id, status, type } = item;
-    return { name, id, status, type };
+    const { hash, status, type } = item;
+    return { hash, status, type };
   });
 };
 

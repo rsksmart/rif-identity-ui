@@ -7,7 +7,7 @@ import { layoutStyles, typeStyles } from '../../../styles';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { ProfileInterface } from '../../../features/profile/reducer';
-import { Credential, CredentialTypes, CredentialStatus } from '../../credentialsView/reducer';
+import { CredentialTypes } from '../../credentialsView/reducer';
 
 interface RequestTypeComponentProps {
   route: {
@@ -17,8 +17,9 @@ interface RequestTypeComponentProps {
   };
   profile: ProfileInterface;
   requirements: [];
-  requestCredential: (cred: Credential) => {};
+  requestCredential: (metadata: []) => {};
   strings: any;
+  did: string;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
@@ -26,19 +27,16 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   route,
   profile,
   requirements,
+  did,
   requestCredential,
 }) => {
   const handlePress = () => {
-    const credential: Credential = {
-      id: Math.floor(Math.random() * 10000),
-      name: strings[type.toLowerCase()],
-      type: type,
-      issuer: { name: 'The App' },
-      status: CredentialStatus.PENDING,
-      infoShared: requirements[type],
-      dateRequested: new Date(),
-    };
-    requestCredential(credential);
+    let metaData = { type: type, did: did };
+    requirements[type].forEach(item => {
+      metaData[item] = profile[item];
+    });
+
+    requestCredential(metaData);
   };
   const type: string = route.params.type;
 
@@ -50,8 +48,9 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   const requiredItem = (item: string) => {
+    const itemValue = profile[item];
     const icon =
-      profile[item] === '' || !profile[item] ? (
+      itemValue === '' || !itemValue ? (
         <MaterialCommunityIcons name="close" size={20} color="#BD0000" />
       ) : (
         <MaterialCommunityIcons name="check" size={20} color="#008000" />
@@ -59,7 +58,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
     return (
       <Text style={styles.required} key={item}>
-        {icon} {strings[item]}
+        {icon} {strings[item]} : {itemValue}
       </Text>
     );
   };

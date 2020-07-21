@@ -1,22 +1,53 @@
-import { Credential } from './reducer';
+import { Dispatch } from 'redux';
+import axios from 'axios';
+import { Credential, CredentialStatus } from './reducer';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { addCredential, requestCredentials, receiveCredentials } from './actions';
 import * as RootNavigation from '../../AppNavigation';
-import mockData from './mockData.json';
 
-export const requestCredential = (credential: Credential, credentialList: Credential[]) => async (dispatch: Dispatch) => {
+export const requestCredential = (
+  metaData: any,
+) => async (dispatch: Dispatch) => {
   // save credential in redux
-  dispatch(addCredential(credential));
+  console.log('requesting credential');
+  console.log(metaData);
+
+  axios
+    .post('http://192.168.0.13:3000/request', metaData)
+    .then(function (response) {
+      // Create Credential object:
+      const credential: Credential = {
+        hash: response.data.token,
+        status: CredentialStatus.PENDING,
+        dateRequested: new Date(),
+        type: metaData.type,
+      };
+      // Add Credential to redux:
+      dispatch(addCredential(credential));
+
+      // Save credential to localStorage:
+      //@todo!!!!!!!
+
+      // redirect to Credentials Home:
+      RootNavigation.navigate('CredentialsFlow', {
+        screen: 'CredentialsHome',
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  /*
+  
 
   // save credential to localStorage
   const newCredentialList: Credential[] = [...credentialList, credential];
   await StorageProvider.set(STORAGE_KEYS.SIMPLE_CREDENTIALS, JSON.stringify(newCredentialList))
     .then(() => {
-      RootNavigation.navigate('CredentialsFlow', {
-        screen: 'CredentialsHome',
-      });
+      
     })
     .catch(error => console.log(error));
+  */
 };
 
 export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
@@ -27,7 +58,5 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     })
     .catch(() => {
       console.log('no credentials storage key');
-      // add mockCredentials
-      dispatch(receiveCredentials(mockData));
     });
 };

@@ -18,13 +18,23 @@ export interface IssuerInterface {
 }
 
 export interface Credential {
-  id: number;
-  name: string;
-  type: CredentialTypes;
+  hash: number;
   status: CredentialStatus;
-  infoShared: string[];
-  issuer: IssuerInterface;
   dateRequested: Date;
+  VerifiedCredential?: VerifiedCredential;
+  type: CredentialTypes;
+
+  name?: string; //@todo remove
+  issuer?: IssuerInterface; //@todo remove
+}
+
+// JWT standards:
+export interface VerifiedCredential {
+  vc: any;
+  type: [];
+  credentialSubject: {};
+  sub: string;
+  iss: string;
 }
 
 export interface CredentialsStateInterface {

@@ -22,3 +22,5 @@ target 'W3CVerifier' do
     flipper_post_install(installer)
   end
 end
+
+pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

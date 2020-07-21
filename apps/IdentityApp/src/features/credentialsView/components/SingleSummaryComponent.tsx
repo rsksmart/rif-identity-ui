@@ -1,4 +1,5 @@
 import React from 'react';
+import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
@@ -8,11 +9,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 interface SingleSummaryComponentProps {
   credential: Credential;
   onPress: (action: string) => {};
+  strings: any;
 }
 
-const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
-  credential, onPress,
-}) => {
+const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({ strings, credential, onPress }) => {
   const icon = () => {
     switch (credential.type) {
       case 'AUTO':
@@ -32,7 +32,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
     <View style={styles.credential}>
       <TouchableOpacity style={styles.detailsTouch} onPress={() => onPress('DETAILS')}>
         {icon()}
-        <Text style={styles.name}>{credential.name}</Text>
+        <Text style={styles.name}>{strings[credential.type.toLowerCase()]}</Text>
         <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SingleSummaryComponent;
+export default multilanguage(SingleSummaryComponent);

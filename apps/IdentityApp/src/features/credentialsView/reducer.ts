@@ -13,19 +13,12 @@ export enum CredentialStatus {
   DENIED = 'DENIED',
 }
 
-export interface IssuerInterface {
-  name: string;
-}
-
 export interface Credential {
   hash: number;
   status: CredentialStatus;
   dateRequested: Date;
   VerifiedCredential?: VerifiedCredential;
   type: CredentialTypes;
-
-  name?: string; //@todo remove
-  issuer?: IssuerInterface; //@todo remove
 }
 
 // JWT standards:

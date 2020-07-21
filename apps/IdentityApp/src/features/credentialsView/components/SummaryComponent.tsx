@@ -38,10 +38,10 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       </View>
       <View style={{ ...layoutStyles.row, ...styles.credentialsRow }}>
         {credentials.map(credential => (
-          <View style={styles.single} key={credential.id}>
+          <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
               credential={credential}
-              onPress={async clickType => handleClick(clickType, credential.id)}
+              onPress={async clickType => handleClick(clickType, credential.hash)}
             />
           </View>
         ))}

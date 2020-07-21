@@ -26,22 +26,13 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <Text style={typeStyles.header1}>
-              {credential.name} <StatusIcon status={credential.status} />
+              {strings[credential.type.toLowerCase()]} <StatusIcon status={credential.status} />
             </Text>
           </View>
         </View>
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <View style={styles.details}>
-              <DisplayItem name={strings.issuer} value={credential.issuer.name} />
-              <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>
-                {strings.information_shared}:
-              </Text>
-              {credential.infoShared.map(item => (
-                <Text style={{ ...typeStyles.paragraph, ...styles.indent }} key={item}>
-                  {strings[item] ? strings[item] : item}
-                </Text>
-              ))}
               <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>{strings.status}:</Text>
               <Text style={{ ...typeStyles.paragraph, ...styles.indent }}>
                 {strings[credential.status.toLowerCase()]} <StatusIcon status={credential.status} />
@@ -56,7 +47,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
                   <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
                   <ModalComponent visible={showQr}>
                     <View style={layoutStyles.column1}>
-                      <QRDetailsContainer credentialId={credential.id} />
+                      <QRDetailsContainer credentialId={credential.hash} />
                       <SquareButton
                         title={strings.close}
                         variation="hollow"

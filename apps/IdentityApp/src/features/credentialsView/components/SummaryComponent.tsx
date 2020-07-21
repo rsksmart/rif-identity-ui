@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { typeStyles, layoutStyles } from '../../../styles';
 import { Credential } from '../reducer';
@@ -14,6 +14,8 @@ interface SummaryComponentProps {
   strings: any;
   navigation: any;
   isLoading: boolean;
+  checkPending: () => {};
+  isCheckingPendingStatus: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -21,9 +23,13 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   strings,
   navigation,
   isLoading,
+  checkPending,
+  isCheckingPendingStatus,
 }) => {
   const [qrModalId, setQrModalId] = useState(0);
   const handleClick = (clickType: string, credentialHash: string) => {
+    console.log(clickType, credentialHash);
+
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialHash: credentialHash });
     } else {
@@ -37,7 +43,11 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   }
 
   return (
-    <ScrollView style={layoutStyles.container}>
+    <ScrollView
+      style={layoutStyles.container}
+      refreshControl={
+        <RefreshControl refreshing={isCheckingPendingStatus} onRefresh={checkPending} />
+      }>
       <View style={layoutStyles.row}>
         <View style={layoutStyles.column1}>
           <Text style={typeStyles.header1}>{strings.my_credentials}</Text>
@@ -49,6 +59,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
             <SingleSummaryComponent
               credential={credential}
               onPress={async (clickType: string) => handleClick(clickType, credential.hash)}
+              disabled={isCheckingPendingStatus}
             />
           </View>
         ))}

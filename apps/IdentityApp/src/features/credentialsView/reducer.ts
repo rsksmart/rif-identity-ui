@@ -19,6 +19,7 @@ export interface Credential {
   dateRequested: Date;
   VerifiedCredential?: VerifiedCredential;
   type: CredentialTypes;
+  jwt?: string;
 }
 
 // JWT standards:
@@ -34,12 +35,14 @@ export interface CredentialsStateInterface {
   credentials: Credential[];
   isLoading: boolean;
   isRequestingCredential: boolean;
+  isCheckingPendingStatus: boolean;
 }
 
 export const initialState = {
   credentials: [],
   isLoading: true,
   isRequestingCredential: false,
+  isCheckingPendingStatus: false,
 };
 
 const reducer = (state: CredentialsStateInterface = initialState, action: any) => {
@@ -67,6 +70,19 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
         isLoading: false,
         credentials: action.credentials,
       };
+
+    case CREDENTIAL_ACTION_TYPES.REQUEST_ALL_PENDING_STATUS:
+      return {
+        ...state,
+        isCheckingPendingStatus: true,
+      };
+    case CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_PENDING_STATUS:
+      return {
+        ...state,
+        isCheckingPendingStatus: false,
+        credentials: action.credentials,
+      };
+
     case CREDENTIAL_ACTION_TYPES.RESET:
       return initialState;
     default:

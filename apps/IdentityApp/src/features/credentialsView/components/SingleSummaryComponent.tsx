@@ -10,23 +10,26 @@ interface SingleSummaryComponentProps {
   credential: Credential;
   onPress: (action: string) => {};
   strings: any;
+  disabled: boolean;
 }
 
 const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   strings,
   credential,
   onPress,
+  disabled,
 }) => {
   const icon = () => {
+    const color = disabled ? '#e1e1e1' : '#50555C';
     switch (credential.type) {
       case 'AUTO':
-        return <FontAwesome name="automobile" color="#50555C" size={30} />;
+        return <FontAwesome name="automobile" color={color} size={30} />;
       case 'PASSPORT':
-        return <FontAwesome5 name="passport" color="#50555C" size={30} />;
+        return <FontAwesome5 name="passport" color={color} size={30} />;
       case 'ID':
-        return <FontAwesome name="id-card-o" color="#50555C" size={30} />;
+        return <FontAwesome name="id-card-o" color={color} size={30} />;
       default:
-        return <FontAwesome name="question" color="#50555C" size={30} />;
+        return <FontAwesome name="question" color={color} size={30} />;
     }
   };
 
@@ -34,14 +37,22 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
 
   return (
     <View style={styles.credential}>
-      <TouchableOpacity style={styles.detailsTouch} onPress={() => onPress('DETAILS')}>
+      <TouchableOpacity
+        style={styles.detailsTouch}
+        onPress={() => onPress('DETAILS')}
+        disabled={disabled}>
         {icon()}
-        <Text style={styles.name}>{strings[credential.type.toLowerCase()]}</Text>
-        <Text>{credential.hash.substr(0, 8)}</Text>
+        <Text style={[styles.name, disabled ? styles.disabled : {}]}>
+          {strings[credential.type.toLowerCase()]}
+        </Text>
+        <Text style={disabled ? styles.disabled : {}}>{credential.hash.substr(0, 8)}</Text>
         <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>
-        <TouchableOpacity disabled={!showQR} style={styles.qrTouch} onPress={() => onPress('QR')}>
+        <TouchableOpacity
+          disabled={!showQR || disabled}
+          style={styles.qrTouch}
+          onPress={() => onPress('QR')}>
           <FontAwesome name="qrcode" size={30} color={showQR ? '#50555C' : '#CCCCCC'} />
         </TouchableOpacity>
       </View>
@@ -75,6 +86,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     marginTop: 10,
     paddingTop: 10,
+  },
+  disabled: {
+    color: '#e1e1e1',
   },
 });
 

@@ -2,11 +2,7 @@ import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import { Credential, CredentialStatus } from './reducer';
-import {
-  requestAllPendingStatus,
-  receiveAllPendingStatus,
-  CREDENTIAL_ACTION_TYPES,
-} from './actions';
+import { requestAllPendingStatus, receiveAllPendingStatus } from './actions';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import {
   requestCredential,
@@ -17,7 +13,21 @@ import {
 import * as RootNavigation from '../../AppNavigation';
 
 /**
- * Save Credential to LocalStorage and Redirect to Credentials Home
+ * Save a Credential Array to LocalStorage
+ * @param credentials Credential Array to be stored
+ */
+const saveAllCredentials = async (credentials: Credential[]) => {
+  // Saveto localStorage:
+  return await StorageProvider.set(STORAGE_KEYS.CREDENTIALS, JSON.stringify(credentials))
+    .then(() => {
+      return Promise.resolve(true);
+    })
+    .catch(error => Promise.reject(error));
+};
+
+/**
+ * Prepare a Single Credential to be saved to LocalStorage and Redirect to Credentials Home
+ * This is used when a credential is being requested.
  * @param credential Credential to be saved
  */
 const saveCredentialAndRedirect = (credential: Credential) => async (dispatch: Dispatch) => {
@@ -28,20 +38,16 @@ const saveCredentialAndRedirect = (credential: Credential) => async (dispatch: D
     })
     .catch(() => []);
 
-  // Saveto localStorage:
   const newData = existingCredentials.concat(credential);
-  await StorageProvider.set(STORAGE_KEYS.CREDENTIALS, JSON.stringify(newData))
-    .then(() => {
-      console.log('DATA SAVED');
-      // Add Credential to redux:
-      dispatch(receiveCredential(credential));
+  saveAllCredentials(newData).then(() => {
+    // Add Credential to redux:
+    dispatch(receiveCredential(credential));
 
-      // Redirect to home:
-      RootNavigation.navigate('CredentialsFlow', {
-        screen: 'CredentialsHome',
-      });
-    })
-    .catch(error => console.log(error));
+    // Redirect to home:
+    RootNavigation.navigate('CredentialsFlow', {
+      screen: 'CredentialsHome',
+    });
+  });
 };
 
 /**
@@ -75,8 +81,8 @@ export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch)
 export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
   dispatch(requestAllCredentials());
   await StorageProvider.get(STORAGE_KEYS.CREDENTIALS)
-    .then(credentials => {
-      dispatch(receiveAllCredentials(JSON.parse(credentials)));
+    .then((credentials: string) => {
+      return dispatch(receiveAllCredentials(JSON.parse(credentials)));
     })
     .catch(() => {
       // return empty array for credentials
@@ -84,13 +90,14 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
+// simulate a slow server! :)
 const wait = (timeout: number) => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);
   });
 };
 
-export const checkStatusOfCredential = async (hash: string) => {
+const checkStatusOfCredential = async (hash: string) => {
   console.log('hash:', hash);
   return await axios
     .get('http://192.168.0.13:3000/', {
@@ -102,18 +109,31 @@ export const checkStatusOfCredential = async (hash: string) => {
       console.log('response', response.data);
       return Promise.resolve(response.data);
     })
-    .catch(null);
+    .catch(() => {
+      return Promise.resolve(null);
+    });
 };
 
+/**
+ * Check the status of Credentials with a pending status, get new status, and send new array
+ * to be saved in localStorage and redux.
+ * @param credentials Credential Array to be checked and then saved
+ * @param did The users' DID
+ */
 export const checkStatusOfPendingCredentials = (credentials: Credential[], did: string) => async (
   dispatch: Dispatch,
 ) => {
   dispatch(requestAllPendingStatus());
 
   // create new state:
-  const resultArray = await Promise.all(
+  let didUpdate = false;
+  const resultArray: Credential[] = await Promise.all(
     credentials.map(async (item: Credential) => {
+      if (item.status !== CredentialStatus.PENDING) {
+        return item;
+      }
       const jwt = await checkStatusOfCredential(keccak256(did + item.hash));
+      didUpdate = true;
       return {
         ...item,
         jwt: jwt,
@@ -122,40 +142,14 @@ export const checkStatusOfPendingCredentials = (credentials: Credential[], did: 
     }),
   );
 
+  // save new state to localStorage
+  if (didUpdate) {
+    console.log('save all :)');
+    saveAllCredentials(resultArray);
+  }
+
+  // Add credentials to redux
   wait(2000).then(() => {
     dispatch(receiveAllPendingStatus(resultArray));
   });
-  console.log(resultArray);
-  // resultArray.then(() => console.log('done'));
-  /*
-  const getData = async () => {
-    await Promise.all(
-      credentials.map(async (item: Credential) =>
-        await checkStatusOfCredential(keccak256(did + item.hash)),
-      ),
-    ).then(res => console.log('response', res));
-  };
-
-  getData();
-
-  const newState = Promise.all(
-    credentials.map((item: Credential) => {
-      if (item.status !== CredentialStatus.PENDING) {
-        return item;
-      }
-
-      const getData = async () => ;
-
-      return {
-        ...item,
-        jwt: async () => checkStatusOfCredential(keccak256(did + item.hash)),
-      };
-    }),
-  );
-
-  newState.then(data => {
-    console.log('newState', data);
-  });
-*/
-  
 };

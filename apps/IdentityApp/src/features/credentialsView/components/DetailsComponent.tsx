@@ -42,7 +42,9 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
               </Text>
 
               <Text style={[typeStyles.paragraph, typeStyles.bold]}>Hash:</Text>
-              <Text>{credential.hash}</Text>
+              <Text style={styles.indent}>{credential.hash}</Text>
+              <Text style={[typeStyles.paragraph, typeStyles.bold]}>JWT:</Text>
+              <Text style={styles.indent}>{credential.jwt}</Text>
 
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>

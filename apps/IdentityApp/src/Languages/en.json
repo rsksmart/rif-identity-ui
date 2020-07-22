@@ -42,5 +42,7 @@
   "private_sending_notice": "This information will be sent privately to the issuer in order to certify the credentials.",
   "missing_requirements": "Incomplete information for the request. Please add it in the profile section.",
   "date_requested": "Date requested",
-  "settings": "Settings"
+  "settings": "Settings",
+  "remove_credential": "Remove Credential from App",
+  "credential_removed": "Credential Removed"
 }

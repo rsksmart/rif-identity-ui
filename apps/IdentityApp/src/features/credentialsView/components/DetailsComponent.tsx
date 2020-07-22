@@ -14,10 +14,28 @@ import { QRDetailsContainer } from '../containers';
 interface DetailsComponentProps {
   credential: Credential;
   strings: any;
+  removeCredential: (hash: String) => {};
 }
 
-const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings }) => {
+const DetailsComponent: React.FC<DetailsComponentProps> = ({
+  credential,
+  removeCredential,
+  strings,
+}) => {
   const [showQr, setShowQr] = useState<boolean>(false);
+
+  // if the credential does not have a hash, show blank
+  if (!credential) {
+    return (
+      <BackScreenComponent>
+        <View style={layoutStyles.row}>
+          <View style={layoutStyles.column1}>
+            <Text style={typeStyles.header1}>{strings.credential_removed}</Text>
+          </View>
+        </View>
+      </BackScreenComponent>
+    );
+  }
 
   return (
     <BackScreenComponent>
@@ -46,6 +64,13 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({ credential, strings
               <Text style={[typeStyles.paragraph, typeStyles.bold]}>JWT:</Text>
               <Text style={styles.indent}>{credential.jwt}</Text>
 
+              {credential.status === 'DENIED' && (
+                <SquareButton
+                  title={strings.remove_credential}
+                  variation="hollow"
+                  onPress={() => removeCredential(credential.hash)}
+                />
+              )}
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />

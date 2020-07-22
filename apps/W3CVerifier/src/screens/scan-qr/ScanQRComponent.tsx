@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Text, View, TextInput, TouchableOpacity, StyleSheet,
+  Text, View, TextInput, TouchableOpacity,
 } from 'react-native';
 import { layoutStyles, typeStyles, colors } from '../../styles/';
 import { multilanguage } from 'redux-multilanguage';
+import Styles from '../../styles/react'
 
 interface ScanQRProps {
   strings: any;
@@ -45,20 +46,6 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
     </View>
   );
 };
-
-const Styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 180,
-    height: 80,
-    backgroundColor: colors.lightGray,
-  },
-  text: {
-    fontSize: 14,
-    color: colors.black,
-  },
-});
 
 
 export default multilanguage(ScanQRComponent);

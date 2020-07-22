@@ -10,6 +10,7 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { QRDetailsContainer } from '../containers';
+import JwtDataComponent from './JwtDataComponent';
 
 interface DetailsComponentProps {
   credential: Credential;
@@ -36,7 +37,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
       </BackScreenComponent>
     );
   }
-
+  const paragraphBold = [typeStyles.paragraph, typeStyles.bold];
   return (
     <BackScreenComponent>
       <ScrollView style={layoutStyles.container}>
@@ -50,19 +51,19 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <View style={styles.details}>
-              <Text style={{ ...typeStyles.paragraph, ...typeStyles.bold }}>{strings.status}:</Text>
+              <Text style={paragraphBold}>{strings.status}:</Text>
               <Text style={{ ...typeStyles.paragraph, ...styles.indent }}>
                 {strings[credential.status.toLowerCase()]} <StatusIcon status={credential.status} />
               </Text>
-              <Text style={[typeStyles.paragraph, typeStyles.bold]}>{strings.date_requested}:</Text>
+              <Text style={paragraphBold}>{strings.date_requested}:</Text>
               <Text style={[typeStyles.paragraph, styles.indent]}>
                 {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
               </Text>
 
-              <Text style={[typeStyles.paragraph, typeStyles.bold]}>Hash:</Text>
+              {credential.jwt && <JwtDataComponent jwt={credential.jwt} />}
+
+              <Text style={paragraphBold}>Hash:</Text>
               <Text style={styles.indent}>{credential.hash}</Text>
-              <Text style={[typeStyles.paragraph, typeStyles.bold]}>JWT:</Text>
-              <Text style={styles.indent}>{credential.jwt}</Text>
 
               {credential.status === 'DENIED' && (
                 <SquareButton

@@ -51,10 +51,6 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <View style={styles.details}>
-              <Text style={paragraphBold}>{strings.status}:</Text>
-              <Text style={{ ...typeStyles.paragraph, ...styles.indent }}>
-                {strings[credential.status.toLowerCase()]} <StatusIcon status={credential.status} />
-              </Text>
               <Text style={paragraphBold}>{strings.date_requested}:</Text>
               <Text style={[typeStyles.paragraph, styles.indent]}>
                 {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
@@ -62,15 +58,23 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
 
               {credential.jwt && <JwtDataComponent jwt={credential.jwt} />}
 
+              <Text style={paragraphBold}>{strings.status}:</Text>
+              <Text style={{ ...typeStyles.paragraph, ...styles.indent }}>
+                {strings[credential.status.toLowerCase()]}
+                <StatusIcon status={credential.status} />
+              </Text>
+
               <Text style={paragraphBold}>Hash:</Text>
               <Text style={styles.indent}>{credential.hash}</Text>
 
               {credential.status === 'DENIED' && (
-                <SquareButton
-                  title={strings.remove_credential}
-                  variation="hollow"
-                  onPress={() => removeCredential(credential.hash)}
-                />
+                <View style={styles.buttonView}>
+                  <SquareButton
+                    title={strings.remove_credential}
+                    variation="hollow"
+                    onPress={() => removeCredential(credential.hash)}
+                  />
+                </View>
               )}
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
@@ -100,7 +104,10 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   details: {
-    padding: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    paddingTop: 10,
     marginBottom: 20,
     borderRadius: 10,
     backgroundColor: '#F0F0F0',

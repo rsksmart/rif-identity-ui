@@ -26,7 +26,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   checkPending,
   isCheckingPendingStatus,
 }) => {
-  const [qrModalHash, setQrModalHash] = useState();
+  const [qrModalHash, setQrModalHash] = useState(null);
   const handleClick = (clickType: string, credentialHash: string) => {
     console.log(clickType, credentialHash);
 

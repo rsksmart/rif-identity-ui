@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     ...typeMargin,
-    fontSize: 18,
+    fontSize: 16,
   },
   bold: {
     fontWeight: 'bold',

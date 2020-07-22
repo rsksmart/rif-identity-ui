@@ -2,7 +2,7 @@ import React from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
-import { typeStyles } from '../../../styles';
+import { typeStyles, layoutStyles } from '../../../styles';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -24,18 +24,30 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
     <View>
       <Text style={paragraphBold}>Credential Metadata:</Text>
       {Object.keys(metadata).map(key => (
-        <Text style={{ ...typeStyles.paragraph, ...styles.metadata }} key={key}>
-          {strings[key] ? strings[key] : key} : {metadata[key]}
-        </Text>
+        <View style={layoutStyles.row} key={key}>
+          <View style={styles.headingColumn}>
+            <Text style={styles.heading}>{strings[key] ? strings[key] : key}</Text>
+          </View>
+          <Text style={styles.value}>{metadata[key]}</Text>
+        </View>
       ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  metadata: {
-    marginTop: 0,
-    marginLeft: 20,
+  headingColumn: {
+    paddingLeft: 20,
+    width: '40%',
+  },
+  heading: {
+    color: '#919191',
+    fontSize: 16,
+    textTransform: 'capitalize',
+  },
+  value: {
+    fontSize: 16,
+    color: '#50555C',
   },
 });
 

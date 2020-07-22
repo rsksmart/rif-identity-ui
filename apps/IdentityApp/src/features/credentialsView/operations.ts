@@ -3,12 +3,13 @@ import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import { Credential, CredentialStatus } from './reducer';
 import { requestAllPendingStatus, receiveAllPendingStatus } from './actions';
-import { StorageProvider, STORAGE_KEYS } from '../../Providers';
+import { StorageProvider, STORAGE_KEYS, ISSUER_SERVER } from '../../Providers';
 import {
   requestCredential,
   receiveCredential,
   requestAllCredentials,
   receiveAllCredentials,
+  errorRequestCredential,
 } from './actions';
 import * as RootNavigation from '../../AppNavigation';
 
@@ -54,7 +55,6 @@ const saveCredentialAndRedirect = (credential: Credential) => async (dispatch: D
  * @param hash hash of the credential to be removed
  */
 export const removeCredential = (hash: string) => async (dispatch: Dispatch) => {
-  console.log('removing credential!', hash);
   // get existing array from localStorage:
   await dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
     const newData = existingCredentials.filter((item: Credential) => item.hash !== hash);
@@ -75,8 +75,8 @@ export const removeCredential = (hash: string) => async (dispatch: Dispatch) => 
 export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch) => {
   dispatch(requestCredential());
   // post to the credential server:
-  await axios
-    .post('http://192.168.0.13:3000/request', metaData)
+  axios
+    .post(ISSUER_SERVER + '/request', metaData)
     .then(function (response) {
       // Create Credential object:
       console.log('hash', response.data.token);
@@ -89,7 +89,7 @@ export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch)
       dispatch(saveCredentialAndRedirect(credential));
     })
     .catch(function (error) {
-      console.log(error);
+      dispatch(errorRequestCredential(error.message));
     });
 };
 
@@ -98,7 +98,6 @@ export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch)
  */
 export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
   dispatch(requestAllCredentials());
-  console.log('GET CREDENTIALS FROM STORAGE');
   return await StorageProvider.get(STORAGE_KEYS.CREDENTIALS)
     .then((credentials: string) => {
       dispatch(receiveAllCredentials(JSON.parse(credentials)));
@@ -119,9 +118,8 @@ const wait = (timeout: number) => {
 };
 
 const checkStatusOfCredential = async (hash: string) => {
-  console.log('hash:', hash);
   return await axios
-    .get('http://192.168.0.13:3000/', {
+    .get(ISSUER_SERVER + '/', {
       params: {
         hash: hash,
       },

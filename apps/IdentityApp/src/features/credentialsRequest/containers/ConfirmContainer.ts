@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootState) => ({
   profile: state.profile.profile,
   did: state.localUi.did,
   isRequestingCredential: state.credentials.isRequestingCredential,
+  requestCredentialError: state.credentials.requestCredentialError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -3,11 +3,13 @@ import { Credential } from './reducer';
 export enum CREDENTIAL_ACTION_TYPES {
   REQUEST_ALL_CREDENTIALS = 'REQUEST_ALL_CREDENTIALS',
   RECEIVE_ALL_CREDENTIALS = 'RECEIVE_ALL_CREDENTIALS',
+
   REQUEST_CREDENTIAL = 'REQUEST_CREDENTIAL',
   RECEIVE_CREDENTAIL = 'RECEIVE_CREDENTAIL',
+  ERROR_REQUEST_CREDENTIAL = 'ERROR_REQUEST_CREDENTIAL',
+
   REQUEST_ALL_PENDING_STATUS = 'REQUEST_ALL_PENDING_STATUS',
   RECEIVE_ALL_PENDING_STATUS = 'RECEIVE_ALL_PENDING_STATUS',
-  UPDATE_CREDENTIAL = 'UPDATE_CREDENTIAL',
   RESET = 'RESET',
 }
 
@@ -18,6 +20,11 @@ export const requestCredential = () => ({
 export const receiveCredential = (credential: Credential) => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL,
   credential,
+});
+
+export const errorRequestCredential = (message: string) => ({
+  type: CREDENTIAL_ACTION_TYPES.ERROR_REQUEST_CREDENTIAL,
+  message,
 });
 
 export const requestAllCredentials = () => ({

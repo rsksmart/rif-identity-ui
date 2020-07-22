@@ -36,6 +36,7 @@ export interface CredentialsStateInterface {
   isLoading: boolean;
   isRequestingCredential: boolean;
   isCheckingPendingStatus: boolean;
+  requestCredentialError: string | null;
 }
 
 export const initialState = {
@@ -43,6 +44,7 @@ export const initialState = {
   isLoading: true,
   isRequestingCredential: false,
   isCheckingPendingStatus: false,
+  requestCredentialError: null,
 };
 
 const reducer = (state: CredentialsStateInterface = initialState, action: any) => {
@@ -51,12 +53,19 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
       return {
         ...state,
         isRequestingCredential: true,
+        requestCredentialError: null,
       };
     case CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL:
       return {
         ...state,
         credentials: [...state.credentials, action.credential],
         isRequestingCredential: false,
+      };
+    case CREDENTIAL_ACTION_TYPES.ERROR_REQUEST_CREDENTIAL:
+      return {
+        ...state,
+        isRequestingCredential: false,
+        requestCredentialError: action.message,
       };
 
     case CREDENTIAL_ACTION_TYPES.REQUEST_ALL_CREDENTIALS:

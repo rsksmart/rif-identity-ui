@@ -40,7 +40,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   const paragraphBold = [typeStyles.paragraph, typeStyles.bold];
   return (
     <BackScreenComponent>
-      <ScrollView style={layoutStyles.container}>
+      <ScrollView style={[layoutStyles.container, styles.mainScroll]}>
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <Text style={typeStyles.header1}>
@@ -96,6 +96,9 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
 };
 
 const styles = StyleSheet.create({
+  mainScroll: {
+    marginBottom: 50,
+  },
   details: {
     padding: 20,
     marginBottom: 20,

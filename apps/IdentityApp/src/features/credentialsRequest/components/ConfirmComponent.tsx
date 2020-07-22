@@ -22,6 +22,7 @@ interface RequestTypeComponentProps {
   strings: any;
   did: string;
   isRequestingCredential: boolean;
+  requestCredentialError: string | null;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
@@ -32,6 +33,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   did,
   requestCredential,
   isRequestingCredential,
+  requestCredentialError,
 }) => {
   const handlePress = () => {
     let metaData = { type: type, did: did };
@@ -95,6 +97,9 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
             {!meetsRequirements() && (
               <Text style={styles.warning}>{strings.missing_requirements}</Text>
             )}
+
+            {requestCredentialError && <Text style={styles.warning}>{requestCredentialError}</Text>}
+
             {isRequestingCredential && <LoadingComponent />}
             <SquareButton
               title={strings.confirm}

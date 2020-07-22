@@ -77,7 +77,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                   <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
                   <ModalComponent visible={showQr}>
                     <View style={layoutStyles.column1}>
-                      <QRDetailsContainer credentialId={credential.hash} />
+                      <QRDetailsContainer credentialHash={credential.hash} />
                       <SquareButton
                         title={strings.close}
                         variation="hollow"

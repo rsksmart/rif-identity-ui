@@ -25,7 +25,7 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({ credential, str
       <View style={styles.qrView}>
         <QRCode value={strings[credential.type.toLowerCase()]} size={200} />
       </View>
-      <Text>credential data</Text>
+      <Text>presentation data</Text>
     </View>
   );
 };

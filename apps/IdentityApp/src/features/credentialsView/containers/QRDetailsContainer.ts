@@ -12,7 +12,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
   credential: stateProps.allCredentials.filter(
-    (item: Credential) => item.id === ownProps.credentialId,
+    (item: Credential) => item.hash === ownProps.credentialHash,
   )[0],
 });
 

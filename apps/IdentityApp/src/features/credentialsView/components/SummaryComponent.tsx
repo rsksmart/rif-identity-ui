@@ -26,15 +26,14 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   checkPending,
   isCheckingPendingStatus,
 }) => {
-  const [qrModalId, setQrModalId] = useState(0);
+  const [qrModalHash, setQrModalHash] = useState();
   const handleClick = (clickType: string, credentialHash: string) => {
     console.log(clickType, credentialHash);
 
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialHash: credentialHash });
     } else {
-      //@TODO!
-      //setQrModalId(credentialHash);
+      setQrModalHash(credentialHash);
     }
   };
 
@@ -65,10 +64,14 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         ))}
       </View>
 
-      <ModalComponent visible={qrModalId !== 0}>
+      <ModalComponent visible={qrModalHash !== null}>
         <View style={layoutStyles.column1}>
-          <QRDetailsContainer credentialId={qrModalId} />
-          <SquareButton title={strings.close} variation="hollow" onPress={() => setQrModalId(0)} />
+          <QRDetailsContainer credentialHash={qrModalHash} />
+          <SquareButton
+            title={strings.close}
+            variation="hollow"
+            onPress={() => setQrModalHash(null)}
+          />
         </View>
       </ModalComponent>
     </ScrollView>

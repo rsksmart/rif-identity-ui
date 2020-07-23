@@ -1,6 +1,6 @@
 import { createMultilanguageReducer } from 'redux-multilanguage';
 import en from '../Languages/en.json';
-import es from '../Languages/es_uy.json';
+import es from '../Languages/es.json';
 
 const currentLanguageCode = 'en';
 export const languages = {

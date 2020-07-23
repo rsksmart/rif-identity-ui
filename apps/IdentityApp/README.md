@@ -7,6 +7,10 @@ To run start Android studio, open up the ADB Manager and start an emulated Andro
 npm install
 ```
 
+
+Start a credential issuer-server and set the URL in `src/providers/index`. In future versions, this URL may be located somewhere else. On Windows, using localhost failed, try using the IP address of your machine.
+
+
 **Run**
 ```
 npm run android

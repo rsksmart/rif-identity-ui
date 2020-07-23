@@ -47,3 +47,12 @@ Also
 cd ../../../../packages/RIFIdReactNative/ios
 pod install
 ```
+
+Shared stuff to be refactored:
+- Custom logger
+- Styles
+- IdentityApp/Libraries
+- LoadingComponent
+- Secure storage provider
+- Language files
+

@@ -1,19 +1,12 @@
-import React from 'react'
-import {StyleSheet} from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import colors from '../../styles/colors';
 
-import {ButtonInterface} from './interface';
+import { ButtonInterface } from './interface';
 import BaseButton from './BaseButton';
 
-const RoundButton: React.FC<ButtonInterface> = ({title, onPress, disabled}) => {
-  return (
-    <BaseButton
-      style={Styles}
-      onPress={onPress}
-      disabled={disabled}
-      title={title}
-    />
-  );
+const RoundButton: React.FC<ButtonInterface> = ({ title, onPress, disabled }) => {
+  return <BaseButton style={Styles} onPress={onPress} disabled={disabled} title={title} />;
 };
 
 const Styles = StyleSheet.create({
@@ -22,7 +15,9 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     width: 80,
     height: 80,
-    backgroundColor: colors.lightGray,
+    backgroundColor: '#ffffff',
+    borderColor: colors.lightGray,
+    borderWidth: 1,
     borderRadius: 40,
   },
   text: {

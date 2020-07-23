@@ -41,5 +41,6 @@
   "information_requested": "Requested information",
   "private_sending_notice": "This information will be sent privately to the issuer in order to certify the credentials.",
   "missing_requirements": "Incomplete information for the request. Please add it in the profile section.",
-  "date_requested": "Date requested"
+  "date_requested": "Date requested",
+  "settings": "Settings"
 }

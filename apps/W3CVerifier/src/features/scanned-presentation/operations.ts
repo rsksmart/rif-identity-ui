@@ -3,6 +3,8 @@ import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt } from './actions'
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation } from 'did-jwt-vc'
+import { mapFromPayload } from '../../api';
+import { scannedValidPresentation } from '../scanned-presentations-list/actions';
 
 export const RPC_URL = 'https://mainnet.infura.io/v3/1e0af90f0e934c88b0f0b6612146e07a';
 
@@ -17,18 +19,17 @@ const resolver = new Resolver(getResolver(providerConfig));
 
 export const scanQR = (jwt: string, navigation: any) => async (dispatch: Dispatch) => {
   dispatch(requestVerifyJwt())
-  console.log(jwt)
+
   verifyPresentation(jwt, resolver)
     .then((vp) => {
-      console.log('valid')
+      const presentation = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], jwt)
 
+      dispatch(receiveValidJwt(presentation))
       navigation.navigate('PresentationNavigation', { screen: 'Valid' });
-      dispatch(receiveValidJwt(vp))
+
+      dispatch(scannedValidPresentation(presentation))
     })
     .catch((err) => {
-      console.log('invalid')
-      console.log(err)
-
       navigation.navigate('PresentationNavigation', { screen: 'Invalid' });
       dispatch(receiveInvalidJwt())
     })

@@ -1,16 +1,11 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import ScannedPresentationsComponent from './ScannedPresentationsComponent';
 import { RootState } from '../../state/store';
 
 const mapStateToProps = (state: RootState) => ({
-});
+  presentations: state.presentationList.presentations,
+  emptyHistory: state.presentationList.presentations.length === 0
+})
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ScannedPresentationsComponent);
+export default connect(mapStateToProps)(ScannedPresentationsComponent);

@@ -1,7 +1,10 @@
+import { VerifiedPresentation } from '../../api';
+
 export enum SCANNED_PRESENTATIONS_ACTION_TYPES {
   REQUEST_SCANNED_PRESENTATIONS = 'REQUEST_SCANNED_PRESENTATIONS',
   RECEIVE_SCANNED_PRESENTATIONS = 'RECEIVE_SCANNED_PRESENTATIONS',
   RECEIVE_EMPTY_SCANNED_PRESENTATIONS = 'RECEIVE_EMPTY_SCANNED_PRESENTATIONS',
+  SCANNED_VALID_PRESENTATION = 'SCANNED_VALID_PRESENTATION' 
 }
 
 export const requestScannedPresentations = () => ({
@@ -14,5 +17,10 @@ export const receiveScannedPresentations = (presentations: string) => ({
 });
 
 export const receiveEmptyScannedPresentations = () => ({
-  type: SCANNED_PRESENTATIONS_ACTION_TYPES.REQUEST_SCANNED_PRESENTATIONS,
+  type: SCANNED_PRESENTATIONS_ACTION_TYPES.RECEIVE_EMPTY_SCANNED_PRESENTATIONS,
+})
+
+export const scannedValidPresentation = (presentation: VerifiedPresentation) => ({
+  type: SCANNED_PRESENTATIONS_ACTION_TYPES.SCANNED_VALID_PRESENTATION,
+  presentation
 })

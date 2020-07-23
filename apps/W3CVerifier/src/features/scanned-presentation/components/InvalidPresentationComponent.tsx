@@ -1,12 +1,42 @@
 import React from 'react';
 import {
-  Text,
+  Text, View, TouchableOpacity,
 } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
+import Styles from '../../../styles/react'
 
-const InvalidPresentationComponent: React.FC<{}> = () => {
+interface InvalidPresentationProps {
+  strings: any;
+  navigation: any;
+}
+
+const InvalidPresentationComponent: React.FC<InvalidPresentationProps> = ({
+  strings, navigation,
+}) => {
+
+  const handleGoToScanQR = () => navigation.navigate('MainFlow', { screen: 'ScanQR' })
+
+  const handleReportPolice = () => {
+    console.log('Reporting police')
+  }
   return (
-    <Text>IS NOT VALID!</Text>
+    <View>
+      <Text>IS NOT VALID!</Text>
+      <View>
+        <TouchableOpacity style={Styles.button} onPress={handleGoToScanQR}>
+          <View>
+            <Text style={Styles.text}>{strings.scan_again}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity style={Styles.button} onPress={handleReportPolice}>
+          <View>
+            <Text style={Styles.text}>{strings.report_police}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View> 
   );
 };
 

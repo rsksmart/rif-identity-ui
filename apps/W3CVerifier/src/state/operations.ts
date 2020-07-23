@@ -5,7 +5,7 @@ import { StorageProvider, STORAGE_KEYS } from '../Providers';
 import { 
   requestScannedPresentations, receiveScannedPresentations,
   receiveEmptyScannedPresentations
-} from '../features/actions';
+} from '../features/scanned-presentations-list/actions';
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestScannedPresentations());

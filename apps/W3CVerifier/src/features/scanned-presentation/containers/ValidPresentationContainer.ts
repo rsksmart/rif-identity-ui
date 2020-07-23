@@ -5,12 +5,8 @@ import ValidPresentationContainer from '../components/ValidPresentationComponent
 import { RootState } from '../../../state/store';
 
 const mapStateToProps = (state: RootState) => ({
+  presentation: state.scannedPresentation.presentation,
+  isVerifying: state.scannedPresentation.isVerifying
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ValidPresentationContainer);
+export default connect(mapStateToProps)(ValidPresentationContainer);

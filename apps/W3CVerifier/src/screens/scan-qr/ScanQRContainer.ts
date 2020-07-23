@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 
 import ScanQRComponent from './ScanQRComponent';
 import { RootState } from '../../state/store';
-import { scanQR } from './operations';
+import { scanQR } from '../../features/scanned-presentation/operations';
 
 const mapStateToProps = (state: RootState) => ({
 });

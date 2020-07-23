@@ -110,13 +110,6 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
-// simulate a slow server! :)
-const wait = (timeout: number) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-};
-
 const checkStatusOfCredential = async (hash: string) => {
   return await axios
     .get(ISSUER_SERVER + '/', {
@@ -169,7 +162,5 @@ export const checkStatusOfCredentials = (
   }
 
   // Add credentials to redux
-  wait(2000).then(() => {
-    dispatch(receiveAllPendingStatus(resultArray));
-  });
+  dispatch(receiveAllPendingStatus(resultArray));
 };

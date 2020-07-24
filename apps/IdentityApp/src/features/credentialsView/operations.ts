@@ -1,8 +1,14 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
+import EthrDID from 'ethr-did';
+import { Buffer } from 'buffer';
+// global.Buffer = Buffer; // very important
+global.Buffer = global.Buffer || require('buffer').Buffer
+
+import { JwtPresentationPayload, createVerifiablePresentationJwt } from 'did-jwt-vc'
 import { Credential, CredentialStatus } from './reducer';
-import { requestAllPendingStatus, receiveAllPendingStatus } from './actions';
+import { requestAllPendingStatus, receiveAllPendingStatus, requestPresentation, receivePresentation } from './actions';
 import { StorageProvider, STORAGE_KEYS, ISSUER_SERVER } from '../../Providers';
 import {
   requestCredential,
@@ -163,4 +169,28 @@ export const checkStatusOfCredentials = (
 
   // Add credentials to redux
   dispatch(receiveAllPendingStatus(resultArray));
+};
+
+
+export const createPresentation = (didHash: string) => async (dispatch: Dispatch) => {
+  console.log('getting presentation!', didHash);
+  dispatch(requestPresentation());
+  /*
+  const vpPayload: JwtPresentationPayload = {
+    vp: {
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiablePresentation'],
+      verifiableCredential: [jwt]
+    }
+  }
+
+  const holder = new EthrDID({
+    address: '0x46B9FFd5C5bDFb5800F1bdf1deD98463AFb0B66e',
+    privateKey: '0x0',
+  })
+
+  createVerifiablePresentationJwt(vpPayload, holder)
+    .then(presentation => dispatch(receivePresentation(presentation)));
+    */
+  dispatch(receivePresentation('hello'));
 };

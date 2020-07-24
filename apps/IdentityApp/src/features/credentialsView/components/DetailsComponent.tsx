@@ -16,15 +16,21 @@ interface DetailsComponentProps {
   credential: Credential;
   strings: any;
   removeCredential: (hash: String) => {};
+  createPresentation: (hash: String) => {};
 }
 
 const DetailsComponent: React.FC<DetailsComponentProps> = ({
   credential,
   removeCredential,
+  createPresentation,
   strings,
 }) => {
   const [showQr, setShowQr] = useState<boolean>(false);
 
+  const handleQrClick = () => {
+    setShowQr(true);
+    createPresentation(credential.hash);
+  }
   // if the credential does not have a hash, show blank
   if (!credential) {
     return (
@@ -78,7 +84,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
               )}
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
-                  <SquareButton title="Show QR Code" onPress={() => setShowQr(true)} />
+                  <SquareButton title="Show QR Code" onPress={handleQrClick} />
                   <ModalComponent visible={showQr}>
                     <View style={layoutStyles.column1}>
                       <QRDetailsContainer credentialHash={credential.hash} />

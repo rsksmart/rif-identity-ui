@@ -15,6 +15,7 @@ interface SummaryComponentProps {
   navigation: any;
   isLoading: boolean;
   checkPending: () => {};
+  createPresentation: (credentialHash: string) => {};
   isCheckingPendingStatus: boolean;
 }
 
@@ -25,6 +26,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   isLoading,
   checkPending,
   isCheckingPendingStatus,
+  createPresentation,
 }) => {
   const [qrModalHash, setQrModalHash] = useState(null);
   const handleClick = (clickType: string, credentialHash: string) => {
@@ -33,6 +35,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialHash: credentialHash });
     } else {
+      createPresentation(credentialHash);
       setQrModalHash(credentialHash);
     }
   };

@@ -44,5 +44,6 @@
   "date_requested": "Date requested",
   "settings": "Settings",
   "remove_credential": "Remove Credential from App",
-  "credential_removed": "Credential Removed"
+  "credential_removed": "Credential Removed",
+  "presentation_error": "Error receiving presentation from the server"
 }

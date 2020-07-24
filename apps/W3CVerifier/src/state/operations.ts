@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { changeLanguage } from 'redux-multilanguage';
 import * as RootNavigation from '../AppNavigation';
-import { StorageProvider, STORAGE_KEYS } from '../Providers';
+import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { 
   requestScannedPresentations, receiveScannedPresentations,
   receiveEmptyScannedPresentations
@@ -12,7 +12,7 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
 
   await StorageProvider.get(STORAGE_KEYS.SCANNED_CREDENTIALS)
     .then(presentations => {
-      dispatch(receiveScannedPresentations(presentations!));
+      dispatch(receiveScannedPresentations(JSON.parse(presentations!)));
     })
     .catch(() => {
       dispatch(receiveEmptyScannedPresentations());

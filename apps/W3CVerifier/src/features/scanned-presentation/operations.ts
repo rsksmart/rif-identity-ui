@@ -3,7 +3,9 @@ import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt } from './actions'
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation } from 'did-jwt-vc'
-import { mapFromPayload } from '../../api';
+import { mapFromPayload, VerifiedPresentation } from '../../api';
+import { saveScannedPresentation } from '../scanned-presentations-list/operations';
+import { StorageProvider, STORAGE_KEYS } from '../../providers';
 import { scannedValidPresentation } from '../scanned-presentations-list/actions';
 
 export const RPC_URL = 'https://mainnet.infura.io/v3/1e0af90f0e934c88b0f0b6612146e07a';
@@ -17,7 +19,7 @@ const providerConfig = {
 }
 const resolver = new Resolver(getResolver(providerConfig));
 
-export const scanQR = (jwt: string, navigation: any) => async (dispatch: Dispatch) => {
+export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[], navigation: any) => async (dispatch: Dispatch) => {
   dispatch(requestVerifyJwt())
 
   verifyPresentation(jwt, resolver)
@@ -25,9 +27,12 @@ export const scanQR = (jwt: string, navigation: any) => async (dispatch: Dispatc
       const presentation = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], jwt)
 
       dispatch(receiveValidJwt(presentation))
-      navigation.navigate('PresentationNavigation', { screen: 'Valid' });
-
+      
       dispatch(scannedValidPresentation(presentation))
+      const scanned = [...scannedPresentations, presentation]
+      StorageProvider.set(STORAGE_KEYS.SCANNED_CREDENTIALS, JSON.stringify(scanned)).then(() => {
+        navigation.navigate('PresentationNavigation', { screen: 'Valid' });
+      })
     })
     .catch((err) => {
       navigation.navigate('PresentationNavigation', { screen: 'Invalid' });

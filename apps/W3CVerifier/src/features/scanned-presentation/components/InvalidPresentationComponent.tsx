@@ -16,6 +16,8 @@ const InvalidPresentationComponent: React.FC<InvalidPresentationProps> = ({
 
   const handleGoToScanQR = () => navigation.navigate('MainFlow', { screen: 'ScanQR' })
 
+  const handleGoToCredentialList = () => navigation.navigate('PresentationNavigation', { screen: 'List' })
+
   const handleReportPolice = () => {
     console.log('Reporting police')
   }
@@ -36,6 +38,13 @@ const InvalidPresentationComponent: React.FC<InvalidPresentationProps> = ({
           </View>
         </TouchableOpacity>
       </View>
+      <View>
+      <TouchableOpacity style={Styles.button} onPress={handleGoToCredentialList}>
+        <View>
+          <Text style={Styles.text}>{strings.go_to_credential_list}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
     </View> 
   );
 };

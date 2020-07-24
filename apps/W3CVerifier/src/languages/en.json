@@ -7,5 +7,7 @@
   "scan_again": "Scan again",
   "report_police": "Report police",
   "view_details": "View details",
-  "hide_details": "Hide details"
+  "hide_details": "Hide details",
+  "scanned_credentials": "Scanned credentials",
+  "clean_scanned_credentials": "Clean scanned credentials"
 }

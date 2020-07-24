@@ -16,6 +16,8 @@ interface ValidPresentationProps {
 const ValidPresentationComponent: React.FC<ValidPresentationProps> = ({
   strings, presentation, navigation, isVerifying
 }) => {
+  console.log('HOLA')
+  console.log(presentation)
   const [ viewDetails, setViewDetails ] = useState(false)
 
   const handleGoToCredentialList = () => navigation.navigate('PresentationNavigation', { screen: 'List' })

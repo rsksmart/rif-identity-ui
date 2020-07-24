@@ -107,13 +107,14 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
     };
   }
   
-  if (presentation.credentialDetails.issuer !== EXPECTED_ISSUER) {
-    return {
-      ...baseFailedPresentation,
-      fullName: presentation.credentialDetails.credentialSubject['fullName'],
-      failureReason: 'Invalid issuer'
-    };
-  }
+  // REMOVED FOR TESTING PURPOSES
+  // if (presentation.credentialDetails.issuer !== EXPECTED_ISSUER) {
+  //   return {
+  //     ...baseFailedPresentation,
+  //     fullName: presentation.credentialDetails.credentialSubject['fullName'],
+  //     failureReason: 'Invalid issuer'
+  //   };
+  // }
   
   return presentation
 }

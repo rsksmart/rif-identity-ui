@@ -7,6 +7,8 @@ type LocalUiState = {
   isLoggedIn: boolean;
   loginError: string | null;
   did: string;
+  address: string;
+  privateKey: string;
 };
 
 export const initialState = {
@@ -16,6 +18,8 @@ export const initialState = {
   isLoggedIn: false,
   loginError: null,
   did: 'did:ethr:rsk:0x1234567801010101010101001',
+  address: '0x46B9FFd5C5bDFb5800F1bdf1deD98463AFb0B66e',
+  privateKey: '0x408f89abeca08043e74c01f951f428a4fd5206b10c383648171dc9d86812d2d8',
 };
 
 const reducer = (state: LocalUiState = initialState, action: any) => {

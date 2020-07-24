@@ -173,11 +173,16 @@ export const checkStatusOfCredentials = (
   dispatch(receiveAllPendingStatus(resultArray));
 };
 
-export const createPresentation = (didHash: string) => async (dispatch: Dispatch) => {
-  console.log('getting presentation!', didHash);
-
-  const jwt =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7InR5cGUiOiJJRCIsImZ1bGxOYW1lIjoiSmVzc2UgQ2xhcmsiLCJwaG9uZSI6IjMwMzgwNzU5ODEiLCJiaXJ0aGRhdGUiOiIyMDIwLTA3LTAzIn19LCJzdWIiOiJkaWQ6ZXRocjpyc2s6MHgxMjM0NTY3ODAxMDEwMTAxMDEwMTAxMDAxIiwibmJmIjoxNTYyOTUwMjgyLCJpc3MiOiJkaWQ6ZXRocjoweDQ2QjlGRmQ1QzViREZiNTgwMEYxYmRmMWRlRDk4NDYzQUZiMEI2NmUifQ.rrNhLYAFI-Hl-EjDLeUOKsBOcEATaCWZhutYwibSKDnLY8DVKk--ffcY-i5NpgxfD6R49NWScw6pvV-BLCAsSQ';
+/**
+ * Create presentation of a VC using the JWT, and the address and private key of the
+ * holder who is issuing the presentation.
+ * @param jwt JWT of the credential to be presented
+ * @param address address of the holder
+ * @param privateKey privateKey of the holder
+ */
+export const createPresentation = (jwt: string, address: string, privateKey: string) => async (
+  dispatch: Dispatch,
+) => {
   dispatch(requestPresentation());
 
   const vpPayload: JwtPresentationPayload = {
@@ -188,16 +193,9 @@ export const createPresentation = (didHash: string) => async (dispatch: Dispatch
     },
   };
 
-  const holder = new EthrDID({
-    address: '0x46B9FFd5C5bDFb5800F1bdf1deD98463AFb0B66e',
-    privateKey: '0x408f89abeca08043e74c01f951f428a4fd5206b10c383648171dc9d86812d2d8',
-  });
+  const holder = new EthrDID({ address: address, privateKey: privateKey });
 
-  createVerifiablePresentationJwt(vpPayload, holder).then(presentation => {
-    console.log('PRESENTATION!');
-    console.log(presentation);
-    dispatch(receivePresentation(presentation));
-  });
-
-  // dispatch(receivePresentation('hello'));
+  createVerifiablePresentationJwt(vpPayload, holder).then(presentation =>
+    dispatch(receivePresentation(presentation)),
+  );
 };

@@ -7,12 +7,14 @@ import { removeCredential, createPresentation } from '../operations';
 
 const mapStateToProps = (state: RootState) => ({
   allCredentials: state.credentials.credentials,
-  did: state.localUi.did,
+  address: state.localUi.address,
+  privateKey: state.localUi.privateKey,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeCredential: (hash: string) => dispatch(removeCredential(hash)),
-  createPresentation: (didHash: string) => dispatch(createPresentation(didHash)),
+  createPresentation: (credential: Credential, address: string, privateKey: string) =>
+    dispatch(createPresentation(credential.jwt, address, privateKey)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -22,7 +24,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   credential: stateProps.allCredentials.filter(
     (item: Credential) => item.hash === ownProps.route.params.credentialHash,
   )[0],
-  createPresentation: (hash: string) => dispatchProps.createPresentation(stateProps.did + hash),
+  createPresentation: (hash: string) =>
+    dispatchProps.createPresentation(
+      stateProps.allCredentials.filter((item: Credential) => item.hash === hash)[0],
+      stateProps.address,
+      stateProps.privateKey,
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(DetailsComponent);

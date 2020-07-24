@@ -17,12 +17,15 @@ const mapStateToProps = (state: RootState) => ({
   fullCredentials: state.credentials.credentials,
   isCheckingPendingStatus: state.credentials.isCheckingPendingStatus,
   did: state.localUi.did,
+  address: state.localUi.address,
+  privateKey: state.localUi.privateKey,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   checkPending: (credentials: Credential[], did: string) =>
     dispatch(checkStatusOfCredentials(credentials, did, CredentialStatus.PENDING)),
-    createPresentation: (didHash: string) => dispatch(createPresentation(didHash)),
+  createPresentation: (credential: Credential, address: string, privateKey: string) =>
+    dispatch(createPresentation(credential.jwt, address, privateKey)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -30,7 +33,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
   checkPending: () => dispatchProps.checkPending(stateProps.fullCredentials, stateProps.did),
-  createPresentation: (hash: string) => dispatchProps.createPresentation(stateProps.did + hash),
+  createPresentation: (hash: string) =>
+    dispatchProps.createPresentation(
+      stateProps.fullCredentials.filter((item: Credential) => item.hash === hash)[0],
+      stateProps.address,
+      stateProps.privateKey,
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SummaryComponent);

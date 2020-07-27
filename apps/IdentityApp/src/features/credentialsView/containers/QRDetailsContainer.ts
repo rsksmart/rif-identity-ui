@@ -2,14 +2,12 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../state/store';
 import { Credential } from '../reducer';
 import QRDetailsComponent from '../components/QRDetailsComponent';
-import { createPresentation } from '../operations';
 
 const mapStateToProps = (state: RootState) => ({
   did: state.localUi.did,
   allCredentials: state.credentials.credentials,
   presentation: state.credentials.presentation,
 });
-
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,

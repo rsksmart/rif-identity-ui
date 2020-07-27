@@ -4,6 +4,7 @@ import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import requirements from '../demoRequirements';
 import { sendRequestToServer } from '../../credentialsView/operations';
+import { ISSUERS } from '../../../Providers';
 
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
@@ -15,7 +16,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  requestCredential: metaData => dispatch(sendRequestToServer(metaData)),
+  requestCredential: metaData => dispatch(sendRequestToServer(ISSUERS[0], metaData)),
 });
 
 /*

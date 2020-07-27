@@ -1,5 +1,6 @@
 // import mockData from './mockData.json';
 import { CREDENTIAL_ACTION_TYPES } from './actions';
+import { serverInterface } from '../../../src/Providers';
 
 export enum CredentialTypes {
   AUTO = 'AUTO',
@@ -14,6 +15,7 @@ export enum CredentialStatus {
 }
 
 export interface Credential {
+  issuer: serverInterface;
   hash: string;
   status: CredentialStatus;
   dateRequested: Date;
@@ -103,7 +105,7 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
       return {
         ...state,
         presentation: action.presentation,
-      }
+      };
 
     case CREDENTIAL_ACTION_TYPES.RESET:
       return initialState;

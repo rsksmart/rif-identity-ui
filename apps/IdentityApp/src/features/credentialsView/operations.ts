@@ -11,7 +11,7 @@ import {
   requestPresentation,
   receivePresentation,
 } from './actions';
-import { StorageProvider, STORAGE_KEYS, ISSUER_SERVER } from '../../Providers';
+import { StorageProvider, STORAGE_KEYS, serverInterface } from '../../Providers';
 import {
   requestCredential,
   receiveCredential,
@@ -80,15 +80,16 @@ export const removeCredential = (hash: string) => async (dispatch: Dispatch) => 
  * Sends a request to the Credential Server.
  * @param metaData metaData in the credential
  */
-export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch) => {
+export const sendRequestToServer = (server: serverInterface, metaData: any) => async (dispatch: Dispatch) => {
   dispatch(requestCredential());
   // post to the credential server:
   axios
-    .post(ISSUER_SERVER + '/request', metaData)
+    .post(server.endpoint + '/request', metaData)
     .then(function (response) {
       // Create Credential object:
       console.log('hash', response.data.token);
       const credential: Credential = {
+        issuer: server,
         hash: response.data.token,
         status: CredentialStatus.PENDING,
         dateRequested: new Date(),
@@ -118,9 +119,9 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
-const checkStatusOfCredential = async (hash: string) => {
+const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
   return await axios
-    .get(ISSUER_SERVER + '/', {
+    .get(server.endpoint + '/', {
       params: {
         hash: hash,
       },
@@ -154,7 +155,7 @@ export const checkStatusOfCredentials = (
       if (selectStatus && item.status !== selectStatus) {
         return item;
       }
-      const jwt = await checkStatusOfCredential(keccak256(did + item.hash));
+      const jwt = await checkStatusOfCredential(item.issuer, keccak256(did + item.hash));
       didUpdate = true;
       return {
         ...item,

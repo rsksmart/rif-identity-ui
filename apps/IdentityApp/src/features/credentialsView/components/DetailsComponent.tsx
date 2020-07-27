@@ -57,6 +57,8 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
         <View style={layoutStyles.row}>
           <View style={layoutStyles.column1}>
             <View style={styles.details}>
+              <Text style={paragraphBold}>Issuer:</Text>
+              <Text style={[typeStyles.paragraph, styles.indent]}>{credential.issuer.name}</Text>
               <Text style={paragraphBold}>{strings.date_requested}:</Text>
               <Text style={[typeStyles.paragraph, styles.indent]}>
                 {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}

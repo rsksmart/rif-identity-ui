@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text, View, TouchableOpacity,
 } from 'react-native';
@@ -16,27 +16,57 @@ interface ValidPresentationProps {
 const ValidPresentationComponent: React.FC<ValidPresentationProps> = ({
   strings, presentation, navigation, isVerifying
 }) => {
+  console.log('HOLA')
+  console.log(presentation)
+  const [ viewDetails, setViewDetails ] = useState(false)
+
   const handleGoToCredentialList = () => navigation.navigate('PresentationNavigation', { screen: 'List' })
+
+  const handleViewDetails = () => setViewDetails(!viewDetails)
+  
+  const goToCredentialListbutton = (
+    <View>
+      <TouchableOpacity style={Styles.button} onPress={handleGoToCredentialList}>
+        <View>
+          <Text style={Styles.text}>{strings.go_to_credential_list}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+
+  const viewDetailsButton = (
+    <View>
+      <TouchableOpacity style={Styles.button} onPress={handleViewDetails}>
+        <View>
+          <Text style={Styles.text}>{viewDetails ? strings.hide_details : strings.view_details}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
 
   if (isVerifying) {
     'Loading...'
   }
 
+  if (viewDetails) {
+    return (
+      <View>
+        <Text>IS VALID!</Text>
+        {viewDetailsButton}
+        <Text>Full Name: {presentation.fullName}</Text>
+        <Text>Date scanned: {presentation.dateVerified.toString()}</Text>
+        {goToCredentialListbutton}
+      </View>
+    )
+  }
+
   return (
     <View>
       <Text>IS VALID!</Text>
-      <Text>Full Name: {presentation.fullName}</Text>
-      <Text>Date scanned: {presentation.dateVerified.toString()}</Text>
-
-      <View>
-        <TouchableOpacity style={Styles.button} onPress={handleGoToCredentialList}>
-          <View>
-            <Text style={Styles.text}>{strings.go_to_credential_list}</Text>
-          </View>
-        </TouchableOpacity>
-      </View> 
+      {viewDetailsButton}
+      {goToCredentialListbutton}
     </View>
-  );
+  )
 };
 
 export default multilanguage(ValidPresentationComponent);

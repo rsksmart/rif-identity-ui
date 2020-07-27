@@ -5,5 +5,9 @@
   "verify_jwt": "Verify JWT",
   "go_to_credential_list": "Go to credential list",
   "scan_again": "Scan again",
-  "report_police": "Report police"
+  "report_police": "Report police",
+  "view_details": "View details",
+  "hide_details": "Hide details",
+  "scanned_credentials": "Scanned credentials",
+  "clean_scanned_credentials": "Clean scanned credentials"
 }

@@ -1,5 +1,6 @@
 import { VerifiedPresentation } from '../../api';
 import { SCANNED_PRESENTATION_ACTION_TYPES } from './actions';
+import { SCANNED_PRESENTATIONS_ACTION_TYPES } from '../scanned-presentations-list/actions';
 
 interface ScannedPresentationStateInterface {
   validJwt?: boolean
@@ -14,6 +15,9 @@ const initialState: ScannedPresentationStateInterface = {
 }
 
 const reducer = (state: ScannedPresentationStateInterface = initialState, action: any) => {
+  if (action.type === SCANNED_PRESENTATION_ACTION_TYPES.RECEIVE_VALID_JWT) {
+    console.log(action)
+  }
   switch (action.type) {
     case SCANNED_PRESENTATION_ACTION_TYPES.REQUEST_VERIFY_JWT: 
       return {

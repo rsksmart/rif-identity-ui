@@ -4,18 +4,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import ModalComponent from '../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../Libraries/Button';
 import { typeStyles, layoutStyles } from '../../styles';
-import { languages } from '../../state/multiLanguageReducer';
 
 interface ChangeLangaugeModalProps {
   strings: any;
   selectedLanguage: string;
   changeLanguage: (language: string) => {};
+  languages: string[],
 }
 
 const ChangeLangaugeModal: React.FC<ChangeLangaugeModalProps> = ({
   strings,
   selectedLanguage,
   changeLanguage,
+  languages,
 }) => {
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
@@ -34,7 +35,7 @@ const ChangeLangaugeModal: React.FC<ChangeLangaugeModalProps> = ({
       <ModalComponent visible={languageModalVisible}>
         <View style={layoutStyles.column1}>
           <Text style={typeStyles.paragraph}>{strings.change_language}:</Text>
-          {Object.keys(languages).map(key => (
+          {languages.map(key => (
             <View style={styles.buttonContainer} key={key}>
               <SquareButton
                 title={strings[key]}

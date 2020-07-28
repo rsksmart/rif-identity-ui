@@ -7,6 +7,7 @@ import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 
 const mapStateToProps = (state: RootState) => ({
   selectedLanguage: state.multilanguage.currentLanguageCode,
+  languages: Object.keys(state.multilanguage.languages),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -8,6 +8,8 @@ target 'W3CVerifier' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'W3CVerifierTests' do
     inherit! :complete
     # Pods for testing
@@ -22,5 +24,3 @@ target 'W3CVerifier' do
     flipper_post_install(installer)
   end
 end
-
-pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

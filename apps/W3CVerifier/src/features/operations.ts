@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt } from './scanned-presentation/actions';
+import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt, showPresentationRequest } from './scanned-presentation/actions';
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation } from 'did-jwt-vc'
@@ -87,6 +87,12 @@ export const cleanStorage = () => async (dispatch: Dispatch) => {
   dispatch(cleanScannedPresentations())
   
   StorageProvider.remove(STORAGE_KEYS.SCANNED_CREDENTIALS)
+}
+
+export const showPresentation = (presentation: VerifiedPresentation, navigation: any) => async (dispatch: Dispatch) => {
+  dispatch(showPresentationRequest(presentation))
+      
+  navigation.navigate('PresentationNavigation', { screen: 'Details' });
 }
 
 const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFailedPresentation: VerifiedPresentation): VerifiedPresentation => {

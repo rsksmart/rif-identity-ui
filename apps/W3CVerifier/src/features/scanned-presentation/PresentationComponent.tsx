@@ -13,10 +13,11 @@ interface ValidPresentationProps {
   strings: any;
   presentation: VerifiedPresentation;
   navigation: any;
+  isVerifying: boolean;
 }
 
 const PresentationComponent: React.FC<ValidPresentationProps> = ({
-  strings, presentation, navigation
+  strings, presentation, navigation, isVerifying,
 }) => {
   const styles = StyleSheet.create({
     header: {
@@ -48,6 +49,11 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
 
   const handleGoToScanQR = () => navigation.navigate('MainFlow', { screen: 'ScanQR' })
 
+  if (isVerifying) {
+    return (
+      <Text>Verifying...</Text>
+    )
+  }
   return (
     <View style={layoutStyles.container}>
       <Text style={styles.header}>{presentation.success ? strings.success : strings.notSuccess}</Text>

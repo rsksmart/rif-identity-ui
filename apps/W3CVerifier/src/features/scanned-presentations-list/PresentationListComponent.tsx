@@ -6,17 +6,19 @@ import {
 } from 'react-native';
 import { VerifiedPresentation } from '../../api'
 import { layoutStyles, colors } from '../../styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
 interface PresentationListProps {
   presentations: VerifiedPresentation[];
   strings: any
+  handleShowPresentation: (presentation: VerifiedPresentation) => void,
 }
 
 const PresentationList: React.FC<PresentationListProps> = ({
   presentations,
   strings,
+  handleShowPresentation,
 }) => {
   const toDateString = (isoDate: string) => {
     const date = new Date(isoDate)
@@ -29,6 +31,9 @@ const PresentationList: React.FC<PresentationListProps> = ({
   }
 
   const styles = StyleSheet.create({
+    table: {
+      height: 500
+    },
     row: {
       alignSelf: 'stretch',
       flexDirection: 'row'
@@ -69,8 +74,10 @@ const PresentationList: React.FC<PresentationListProps> = ({
 
     const backgroundColor = odd ? colors.backgroundGray : colors.white;
 
+    const handleViewPresentation = () => handleShowPresentation(presentation)
+
     return (
-      <View style={{ ...styles.row, backgroundColor }}>
+      <TouchableOpacity key={i} onPress={handleViewPresentation} style={{ ...styles.row, backgroundColor }}>
         <View style={{...styles.cell, ...styles.citizenCell}}>
           <Text style={styles.citizenText}>{presentation.fullName || presentation.failureReason}</Text>
         </View>
@@ -80,7 +87,7 @@ const PresentationList: React.FC<PresentationListProps> = ({
         <View style={styles.cell}>
           <Text style={styles.contentText}>{presentation.success.toString()}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -98,7 +105,7 @@ const PresentationList: React.FC<PresentationListProps> = ({
     </View>
   )
   return (
-    <View>
+    <View style={styles.table}>
       {header}
       <ScrollView>
         {presentations.map(renderRow)}

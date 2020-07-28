@@ -12,7 +12,7 @@ export const requestScannedPresentations = () => ({
   type: SCANNED_PRESENTATIONS_ACTION_TYPES.REQUEST_SCANNED_PRESENTATIONS,
 });
 
-export const receiveScannedPresentations = (presentations: string) => ({
+export const receiveScannedPresentations = (presentations: VerifiedPresentation[]) => ({
   type: SCANNED_PRESENTATIONS_ACTION_TYPES.RECEIVE_SCANNED_PRESENTATIONS,
   presentations,
 });

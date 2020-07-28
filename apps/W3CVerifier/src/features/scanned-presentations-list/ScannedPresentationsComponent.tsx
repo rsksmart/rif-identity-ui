@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Text, View, TouchableOpacity,
+  Text, View,
 } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { VerifiedPresentation } from '../../api';
 import { layoutStyles, typeStyles } from '../../styles';
-import Styles from '../../styles/react'
+import Button from '../../shared/Button'
 
 interface ScannedPresentationProps {
   presentations: VerifiedPresentation[],
@@ -27,9 +27,9 @@ const ScannedPresentationsComponent: React.FC<ScannedPresentationProps> = ({
   }
   
   return (
-    <View>
+    <View style={layoutStyles.container}>
       <Text style={typeStyles.header1}>{strings.scanned_credentials}</Text>
-      <View style={{ ...layoutStyles.row}}>
+      <View style={layoutStyles.row}>
         {presentations.map(presentation => (
           <View>
             <Text>{presentation.fullName || presentation.failureReason}</Text>
@@ -39,11 +39,7 @@ const ScannedPresentationsComponent: React.FC<ScannedPresentationProps> = ({
         ))}
       </View>
       <View>
-        <TouchableOpacity style={Styles.button} onPress={handleCleanStorage}>
-          <View>
-            <Text style={Styles.text}>{strings.clean_scanned_credentials}</Text>
-          </View>
-        </TouchableOpacity>
+        <Button title={strings.clean_scanned_credentials} onPress={handleCleanStorage} />
       </View>
     </View>
   );

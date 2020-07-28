@@ -12,10 +12,11 @@ export const requestVerifyJwt = () => ({
   isVerifying: true,
 })
 
-export const receiveInvalidJwt = () => ({
+export const receiveInvalidJwt = (presentation: VerifiedPresentation) => ({
   type: SCANNED_PRESENTATION_ACTION_TYPES.RECEIVE_INVALID_JWT,
   isVerifying: false,
   validJwt: false,
+  presentation,
 })
 
 export const receiveValidJwt = (presentation: VerifiedPresentation) => ({

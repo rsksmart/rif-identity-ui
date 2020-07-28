@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import {
   StyleSheet,
@@ -6,16 +7,12 @@ import {
   TouchableOpacity,
   View,
   Text,
-  GestureResponderEvent,
 } from 'react-native';
 import moment from 'moment';
 
-import { layoutStyles, typeStyles } from '../../../styles/';
 import DisplayItem from './DisplayItem';
-
 import { ProfileInterface } from '../reducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { SquareButton } from '../../../Libraries/Button';
 
 interface ProfileViewComponentProps {
   strings: any;
@@ -30,11 +27,12 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   isEmpty,
   navigation,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
-    <ScrollView style={layoutStyles.container}>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>
+    <ScrollView style={layout.container}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>
             {strings.personal_info}
           </Text>
           <TouchableOpacity
@@ -42,7 +40,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             onPress={() => navigation.navigate('Settings', {})}>
             <FontAwesome name="cog" size={25} />
           </TouchableOpacity>
-          <Text style={typeStyles.paragraph}>{strings.profile_explanation}</Text>
+          <Text style={typography.paragraph}>{strings.profile_explanation}</Text>
 
           <View style={styles.viewProfile}>
             <TouchableOpacity
@@ -57,7 +55,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
             </TouchableOpacity>
 
             {isEmpty && (
-              <Text style={[typeStyles.paragraph, styles.empty]}>
+              <Text style={[typography.paragraph, styles.empty]}>
                 {strings.no_personal_details}
               </Text>
             )}

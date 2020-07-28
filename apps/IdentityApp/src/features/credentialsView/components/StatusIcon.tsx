@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { CredentialStatus } from '../reducer';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,13 +10,14 @@ interface StatusIconProps {
 }
 
 const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
+  const { colors }: ThemeInterface = useContext(ThemeContext);
   switch (status) {
     case 'CERTIFIED':
-      return <Ionicons name="checkmark-circle-outline" size={30} color="#008FF7" />;
+      return <Ionicons name="checkmark-circle-outline" size={30} color={colors.blue} />;
     case 'PENDING':
-      return <Ionicons name="time-outline" size={30} color="#FFB800" />;
+      return <Ionicons name="time-outline" size={30} color={colors.yellow} />;
     case 'DENIED':
-      return <Ionicons name="close-circle-outline" size={30} color="#BD0000" />;
+      return <Ionicons name="close-circle-outline" size={30} color={colors.red} />;
     default:
       return <FontAwesome name="question" size={15} />;
   }

@@ -6,7 +6,10 @@ const colors = {
   gray: '#CCCCCC',
   lightGray: '#e1e1e1',
   darkGray: '#909090',
-  error: '#BD0000',
+  red: '#BD0000',
+  blue: '#008FF7',
+  yellow: '#FFB800',
+  green: '#008000',
 }
 
 const typeSettings = {
@@ -15,7 +18,7 @@ const typeSettings = {
     marginBottom: 10,
   }
 }
-const type = {
+const typography = {
   header1: {
     ...typeSettings.margin,
     fontSize: 30,
@@ -30,13 +33,18 @@ const type = {
     ...typeSettings.margin,
     fontSize: 16,
   },
+  paragraphBold: {
+    ...typeSettings.margin,
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
   bold: {
     fontWeight: 'bold',
   },
   error: {
     ...typeSettings.margin,
     fontSize: 20,
-    backgroundColor: colors.error,
+    backgroundColor: colors.red,
     color: colors.white,
     padding: 10,
     textAlign: 'center',
@@ -83,7 +91,8 @@ const layout = {
   textInput: {
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: '#919191',
+    borderColor: colors.darkGray,
+    height: 55,
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -92,7 +101,7 @@ const layout = {
 export const theme = {
   name: 'Jesse Default',
   colors: colors,
-  type: type,
+  typography: typography,
   layout: layout,
 };
 

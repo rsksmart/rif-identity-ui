@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import {View, Text} from 'react-native';
 
 import PinButtons from '../../../../Libraries/PinInput/PinInputComponent';
-import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface CreatePinScreenProps {
   onSubmit: () => {};
@@ -13,12 +13,13 @@ const CreatePinScreen: React.FC<CreatePinScreenProps> = ({
   onSubmit,
   errorMessage,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
-    <View style={layoutStyles.column1}>
-      <Text style={typeStyles.paragraph}>
+    <View style={layout.column1}>
+      <Text style={typography.paragraph}>
         To access your account quicker, please create a pin that is up to 8 digits long.
       </Text>
-      {errorMessage && <Text style={typeStyles.error}>{errorMessage}</Text>}
+      {errorMessage && <Text style={typography.error}>{errorMessage}</Text>}
       <PinButtons maxDigits={8} onSubmit={onSubmit} hidePin />
     </View>
   );

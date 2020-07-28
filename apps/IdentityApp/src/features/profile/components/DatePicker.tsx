@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, TouchableOpacity, Text, View, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import { typeStyles, layoutStyles } from '../../../styles';
 
 interface DatePickerProps {
   name: string;
@@ -11,6 +11,7 @@ interface DatePickerProps {
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ name, value, onChange }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [date, setDate] = useState(value ? new Date(value) : null);
   const [show, setShow] = useState(false);
 
@@ -27,10 +28,10 @@ const DatePicker: React.FC<DatePickerProps> = ({ name, value, onChange }) => {
 
   return (
     <View>
-      <Text style={typeStyles.paragraph}>{name}</Text>
+      <Text style={typography.paragraph}>{name}</Text>
       <View>
         <TouchableOpacity
-          style={{ ...layoutStyles.textInput, ...styles.display }}
+          style={[ layout.textInput, styles.display ]}
           onPress={showDatepicker}>
           <Text>{date ? moment(date).format('MMM D YYYY') : ''}</Text>
         </TouchableOpacity>

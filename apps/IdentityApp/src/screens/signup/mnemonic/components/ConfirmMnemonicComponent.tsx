@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import {StyleSheet, View, Text} from 'react-native';
 import {SquareButton} from '../../../../Libraries/Button';
-
-import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
@@ -17,6 +16,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   onSubmit,
   start,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [wordList, setWordList] = useState([]);
   const [selectedWords, setSelectedWords] = useState([]);
 
@@ -40,17 +40,17 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
 
   return (
     <>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.paragraph}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.paragraph}>
             Select the words in order to confirm you know them.
           </Text>
         </View>
       </View>
-      <View style={layoutStyles.row}>
+      <View style={layout.row}>
         {wordList.map((word) => (
           <View
-            style={{...layoutStyles.column3, ...styles.buttonColumn}}
+            style={[ layout.column3, styles.buttonColumn]}
             key={word}>
             <SquareButton
               title={word}
@@ -61,15 +61,15 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
         ))}
       </View>
 
-      {isError && <Text style={typeStyles.error}>{isError}</Text>}
+      {isError && <Text style={typography.error}>{isError}</Text>}
 
-      <View style={layoutStyles.row}>
-        <View style={{...layoutStyles.borderRow, ...styles.wordList}}>
-          <Text style={typeStyles.paragraph}>{selectedWords.join(', ')}</Text>
+      <View style={layout.row}>
+        <View style={[ layout.borderRow, styles.wordList ]}>
+          <Text style={typography.paragraph}>{selectedWords.join(', ')}</Text>
         </View>
       </View>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
           <SquareButton
             title="Next"
             disabled={selectedWords.length !== mnemonic.length}

@@ -10,9 +10,19 @@ export interface ThemeInterface {
     error: string,
   },
   type: {
-
+    header1: {},
+    header2: {},
+    paragraph: {},
+    paragraphBold: {},
+    bold: {},
+    error: {},
   },
   layout: {
-    
+    container: {},
+    row: {},
+    column1: {},
+    column2: {},
+    column3: {},
+    textInput: {},
   }
 }

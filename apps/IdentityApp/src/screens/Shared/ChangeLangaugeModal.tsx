@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { View, Text, StyleSheet } from 'react-native';
 import ModalComponent from '../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../Libraries/Button';
-import { typeStyles, layoutStyles } from '../../styles';
 
 interface ChangeLangaugeModalProps {
   strings: any;
@@ -24,7 +24,7 @@ const ChangeLangaugeModal: React.FC<ChangeLangaugeModalProps> = ({
     setLanguageModalVisible(false);
     changeLanguage(language);
   };
-
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
     <>
       <SquareButton
@@ -33,8 +33,8 @@ const ChangeLangaugeModal: React.FC<ChangeLangaugeModalProps> = ({
         variation="hollow"
       />
       <ModalComponent visible={languageModalVisible}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.paragraph}>{strings.change_language}:</Text>
+        <View style={layout.column1}>
+          <Text style={typography.paragraph}>{strings.change_language}:</Text>
           {languages.map(key => (
             <View style={styles.buttonContainer} key={key}>
               <SquareButton

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
-import { layoutStyles, typeStyles } from '../../../styles';
 import { SquareButton } from '../../../Libraries/Button';
 import ChangeLangaugeModalContainer from '../../../screens/Shared/ChangeLangaugeModalContainer';
 
@@ -19,12 +19,13 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
   startOverPress,
   reverify,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
     <BackScreenComponent>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.settings}</Text>
-          <Text style={typeStyles.paragraph}>APK version: {version}</Text>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.settings}</Text>
+          <Text style={typography.paragraph}>APK version: {version}</Text>
 
           <View style={styles.buttonView}>
             <SquareButton title="Reverify All Credentials" variation="hollow" onPress={reverify} />

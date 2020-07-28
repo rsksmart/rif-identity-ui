@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { layoutStyles, typeStyles } from '../../../styles';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { ProfileInterface } from '../../../features/profile/reducer';
@@ -33,6 +33,8 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   isRequestingCredential,
   requestCredentialError,
 }) => {
+  const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
+
   const handlePress = () => {
     let metaData = { type: type };
     requirements[type].forEach(item => {
@@ -54,9 +56,9 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
     const itemValue = profile[item];
     const icon =
       itemValue === '' || !itemValue ? (
-        <MaterialCommunityIcons name="close" size={20} color="#BD0000" />
+        <MaterialCommunityIcons name="close" size={20} color={colors.red} />
       ) : (
-        <MaterialCommunityIcons name="check" size={20} color="#008000" />
+        <MaterialCommunityIcons name="check" size={20} color={colors.green} />
       );
 
     return (
@@ -67,16 +69,16 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layoutStyles.container}>
+    <ScrollView style={layout.container}>
       <BackScreenComponent>
-        <View style={layoutStyles.row}>
-          <View style={layoutStyles.column1}>
-            <Text style={typeStyles.header1}>{strings.confirm_request}</Text>
-            <Text style={typeStyles.paragraph}>{strings.confirm_sharing}</Text>
+        <View style={layout.row}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.confirm_request}</Text>
+            <Text style={typography.paragraph}>{strings.confirm_sharing}</Text>
 
             <View style={styles.grayBox}>
-              <Text style={typeStyles.header1}>{strings[type.toLowerCase()]}</Text>
-              <Text style={[typeStyles.paragraph, typeStyles.bold]}>
+              <Text style={typography.header1}>{strings[type.toLowerCase()]}</Text>
+              <Text style={typography.paragraphBold}>
                 {strings.information_requested}:
               </Text>
 

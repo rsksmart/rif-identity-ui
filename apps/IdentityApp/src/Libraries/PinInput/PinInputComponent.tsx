@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
 
-import { layoutStyles, typeStyles } from '../../styles';
 import { RoundButton, SquareButton } from '../Button';
 
 interface PinButtonsProps {
@@ -11,6 +11,7 @@ interface PinButtonsProps {
 }
 
 const PinButtons: React.FC<PinButtonsProps> = ({ onSubmit, hidePin, maxDigits }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [sequence, setSequence] = useState([]);
 
   // add or remove item from the sequence by not mutating the state.
@@ -32,31 +33,31 @@ const PinButtons: React.FC<PinButtonsProps> = ({ onSubmit, hidePin, maxDigits })
 
   return (
     <>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={[typeStyles.header1, styles.userInput]}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={[typography.header1, styles.userInput]}>
             {hidePin ? [...Array(sequence.length)].map(() => '* ') : sequence.join(' ')}
           </Text>
         </View>
       </View>
-      <View style={layoutStyles.row}>
+      <View style={layout.row}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map(digit => {
           const zeroStyle = digit === 0 ? [styles.zeroContainer] : [];
           return (
-            <View style={[layoutStyles.column3, styles.numberContainer, zeroStyle]} key={digit}>
+            <View style={[layout.column3, styles.numberContainer, zeroStyle]} key={digit}>
               <RoundButton title={digit.toString()} onPress={() => onPress(digit)} />
             </View>
           );
         })}
         {sequence.length !== 0 && (
-          <View style={layoutStyles.column3}>
+          <View style={layout.column3}>
             <RoundButton title="X" onPress={() => onPress('x')} />
           </View>
         )}
       </View>
 
-      <View style={layoutStyles.row}>
-        <View style={[layoutStyles.column1, styles.buttonRow]}>
+      <View style={layout.row}>
+        <View style={[layout.column1, styles.buttonRow]}>
           <SquareButton title="Next" onPress={handleSubmit} />
         </View>
       </View>

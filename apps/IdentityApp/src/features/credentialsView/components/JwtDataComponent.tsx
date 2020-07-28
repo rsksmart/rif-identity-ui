@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
-import { typeStyles, layoutStyles } from '../../../styles';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -16,15 +16,15 @@ interface JwtInterface {
 }
 
 const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => {
-  const paragraphBold = [typeStyles.paragraph, typeStyles.bold];
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const data: JwtInterface = jwtDecode(jwt);
   const metadata: any = data.vc.credentialSubject;
-
+  
   return (
     <View>
-      <Text style={paragraphBold}>Credential Metadata:</Text>
+      <Text style={typography.paragraphBold}>Credential Metadata:</Text>
       {Object.keys(metadata).map(key => (
-        <View style={layoutStyles.row} key={key}>
+        <View style={layout.row} key={key}>
           <View style={styles.headingColumn}>
             <Text style={styles.heading}>{strings[key] ? strings[key] : key}</Text>
           </View>
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     color: '#919191',
     fontSize: 16,
     textTransform: 'capitalize',
+    paddingBottom: 5,
   },
   value: {
     fontSize: 16,

@@ -16,12 +16,12 @@ const SigninWithPinComponent: React.FC<SigninWithPinComponentProps> = ({
   errorMessage,
   strings,
 }) => {
-  const theme: ThemeInterface = useContext(ThemeContext);
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
-    <View style={theme.layout.container}>
-      <View style={theme.layout.column1}>
-        <Text style={theme.type.header1}>{strings.login_with_pin}</Text>
-        {errorMessage && <Text style={theme.type.error}>{strings[errorMessage]}</Text>}
+    <View style={layout.container}>
+      <View style={layout.column1}>
+        <Text style={typography.header1}>{strings.login_with_pin}</Text>
+        {errorMessage && <Text style={typography.error}>{strings[errorMessage]}</Text>}
         <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
       </View>
     </View>

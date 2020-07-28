@@ -13,11 +13,12 @@
   "success": "Success!",
   "valid_id_credential_card": "ID card credential is valid.",
   "invalid_id_credential_card": "ID card credential is invalid.",
-  "notSuccess": "Opps...",
+  "notSuccess": "Oops...",
   "international": "Is international",
   "fullName": "Full name",
   "licenseNumber": "License number",
   "issuanceOffice": "Issuance office",
   "typeOfVehicle": "Type of vehicle",
-  "typeOfLicense": "Type of license"
+  "typeOfLicense": "Type of license",
+  "no_presentations": "No presentations scanned yet"
 }

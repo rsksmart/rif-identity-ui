@@ -3,13 +3,14 @@ import colors from './colors';
 
 const typeMargin = {
   marginBottom: 10,
-  marginTop: 10,
+  marginTop: 70,
 };
 
 const styles = StyleSheet.create({
   header1: {
+    ...typeMargin,
     fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 30,
     lineHeight: 35,
     display: 'flex',

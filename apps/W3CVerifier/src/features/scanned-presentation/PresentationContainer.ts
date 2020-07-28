@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
 import PresentationContainer from './PresentationComponent';
 import { RootState } from '../../state/store';

@@ -54,6 +54,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
       <Text>Verifying...</Text>
     )
   }
+  
   return (
     <View style={layoutStyles.container}>
       <Text style={styles.header}>{presentation.success ? strings.success : strings.notSuccess}</Text>

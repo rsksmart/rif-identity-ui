@@ -1,4 +1,5 @@
 import React from 'react';
+import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
@@ -8,9 +9,10 @@ import StatusIcon from './StatusIcon';
 
 interface QRDetailsComponentProps {
   credential: Credential | null;
+  strings: any;
 }
 
-const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({ credential }) => {
+const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({ credential, strings }) => {
   if (!credential) {
     return <></>;
   }
@@ -18,12 +20,12 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({ credential }) =
   return (
     <View style={styles.view}>
       <Text style={typeStyles.header2}>
-        {credential.name} <StatusIcon status="CERTIFIED" />
+        {strings[credential.type.toLowerCase()]} <StatusIcon status="CERTIFIED" />
       </Text>
       <View style={styles.qrView}>
-        <QRCode value={credential.name} size={200} />
+        <QRCode value={strings[credential.type.toLowerCase()]} size={200} />
       </View>
-      <Text>credential data</Text>
+      <Text>presentation data</Text>
     </View>
   );
 };
@@ -39,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QRDetailsComponent;
+export default multilanguage(QRDetailsComponent);

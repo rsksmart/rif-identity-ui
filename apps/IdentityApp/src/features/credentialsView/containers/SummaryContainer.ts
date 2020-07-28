@@ -1,17 +1,34 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { SummaryComponent } from '../components';
 import { RootState } from '../../../state/store';
-import { Credential } from '../reducer';
+import { Credential, CredentialStatus } from '../reducer';
+import { checkStatusOfCredentials } from '../operations';
 
 const simpleCredentials = (credentials: Credential[]) => {
   return credentials.map((item: Credential) => {
-    const { name, id, status, type } = item;
-    return { name, id, status, type };
+    const { hash, status, type } = item;
+    return { hash, status, type };
   });
 };
 
 const mapStateToProps = (state: RootState) => ({
   credentials: simpleCredentials(state.credentials.credentials),
+  fullCredentials: state.credentials.credentials,
+  isCheckingPendingStatus: state.credentials.isCheckingPendingStatus,
+  did: state.localUi.did,
 });
 
-export default connect(mapStateToProps)(SummaryComponent);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  checkPending: (credentials: Credential[], did: string) =>
+    dispatch(checkStatusOfCredentials(credentials, did, CredentialStatus.PENDING)),
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  checkPending: () => dispatchProps.checkPending(stateProps.fullCredentials, stateProps.did),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SummaryComponent);

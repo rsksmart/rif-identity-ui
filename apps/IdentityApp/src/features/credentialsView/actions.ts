@@ -1,23 +1,47 @@
 import { Credential } from './reducer';
 
 export enum CREDENTIAL_ACTION_TYPES {
-  REQUEST_CREDENTIALS = 'REQUEST_CREDENTIALS',
-  RECEIVE_CREDENTIALS = 'RECEIVE_CREDENTIALS',
-  ADD_CREDENTIAL = 'ADD_CREDENTIAL',
+  REQUEST_ALL_CREDENTIALS = 'REQUEST_ALL_CREDENTIALS',
+  RECEIVE_ALL_CREDENTIALS = 'RECEIVE_ALL_CREDENTIALS',
+
+  REQUEST_CREDENTIAL = 'REQUEST_CREDENTIAL',
+  RECEIVE_CREDENTAIL = 'RECEIVE_CREDENTAIL',
+  ERROR_REQUEST_CREDENTIAL = 'ERROR_REQUEST_CREDENTIAL',
+
+  REQUEST_ALL_PENDING_STATUS = 'REQUEST_ALL_PENDING_STATUS',
+  RECEIVE_ALL_PENDING_STATUS = 'RECEIVE_ALL_PENDING_STATUS',
   RESET = 'RESET',
 }
 
-export const addCredential = (credential: Credential) => ({
-  type: CREDENTIAL_ACTION_TYPES.ADD_CREDENTIAL,
+export const requestCredential = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIAL,
+});
+
+export const receiveCredential = (credential: Credential) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL,
   credential,
 });
 
-export const requestCredentials = () => ({
-  type: CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIALS,
+export const errorRequestCredential = (message: string) => ({
+  type: CREDENTIAL_ACTION_TYPES.ERROR_REQUEST_CREDENTIAL,
+  message,
 });
 
-export const receiveCredentials = (credentials: Credential[]) => ({
-  type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTIALS,
+export const requestAllCredentials = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_ALL_CREDENTIALS,
+});
+
+export const receiveAllCredentials = (credentials: Credential[]) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_CREDENTIALS,
+  credentials,
+});
+
+export const requestAllPendingStatus = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_ALL_PENDING_STATUS,
+});
+
+export const receiveAllPendingStatus = (credentials: Credential[]) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_PENDING_STATUS,
   credentials,
 });
 

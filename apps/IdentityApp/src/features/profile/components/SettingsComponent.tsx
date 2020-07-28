@@ -4,6 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { layoutStyles, typeStyles } from '../../../styles';
 import { SquareButton } from '../../../Libraries/Button';
+import ChangeLangaugeModalContainer from '../../../screens/Shared/ChangeLangaugeModalContainer';
 
 interface SettingsComponentProps {
   strings: any;
@@ -31,6 +32,10 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
 
           <View style={styles.buttonView}>
             <SquareButton title="Reset entire App" variation="hollow" onPress={startOverPress} />
+          </View>
+
+          <View style={styles.buttonView}>
+            <ChangeLangaugeModalContainer />
           </View>
         </View>
       </View>

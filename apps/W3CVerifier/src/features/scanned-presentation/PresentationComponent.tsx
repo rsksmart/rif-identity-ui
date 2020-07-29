@@ -8,6 +8,7 @@ import ValidationResult from './ValidationResult'
 import { VerifiedPresentation } from '../../api';
 import PresentationDetails from './DetailComponent'
 import { layoutStyles, colors } from '../../styles';
+import LoadingComponent from '../../screens/shared/LoadingComponent';
 
 interface ValidPresentationProps {
   strings: any;
@@ -51,7 +52,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
 
   if (isVerifying) {
     return (
-      <Text>Verifying...</Text>
+      <LoadingComponent />
     )
   }
   

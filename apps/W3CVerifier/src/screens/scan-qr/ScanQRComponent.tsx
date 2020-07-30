@@ -25,39 +25,8 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
   const handleVerifyPress = () => handleScan(jwt, navigation)
 
   const onQrcodeDetected = (data: string) => {
-    console.log('data')
-    console.log(data)
     setJwt(data);
     handleScan(data, navigation)
-    // const { navigation, addNotification } = this.props;
-    // const {
-    //   coin, onDetectedAction,
-    // } = navigation.state.params;
-
-    // this.isAddressValid = Scan.validateAddress(data, coin.symbol, coin.type, coin.networkId);
-    // if (!this.isAddressValid) {
-    //   const notification = createErrorNotification(
-    //     'modal.invalidAddress.title',
-    //     'modal.invalidAddress.body',
-    //   );
-    //   addNotification(notification);
-    //   navigation.goBack();
-    //   return;
-    // }
-
-    // if (onDetectedAction === 'backToTransfer') {
-    //   navigation.state.params.onQrcodeDetected(data);
-    //   navigation.goBack();
-    // } else {
-    //   const resetAction = StackActions.reset({
-    //     index: 1,
-    //     actions: [
-    //       NavigationActions.navigate({ routeName: 'Dashboard' }),
-    //       NavigationActions.navigate({ routeName: 'Transfer', params: { coin, toAddress: data } }),
-    //     ],
-    //   });
-    //   navigation.dispatch(resetAction);
-    // }
   }
 
   const onBarCodeRead = (scanResult: any) => {

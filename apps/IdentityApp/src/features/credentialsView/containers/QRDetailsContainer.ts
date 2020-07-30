@@ -4,7 +4,9 @@ import { Credential } from '../reducer';
 import QRDetailsComponent from '../components/QRDetailsComponent';
 
 const mapStateToProps = (state: RootState) => ({
+  did: state.localUi.did,
   allCredentials: state.credentials.credentials,
+  presentation: state.credentials.presentation,
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

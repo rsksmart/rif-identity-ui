@@ -3,7 +3,7 @@
 const requirements = {
   ID: ['fullName', 'phone', 'birthdate'],
   PASSPORT: ['fullName', 'idNumber', 'civilStatus'],
-  AUTO: ['fullName', 'email'],
+  AUTO: ['fullName', 'phone', 'birthdate', 'email', 'idNumber', 'civilStatus'],
 };
 
 export default requirements;

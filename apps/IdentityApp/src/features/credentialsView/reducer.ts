@@ -1,5 +1,6 @@
 // import mockData from './mockData.json';
 import { CREDENTIAL_ACTION_TYPES } from './actions';
+import { serverInterface } from '../../../src/Providers';
 
 export enum CredentialTypes {
   AUTO = 'AUTO',
@@ -14,6 +15,7 @@ export enum CredentialStatus {
 }
 
 export interface Credential {
+  issuer: serverInterface;
   hash: string;
   status: CredentialStatus;
   dateRequested: Date;
@@ -37,6 +39,7 @@ export interface CredentialsStateInterface {
   isRequestingCredential: boolean;
   isCheckingPendingStatus: boolean;
   requestCredentialError: string | null;
+  presentation: string | null;
 }
 
 export const initialState = {
@@ -45,6 +48,7 @@ export const initialState = {
   isRequestingCredential: false,
   isCheckingPendingStatus: false,
   requestCredentialError: null,
+  presentation: null,
 };
 
 const reducer = (state: CredentialsStateInterface = initialState, action: any) => {
@@ -90,6 +94,17 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
         ...state,
         isCheckingPendingStatus: false,
         credentials: action.credentials,
+      };
+
+    case CREDENTIAL_ACTION_TYPES.REQUEST_PRESENTATION:
+      return {
+        ...state,
+        presentation: null,
+      };
+    case CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION:
+      return {
+        ...state,
+        presentation: action.presentation,
       };
 
     case CREDENTIAL_ACTION_TYPES.RESET:

@@ -1,9 +1,17 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
+import EthrDID from 'ethr-did';
+
+import { JwtPresentationPayload, createVerifiablePresentationJwt } from 'did-jwt-vc';
 import { Credential, CredentialStatus } from './reducer';
-import { requestAllPendingStatus, receiveAllPendingStatus } from './actions';
-import { StorageProvider, STORAGE_KEYS, ISSUER_SERVER } from '../../Providers';
+import {
+  requestAllPendingStatus,
+  receiveAllPendingStatus,
+  requestPresentation,
+  receivePresentation,
+} from './actions';
+import { StorageProvider, STORAGE_KEYS, serverInterface } from '../../Providers';
 import {
   requestCredential,
   receiveCredential,
@@ -72,15 +80,16 @@ export const removeCredential = (hash: string) => async (dispatch: Dispatch) => 
  * Sends a request to the Credential Server.
  * @param metaData metaData in the credential
  */
-export const sendRequestToServer = (metaData: any) => async (dispatch: Dispatch) => {
+export const sendRequestToServer = (server: serverInterface, metaData: any) => async (dispatch: Dispatch) => {
   dispatch(requestCredential());
   // post to the credential server:
   axios
-    .post(ISSUER_SERVER + '/request', metaData)
+    .post(server.endpoint + '/request', metaData)
     .then(function (response) {
       // Create Credential object:
       console.log('hash', response.data.token);
       const credential: Credential = {
+        issuer: server,
         hash: response.data.token,
         status: CredentialStatus.PENDING,
         dateRequested: new Date(),
@@ -110,16 +119,9 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
-// simulate a slow server! :)
-const wait = (timeout: number) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-};
-
-const checkStatusOfCredential = async (hash: string) => {
+const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
   return await axios
-    .get(ISSUER_SERVER + '/', {
+    .get(server.endpoint + '/', {
       params: {
         hash: hash,
       },
@@ -153,7 +155,7 @@ export const checkStatusOfCredentials = (
       if (selectStatus && item.status !== selectStatus) {
         return item;
       }
-      const jwt = await checkStatusOfCredential(keccak256(did + item.hash));
+      const jwt = await checkStatusOfCredential(item.issuer, keccak256(did + item.hash));
       didUpdate = true;
       return {
         ...item,
@@ -169,7 +171,32 @@ export const checkStatusOfCredentials = (
   }
 
   // Add credentials to redux
-  wait(2000).then(() => {
-    dispatch(receiveAllPendingStatus(resultArray));
-  });
+  dispatch(receiveAllPendingStatus(resultArray));
+};
+
+/**
+ * Create presentation of a VC using the JWT, and the address and private key of the
+ * holder who is issuing the presentation.
+ * @param jwt JWT of the credential to be presented
+ * @param address address of the holder
+ * @param privateKey privateKey of the holder
+ */
+export const createPresentation = (jwt: string, address: string, privateKey: string) => async (
+  dispatch: Dispatch,
+) => {
+  dispatch(requestPresentation());
+
+  const vpPayload: JwtPresentationPayload = {
+    vp: {
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      type: ['VerifiablePresentation'],
+      verifiableCredential: [jwt],
+    },
+  };
+
+  const holder = new EthrDID({ address: address, privateKey: privateKey });
+
+  createVerifiablePresentationJwt(vpPayload, holder).then(presentation =>
+    dispatch(receivePresentation(presentation)),
+  );
 };

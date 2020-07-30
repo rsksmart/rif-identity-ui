@@ -8,6 +8,9 @@ export enum CREDENTIAL_ACTION_TYPES {
   RECEIVE_CREDENTAIL = 'RECEIVE_CREDENTAIL',
   ERROR_REQUEST_CREDENTIAL = 'ERROR_REQUEST_CREDENTIAL',
 
+  REQUEST_PRESENTATION = 'REQUEST_PRESENTATION',
+  RECEIVE_PRESENTATION = 'RECEIVE_PRESENTATION',
+
   REQUEST_ALL_PENDING_STATUS = 'REQUEST_ALL_PENDING_STATUS',
   RECEIVE_ALL_PENDING_STATUS = 'RECEIVE_ALL_PENDING_STATUS',
   RESET = 'RESET',
@@ -43,6 +46,15 @@ export const requestAllPendingStatus = () => ({
 export const receiveAllPendingStatus = (credentials: Credential[]) => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_ALL_PENDING_STATUS,
   credentials,
+});
+
+export const requestPresentation = () => ({
+  type: CREDENTIAL_ACTION_TYPES.REQUEST_PRESENTATION,
+});
+
+export const receivePresentation = (presentation: string) => ({
+  type: CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION,
+  presentation,
 });
 
 export const resetCredentials = () => ({

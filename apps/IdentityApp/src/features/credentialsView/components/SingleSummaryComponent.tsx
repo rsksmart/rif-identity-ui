@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
+    textAlign: 'center',
   },
   qrTouch: {
     width: '100%',

@@ -6,26 +6,41 @@ import QRCode from 'react-native-qrcode-svg';
 import { Credential } from '../reducer';
 import { typeStyles } from '../../../styles';
 import StatusIcon from './StatusIcon';
+import LoadingComponent from '../../../screens/Shared/LoadingComponent';
 
 interface QRDetailsComponentProps {
   credential: Credential | null;
+  presentation: string;
   strings: any;
 }
 
-const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({ credential, strings }) => {
-  if (!credential) {
-    return <></>;
-  }
+const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
+  credential,
+  presentation,
+  strings,
+}) => {
+  const qrCode = () => {
+    if (!presentation || !credential) {
+      return <LoadingComponent />;
+    }
+
+    return presentation === 'ERROR' ? (
+      <Text>{strings.presentation_error}</Text>
+    ) : (
+      <QRCode value={presentation} size={275} />
+    );
+  };
+
+  const type = credential ? credential.type.toLowerCase() : '';
+  const hash = credential ? credential.hash.substr(0, 8) : '';
 
   return (
     <View style={styles.view}>
       <Text style={typeStyles.header2}>
-        {strings[credential.type.toLowerCase()]} <StatusIcon status="CERTIFIED" />
+        {strings[type]} <StatusIcon status="CERTIFIED" />
       </Text>
-      <View style={styles.qrView}>
-        <QRCode value={strings[credential.type.toLowerCase()]} size={200} />
-      </View>
-      <Text>presentation data</Text>
+      <View style={styles.qrView}>{qrCode()}</View>
+      <Text>{hash}</Text>
     </View>
   );
 };

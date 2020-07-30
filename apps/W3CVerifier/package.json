@@ -23,6 +23,8 @@
     "ethr-did-resolver": "^2.3.2",
     "react": "16.13.1",
     "react-native": "0.63.0",
+    "react-native-barcode-mask": "^1.2.4",
+    "react-native-camera": "^3.35.0",
     "react-native-dropdown-picker": "^3.1.9",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.9.0",

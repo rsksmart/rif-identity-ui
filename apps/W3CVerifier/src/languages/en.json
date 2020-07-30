@@ -20,5 +20,9 @@
   "issuanceOffice": "Issuance office",
   "typeOfVehicle": "Type of vehicle",
   "typeOfLicense": "Type of license",
-  "no_presentations": "No presentations scanned yet"
+  "no_presentations": "No presentations scanned yet",
+  "camera_permission_title": "Permission to use camera",
+  "camera_permission_message": "We need your permission to use your camera",
+  "ok": "Ok",
+  "cancel": "Cancel"
 }

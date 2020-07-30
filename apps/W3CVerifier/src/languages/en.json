@@ -6,8 +6,19 @@
   "go_to_credential_list": "Go to credential list",
   "scan_again": "Scan again",
   "report_police": "Report police",
-  "view_details": "View details",
+  "view_details": "Details",
   "hide_details": "Hide details",
   "scanned_credentials": "Scanned credentials",
-  "clean_scanned_credentials": "Clean scanned credentials"
+  "clean_scanned_credentials": "Clean scanned credentials",
+  "success": "Success!",
+  "valid_id_credential_card": "ID card credential is valid.",
+  "invalid_id_credential_card": "ID card credential is invalid.",
+  "notSuccess": "Oops...",
+  "international": "Is international",
+  "fullName": "Full name",
+  "licenseNumber": "License number",
+  "issuanceOffice": "Issuance office",
+  "typeOfVehicle": "Type of vehicle",
+  "typeOfLicense": "Type of license",
+  "no_presentations": "No presentations scanned yet"
 }

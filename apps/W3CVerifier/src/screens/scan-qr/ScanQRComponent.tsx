@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { layoutStyles, typeStyles, colors } from '../../styles/';
 import { multilanguage } from 'redux-multilanguage';
-import Styles from '../../styles/react'
+import Button from '../../shared/Button'
 
 interface ScanQRProps {
   strings: any;
@@ -22,7 +22,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
   const handleVerifyPress = () => handleScan(jwt, navigation)
 
   return (
-    <View style={layoutStyles.row}>
+    <View style={layoutStyles.container}>
       <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
       <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
       <View style={layoutStyles.column1}>
@@ -35,13 +35,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
             editable
           />
         </View>
-        <View>
-          <TouchableOpacity style={Styles.button} onPress={handleVerifyPress}>
-            <View>
-              <Text style={Styles.text}>{strings.verify_jwt}</Text>
-            </View>
-          </TouchableOpacity>
-        </View> 
+        <Button title={strings.verify_jwt} onPress={handleVerifyPress} />
       </View> 
     </View>
   );

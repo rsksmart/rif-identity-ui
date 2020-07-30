@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt } from './scanned-presentation/actions';
+import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt, showPresentationRequest } from './scanned-presentation/actions';
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation } from 'did-jwt-vc'
@@ -33,21 +33,19 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
       
     const scanned = [...scannedPresentations, presentation]
     StorageProvider.set(STORAGE_KEYS.SCANNED_CREDENTIALS, JSON.stringify(scanned)).then(() => {
-      navigation.navigate('PresentationNavigation', { 
-        screen: presentation.success ? 'Valid' : 'Invalid'
-      });
+      navigation.navigate('PresentationNavigation', { screen: 'Details' });
     })
   }
   
   dispatch(requestVerifyJwt())
   
   if (!jwt || jwt.split('.').length !== 3) {
-    dispatch(receiveInvalidJwt())
-
     presentation = {
       ...baseFailedPresentation,
       failureReason: 'Invalid JWT format',
     }
+
+    dispatch(receiveInvalidJwt(presentation))
 
     dispatchAndAddToStorage()
   } else {
@@ -79,7 +77,7 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
           }
         }
 
-        dispatch(receiveInvalidJwt())
+        dispatch(receiveInvalidJwt(presentation))
       })
       .finally(dispatchAndAddToStorage)
     }
@@ -89,6 +87,12 @@ export const cleanStorage = () => async (dispatch: Dispatch) => {
   dispatch(cleanScannedPresentations())
   
   StorageProvider.remove(STORAGE_KEYS.SCANNED_CREDENTIALS)
+}
+
+export const showPresentation = (presentation: VerifiedPresentation, navigation: any) => async (dispatch: Dispatch) => {
+  dispatch(showPresentationRequest(presentation))
+      
+  navigation.navigate('PresentationNavigation', { screen: 'Details' });
 }
 
 const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFailedPresentation: VerifiedPresentation): VerifiedPresentation => {

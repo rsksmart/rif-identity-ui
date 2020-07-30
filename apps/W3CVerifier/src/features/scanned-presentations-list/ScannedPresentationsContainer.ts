@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  cleanStorage: () => dispatch(cleanStorage())
+  cleanStorage: () => dispatch(cleanStorage()),
 })
 
 export default connect(

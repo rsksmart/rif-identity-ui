@@ -6,6 +6,7 @@ import { RootState } from '../state/store';
 import ScanQRContainer from './scan-qr/ScanQRContainer';
 import ProfileContainer from './profile/ProfileContainer';
 import PresentationNavigation from './presentations/PresentationNavigation';
+import { Icon } from 'react-native-vector-icons/Icon';
 
 const MainFlowNavigation: React.FC<{}> = () => {
   const Tab = createBottomTabNavigator();
@@ -29,7 +30,4 @@ const MainFlowNavigation: React.FC<{}> = () => {
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-});
-
-export default connect(mapStateToProps)(MainFlowNavigation);
+export default connect()(MainFlowNavigation);

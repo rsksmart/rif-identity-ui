@@ -54,7 +54,7 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
         {presentation.success.toString()}
       </Text>
       <Text style={styles.title}>
-        {presentation.fullName || presentation.failureReason}
+        {presentation.success ? presentation.fullName : presentation.failureReason}
       </Text>
       <Text>
         CREDENTIAL ICON

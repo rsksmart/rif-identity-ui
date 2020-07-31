@@ -21,6 +21,11 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
   strings, handleScan, navigation, isVerifying, allowScanAgain
 }) => {
   const [isScanFinished, setIsScanFinished] = useState(false)
+  const [jwt, setJwt] = useState('')
+
+  const handleChangeJwt = (jwt: string) => setJwt(jwt)
+  
+  const handleVerifyPress = () => handleScan(jwt, navigation)
 
   const onBarCodeRead = (scanResult: any) => {
     const { data } = scanResult;
@@ -37,7 +42,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
       flex: 1,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      marginTop: 10
+      marginTop: 30
     },
     body: {
       flex: 1,
@@ -55,6 +60,15 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
         <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
         <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
       </View>
+      {/* <View>
+        <Text style={typeStyles.paragraph}>{strings.enter_jwt}</Text>
+        <TextInput
+          onChangeText={text => handleChangeJwt(text)}
+          value={jwt}
+          editable
+        />
+      </View>
+      <Button title={strings.verify_jwt} onPress={handleVerifyPress} /> */}
       <RNCamera
         captureAudio={false}
         style={styles.preview}

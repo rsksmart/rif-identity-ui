@@ -49,7 +49,7 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
     <ScrollView>
       {Object.keys(presentation.credentialDetails?.credentialSubject).map(item => (
         item !== 'id' &&
-        <View style={styles.row}>
+        <View style={styles.row} key={item}>
           <View style={styles.cell}>
             <Text style={styles.labelText}>{strings[item] ? strings[item] : item}:</Text>
           </View>

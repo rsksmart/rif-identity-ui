@@ -22,6 +22,7 @@ export interface Credential {
   VerifiedCredential?: VerifiedCredential;
   type: CredentialTypes;
   jwt?: string;
+  payload?: any;
 }
 
 // JWT standards:

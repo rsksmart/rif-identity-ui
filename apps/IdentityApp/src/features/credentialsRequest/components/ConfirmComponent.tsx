@@ -20,7 +20,6 @@ interface RequestTypeComponentProps {
   requirements: [];
   requestCredential: (metadata: []) => {};
   strings: any;
-  did: string;
   isRequestingCredential: boolean;
   requestCredentialError: string | null;
 }
@@ -30,13 +29,12 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   route,
   profile,
   requirements,
-  did,
   requestCredential,
   isRequestingCredential,
   requestCredentialError,
 }) => {
   const handlePress = () => {
-    let metaData = { type: type, did: did };
+    let metaData = { type: type };
     requirements[type].forEach(item => {
       metaData[item] = profile[item];
     });

@@ -1,6 +1,5 @@
 export { default as StorageProvider } from './RNSecureStorageProvider';
 export { STORAGE_KEYS } from './RNSecureStorageProvider';
-//export const ISSUER_SERVER = 'http://192.168.0.13:3000';
 
 export interface serverInterface {
   name: string;
@@ -9,7 +8,7 @@ export interface serverInterface {
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: 'Ministry of Issuance',
-    endpoint: 'https://jesse-issuer-server.herokuapp.com',
+    name: "Ilan's Credentials",
+    endpoint: 'http://decadc45cd5b.ngrok.io',
   },
 ];

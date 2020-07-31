@@ -16,17 +16,16 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  requestCredential: metaData => dispatch(sendRequestToServer(ISSUERS[0], metaData)),
+  requestCredential: (metadata, did) => dispatch(sendRequestToServer(ISSUERS[0], did, metadata)),
 });
 
-/*
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   ...ownProps,
-  requestCredential: (metaData: []) =>
-    dispatchProps.requestCredential(metaData, stateProps.credentials),
+  requestCredential: (metadata: {}) =>
+    dispatchProps.requestCredential(metadata, stateProps.did),
 });
-*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmComponent);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConfirmComponent);

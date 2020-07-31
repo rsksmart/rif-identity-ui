@@ -80,20 +80,27 @@ export const removeCredential = (hash: string) => async (dispatch: Dispatch) => 
  * Sends a request to the Credential Server.
  * @param metaData metaData in the credential
  */
-export const sendRequestToServer = (server: serverInterface, metaData: any) => async (dispatch: Dispatch) => {
+export const sendRequestToServer = (server: serverInterface, did: string, metadata: any) => async (
+  dispatch: Dispatch,
+) => {
   dispatch(requestCredential());
+
+  const payload = {
+    metadata,
+    did,
+  };
   // post to the credential server:
   axios
-    .post(server.endpoint + '/request', metaData)
+    .post(server.endpoint + '/requestCredential', { payload: payload })
     .then(function (response) {
       // Create Credential object:
-      console.log('hash', response.data.token);
       const credential: Credential = {
         issuer: server,
         hash: response.data.token,
         status: CredentialStatus.PENDING,
         dateRequested: new Date(),
-        type: metaData.type,
+        type: metadata.type,
+        payload: payload,
       };
       dispatch(saveCredentialAndRedirect(credential));
     })
@@ -121,11 +128,7 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
 
 const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
   return await axios
-    .get(server.endpoint + '/', {
-      params: {
-        hash: hash,
-      },
-    })
+    .get(server.endpoint + '/response?request=' + hash)
     .then((response: { data: string }) => {
       return Promise.resolve(response.data);
     })
@@ -155,7 +158,10 @@ export const checkStatusOfCredentials = (
       if (selectStatus && item.status !== selectStatus) {
         return item;
       }
-      const jwt = await checkStatusOfCredential(item.issuer, keccak256(did + item.hash));
+      const jwt = await checkStatusOfCredential(
+        item.issuer,
+        keccak256(JSON.stringify(item.payload) + item.hash),
+      );
       didUpdate = true;
       return {
         ...item,

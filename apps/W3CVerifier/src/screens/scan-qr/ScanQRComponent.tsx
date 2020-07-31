@@ -7,36 +7,29 @@ import { multilanguage } from 'redux-multilanguage';
 import Button from '../../shared/Button'
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
+import LoadingComponent from '../shared/LoadingComponent';
 
 interface ScanQRProps {
   strings: any;
   handleScan: (jwt: string, navigation: any) => void | null;
   navigation: any;
+  isVerifying: boolean;
+  allowScanAgain: boolean;
 }
 
 const ScanQRComponent: React.FC<ScanQRProps> = ({
-  strings, handleScan, navigation,
+  strings, handleScan, navigation, isVerifying, allowScanAgain
 }) => {
-  const [jwt, setJwt] = useState('')
   const [isScanFinished, setIsScanFinished] = useState(false)
-
-  const handleChangeJwt = (jwt: string) => setJwt(jwt)
-  
-  const handleVerifyPress = () => handleScan(jwt, navigation)
-
-  const onQrcodeDetected = (data: string) => {
-    setJwt(data);
-    handleScan(data, navigation)
-  }
 
   const onBarCodeRead = (scanResult: any) => {
     const { data } = scanResult;
-    if (isScanFinished) {
+    if (isScanFinished && !allowScanAgain) {
       return;
     }
     setIsScanFinished(true)
     console.log(`scanResult: ${JSON.stringify(scanResult)}`);
-    onQrcodeDetected(data);
+    handleScan(data, navigation);
   }
 
   const styles = StyleSheet.create({
@@ -52,25 +45,17 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
     },
   })
 
+  if (isVerifying) {
+    return <LoadingComponent />
+  }
+
   return (
     <View style={styles.body}>
       <View style={layoutStyles.container}>
         <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
         <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
       </View>
-      {/*   <View>
-          <Text style={typeStyles.paragraph}>{strings.enter_jwt}</Text>
-          <TextInput
-            onChangeText={text => handleChangeJwt(text)}
-            value={jwt}
-            editable
-          />
-        </View>
-        <Button title={strings.verify_jwt} onPress={handleVerifyPress} />
-      </View> 
-    </View> */}
       <RNCamera
-        // ref={(ref) => { this.camera = ref; }}
         captureAudio={false}
         style={styles.preview}
         type={RNCamera.Constants.Type.back}

@@ -3,7 +3,7 @@ import colors from './colors';
 
 const typeMargin = {
   marginBottom: 10,
-  marginTop: 70,
+  marginTop: 40,
 };
 
 const styles = StyleSheet.create({

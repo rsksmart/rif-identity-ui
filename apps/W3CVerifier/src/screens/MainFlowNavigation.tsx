@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { RootState } from '../state/store';
 import ScanQRContainer from './scan-qr/ScanQRContainer';
-import ProfileContainer from './profile/ProfileContainer';
 import PresentationNavigation from './presentations/PresentationNavigation';
 import { Icon } from 'react-native-vector-icons/Icon';
 
@@ -22,10 +20,10 @@ const MainFlowNavigation: React.FC<{}> = () => {
         name="ScanQR"
         component={ScanQRContainer}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Profile"
         component={ProfileContainer}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

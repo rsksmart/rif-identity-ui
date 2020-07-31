@@ -7,7 +7,9 @@ import { scanQR } from '../../features/operations';
 import { VerifiedPresentation } from '../../api';
 
 const mapStateToProps = (state: RootState) => ({
-  scannedPresentations: state.presentationList.presentations
+  scannedPresentations: state.presentationList.presentations,
+  isVerifying: state.scannedPresentation.isVerifying,
+  allowScanAgain: state.scannedPresentation.allowScanAgain,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

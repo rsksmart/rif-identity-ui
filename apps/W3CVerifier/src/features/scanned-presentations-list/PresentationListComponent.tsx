@@ -32,7 +32,7 @@ const PresentationList: React.FC<PresentationListProps> = ({
 
   const styles = StyleSheet.create({
     table: {
-      height: 500
+      height: 350
     },
     row: {
       alignSelf: 'stretch',

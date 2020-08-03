@@ -9,7 +9,7 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
 import LoadingComponent from '../../../screens/Shared/LoadingComponent';
-import { declarativeDetails } from '../../../Providers/Issuers';
+import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
 
 interface RequestTypeComponentProps {
   route: {
@@ -45,8 +45,8 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
     requestCredential(metaData);
   };
 
-  const type: string = route.params.type;
-  const requirements = route.params.requirements;
+  const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
+  // const requirements = route.params.requirements;
 
   const meetsRequirements = () => {
     const results = requirements.filter(

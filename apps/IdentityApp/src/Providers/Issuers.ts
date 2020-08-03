@@ -23,13 +23,13 @@ export interface credentialTypes {
 export interface serverInterface {
   name: string;
   endpoint: string;
-  credentialsOffered: credentialTypes[];
+  credentialsOffered?: credentialTypes[];
 }
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: "Jesse's Credentials",
-    endpoint: 'https://jesse-issuer-server.herokuapp.com',
+    name: "Ilan's Credentials",
+    endpoint: 'http://decadc45cd5b.ngrok.io',
     credentialsOffered: [
       {
         name: 'AUTO',
@@ -53,21 +53,6 @@ export const ISSUERS: serverInterface[] = [
           declarativeDetails.CITY,
         ],
       },
-      {
-        name: 'ID',
-        requirements: [
-          declarativeDetails.FULL_NAME,
-          declarativeDetails.ID_NUMBER,
-          declarativeDetails.BIRTHDATE,
-          declarativeDetails.CITY,
-        ],
-      },
-    ],
-  },
-  {
-    name: "Ilan's Credentials",
-    endpoint: 'http://decadc45cd5b.ngrok.io',
-    credentialsOffered: [
       {
         name: 'ID',
         requirements: [

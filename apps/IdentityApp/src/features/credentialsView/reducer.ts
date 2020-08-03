@@ -1,6 +1,5 @@
-// import mockData from './mockData.json';
 import { CREDENTIAL_ACTION_TYPES } from './actions';
-import { serverInterface } from '../../../src/Providers';
+import { serverInterface } from '../../../src/Providers/Issuers';
 
 export enum CredentialTypes {
   AUTO = 'AUTO',

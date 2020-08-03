@@ -10,13 +10,13 @@
   "es": "Spanish",
   "profile_explanation": "Please enter your personal information. You are the only one who can read or diclose this information. It is required to request your credentials.",
   "personal_info": "Personal Info",
-  "fullName": "Full Name",
+  "full_name": "Full Name",
   "edit_personal_info": "Edit Personal Info",
   "birthdate": "Birthdate",
-  "idNumber": "Id Number",
+  "id_number": "Id Number",
   "save": "Save",
   "edit": "Edit",
-  "civilStatus": "Civil Status",
+  "civil_status": "Civil Status",
   "phone": "Phone",
   "email": "Email",
   "married": "Married",
@@ -45,5 +45,8 @@
   "settings": "Settings",
   "remove_credential": "Remove Credential from App",
   "credential_removed": "Credential Removed",
-  "presentation_error": "Error receiving presentation from the server"
+  "presentation_error": "Error receiving presentation from the server",
+  "parking_permit": "Parking Permit",
+  "address": "Address",
+  "city": "City"
 }

@@ -13,7 +13,6 @@ const CredentialsRequestNavigation: React.FC<CredentialsRequestNavigationProps> 
         name="RequestType"
         component={RequestTypeContainer}
         options={{ headerShown: false }}
-        initialParams={{ types: ['AUTO', 'PASSPORT', 'ID'] }}
       />
       <Stack.Screen
         name="ConfirmRequest"

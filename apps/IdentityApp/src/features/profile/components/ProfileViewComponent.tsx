@@ -59,18 +59,18 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
                 {strings.no_personal_details}
               </Text>
             )}
-            <DisplayItem name={strings.fullName} value={profile.fullName} />
+            <DisplayItem name={strings.full_name} value={profile.FULL_NAME} />
             <DisplayItem
               name={strings.birthdate}
-              value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
+              value={profile.BIRTHDATE ? moment(profile.BIRTHDATE).format('MMM D YYYY') : ''}
             />
-            <DisplayItem name={strings.idNumber} value={profile.idNumber} />
+            <DisplayItem name={strings.id_number} value={profile.ID_NUMBER} />
             <DisplayItem
-              name={strings.civilStatus}
-              value={profile.civilStatus ? strings[profile.civilStatus] : ''}
+              name={strings.civil_status}
+              value={profile.CIVIL_STATUS ? strings[profile.CIVIL_STATUS] : ''}
             />
-            <DisplayItem name={strings.phone} value={profile.phone} />
-            <DisplayItem name={strings.email} value={profile.email} />
+            <DisplayItem name={strings.phone} value={profile.PHONE} />
+            <DisplayItem name={strings.email} value={profile.EMAIL} />
           </View>
         </View>
       </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   empty: {
     marginRight: 30,
-  }
+  },
 });
 
 export default multilanguage(ProfileViewComponent);

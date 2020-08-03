@@ -3,29 +3,22 @@ import { PROFILE_ACTION_TYPES } from './actions';
 export type ProfileState = {
   isLoaded: boolean;
   isEditing: boolean;
-  profile: ProfileInterface;
+  profile: declarativeDetails[];
 };
 
 export interface ProfileInterface {
-  fullName: string;
-  birthdate: string | null;
-  idNumber: string;
-  civilStatus: string;
-  phone: string;
-  email: string;
+  FULL_NAME: string;
+  BIRTHDATE: string | null;
+  ID_NUMBER: string;
+  CIVIL_STATUS: string;
+  PHONE: string;
+  EMAIL: string;
 }
 
 export const initialState = {
   isLoaded: false,
   isEditing: false,
-  profile: {
-    fullName: '',
-    birthdate: null,
-    idNumber: '',
-    civilStatus: '',
-    phone: '',
-    email: '',
-  },
+  profile: [],
 };
 
 const reducer = (state: ProfileState = initialState, action: any) => {

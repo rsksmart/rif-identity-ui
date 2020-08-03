@@ -33,12 +33,9 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     CIVIL_STATUS: profile.CIVIL_STATUS,
     PHONE: profile.PHONE,
     EMAIL: profile.EMAIL,
-<<<<<<< HEAD
     ADDRESS: profile.ADDRESS,
     CITY: profile.CITY,
     DRIVERS_LICENSE_NUMBER: profile.DRIVERS_LICENSE_NUMBER,
-=======
->>>>>>> Move Credential types and requirements
   });
 
   const handleChange = (field: declarativeDetails, value: string) => {
@@ -97,7 +94,6 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
                 { label: strings.single, value: 'single' },
               ]}
               onChange={async text => handleChange(declarativeDetails.CIVIL_STATUS, text)}
-<<<<<<< HEAD
             />
 
             <EditItem
@@ -110,8 +106,6 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
               name={strings.city}
               value={localProfile.CITY}
               onChange={async text => handleChange(declarativeDetails.CITY, text)}
-=======
->>>>>>> Move Credential types and requirements
             />
 
             <EditItem

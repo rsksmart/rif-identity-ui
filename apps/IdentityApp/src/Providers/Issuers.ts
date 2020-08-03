@@ -24,7 +24,7 @@ export interface credentialTypes {
 export interface serverInterface {
   name: string;
   endpoint: string;
-  credentialsOffered?: credentialTypes[];
+  credentialsOffered: credentialTypes[];
 }
 
 export const ISSUERS: serverInterface[] = [

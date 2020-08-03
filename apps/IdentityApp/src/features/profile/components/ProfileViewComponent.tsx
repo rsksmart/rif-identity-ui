@@ -69,6 +69,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               name={strings.civil_status}
               value={profile.CIVIL_STATUS ? strings[profile.CIVIL_STATUS] : ''}
             />
+            
+            <DisplayItem name={strings.address} value={profile.ADDRESS} />
+            <DisplayItem name={strings.city} value={profile.CITY} />
             <DisplayItem name={strings.phone} value={profile.PHONE} />
             <DisplayItem name={strings.email} value={profile.EMAIL} />
           </View>

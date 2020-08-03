@@ -62,15 +62,21 @@ export const ISSUERS: serverInterface[] = [
           declarativeDetails.CITY,
         ],
       },
-      {
-        name: 'PASSPORT',
-        requirements: [declarativeDetails.FULL_NAME],
-      },
     ],
   },
   {
     name: "Ilan's Credentials",
     endpoint: 'http://decadc45cd5b.ngrok.io',
-    credentialsOffered: [],
+    credentialsOffered: [
+      {
+        name: 'ID',
+        requirements: [
+          declarativeDetails.FULL_NAME,
+          declarativeDetails.ID_NUMBER,
+          declarativeDetails.BIRTHDATE,
+          declarativeDetails.CITY,
+        ],
+      },
+    ],
   },
 ];

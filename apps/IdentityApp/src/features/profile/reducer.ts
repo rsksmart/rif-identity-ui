@@ -13,6 +13,8 @@ export interface ProfileInterface {
   CIVIL_STATUS: string;
   PHONE: string;
   EMAIL: string;
+  ADDRESS: string;
+  CITY: string;
 }
 
 export const initialState = {

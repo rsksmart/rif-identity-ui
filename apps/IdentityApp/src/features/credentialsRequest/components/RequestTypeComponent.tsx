@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { Dimensions, StyleSheet, ScrollView, View, Text } from 'react-native';
-import { layoutStyles, typeStyles } from '../../../styles';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SquareButton } from '../../../Libraries/Button';
 
@@ -22,6 +22,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   navigation,
   start,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [type, setType] = useState();
   useEffect(() => {
     start();
@@ -39,11 +40,11 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layoutStyles.container}>
-      <View style={{ ...layoutStyles.row, ...styles.row }}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.request_credential}</Text>
-          <Text style={typeStyles.paragraph}>{strings.request_credential_explanation}</Text>
+    <ScrollView style={layout.container}>
+      <View style={[ layout.row, styles.row ]}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.request_credential}</Text>
+          <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
 
           <DropDownPicker
             items={items}
@@ -54,7 +55,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
             onChangeItem={item => setType(item.value)}
           />
         </View>
-        <View style={layoutStyles.column1}>
+        <View style={layout.column1}>
           <SquareButton title={strings.confirm} onPress={handlePress} />
         </View>
       </View>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Credential } from '../reducer';
@@ -19,8 +20,9 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   onPress,
   disabled,
 }) => {
+  const { colors }: ThemeInterface = useContext(ThemeContext);
   const icon = () => {
-    const color = disabled ? '#e1e1e1' : '#50555C';
+    const color = disabled ? colors.lightGray : colors.primary;
     switch (credential.type) {
       case 'AUTO':
         return <FontAwesome name="automobile" color={color} size={30} />;
@@ -62,7 +64,6 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
 
 const styles = StyleSheet.create({
   credential: {
-    borderColor: '#919191',
     borderWidth: 1,
     borderRadius: 10,
     paddingTop: 20,
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
   },
   qr: {
     width: '100%',
-    borderTopColor: '#919191',
     borderTopWidth: 1,
     marginTop: 10,
     paddingTop: 10,

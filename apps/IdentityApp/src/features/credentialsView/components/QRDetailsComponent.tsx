@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 import { Credential } from '../reducer';
-import { typeStyles } from '../../../styles';
 import StatusIcon from './StatusIcon';
 import LoadingComponent from '../../../screens/Shared/LoadingComponent';
 
@@ -19,6 +19,7 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
   presentation,
   strings,
 }) => {
+  const { typography }: ThemeInterface = useContext(ThemeContext);
   const qrCode = () => {
     if (!presentation || !credential) {
       return <LoadingComponent />;
@@ -36,7 +37,7 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
 
   return (
     <View style={styles.view}>
-      <Text style={typeStyles.header2}>
+      <Text style={typography.header2}>
         {strings[type]} <StatusIcon status="CERTIFIED" />
       </Text>
       <View style={styles.qrView}>{qrCode()}</View>

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import DatePicker from './DatePicker';
 import DropDown from './DropDown';
 
-import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
 import { ProfileInterface } from '../reducer';
@@ -23,6 +23,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   handleSave,
   navigation,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [localProfile, setLocalProfile] = useState({
     fullName: profile.fullName,
     birthdate: profile.birthdate,
@@ -45,11 +46,11 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layoutStyles.container}>
+    <ScrollView style={layout.container}>
       <BackScreenComponent>
-        <View style={layoutStyles.row}>
-          <View style={layoutStyles.column1}>
-            <Text style={typeStyles.header1}>{strings.edit_personal_info}</Text>
+        <View style={layout.row}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.edit_personal_info}</Text>
             <View style={styles.buttonView}>
               <SquareButton title={strings.save} onPress={handleSavePress} />
             </View>

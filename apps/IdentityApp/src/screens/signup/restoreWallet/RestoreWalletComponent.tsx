@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import {
   StyleSheet,
   Text,
@@ -9,8 +10,6 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 
-import {layoutStyles, typeStyles} from '../../../styles';
-
 import {SquareButton} from '../../../Libraries/Button';
 
 interface RestoreWalletComponentProps {
@@ -20,19 +19,20 @@ interface RestoreWalletComponentProps {
 const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [textValue, setTextValue] = useState('');
   return (
     <>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.paragraph}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.paragraph}>
             Enter your seed phrase seperated by spaces
           </Text>
         </View>
       </View>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <View style={layoutStyles.borderRow}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <View style={layout.borderRow}>
             <TextInput
               style={styles.textInput}
               multiline={true}
@@ -46,8 +46,8 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
           </View>
         </View>
       </View>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
           <SquareButton title="Restore" onPress={onSubmit} />
         </View>
       </View>

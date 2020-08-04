@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
-import { typeStyles, layoutStyles } from '../../../styles';
 import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
@@ -28,10 +28,10 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   isCheckingPendingStatus,
   createPresentation,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
-  const handleClick = (clickType: string, credentialHash: string) => {
-    console.log(clickType, credentialHash);
 
+  const handleClick = (clickType: string, credentialHash: string) => {
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialHash: credentialHash });
     } else {
@@ -46,16 +46,16 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
   return (
     <ScrollView
-      style={layoutStyles.container}
+      style={layout.container}
       refreshControl={
         <RefreshControl refreshing={isCheckingPendingStatus} onRefresh={checkPending} />
       }>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.my_credentials}</Text>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.my_credentials}</Text>
         </View>
       </View>
-      <View style={{ ...layoutStyles.row, ...styles.credentialsRow }}>
+      <View style={[layout.row, styles.credentialsRow ]}>
         {credentials.map(credential => (
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
@@ -68,7 +68,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       </View>
 
       <ModalComponent visible={qrModalHash !== null}>
-        <View style={layoutStyles.column1}>
+        <View style={layout.column1}>
           <QRDetailsContainer credentialHash={qrModalHash} />
           <SquareButton
             title={strings.close}

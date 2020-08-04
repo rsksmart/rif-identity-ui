@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { typeStyles, layoutStyles } from '../../../styles';
 
 interface singleItem {
   label: string;
@@ -16,6 +16,7 @@ interface DropDownProps {
 }
 
 const DropDown: React.FC<DropDownProps> = ({ name, items, value, onChange }) => {
+  const { typography }: ThemeInterface = useContext(ThemeContext);
   const [localValue, setLocalValue] = useState(value);
 
   const onChangeLocal = (item: singleItem) => {
@@ -25,7 +26,7 @@ const DropDown: React.FC<DropDownProps> = ({ name, items, value, onChange }) => 
 
   return (
     <View>
-      <Text style={typeStyles.paragraph}>{name}</Text>
+      <Text style={typography.paragraph}>{name}</Text>
       <DropDownPicker
         items={items}
         defaultValue={localValue}

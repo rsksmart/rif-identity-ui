@@ -5,9 +5,13 @@ const logger = store => next => action => {
   console.log('ACTION: ' + JSON.stringify(action));
   let result = next(action);
 
+  const state = store.getState();
   const modifiedState = {
-    ...store.getState(),
-    multilanguage: '[OMITTED]',
+    ...state,
+    multilanguage: {
+      currentLanguageCode: state.multilanguage.currentLanguageCode,
+      languages: '...',
+    },
   };
   console.log('STATE:' + JSON.stringify(modifiedState));
   console.log(' ');

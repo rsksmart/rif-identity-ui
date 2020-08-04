@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import {StyleSheet, View, Text, GestureResponderEvent} from 'react-native';
 
 import {SquareButton} from '../../../../Libraries/Button';
-import {layoutStyles, typeStyles} from '../../../../styles';
 
 interface ViewMnemonicComponentProps {
   mnemonic: string[];
@@ -13,29 +13,25 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
   mnemonic,
   onSubmit,
 }) => {
-  console.log(mnemonic);
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
     <>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.paragraph}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.paragraph}>
             Write these words down in order starting with the first row.
             Keep them safe, this is the backup to your identity.
           </Text>
         </View>
         <View
-          style={{
-            ...layoutStyles.row,
-            ...layoutStyles.borderRow,
-            ...styles.wordRow,
-          }}>
+          style={[ layout.row, layout.borderRow,styles.wordRow ]}>
           {mnemonic.map((word, index) => (
-            <View style={layoutStyles.column3} key={word}>
-              <View style={{...layoutStyles.row, ...styles.innerRow}}>
+            <View style={layout.column3} key={word}>
+              <View style={[ layout.row, styles.innerRow]}>
                 <View style={styles.circleView}>
                   <Text style={styles.circleNumber}>{index + 1}</Text>
                 </View>
-                <Text style={{...typeStyles.paragraph, ...styles.singleWord}}>
+                <Text style={[ typography.paragraph, styles.singleWord ]}>
                   {word}
                 </Text>
               </View>
@@ -43,8 +39,8 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
           ))}
         </View>
       </View>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
           <SquareButton title="Okay" onPress={onSubmit} />
         </View>
       </View>
@@ -68,7 +64,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   circleView: {
-    marginLeft: '25%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     marginTop: 3,
     backgroundColor: '#cccccc',
     width: 26,

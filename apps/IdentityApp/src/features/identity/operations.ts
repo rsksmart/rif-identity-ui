@@ -11,7 +11,7 @@ export const saveMnemonicToLocalStorage = (mnemonic: string[]) => async (dispatc
   await StorageProvider.set(STORAGE_KEYS.MNEMONIC, JSON.stringify(mnemonic))
     .then(() => {
       dispatch(receiveMnemonic(true, mnemonic));
-      RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+      return true;
     })
     .catch((error:any) => console.log(error));
 };

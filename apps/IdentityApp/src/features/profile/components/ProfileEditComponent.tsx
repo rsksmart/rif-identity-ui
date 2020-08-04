@@ -15,14 +15,12 @@ interface ProfileEditComponentProps {
   strings: any;
   profile: ProfileInterface;
   handleSave: (profile: any) => void | null;
-  navigation: any;
 }
 
 const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   strings,
   profile,
   handleSave,
-  navigation,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
 
@@ -46,7 +44,6 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   };
 
   const handleSavePress = () => {
-    navigation.navigate('View');
     handleSave(localProfile);
   };
 

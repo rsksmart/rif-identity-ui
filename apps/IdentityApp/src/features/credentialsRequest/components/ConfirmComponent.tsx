@@ -21,6 +21,7 @@ interface RequestTypeComponentProps {
   profile: ProfileInterface;
   requirements: [];
   requestCredential: (metadata: []) => {};
+  handleEditProfile: () => {};
   strings: any;
   isRequestingCredential: boolean;
   requestCredentialError: string | null;
@@ -30,6 +31,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
   profile,
   requestCredential,
+  handleEditProfile,
   isRequestingCredential,
   requestCredentialError,
   route,
@@ -46,12 +48,12 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
-  // const requirements = route.params.requirements;
 
   const meetsRequirements = () => {
     const results = requirements.filter(
-      (item: string) => profile[item] === '' || profile[item] === null,
+      (item: string) => !profile[item] || profile[item] === '' || profile[item] === null,
     );
+    console.log(results.length, results.length === 0);
     return results.length === 0;
   };
 
@@ -81,9 +83,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
             <View style={styles.grayBox}>
               <Text style={typography.header1}>{strings[type.toLowerCase()]}</Text>
-              <Text style={typography.paragraphBold}>
-                {strings.information_requested}:
-              </Text>
+              <Text style={typography.paragraphBold}>{strings.information_requested}:</Text>
 
               {requirements.map((item: string) => requiredItem(item))}
 
@@ -98,17 +98,23 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
               </Text>
             </View>
             {!meetsRequirements() && (
-              <Text style={styles.warning}>{strings.missing_requirements}</Text>
+              <>
+                <Text style={styles.warning}>{strings.missing_requirements}</Text>
+                <SquareButton title="Edit Profile" onPress={handleEditProfile} />
+              </>
             )}
 
             {requestCredentialError && <Text style={styles.warning}>{requestCredentialError}</Text>}
 
+            {meetsRequirements() && (
+              <SquareButton
+                title={strings.confirm}
+                onPress={handlePress}
+                disabled={isRequestingCredential}
+              />
+            )}
+
             {isRequestingCredential && <LoadingComponent />}
-            <SquareButton
-              title={strings.confirm}
-              onPress={handlePress}
-              disabled={!meetsRequirements() || isRequestingCredential}
-            />
           </View>
         </View>
       </BackScreenComponent>

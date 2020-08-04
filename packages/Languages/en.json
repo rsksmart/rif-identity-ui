@@ -51,5 +51,6 @@
   "city": "City",
   "drivers_license_number": "Driver's License Number",
   "enter_seed": "Enter your seed phrase",
-  "short_seed_error": "The seed should be at least 12 words."
+  "short_seed_error": "The seed should be at least 12 words.",
+  "edit_profile": "Edit Profile"
 }

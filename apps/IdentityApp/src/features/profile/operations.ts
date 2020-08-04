@@ -17,15 +17,20 @@ export const initialStart = () => async (dispatch: Dispatch) => {
     .catch(error => console.log(error));
 };
 
-export const saveProfile = (profile: ProfileInterface) => async (
-  dispatch: Dispatch,
-) => {
-  console.log('saving profile', profile);
+/**
+ * Saves Profile to LocalStorage
+ * @param profile Profile to be saved
+ */
+export const saveProfile = (profile: ProfileInterface) => async (dispatch: Dispatch) => {
   await StorageProvider.set(STORAGE_KEYS.PROFILE, JSON.stringify(profile))
     .then(() => {
       dispatch(updateProfile(profile));
+      return true;
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
 };
 
 /**
@@ -33,11 +38,11 @@ export const saveProfile = (profile: ProfileInterface) => async (
  * @param profile
  */
 export const isEmpty = (profile: ProfileInterface) => {
-  let isEmpty = true;
+  let empty = true;
   Object.keys(profile).map(item => {
     if (profile[item] !== '' && profile[item] !== null) {
-      isEmpty = false;
+      empty = false;
     }
   });
-  return isEmpty;
+  return empty;
 };

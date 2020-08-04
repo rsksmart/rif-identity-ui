@@ -1,13 +1,7 @@
 import React, { useContext }  from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import moment from 'moment';
 
 import DisplayItem from './DisplayItem';
@@ -32,9 +26,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
     <ScrollView style={layout.container}>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.header1}>
-            {strings.personal_info}
-          </Text>
+          <Text style={typography.header1}>{strings.personal_info}</Text>
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => navigation.navigate('Settings', {})}>
@@ -65,6 +57,8 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               value={profile.BIRTHDATE ? moment(profile.BIRTHDATE).format('MMM D YYYY') : ''}
             />
             <DisplayItem name={strings.id_number} value={profile.ID_NUMBER} />
+            <DisplayItem name={strings.drivers_license} value={profile.DRIVERS_LICENSE} />
+
             <DisplayItem
               name={strings.civil_status}
               value={profile.CIVIL_STATUS ? strings[profile.CIVIL_STATUS] : ''}

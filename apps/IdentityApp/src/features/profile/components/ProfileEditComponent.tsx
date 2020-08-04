@@ -1,4 +1,4 @@
-import React, { useState, useContext }  from 'react';
+import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
@@ -35,6 +35,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     EMAIL: profile.EMAIL,
     ADDRESS: profile.ADDRESS,
     CITY: profile.CITY,
+    DRIVERS_LICENSE: profile.DRIVERS_LICENSE,
   });
 
   const handleChange = (field: declarativeDetails, value: string) => {
@@ -74,6 +75,13 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
               name={strings.id_number}
               value={localProfile.ID_NUMBER}
               onChange={async text => handleChange(declarativeDetails.ID_NUMBER, text)}
+              keyboardType="number-pad"
+            />
+
+            <EditItem
+              name={strings.drivers_license}
+              value={localProfile.DRIVERS_LICENSE}
+              onChange={async text => handleChange(declarativeDetails.DRIVERS_LICENSE, text)}
               keyboardType="number-pad"
             />
 

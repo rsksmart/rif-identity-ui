@@ -48,5 +48,6 @@
   "presentation_error": "Error receiving presentation from the server",
   "parking_permit": "Parking Permit",
   "address": "Address",
-  "city": "City"
+  "city": "City",
+  "drivers_license": "Driver's License Number"
 }

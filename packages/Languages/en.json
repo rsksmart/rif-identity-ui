@@ -48,6 +48,8 @@
   "presentation_error": "Error receiving presentation from the server",
   "parking_permit": "Parking Permit",
   "address": "Address",
+  "city": "City",
   "drivers_license_number": "Driver's License Number",
-  "city": "City"
+  "enter_seed": "Enter your seed phrase",
+  "short_seed_error": "The seed should be at least 12 words."
 }

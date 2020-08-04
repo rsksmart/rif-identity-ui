@@ -20,3 +20,8 @@ export const receiveMnemonic = (hasMnemonic: boolean, mnemonic?: string[]) => ({
   hasMnemonic,
   mnemonic,
 });
+
+export const restoreSeedError = (mnemonicError: string) => ({
+  type: MNEMONIC_TYPES.MNEMONIC_ERROR,
+  mnemonicError,
+});

@@ -1,14 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {
-  RestoreWalletContainer,
-  WelcomeContainer,
-} from './index';
-
+import { WelcomeContainer } from './index';
 import { ViewMnemonicContainer, ConfirmMnemonicContainer } from '../../features/identity';
-
 import { CreatePinContainer, ConfirmPinContainer } from '../../features/pin';
+import RestoreWalletContainer from '../../features/restore/RestoreWalletContainer';
 
 interface SignupNavigationProps {}
 

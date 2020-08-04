@@ -4,7 +4,7 @@ import sample from './sampleMnemonic';
 export type SetupState = {
   hasMnemonic: boolean;
   mnemonic: string[] | null;
-  mnemonicError: boolean;
+  mnemonicError: string | null;
   newMnemonic: string[];
 };
 
@@ -21,8 +21,14 @@ const reducer = (state: SetupState = initialState, action: any) => {
       return {
         ...state,
         hasMnemonic: action.hasMnemonic,
-        mnemonic: action.mnemonic
-      }
+        mnemonic: action.mnemonic,
+        mnemonicError: null,
+      };
+    case MNEMONIC_TYPES.MNEMONIC_ERROR:
+      return {
+        ...state,
+        mnemonicError: action.mnemonicError,
+      };
     default:
       return state;
   }

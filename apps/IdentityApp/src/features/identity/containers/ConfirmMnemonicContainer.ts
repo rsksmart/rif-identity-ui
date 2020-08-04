@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'react';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
 import { RootState } from '../../../state/store';
 import { newMnemonicError, clearError } from '../actions';
@@ -20,32 +21,26 @@ const mapStateToProps = (state: RootState) => ({
   isError: state.identity.mnemonicError,
 });
 
-const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => {
     dispatch(clearError());
   },
   onSubmit: (userInput: string[], expectedInput: string[]) => {
     if (userInput.every((val, index) => val === expectedInput[index])) {
       dispatch(clearError());
-      dispatch(saveMnemonicToLocalStorage(userInput));
+      if (dispatch(saveMnemonicToLocalStorage(userInput))) {
+        RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+      }
     } else {
       dispatch(newMnemonicError('Word order is not correct :('));
     }
   },
 });
 
-const mergeProps = (
-  stateProps: statePropsInterface,
-  dispatchProps: dispatchInterface,
-) => ({
+const mergeProps = (stateProps: statePropsInterface, dispatchProps: dispatchInterface) => ({
   ...stateProps,
   ...dispatchProps,
-  onSubmit: (userInput: string[]) =>
-    dispatchProps.onSubmit(userInput, stateProps.mnemonic),
+  onSubmit: (userInput: string[]) => dispatchProps.onSubmit(userInput, stateProps.mnemonic),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps,
-)(ConfirmMnemonicComponent);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConfirmMnemonicComponent);

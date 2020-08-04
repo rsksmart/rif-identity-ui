@@ -67,7 +67,8 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
             presentation = {
               ...baseFailedPresentation,
               failureReason: err.message,
-              fullName: credential.payload.vc.credentialSubject['fullName']
+              fullName: credential.payload.vc.credentialSubject['fullName'],
+              credentialDetails: credential.payload.vc,
             }
           }
         } catch {
@@ -103,13 +104,13 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
     };
   }
   
-  if (presentation.credentialDetails.expirationDate < new Date()) {
-    return {
-      ...baseFailedPresentation,
-      failureReason: 'Expired credential',
-      fullName: presentation.credentialDetails.credentialSubject['fullName']
-    };
-  }
+  // if (presentation.credentialDetails.expirationDate < new Date()) {
+  //   return {
+  //     ...baseFailedPresentation,
+  //     failureReason: 'Expired credential',
+  //     fullName: presentation.credentialDetails.credentialSubject['fullName']
+  //   };
+  // }
   
   // REMOVED FOR TESTING PURPOSES
   // if (presentation.credentialDetails.issuer !== EXPECTED_ISSUER) {

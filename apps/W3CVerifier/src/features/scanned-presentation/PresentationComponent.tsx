@@ -61,7 +61,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
       <Text style={styles.header}>{presentation.success ? strings.success : strings.notSuccess}</Text>
       <ValidationResult presentation={presentation} strings={strings} />
       {
-        presentation.success && 
+        presentation.credentialDetails && 
         <Text style={styles.details} onPress={handleViewDetails}>
           {viewDetails ? strings.hide_details : strings.view_details}
         </Text>

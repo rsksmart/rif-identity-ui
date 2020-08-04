@@ -14,21 +14,3 @@ export const signOutAndReset = () => async (dispatch: Dispatch) => {
   dispatch(resetCredentials());
   RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
 };
-
-export const checkPinAndSignIn = (userPin: string) => async (dispatch: Dispatch) => {
-  await StorageProvider.get(STORAGE_KEYS.PIN)
-    .then(expectedPin => {
-      if (userPin === expectedPin) {
-        dispatch(receiveLoggedIn(true));
-        RootNavigation.navigate('CredentialsFlow', {
-          screen: 'CredentialsHome',
-        });
-      } else {
-        dispatch(receiveLoggedIn(false, 'pin_is_incorrect'));
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      dispatch(receiveLoggedIn(false, 'Count not get storage'));
-    });
-};

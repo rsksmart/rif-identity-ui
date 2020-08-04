@@ -11,7 +11,7 @@ const mapDispatchToProps = (): dispatchInterface => ({
   restoreButtonPress: () =>
     RootNavigation.navigate('SignupFlow', { screen: 'RestoreWallet' }),
   getStartedPress: () =>
-    RootNavigation.navigate('SignupFlow', { screen: 'MnemonicView' }),
+    RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' }),
 });
 
 export default connect(null, mapDispatchToProps)(WelcomeComponent);

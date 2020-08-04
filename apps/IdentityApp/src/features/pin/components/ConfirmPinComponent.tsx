@@ -2,7 +2,7 @@ import React, { useContext }  from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { View, Text } from 'react-native';
 
-import PinInput from '../../../../Libraries/PinInput/PinInputComponent';
+import PinInput from '../../../Libraries/PinInput/PinInputComponent';
 
 interface ConfirmPinComponentProps {
   onSubmit: () => {};

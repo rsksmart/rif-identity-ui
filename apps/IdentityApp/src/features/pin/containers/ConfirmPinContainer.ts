@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import ConfirmPinComponent from '../components/ConfirmPinComponent';
-import { RootState } from '../../../../state/store';
-import { checkPinMatchAndSet } from '../../operations';
+import { RootState } from '../../../state/store';
+import { checkPinMatchAndSet } from '../operations';
 
 const mapStateToProps = (state: RootState) => ({
-  pin: state.signup.pin,
-  errorMessage: state.signup.pinError,
+  pin: state.pin.pin,
+  errorMessage: state.pin.pinError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

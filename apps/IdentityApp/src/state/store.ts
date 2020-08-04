@@ -5,19 +5,19 @@ import initialLanguageState from '@rsksmart/languages';
 import customLogger from './middleware/customLogger';
 
 import localUiReducer from './localUi/reducer';
-import signupReducer from '../screens/signup/reducer';
 import profileReducer from '../features/profile/reducer';
 import credentialReducer from '../features/credentialsView/reducer';
 import { PinReducer } from '../features/pin';
+import { IdentityReducer } from '../features/identity';
 
 const middleware = [thunk, customLogger];
 
 const rootReducer = combineReducers({
   localUi: localUiReducer,
-  signup: signupReducer,
   profile: profileReducer,
   credentials: credentialReducer,
   pin: PinReducer,
+  identity: IdentityReducer,
   multilanguage: createMultilanguageReducer(initialLanguageState),
 });
 

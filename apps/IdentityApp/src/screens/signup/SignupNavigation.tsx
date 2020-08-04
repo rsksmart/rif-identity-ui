@@ -2,11 +2,11 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import {
-  ViewMnemonicContainer,
-  ConfirmMenommicContainer,
   RestoreWalletContainer,
   WelcomeContainer,
 } from './index';
+
+import { ViewMnemonicContainer, ConfirmMnemonicContainer } from '../../features/identity';
 
 import { CreatePinContainer, ConfirmPinContainer } from '../../features/pin';
 
@@ -17,6 +17,17 @@ const SignupNavigation: React.FC<SignupNavigationProps> = ({}) => {
   return (
     <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
       <Stack.Screen name="Welcome" component={WelcomeContainer} options={{ headerShown: false }} />
+
+      <Stack.Screen
+        name="MnemonicView"
+        component={ViewMnemonicContainer}
+        options={{ title: 'Keep these words safe' }}
+      />
+      <Stack.Screen
+        name="MnemonicConfirm"
+        component={ConfirmMnemonicContainer}
+        options={{ title: 'Confirm the phase' }}
+      />
 
       <Stack.Screen
         name="RestoreWallet"

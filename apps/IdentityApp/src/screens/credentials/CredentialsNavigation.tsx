@@ -12,9 +12,10 @@ import { RootState } from '../../state/store';
 
 interface CredentialsNavigationProps {
   isLoggedIn: boolean;
+  hasMnemonic: boolean;
 }
 
-const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedIn }) => {
+const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedIn, hasMnemonic }) => {
   if (!isLoggedIn) {
     return <SigninWithPinContainer />;
   }
@@ -48,13 +49,15 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         options={{
           tabBarLabel: '',
           tabBarIcon: () => (
-            <Icon name="add-circle" size={75} color={'#50555C'} style={{ marginTop: 15 }} />
+            <Icon name="add-circle" size={75} color={hasMnemonic ? '#50555C' : '#e1e1e1'} style={{ marginTop: 15 }} />
           ),
         }}
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
-            navigation.navigate('AddCredential', { screen: 'RequestType' });
+            if (hasMnemonic) {
+              navigation.navigate('AddCredential', { screen: 'RequestType' });
+            }
           },
         })}
       />
@@ -81,6 +84,7 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
 // container:
 const mapStateToProps = (state: RootState) => ({
   isLoggedIn: state.localUi.isLoggedIn,
+  hasMnemonic: state.identity.hasMnemonic,
 });
 
 export default connect(mapStateToProps)(CredentialsNavigation);

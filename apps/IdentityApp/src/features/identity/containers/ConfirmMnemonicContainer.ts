@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import { RootState } from '../../../../state/store';
-import { newMnemonicError, clearError } from '../../actions';
-import * as RootNavigation from '../../../../AppNavigation';
+import { RootState } from '../../../state/store';
+import { newMnemonicError, clearError } from '../actions';
+import { saveMnemonicToLocalStorage } from '../operations';
+import * as RootNavigation from '../../../AppNavigation';
 
 interface statePropsInterface {
   mnemonic: string[];
@@ -15,8 +16,8 @@ interface dispatchInterface {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  mnemonic: state.signup.mnemonic,
-  isError: state.signup.mnemonicError,
+  mnemonic: state.identity.newMnemonic,
+  isError: state.identity.mnemonicError,
 });
 
 const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
@@ -24,10 +25,9 @@ const mapDispatchToProps = (dispatch: any): dispatchInterface => ({
     dispatch(clearError());
   },
   onSubmit: (userInput: string[], expectedInput: string[]) => {
-    // does each word in array match expected input?
     if (userInput.every((val, index) => val === expectedInput[index])) {
       dispatch(clearError());
-      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
+      dispatch(saveMnemonicToLocalStorage(userInput));
     } else {
       dispatch(newMnemonicError('Word order is not correct :('));
     }

@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ProfileEditContainer, ProfileViewContainer, SettingsContainer } from './containers';
 
 import { initialStart } from './operations';
+import { ViewMnemonicContainer, ConfirmMnemonicContainer } from '../identity';
 
 export const Stack = createStackNavigator();
 
@@ -25,6 +26,8 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
       <Stack.Screen name="View" component={ProfileViewContainer} options={{ headerShown: false }} />
       <Stack.Screen name="Edit" component={ProfileEditContainer} options={{ headerShown: false }} />
       <Stack.Screen name="Settings" component={SettingsContainer} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateMnemonic" component={ViewMnemonicContainer} options={{ headerShown: false }} />
+      <Stack.Screen name="MnemonicConfirm" component={ConfirmMnemonicContainer} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

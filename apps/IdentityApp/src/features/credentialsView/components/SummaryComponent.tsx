@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
@@ -17,6 +17,7 @@ interface SummaryComponentProps {
   checkPending: () => {};
   createPresentation: (credentialHash: string) => {};
   isCheckingPendingStatus: boolean;
+  hasMnemonic: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -27,6 +28,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   checkPending,
   isCheckingPendingStatus,
   createPresentation,
+  hasMnemonic,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
@@ -39,6 +41,10 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       setQrModalHash(credentialHash);
     }
   };
+
+  const setUpMnemonic = () => {
+    navigation.navigate('Profile', { screen: 'CreateMnemonic' })
+  }
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -55,6 +61,21 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           <Text style={typography.header1}>{strings.my_credentials}</Text>
         </View>
       </View>
+
+      {!hasMnemonic && (
+        <View style={layout.row}>
+          <View style={layout.column1}>
+            <TouchableOpacity onPress={setUpMnemonic}>
+              <View>
+                <Text style={typography.paragrapg}>
+                  No Mnemonic!
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
       <View style={[layout.row, styles.credentialsRow ]}>
         {credentials.map(credential => (
           <View style={styles.single} key={credential.hash}>

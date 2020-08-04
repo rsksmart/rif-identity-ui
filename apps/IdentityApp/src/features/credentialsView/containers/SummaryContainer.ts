@@ -19,6 +19,7 @@ const mapStateToProps = (state: RootState) => ({
   did: state.localUi.did,
   address: state.localUi.address,
   privateKey: state.localUi.privateKey,
+  hasMnemonic: state.identity.hasMnemonic,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

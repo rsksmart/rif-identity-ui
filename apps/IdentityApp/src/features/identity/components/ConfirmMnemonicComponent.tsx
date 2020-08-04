@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext }  from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import {StyleSheet, View, Text} from 'react-native';
-import {SquareButton} from '../../../../Libraries/Button';
+import {SquareButton} from '../../../Libraries/Button';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];

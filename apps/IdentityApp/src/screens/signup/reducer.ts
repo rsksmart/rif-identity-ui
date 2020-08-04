@@ -1,9 +1,6 @@
 import { SETUP_ACTION_TYPES } from './actions';
-import sampleMnemonic from '../../state/localUi/sampleMnemonic';
 
 export type SetupState = {
-  mnemonic: string[];
-  mnemonicError: string | boolean;
   pin: number | null;
   pinError: string | boolean;
 };
@@ -11,8 +8,6 @@ export type SetupState = {
 export const initialState = {
   pin: null,
   pinError: false,
-  mnemonic: sampleMnemonic,
-  mnemonicError: false,
 };
 
 const reducer = (state: SetupState = initialState, action: any) => {
@@ -25,7 +20,6 @@ const reducer = (state: SetupState = initialState, action: any) => {
     case SETUP_ACTION_TYPES.CLEAR_ERROR:
       return {
         ...state,
-        mnemonicError: initialState.mnemonicError,
         pinError: initialState.pinError,
       };
 

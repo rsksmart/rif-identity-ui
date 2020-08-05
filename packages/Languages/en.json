@@ -55,11 +55,21 @@
   "edit_profile": "Edit Profile",
   "security_words": "Security Words",
   "security_words_explanation": "This sequence of 12 words is the only way to regain access to your account in case you lose it. They will be available in your settings at any time.",
+  "security_words_write_down": "We recommend you to write these words down in a piece of paper and keep it safe.",
   "already_have_account": "I already have an account",
   "create_pin": "Create PIN",
   "create_pin_explanation": "Secure your app access with a 4-digit PIN",
   "confirm_pin": "Confirm PIN",
   "confirm_pin_explanation": "Please re-enter your PIN",
   "confirm_pin_error": "Pin did not match",
-  "no_mnemonic_warning": "To request credentials, please secure your wallet first."
+  "no_mnemonic_warning": "To request credentials, please secure your wallet first.",
+  "okay": "Okay",
+  "next": "Next",
+  "yes": "Yes",
+  "no": "No",
+  "made_secure_copy": "Have you made a secure copy of your security words in the same order?",
+  "you_will_need": "You will need them for the next step.",
+  "word_order_error": "Word order is not correct",
+  "confirm_security_words": "Confirm Security Words",
+  "reenter_words": "Please re-enter your security words in the same order to continue"
 }

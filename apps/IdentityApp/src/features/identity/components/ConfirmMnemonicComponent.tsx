@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { multilanguage } from 'redux-multilanguage';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
 import { SquareButton } from '../../../Libraries/Button';
+import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
   isError: string | null;
-  onSubmit: Function;
-  start: Function;
+  onSubmit: (words: string[]) => {};
+  start: () => {};
+  strings: any;
 }
 
 const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
@@ -15,6 +18,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   isError,
   onSubmit,
   start,
+  strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [wordList, setWordList] = useState([]);
@@ -39,18 +43,25 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   };
 
   return (
-    <>
+    <BackScreenComponent>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.header1}>Confirm Mnemonic</Text>
-          <Text style={typography.paragraph}>
-            Select the words in order to confirm you know them.
-          </Text>
+          <Text style={typography.header1}>{strings.confirm_security_words}</Text>
+          <Text style={typography.paragraph}>{strings.reenter_words}</Text>
         </View>
       </View>
+
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <View style={[layout.borderRow, styles.wordList]}>
+            <Text style={typography.paragraph}>{selectedWords.join(', ')}</Text>
+          </View>
+        </View>
+      </View>
+
       <View style={layout.row}>
         {wordList.map(word => (
-          <View style={[layout.column3, styles.buttonColumn]} key={word}>
+          <View style={[layout.column2, styles.buttonColumn]} key={word}>
             <SquareButton
               title={word}
               variation={isFound(word) ? 'solid' : 'hollow'}
@@ -60,23 +71,22 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
         ))}
       </View>
 
-      {isError && <Text style={typography.error}>{isError}</Text>}
-
-      <View style={layout.row}>
-        <View style={[layout.borderRow, styles.wordList]}>
-          <Text style={typography.paragraph}>{selectedWords.join(', ')}</Text>
+      {isError && (
+        <View style={layout.column1}>
+          <Text style={typography.error}>{strings[isError]}</Text>
         </View>
-      </View>
+      )}
+
       <View style={layout.row}>
         <View style={layout.column1}>
           <SquareButton
-            title="Next"
+            title={strings.next}
             disabled={selectedWords.length !== mnemonic.length}
             onPress={() => onSubmit(selectedWords)}
           />
         </View>
       </View>
-    </>
+    </BackScreenComponent>
   );
 };
 
@@ -85,11 +95,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   wordList: {
-    width: '90%',
-    margin: '5%',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 15,
   },
 });
 
-export default ConfirmMnemonicComponent;
+export default multilanguage(ConfirmMnemonicComponent);

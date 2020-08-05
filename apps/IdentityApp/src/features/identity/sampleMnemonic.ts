@@ -15,4 +15,4 @@ const sampleLong = [
 
 const sample = ['jesse', 'eats', 'tacos'];
 
-export default sample;
+export default sampleLong;

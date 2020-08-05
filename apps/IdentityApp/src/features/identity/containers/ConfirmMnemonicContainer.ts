@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
       }
     } else {
-      dispatch(newMnemonicError('Word order is not correct :('));
+      dispatch(newMnemonicError('word_order_error'));
     }
   },
 });

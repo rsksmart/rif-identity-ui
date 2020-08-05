@@ -24,7 +24,7 @@ const MissingMnemonic: React.FC<MissingMnemonicProps> = ({ setUpMnemonic, string
       paddingBottom: 10,
     },
     iconContainer: {
-      flex: 1,
+      flex: 2,
     },
     textContainer: {
       flex: 7,
@@ -40,7 +40,7 @@ const MissingMnemonic: React.FC<MissingMnemonicProps> = ({ setUpMnemonic, string
       <View style={layout.column1}>
         <TouchableOpacity onPress={setUpMnemonic} style={styles.buttonContainer}>
           <View style={styles.iconContainer}>
-            <MaterialCommunityIcons name="shield-key-outline" size={35} color={colors.grey} />
+            <MaterialCommunityIcons name="shield-key-outline" size={35} color={colors.gray} />
           </View>
           <View style={styles.textContainer}>
             <Text style={typography.parahraph}>{strings.no_mnemonic_warning}</Text>

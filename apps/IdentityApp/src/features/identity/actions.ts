@@ -10,9 +10,9 @@ export const clearError = () => ({
   type: MNEMONIC_TYPES.CLEAR_ERROR,
 });
 
-export const newMnemonicError = (message: string) => ({
+export const newMnemonicError = (mnemonicError: string) => ({
   type: MNEMONIC_TYPES.MNEMONIC_ERROR,
-  message,
+  mnemonicError,
 });
 
 export const receiveMnemonic = (hasMnemonic: boolean, mnemonic?: string[]) => ({

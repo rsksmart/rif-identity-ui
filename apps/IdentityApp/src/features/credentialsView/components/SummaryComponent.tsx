@@ -43,7 +43,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   };
 
   const setUpMnemonic = () => {
-    navigation.navigate('Profile', { screen: 'CreateMnemonic' })
+    navigation.navigate('SignupFlow', { screen: 'MnemonicView' })
   }
 
   if (isLoading) {

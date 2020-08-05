@@ -12,7 +12,7 @@ type LocalUiState = {
 };
 
 export const initialState = {
-  appVersion: '4',
+  appVersion: '7',
   checkingSingedUp: true,
   isSignedUp: false,
   isLoggedIn: false,

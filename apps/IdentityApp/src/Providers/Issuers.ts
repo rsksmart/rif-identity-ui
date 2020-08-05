@@ -29,7 +29,7 @@ export interface serverInterface {
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: 'Jesse',
+    name: "Jesse's Discount Credentials",
     endpoint: 'https://jesse-issuer-server.herokuapp.com',
     credentialsOffered: [
       {

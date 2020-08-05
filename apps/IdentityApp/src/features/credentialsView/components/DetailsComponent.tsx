@@ -99,7 +99,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
 
 const styles = StyleSheet.create({
   mainScroll: {
-    marginBottom: 50,
+    marginBottom: 70,
   },
   details: {
     paddingRight: 20,

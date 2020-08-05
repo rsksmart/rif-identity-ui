@@ -9,7 +9,8 @@ export interface VerifiedPresentation {
   success: boolean
   failureReason?: string
   credentialDetails?: CredentialDetails
-  vpJwt: string
+  vpJwt?: string
+  qrData: string
 }
 
 export interface CredentialDetails {

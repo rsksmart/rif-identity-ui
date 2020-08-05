@@ -7,7 +7,7 @@ import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import { QRDetailsContainer } from '../containers';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];

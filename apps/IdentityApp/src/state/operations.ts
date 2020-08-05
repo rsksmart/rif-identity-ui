@@ -11,12 +11,10 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {
-      console.log('CREDENTIALS!', res);
       dispatch(receiveIsSignedUp(true));
       RootNavigation.navigate('CredentialsFlow', { screen: 'SigninWithPin' });
     })
     .catch(() => {
-      console.log('WELCOME!');
       dispatch(receiveIsSignedUp(false));
       RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
     });

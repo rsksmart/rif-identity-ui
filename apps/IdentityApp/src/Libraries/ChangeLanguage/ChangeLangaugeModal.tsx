@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { View, Text, StyleSheet } from 'react-native';
-import ModalComponent from '../../Libraries/Modal/ModalComponent';
-import { SquareButton } from '../../Libraries/Button';
+import ModalComponent from '../Modal/ModalComponent';
+import { SquareButton } from '../Button';
 
 interface ChangeLangaugeModalProps {
   strings: any;

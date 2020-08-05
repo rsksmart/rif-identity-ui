@@ -1,10 +1,8 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Image, GestureResponderEvent } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
-
-import { SquareButton } from '../../../Libraries/Button';
-import ChangeLangaugeModalContainer from '../../Shared/ChangeLangaugeModalContainer';
+import { SquareButton } from '../../Libraries/Button';
 
 interface WelcomeComponentProps {
   restoreButtonPress: (event: GestureResponderEvent) => void | null;
@@ -24,11 +22,11 @@ const WelcomeComponent: React.FC<WelcomeComponentProps> = ({
         <View style={styles.imageContainer}>
           <Image
             style={styles.brandingImage}
-            source={require('../../../assets/images/branding-logo.png')}
+            source={require('../../assets/images/branding-logo.png')}
           />
           <Image
             style={styles.poweredByImage}
-            source={require('../../../assets/images/powered-by-rif.png')}
+            source={require('../../assets/images/powered-by-rif.png')}
           />
         </View>
       </View>
@@ -46,9 +44,6 @@ const WelcomeComponent: React.FC<WelcomeComponentProps> = ({
             variation="solid"
             onPress={getStartedPress}
           />
-        </View>
-        <View style={[layout.row, styles.containerBottom ]}>
-          <ChangeLangaugeModalContainer />
         </View>
       </View>
     </View>

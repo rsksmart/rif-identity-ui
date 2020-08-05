@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext }  from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import {StyleSheet, View, Text} from 'react-native';
-import {SquareButton} from '../../../Libraries/Button';
+import { StyleSheet, View, Text } from 'react-native';
+import { SquareButton } from '../../../Libraries/Button';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
@@ -21,7 +21,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   const [selectedWords, setSelectedWords] = useState([]);
 
   // is the word found in the selected list?
-  const isFound = (word: string) => selectedWords.find((item) => item === word);
+  const isFound = (word: string) => selectedWords.find(item => item === word);
 
   // "randomize" the words for the user
   useEffect(() => {
@@ -34,7 +34,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   const toggleClick = (word: string) => {
     const newSelected = !isFound(word)
       ? [...selectedWords, word]
-      : selectedWords.filter((item) => item !== word);
+      : selectedWords.filter(item => item !== word);
     setSelectedWords(newSelected);
   };
 
@@ -42,16 +42,15 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
     <>
       <View style={layout.row}>
         <View style={layout.column1}>
+          <Text style={typography.header1}>Confirm Mnemonic</Text>
           <Text style={typography.paragraph}>
             Select the words in order to confirm you know them.
           </Text>
         </View>
       </View>
       <View style={layout.row}>
-        {wordList.map((word) => (
-          <View
-            style={[ layout.column3, styles.buttonColumn]}
-            key={word}>
+        {wordList.map(word => (
+          <View style={[layout.column3, styles.buttonColumn]} key={word}>
             <SquareButton
               title={word}
               variation={isFound(word) ? 'solid' : 'hollow'}
@@ -64,7 +63,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
       {isError && <Text style={typography.error}>{isError}</Text>}
 
       <View style={layout.row}>
-        <View style={[ layout.borderRow, styles.wordList ]}>
+        <View style={[layout.borderRow, styles.wordList]}>
           <Text style={typography.paragraph}>{selectedWords.join(', ')}</Text>
         </View>
       </View>

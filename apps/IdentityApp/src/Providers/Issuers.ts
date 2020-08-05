@@ -29,8 +29,8 @@ export interface serverInterface {
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: "Ilan's Credentials",
-    endpoint: 'http://decadc45cd5b.ngrok.io',
+    name: "Jesse",
+    endpoint: 'https://jesse-issuer-server.herokuapp.com',
     credentialsOffered: [
       {
         name: 'ID',

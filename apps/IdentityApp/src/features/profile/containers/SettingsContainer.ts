@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import SettingsComponent from '../components/SettingsComponent';
 import { RootState } from '../../../state/store';
-import { signOutAndReset } from '../../../screens/credentials/operations';
+import { signOutAndReset } from '../operations';
 import { Credential } from '../../credentialsView/reducer';
 import { checkStatusOfCredentials } from '../../credentialsView/operations';
 

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { BackHandler } from 'react-native'
+import { BackHandler } from 'react-native';
 
-import SignupNavigation from './screens/signup/SignupNavigation';
-import CredentialsNavigation from './screens/credentials/CredentialsNavigation';
-import LoadingComponent from './screens/Shared/LoadingComponent';
+import { SignupNavigation, CredentialsNavigation } from './screens';
+import LoadingComponent from './Libraries/Loading/LoadingComponent';
+import { RootState } from './state/store';
 
 /**
  * Create a reference for the Navigation container and navigate function
@@ -22,28 +23,23 @@ export const goBack = () => navigationRef.current?.goBack();
  */
 interface AppComponentProps {
   checkingSingedUp: boolean;
-  isSignedUp: boolean;
 }
 
-const AppComponent: React.FC<AppComponentProps> = ({}) => {
+const AppComponent: React.FC<AppComponentProps> = ({ checkingSingedUp }) => {
   // prevent Android back button:
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => true)
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', () => true)
-  }, [])
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }, []);
+
+  if (checkingSingedUp) {
+    return <LoadingComponent />;
+  }
 
   const Stack = createStackNavigator();
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator
-        initialRouteName="Loading"
-        screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
-        <Stack.Screen
-          name="Loading"
-          component={LoadingComponent}
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
         <Stack.Screen
           name="SignupFlow"
           component={SignupNavigation}
@@ -59,4 +55,8 @@ const AppComponent: React.FC<AppComponentProps> = ({}) => {
   );
 };
 
-export default AppComponent;
+const mapStateToProps = (state: RootState) => ({
+  checkingSingedUp: state.localUi.checkingSingedUp,
+});
+
+export default connect(mapStateToProps)(AppComponent);

@@ -1,14 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { WelcomeContainer } from './index';
-import { ViewMnemonicContainer, ConfirmMnemonicContainer } from '../../features/identity';
-import { CreatePinContainer, ConfirmPinContainer } from '../../features/pin';
-import RestoreWalletContainer from '../../features/restore/RestoreWalletContainer';
+import WelcomeContainer from '../features/welcome/WelcomeContainer';
+import { ViewMnemonicContainer, ConfirmMnemonicContainer } from '../features/identity';
+import { CreatePinContainer, ConfirmPinContainer } from '../features/pin';
+import RestoreWalletContainer from '../features/restore/RestoreWalletContainer';
 
 interface SignupNavigationProps {}
 
 const SignupNavigation: React.FC<SignupNavigationProps> = ({}) => {
+  const options = { headerShown: false };
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
@@ -17,32 +18,29 @@ const SignupNavigation: React.FC<SignupNavigationProps> = ({}) => {
       <Stack.Screen
         name="MnemonicView"
         component={ViewMnemonicContainer}
-        options={{ title: 'Keep these words safe' }}
+        options={options}
       />
       <Stack.Screen
         name="MnemonicConfirm"
         component={ConfirmMnemonicContainer}
-        options={{ title: 'Confirm the phase' }}
+        options={options}
       />
 
       <Stack.Screen
         name="RestoreWallet"
         component={RestoreWalletContainer}
-        options={{ title: 'Restore from Backup' }}
+        options={options}
       />
 
       <Stack.Screen
         name="PinCreate"
         component={CreatePinContainer}
-        options={{
-          title: 'Create a Pin',
-          headerLeft: undefined,
-        }}
+        options={options}
       />
       <Stack.Screen
         name="PinConfirm"
         component={ConfirmPinContainer}
-        options={{ title: 'Confirm your Pin' }}
+        options={options}
       />
     </Stack.Navigator>
   );

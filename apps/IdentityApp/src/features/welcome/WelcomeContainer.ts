@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import WelcomeComponent from './WelcomeComponent';
-import * as RootNavigation from '../../../AppNavigation';
+import * as RootNavigation from '../../AppNavigation';
 
 interface dispatchInterface {
   restoreButtonPress: (path: string) => any;

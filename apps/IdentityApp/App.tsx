@@ -8,18 +8,11 @@ import { RifThemeProvider, defaultTheme } from '@rsksmart/rif-theme';
 
 const App = () => {
   const store = configureStore();
-
   store.dispatch(initialAppStart());
-
-  // override initial styles here:
-  const theme = {
-    ...defaultTheme,
-    name: 'OVERRIDE!'
-  }
 
   return (
     <Provider store={store}>
-      <RifThemeProvider value={theme}>
+      <RifThemeProvider value={defaultTheme}>
         <SafeAreaView style={{ flex: 1 }}>
           <AppNavigation />
         </SafeAreaView>

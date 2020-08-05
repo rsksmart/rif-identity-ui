@@ -8,7 +8,7 @@ import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
 
 interface RequestTypeComponentProps {

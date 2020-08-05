@@ -6,7 +6,7 @@ import QRCode from 'react-native-qrcode-svg';
 
 import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface QRDetailsComponentProps {
   credential: Credential | null;

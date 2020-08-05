@@ -1,10 +1,10 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
-import ChangeLangaugeModalContainer from '../../../screens/Shared/ChangeLangaugeModalContainer';
+import ChangeLangaugeModalContainer from '../../../Libraries/ChangeLanguage/ChangeLangaugeModalContainer';
 
 interface SettingsComponentProps {
   strings: any;

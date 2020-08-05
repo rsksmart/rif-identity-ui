@@ -1,39 +1,37 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
+import { multilanguage } from 'redux-multilanguage';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import {StyleSheet, View, Text, GestureResponderEvent} from 'react-native';
+import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
 
-import {SquareButton} from '../../../Libraries/Button';
+import { SquareButton } from '../../../Libraries/Button';
 
 interface ViewMnemonicComponentProps {
   mnemonic: string[];
   onSubmit: (event: GestureResponderEvent) => void | null;
+  strings: any;
 }
 
 const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
   mnemonic,
   onSubmit,
+  strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
     <>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.paragraph}>
-            Write these words down in order starting with the first row.
-            Keep them safe, this is the backup to your identity.
-          </Text>
+          <Text style={typography.header1}>{strings.security_words}</Text>
+          <Text style={typography.paragraph}>{strings.security_words_explanation}</Text>
         </View>
-        <View
-          style={[ layout.row, layout.borderRow,styles.wordRow ]}>
+        <View style={[layout.row, layout.borderRow, styles.wordRow]}>
           {mnemonic.map((word, index) => (
             <View style={layout.column3} key={word}>
-              <View style={[ layout.row, styles.innerRow]}>
+              <View style={[layout.row, styles.innerRow]}>
                 <View style={styles.circleView}>
                   <Text style={styles.circleNumber}>{index + 1}</Text>
                 </View>
-                <Text style={[ typography.paragraph, styles.singleWord ]}>
-                  {word}
-                </Text>
+                <Text style={[typography.paragraph, styles.singleWord]}>{word}</Text>
               </View>
             </View>
           ))}
@@ -78,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewMnemonicComponent;
+export default multilanguage(ViewMnemonicComponent);

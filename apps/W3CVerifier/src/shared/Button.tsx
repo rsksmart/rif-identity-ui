@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 311,
     height: 50,
-    borderColor: colors.darkestGray,
+    borderColor: colors.gray4,
     borderWidth: 2,
     borderStyle: 'solid',
     // box-sizing: 'border-box',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     display: 'flex',
     fontSize: 13,
-    color: colors.darkestGray,
+    color: colors.gray4,
     letterSpacing: 0.04,
     fontWeight: '900'
   },

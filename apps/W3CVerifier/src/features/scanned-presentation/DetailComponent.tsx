@@ -31,13 +31,13 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
       width: 100,
     },
     valueText: {
-      color: colors.darkestGray,
+      color: colors.gray4,
       fontWeight: '500',
       fontSize: 10,
       lineHeight: 18,
     },
     labelText: {
-      color: colors.darkGray,
+      color: colors.gray3,
       fontWeight: '500',
       fontSize: 10,
       lineHeight: 18,

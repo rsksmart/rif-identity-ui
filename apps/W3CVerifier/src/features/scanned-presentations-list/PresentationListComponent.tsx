@@ -49,16 +49,16 @@ const PresentationList: React.FC<PresentationListProps> = ({
       fontWeight: '500',
       fontSize: 10,
       lineHeight: 18,
-      color: colors.gray
+      color: colors.gray2
     },
     citizenText: {
-      color: colors.darkestGray,
+      color: colors.gray4,
       fontWeight: '500',
       fontSize: 14,
       lineHeight: 18,
     },
     contentText: {
-      color: colors.darkGray,
+      color: colors.gray3,
       fontWeight: '500',
       fontSize: 10,
       lineHeight: 18,

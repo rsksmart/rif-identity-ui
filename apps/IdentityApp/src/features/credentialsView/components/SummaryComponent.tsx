@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { StyleSheet, TouchableOpacity, RefreshControl, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
@@ -8,6 +8,7 @@ import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import { QRDetailsContainer } from '../containers';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
+import MissingMnemonic from './MissingMnemonic';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -44,7 +45,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
   const setUpMnemonic = () => {
     navigation.navigate('SignupFlow', { screen: 'MnemonicView' })
-  }
+  };
 
   if (isLoading) {
     return <LoadingComponent />;
@@ -62,19 +63,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         </View>
       </View>
 
-      {!hasMnemonic && (
-        <View style={layout.row}>
-          <View style={layout.column1}>
-            <TouchableOpacity onPress={setUpMnemonic}>
-              <View>
-                <Text style={typography.paragrapg}>
-                  No Mnemonic!
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
+      {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
 
       <View style={[layout.row, styles.credentialsRow ]}>
         {credentials.map(credential => (

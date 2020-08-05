@@ -54,5 +54,12 @@
   "short_seed_error": "The seed should be at least 12 words.",
   "edit_profile": "Edit Profile",
   "security_words": "Security Words",
-  "security_words_explanation": "This sequence of 12 words is the only way to regain access to your account in case you lose it. They will be available in your settings at any time."
+  "security_words_explanation": "This sequence of 12 words is the only way to regain access to your account in case you lose it. They will be available in your settings at any time.",
+  "already_have_account": "I already have an account",
+  "create_pin": "Create PIN",
+  "create_pin_explanation": "Secure your app access with a 4-digit PIN",
+  "confirm_pin": "Confirm PIN",
+  "confirm_pin_explanation": "Please re-enter your PIN",
+  "confirm_pin_error": "Pin did not match",
+  "no_mnemonic_warning": "To request credentials, please secure your wallet first."
 }

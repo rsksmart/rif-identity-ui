@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { receiveMnemonic, restoreSeedError } from './actions';
-import * as RootNavigation from '../../AppNavigation';
 
 /**
  * Saves Mnemonic to Localstorage
@@ -39,7 +38,6 @@ export const getMnemonicFromLocalStorage = () => async (dispatch: Dispatch) => {
 export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Dispatch) => {
   const seedArray = seed.split(' ');
   if (seedArray.length >= 12) {
-    console.log('its good');
     await dispatch(saveMnemonicToLocalStorage(seedArray));
     return true;
   }

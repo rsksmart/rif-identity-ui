@@ -71,5 +71,6 @@
   "you_will_need": "You will need them for the next step.",
   "word_order_error": "Word order is not correct",
   "confirm_security_words": "Confirm Security Words",
-  "reenter_words": "Please re-enter your security words in the same order to continue"
+  "reenter_words": "Please re-enter your security words in the same order to continue",
+  "no_credentials": "You don't have any credentials yet."
 }

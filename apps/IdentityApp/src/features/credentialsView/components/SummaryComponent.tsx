@@ -65,7 +65,11 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
 
-      <View style={[layout.row, styles.credentialsRow ]}>
+      <View style={[layout.row, styles.credentialsRow]}>
+        {credentials.length === 0 && (
+          <Text style={typography.paragraph}>{strings.no_credentials}</Text>
+        )}
+
         {credentials.map(credential => (
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
@@ -93,7 +97,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
 const styles = StyleSheet.create({
   credentialsRow: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   single: {
     width: '50%',

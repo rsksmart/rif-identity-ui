@@ -13,7 +13,11 @@ export enum declarativeDetails {
   ADDRESS = 'ADDRESS',
   CITY = 'CITY',
   CIVIL_STATUS = 'CIVIL_STATUS',
+<<<<<<< HEAD
   DRIVERS_LICENSE_NUMBER = 'DRIVERS_LICENSE_NUMBER',
+=======
+  DRIVERS_LICENSE = 'DRIVERS_LICENSE',
+>>>>>>> Add Driver's license
 }
 
 export interface credentialTypes {

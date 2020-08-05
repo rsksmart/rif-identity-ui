@@ -1,5 +1,5 @@
 export enum CredentialTypes {
-  AUTO = 'AUTO',
+  DRIVERS_LICENSE = 'DRIVERS_LICENSE',
   PARKING_PERMIT = 'PARKING_PERMIT',
   ID = 'ID',
 }
@@ -13,7 +13,7 @@ export enum declarativeDetails {
   ADDRESS = 'ADDRESS',
   CITY = 'CITY',
   CIVIL_STATUS = 'CIVIL_STATUS',
-  DRIVERS_LICENSE = 'DRIVERS_LICENSE',
+  DRIVERS_LICENSE_NUMBER = 'DRIVERS_LICENSE_NUMBER',
 }
 
 export interface credentialTypes {
@@ -33,7 +33,7 @@ export const ISSUERS: serverInterface[] = [
     endpoint: 'http://decadc45cd5b.ngrok.io',
     credentialsOffered: [
       {
-        name: 'AUTO',
+        name: 'ID',
         requirements: [
           declarativeDetails.FULL_NAME,
           declarativeDetails.ID_NUMBER,
@@ -52,11 +52,11 @@ export const ISSUERS: serverInterface[] = [
           declarativeDetails.ID_NUMBER,
           declarativeDetails.PHONE,
           declarativeDetails.CITY,
-          declarativeDetails.DRIVERS_LICENSE,
+          declarativeDetails.DRIVERS_LICENSE_NUMBER,
         ],
       },
       {
-        name: 'ID',
+        name: 'DRIVERS_LICENSE',
         requirements: [
           declarativeDetails.FULL_NAME,
           declarativeDetails.ID_NUMBER,

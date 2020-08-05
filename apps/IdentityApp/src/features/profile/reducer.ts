@@ -15,7 +15,7 @@ export interface ProfileInterface {
   EMAIL: string;
   ADDRESS: string;
   CITY: string;
-  DRIVERS_LICENSE: string;
+  DRIVERS_LICENSE_NUMBER: string;
 }
 
 export const initialState = {

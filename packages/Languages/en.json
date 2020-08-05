@@ -36,7 +36,7 @@
   "confirm_request_explanation": "Confirm sharing the information requested by the credential issuer.",
   "id": "ID Card",
   "passport": "Passport",
-  "auto": "Driver's License",
+  "drivers_license": "Driver's License",
   "confirm_sharing": "Confirm sharing the information requested by the credential issuer",
   "information_requested": "Requested information",
   "private_sending_notice": "This information will be sent privately to the issuer in order to certify the credentials.",
@@ -49,5 +49,5 @@
   "parking_permit": "Parking Permit",
   "address": "Address",
   "city": "City",
-  "drivers_license": "Driver's License Number"
+  "drivers_license_number": "Driver's License Number"
 }

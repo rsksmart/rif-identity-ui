@@ -57,7 +57,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
               value={profile.BIRTHDATE ? moment(profile.BIRTHDATE).format('MMM D YYYY') : ''}
             />
             <DisplayItem name={strings.id_number} value={profile.ID_NUMBER} />
-            <DisplayItem name={strings.drivers_license} value={profile.DRIVERS_LICENSE} />
+            <DisplayItem name={strings.drivers_license_number} value={profile.DRIVERS_LICENSE_NUMBER} />
 
             <DisplayItem
               name={strings.civil_status}

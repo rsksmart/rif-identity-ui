@@ -2,7 +2,7 @@ import { CREDENTIAL_ACTION_TYPES } from './actions';
 import { serverInterface } from '../../../src/Providers/Issuers';
 
 export enum CredentialTypes {
-  AUTO = 'AUTO',
+  DRIVERS_LICENSE = 'DRIVERS_LICENSE',
   PASSPORT = 'PASSPORT',
   ID = 'ID',
 }

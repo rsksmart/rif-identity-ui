@@ -25,7 +25,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   const icon = () => {
     const color = disabled ? colors.lightGray : colors.primary;
     switch (credential.type) {
-      case CredentialTypes.AUTO:
+      case CredentialTypes.DRIVERS_LICENSE:
         return <FontAwesome name="automobile" color={color} size={30} />;
       case CredentialTypes.PARKING_PERMIT:
         return <FontAwesome5 name="parking" color={color} size={30} />;

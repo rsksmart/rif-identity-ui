@@ -35,7 +35,7 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     EMAIL: profile.EMAIL,
     ADDRESS: profile.ADDRESS,
     CITY: profile.CITY,
-    DRIVERS_LICENSE: profile.DRIVERS_LICENSE,
+    DRIVERS_LICENSE_NUMBER: profile.DRIVERS_LICENSE_NUMBER,
   });
 
   const handleChange = (field: declarativeDetails, value: string) => {
@@ -79,9 +79,9 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
             />
 
             <EditItem
-              name={strings.drivers_license}
-              value={localProfile.DRIVERS_LICENSE}
-              onChange={async text => handleChange(declarativeDetails.DRIVERS_LICENSE, text)}
+              name={strings.drivers_license_number}
+              value={localProfile.DRIVERS_LICENSE_NUMBER}
+              onChange={async text => handleChange(declarativeDetails.DRIVERS_LICENSE_NUMBER, text)}
               keyboardType="number-pad"
             />
 

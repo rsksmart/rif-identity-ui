@@ -13,6 +13,7 @@ export enum declarativeDetails {
   ADDRESS = 'ADDRESS',
   CITY = 'CITY',
   CIVIL_STATUS = 'CIVIL_STATUS',
+  DRIVERS_LICENSE = 'DRIVERS_LICENSE',
 }
 
 export interface credentialTypes {
@@ -51,6 +52,7 @@ export const ISSUERS: serverInterface[] = [
           declarativeDetails.ID_NUMBER,
           declarativeDetails.PHONE,
           declarativeDetails.CITY,
+          declarativeDetails.DRIVERS_LICENSE,
         ],
       },
       {

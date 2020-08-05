@@ -4,21 +4,18 @@ import { multilanguage } from 'redux-multilanguage';
 import { Dimensions, StyleSheet, ScrollView, View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SquareButton } from '../../../Libraries/Button';
+import { serverInterface, credentialTypes } from '../../../Providers/Issuers';
 
 interface RequestTypeComponentProps {
   strings: any;
-  route: {
-    params: {
-      types: string[];
-    };
-  };
+  issuers: serverInterface[];
   navigation: any;
   start: () => {};
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
-  route,
+  issuers,
   navigation,
   start,
 }) => {
@@ -28,14 +25,21 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
     start();
   }, [start]);
 
-  const items = route.params.types.map(item => ({
-    label: strings[item.toLowerCase()],
-    value: item,
+  // hardcode the first server:
+  const server = issuers[0];
+  const items = server.credentialsOffered.map((item: credentialTypes) => ({
+    label: strings[item.name.toLowerCase()],
+    value: item.name,
   }));
 
   const handlePress = () => {
     if (type) {
-      navigation.navigate('ConfirmRequest', { type: type });
+      navigation.navigate('ConfirmRequest', {
+        type: type,
+        requirements: server.credentialsOffered.filter(
+          (item: credentialTypes) => item.name === type,
+        )[0].requirements,
+      });
     }
   };
 

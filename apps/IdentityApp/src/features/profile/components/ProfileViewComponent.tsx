@@ -1,13 +1,7 @@
 import React, { useContext }  from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import moment from 'moment';
 
 import DisplayItem from './DisplayItem';
@@ -32,9 +26,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
     <ScrollView style={layout.container}>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.header1}>
-            {strings.personal_info}
-          </Text>
+          <Text style={typography.header1}>{strings.personal_info}</Text>
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => navigation.navigate('Settings', {})}>
@@ -59,18 +51,23 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
                 {strings.no_personal_details}
               </Text>
             )}
-            <DisplayItem name={strings.fullName} value={profile.fullName} />
+            <DisplayItem name={strings.full_name} value={profile.FULL_NAME} />
             <DisplayItem
               name={strings.birthdate}
-              value={profile.birthdate ? moment(profile.birthdate).format('MMM D YYYY') : ''}
+              value={profile.BIRTHDATE ? moment(profile.BIRTHDATE).format('MMM D YYYY') : ''}
             />
-            <DisplayItem name={strings.idNumber} value={profile.idNumber} />
+            <DisplayItem name={strings.id_number} value={profile.ID_NUMBER} />
+            <DisplayItem name={strings.drivers_license_number} value={profile.DRIVERS_LICENSE_NUMBER} />
+
             <DisplayItem
-              name={strings.civilStatus}
-              value={profile.civilStatus ? strings[profile.civilStatus] : ''}
+              name={strings.civil_status}
+              value={profile.CIVIL_STATUS ? strings[profile.CIVIL_STATUS] : ''}
             />
-            <DisplayItem name={strings.phone} value={profile.phone} />
-            <DisplayItem name={strings.email} value={profile.email} />
+            
+            <DisplayItem name={strings.address} value={profile.ADDRESS} />
+            <DisplayItem name={strings.city} value={profile.CITY} />
+            <DisplayItem name={strings.phone} value={profile.PHONE} />
+            <DisplayItem name={strings.email} value={profile.EMAIL} />
           </View>
         </View>
       </View>
@@ -98,7 +95,7 @@ const styles = StyleSheet.create({
   },
   empty: {
     marginRight: 30,
-  }
+  },
 });
 
 export default multilanguage(ProfileViewComponent);

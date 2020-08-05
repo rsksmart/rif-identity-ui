@@ -11,7 +11,8 @@ import {
   requestPresentation,
   receivePresentation,
 } from './actions';
-import { StorageProvider, STORAGE_KEYS, serverInterface } from '../../Providers';
+import { StorageProvider, STORAGE_KEYS } from '../../Providers';
+import { serverInterface } from '../../Providers/Issuers';
 import {
   requestCredential,
   receiveCredential,
@@ -95,7 +96,10 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
     .then(function (response) {
       // Create Credential object:
       const credential: Credential = {
-        issuer: server,
+        issuer: {
+          name: server.name,
+          endpoint: server.endpoint,
+        },
         hash: response.data.token,
         status: CredentialStatus.PENDING,
         dateRequested: new Date(),

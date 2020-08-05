@@ -6,6 +6,7 @@ import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { CredentialTypes } from '../../../Providers/Issuers';
 
 interface SingleSummaryComponentProps {
   credential: Credential;
@@ -24,11 +25,11 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   const icon = () => {
     const color = disabled ? colors.lightGray : colors.primary;
     switch (credential.type) {
-      case 'AUTO':
+      case CredentialTypes.DRIVERS_LICENSE:
         return <FontAwesome name="automobile" color={color} size={30} />;
-      case 'PASSPORT':
-        return <FontAwesome5 name="passport" color={color} size={30} />;
-      case 'ID':
+      case CredentialTypes.PARKING_PERMIT:
+        return <FontAwesome5 name="parking" color={color} size={30} />;
+      case CredentialTypes.ID:
         return <FontAwesome name="id-card-o" color={color} size={30} />;
       default:
         return <FontAwesome name="question" color={color} size={30} />;

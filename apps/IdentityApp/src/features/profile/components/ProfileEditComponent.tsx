@@ -1,4 +1,4 @@
-import React, { useState, useContext }  from 'react';
+import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
@@ -9,6 +9,7 @@ import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
 import { ProfileInterface } from '../reducer';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
+import { declarativeDetails } from '../../../Providers/Issuers';
 
 interface ProfileEditComponentProps {
   strings: any;
@@ -24,16 +25,20 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   navigation,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [localProfile, setLocalProfile] = useState({
-    fullName: profile.fullName,
-    birthdate: profile.birthdate,
-    idNumber: profile.idNumber,
-    civilStatus: profile.civilStatus,
-    phone: profile.phone,
-    email: profile.email,
+
+  const [localProfile, setLocalProfile] = useState<ProfileInterface>({
+    FULL_NAME: profile.FULL_NAME,
+    BIRTHDATE: profile.BIRTHDATE,
+    ID_NUMBER: profile.ID_NUMBER,
+    CIVIL_STATUS: profile.CIVIL_STATUS,
+    PHONE: profile.PHONE,
+    EMAIL: profile.EMAIL,
+    ADDRESS: profile.ADDRESS,
+    CITY: profile.CITY,
+    DRIVERS_LICENSE_NUMBER: profile.DRIVERS_LICENSE_NUMBER,
   });
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: declarativeDetails, value: string) => {
     setLocalProfile({
       ...localProfile,
       [field]: value,
@@ -55,46 +60,65 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
               <SquareButton title={strings.save} onPress={handleSavePress} />
             </View>
             <EditItem
-              name={strings.fullName}
-              value={localProfile.fullName}
-              onChange={async text => handleChange('fullName', text)}
+              name={strings.full_name}
+              value={localProfile.FULL_NAME}
+              onChange={async text => handleChange(declarativeDetails.FULL_NAME, text)}
             />
 
             <DatePicker
               name={strings.birthdate}
-              value={localProfile.birthdate}
-              onChange={(text: string) => handleChange('birthdate', text)}
+              value={localProfile.BIRTHDATE}
+              onChange={(text: string) => handleChange(declarativeDetails.BIRTHDATE, text)}
             />
 
             <EditItem
-              name={strings.idNumber}
-              value={localProfile.idNumber}
-              onChange={async text => handleChange('idNumber', text)}
+              name={strings.id_number}
+              value={localProfile.ID_NUMBER}
+              onChange={async text => handleChange(declarativeDetails.ID_NUMBER, text)}
+              keyboardType="number-pad"
+            />
+
+            <EditItem
+              name={strings.drivers_license_number}
+              value={localProfile.DRIVERS_LICENSE_NUMBER}
+              onChange={async text => handleChange(declarativeDetails.DRIVERS_LICENSE_NUMBER, text)}
               keyboardType="number-pad"
             />
 
             <DropDown
-              name={strings.civilStatus}
-              value={localProfile.civilStatus}
+              name={strings.civil_status}
+              value={localProfile.CIVIL_STATUS}
               items={[
                 { label: '', value: '' },
                 { label: strings.married, value: 'married' },
                 { label: strings.single, value: 'single' },
               ]}
-              onChange={async text => handleChange('civilStatus', text)}
+              onChange={async text => handleChange(declarativeDetails.CIVIL_STATUS, text)}
+            />
+
+            <EditItem
+              name={strings.address}
+              value={localProfile.ADDRESS}
+              onChange={async text => handleChange(declarativeDetails.ADDRESS, text)}
+            />
+
+            <EditItem
+              name={strings.city}
+              value={localProfile.CITY}
+              onChange={async text => handleChange(declarativeDetails.CITY, text)}
             />
 
             <EditItem
               name={strings.phone}
-              value={localProfile.phone}
-              onChange={async text => handleChange('phone', text)}
+              value={localProfile.PHONE}
+              onChange={async text => handleChange(declarativeDetails.PHONE, text)}
               keyboardType="phone-pad"
             />
 
             <EditItem
               name={strings.email}
-              value={localProfile.email}
-              onChange={async text => handleChange('email', text)}
+              value={localProfile.EMAIL}
+              onChange={async text => handleChange(declarativeDetails.EMAIL, text)}
               keyboardType="email-address"
             />
           </View>

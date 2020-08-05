@@ -9,7 +9,8 @@ interface DisplayItemProps {
 
 const DisplayItem: React.FC<DisplayItemProps> = ({ name, value }) => {
   const { typography }: ThemeInterface = useContext(ThemeContext);
-  if (value === '') {
+
+  if (value === '' || !value) {
     return <></>;
   }
 

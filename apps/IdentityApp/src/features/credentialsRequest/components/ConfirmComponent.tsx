@@ -9,11 +9,13 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
 import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
 
 interface RequestTypeComponentProps {
   route: {
     params: {
       type: CredentialTypes;
+      requirements: declarativeDetails[];
     };
   };
   profile: ProfileInterface;
@@ -26,33 +28,34 @@ interface RequestTypeComponentProps {
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
-  route,
   profile,
-  requirements,
   requestCredential,
   isRequestingCredential,
   requestCredentialError,
+  route,
 }) => {
   const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
 
   const handlePress = () => {
     let metaData = { type: type };
-    requirements[type].forEach(item => {
-      metaData[item] = profile[item];
+    requirements.forEach((item: declarativeDetails) => {
+      metaData[item.toLowerCase()] = profile[item];
     });
 
     requestCredential(metaData);
   };
-  const type: string = route.params.type;
+
+  const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
+  // const requirements = route.params.requirements;
 
   const meetsRequirements = () => {
-    const results = requirements[type].filter(
+    const results = requirements.filter(
       (item: string) => profile[item] === '' || profile[item] === null,
     );
     return results.length === 0;
   };
 
-  const requiredItem = (item: string) => {
+  const requiredItem = (item: declarativeDetails) => {
     const itemValue = profile[item];
     const icon =
       itemValue === '' || !itemValue ? (
@@ -63,7 +66,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
     return (
       <Text style={styles.required} key={item}>
-        {icon} {strings[item]} : {itemValue}
+        {icon} {strings[item.toLowerCase()]} : {itemValue}
       </Text>
     );
   };
@@ -82,7 +85,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
                 {strings.information_requested}:
               </Text>
 
-              {requirements[type].map((item: string) => requiredItem(item))}
+              {requirements.map((item: string) => requiredItem(item))}
 
               <Text style={styles.notice}>
                 <MaterialCommunityIcons

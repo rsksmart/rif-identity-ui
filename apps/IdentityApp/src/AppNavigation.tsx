@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { BackHandler } from 'react-native'
 
 import SignupNavigation from './screens/signup/SignupNavigation';
 import CredentialsNavigation from './screens/credentials/CredentialsNavigation';
@@ -25,6 +26,13 @@ interface AppComponentProps {
 }
 
 const AppComponent: React.FC<AppComponentProps> = ({}) => {
+  // prevent Android back button:
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true)
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true)
+  }, [])
+
   const Stack = createStackNavigator();
   return (
     <NavigationContainer ref={navigationRef}>

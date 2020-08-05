@@ -72,5 +72,7 @@
   "word_order_error": "Word order is not correct",
   "confirm_security_words": "Confirm Security Words",
   "reenter_words": "Please re-enter your security words in the same order to continue",
-  "no_credentials": "You don't have any credentials yet."
+  "no_credentials": "You don't have any credentials yet.",
+  "recheck_credential_status": "Recheck credential status",
+  "are_you_sure_remove": "Are you sure you want to remove this credential from the app? This can not be undone"
 }

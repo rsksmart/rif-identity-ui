@@ -41,7 +41,6 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
         {strings[type]} <StatusIcon status="CERTIFIED" />
       </Text>
       <View style={styles.qrView}>{qrCode()}</View>
-      <Text>{hash}</Text>
     </View>
   );
 };

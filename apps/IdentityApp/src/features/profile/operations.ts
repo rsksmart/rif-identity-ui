@@ -18,7 +18,7 @@ export const initialStart = () => async (dispatch: Dispatch) => {
       }
       dispatch(receiveProfile());
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('STORAGE_KEYS.PROFILE', error));
 };
 
 /**

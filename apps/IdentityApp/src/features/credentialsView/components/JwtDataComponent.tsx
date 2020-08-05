@@ -19,7 +19,7 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const data: JwtInterface = jwtDecode(jwt);
   const metadata: any = data.vc.credentialSubject;
-  
+
   return (
     <View>
       <Text style={typography.paragraphBold}>Credential Metadata:</Text>
@@ -28,7 +28,9 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
           <View style={styles.headingColumn}>
             <Text style={styles.heading}>{strings[key] ? strings[key] : key}</Text>
           </View>
-          <Text style={styles.value}>{metadata[key]}</Text>
+          <View style={styles.viewColumn}>
+            <Text style={styles.value}>{metadata[key]}</Text>
+          </View>
         </View>
       ))}
     </View>
@@ -45,6 +47,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: 'capitalize',
     paddingBottom: 5,
+  },
+  viewColumn: {
+    width: '60%',
   },
   value: {
     fontSize: 16,

@@ -11,6 +11,7 @@ import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { QRDetailsContainer } from '../containers';
 import JwtDataComponent from './JwtDataComponent';
+import DeleteCredentialComponent from './DeleteCredentialComponent';
 
 interface DetailsComponentProps {
   credential: Credential;
@@ -31,7 +32,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   const handleQrClick = () => {
     setShowQr(true);
     createPresentation(credential.hash);
-  }
+  };
   // if the credential does not have a hash, show blank
   if (!credential) {
     return (
@@ -72,19 +73,6 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                 {strings[credential.status.toLowerCase()]}
                 <StatusIcon status={credential.status} />
               </Text>
-
-              <Text style={typography.paragraphBold}>Hash:</Text>
-              <Text style={styles.indent}>{credential.hash}</Text>
-
-              {credential.status === 'DENIED' && (
-                <View style={styles.buttonView}>
-                  <SquareButton
-                    title={strings.remove_credential}
-                    variation="hollow"
-                    onPress={() => removeCredential(credential.hash)}
-                  />
-                </View>
-              )}
               {credential.status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
@@ -101,6 +89,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                 </View>
               )}
             </View>
+            <DeleteCredentialComponent removeCredential={() => removeCredential(credential.hash)} />
           </View>
         </View>
       </ScrollView>

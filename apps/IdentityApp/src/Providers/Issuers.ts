@@ -24,12 +24,12 @@ export interface credentialTypes {
 export interface serverInterface {
   name: string;
   endpoint: string;
-  credentialsOffered?: credentialTypes[];
+  credentialsOffered: credentialTypes[];
 }
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: "Jesse",
+    name: 'Jesse',
     endpoint: 'https://jesse-issuer-server.herokuapp.com',
     credentialsOffered: [
       {

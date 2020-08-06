@@ -4,6 +4,7 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { View, Text } from 'react-native';
 
 import PinInput from '../../../Libraries/PinInput/PinInputComponent';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface ConfirmPinComponentProps {
   onSubmit: () => {};
@@ -21,7 +22,7 @@ const ConfirmPinComponent: React.FC<ConfirmPinComponentProps> = ({
     <View style={layout.column1}>
       <Text style={typography.header1}>{strings.confirm_pin}</Text>
       <Text style={typography.paragraph}>{strings.confirm_pin_explanation}</Text>
-      {errorMessage && <Text style={typography.error}>{strings.confirm_pin_error}</Text>}
+      {errorMessage && <MessageComponent message={strings.confirm_pin_error} type="ERROR" />}
       <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
     </View>
   );

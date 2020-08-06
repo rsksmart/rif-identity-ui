@@ -76,5 +76,8 @@
   "recheck_credential_status": "Recheck credential status",
   "are_you_sure_remove": "Are you sure you want to remove this credential from the app? This can not be undone",
   "identity": "Identity",
-  "show_security_words": "Show security words"
+  "show_security_words": "Show security words",
+  "restore_access": "Restore access",
+  "restore_access_explanation": "Please enter your 12 security words in order to reset your PIN number.",
+  "pull_down_refresh": "Pull down to refresh the status of pending credentials."
 }

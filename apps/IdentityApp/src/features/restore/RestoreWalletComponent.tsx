@@ -4,6 +4,8 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 import { SquareButton } from '../../Libraries/Button';
+import BackScreenComponent from '../../Libraries/BackScreen/BackScreenComponent';
+import MessageComponent from '../../Libraries/Message/MessageComponent';
 
 interface RestoreWalletComponentProps {
   onSubmit: (text: String) => void | null;
@@ -11,16 +13,21 @@ interface RestoreWalletComponentProps {
   strings: any;
 }
 
-const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({ onSubmit, mnemonicError, strings }) => {
+const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
+  onSubmit,
+  mnemonicError,
+  strings,
+}) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [textValue, setTextValue] = useState('');
 
   return (
-    <>
+    <BackScreenComponent>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.paragraph}>Enter your seed phrase seperated by spaces</Text>
-          {mnemonicError && <Text style={typography.error}>{strings[mnemonicError]}</Text>}
+          <Text style={typography.header1}>{strings.restore_access}</Text>
+          <Text style={typography.paragraph}>{strings.restore_access_explanation}</Text>
+          {mnemonicError && <MessageComponent type="ERROR" message={strings[mnemonicError]} />}
         </View>
       </View>
       <View style={layout.row}>
@@ -43,7 +50,7 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({ onSubmi
           <SquareButton title="Restore" onPress={() => onSubmit(textValue)} />
         </View>
       </View>
-    </>
+    </BackScreenComponent>
   );
 };
 

@@ -4,6 +4,7 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
@@ -71,11 +72,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
         ))}
       </View>
 
-      {isError && (
-        <View style={layout.column1}>
-          <Text style={typography.error}>{strings[isError]}</Text>
-        </View>
-      )}
+      {isError && <MessageComponent type="ERROR" message={strings[isError]} />}
 
       <View style={layout.row}>
         <View style={layout.column1}>

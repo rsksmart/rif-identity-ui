@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 
 import PinInput from '../../../Libraries/PinInput/PinInputComponent';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface SigninWithPinComponentProps {
   onSubmit: () => {};
@@ -21,7 +22,7 @@ const SigninWithPinComponent: React.FC<SigninWithPinComponentProps> = ({
     <View style={layout.container}>
       <View style={layout.column1}>
         <Text style={typography.header1}>{strings.login_with_pin}</Text>
-        {errorMessage && <Text style={typography.error}>{strings[errorMessage]}</Text>}
+        {errorMessage && <MessageComponent message={strings[errorMessage]} type="ERROR" />}
         <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
       </View>
     </View>

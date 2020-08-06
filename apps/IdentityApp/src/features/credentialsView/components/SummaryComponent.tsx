@@ -9,6 +9,7 @@ import { SquareButton } from '../../../Libraries/Button';
 import { QRDetailsContainer } from '../containers';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import MissingMnemonic from './MissingMnemonic';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -19,6 +20,7 @@ interface SummaryComponentProps {
   createPresentation: (credentialHash: string) => {};
   isCheckingPendingStatus: boolean;
   hasMnemonic: boolean;
+  hasPending: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -30,6 +32,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   isCheckingPendingStatus,
   createPresentation,
   hasMnemonic,
+  hasPending,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
@@ -44,7 +47,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   };
 
   const setUpMnemonic = () => {
-    navigation.navigate('SignupFlow', { screen: 'MnemonicView' })
+    navigation.navigate('SignupFlow', { screen: 'MnemonicView' });
   };
 
   if (isLoading) {
@@ -64,6 +67,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       </View>
 
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
+      {hasPending && <MessageComponent message={strings.pull_down_refresh} type="WARNING" />}
 
       <View style={[layout.row, styles.credentialsRow]}>
         {credentials.length === 0 && (

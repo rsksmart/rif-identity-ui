@@ -10,6 +10,7 @@ import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface RequestTypeComponentProps {
   route: {
@@ -99,12 +100,14 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
             </View>
             {!meetsRequirements() && (
               <>
-                <Text style={styles.warning}>{strings.missing_requirements}</Text>
+                <MessageComponent type="WARNING" message={strings.missing_requirements} />
                 <SquareButton title="Edit Profile" onPress={handleEditProfile} />
               </>
             )}
 
-            {requestCredentialError && <Text style={styles.warning}>{requestCredentialError}</Text>}
+            {requestCredentialError && (
+              <MessageComponent type="ERROR" message={requestCredentialError} />
+            )}
 
             {meetsRequirements() && (
               <SquareButton
@@ -142,10 +145,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingTop: 15,
-  },
-  warning: {
-    fontSize: 18,
-    marginBottom: 20,
   },
 });
 

@@ -36,22 +36,25 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
           <Text style={typography.paragraphBold}>{strings.identity}</Text>
           <Text>{did}</Text>
 
-          <View style={styles.buttonView}>
-            <SquareButton
-              title={strings.show_security_words}
-              variation="hollow"
-              onPress={() => setShowWords(true)}
-            />
-            <ModalComponent visible={showWords}>
-              <Text style={typography.paragraphBold}>{strings.security_words_write_down}</Text>
-              <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic.join(', ')}</Text>
+          {mnemonic && (
+            <View style={styles.buttonView}>
               <SquareButton
-                title={strings.close}
+                title={strings.show_security_words}
                 variation="hollow"
-                onPress={() => setShowWords(false)}
+                onPress={() => setShowWords(true)}
               />
-            </ModalComponent>
-          </View>
+              <ModalComponent visible={showWords}>
+                <Text style={typography.paragraphBold}>{strings.security_words_write_down}</Text>
+                <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic.join(', ')}</Text>
+                <SquareButton
+                  title={strings.close}
+                  variation="hollow"
+                  onPress={() => setShowWords(false)}
+                />
+              </ModalComponent>
+            </View>
+          )}
+
           <View style={styles.buttonView}>
             <ChangeLangaugeModalContainer />
           </View>

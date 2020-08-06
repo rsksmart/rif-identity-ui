@@ -202,7 +202,16 @@ export const createPresentation = (jwt: string, address: string, privateKey: str
 
   const holder = new EthrDID({ address: address, privateKey: privateKey });
 
-  createVerifiablePresentationJwt(vpPayload, holder).then(presentation =>
-    dispatch(receivePresentation(presentation)),
-  );
+  createVerifiablePresentationJwt(vpPayload, holder)
+    .then(uploadPresentation)
+    .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)))
 };
+
+const uploadPresentation = (jwt: string) => {
+  const TINY_QR_SERVER = 'https://tiny-qr.herokuapp.com'
+
+  const request = axios.post(`${TINY_QR_SERVER}/presentation`, { jwt })
+  const hashFn = keccak256(jwt)
+
+  return Promise.all([ request, hashFn ])
+}

@@ -8,9 +8,12 @@
 const path = require('path')
 
 const watchFolders = [
-  path.resolve(__dirname + '../../../packages'),
+  path.resolve(__dirname + '/../../packages/rif-theme'),
+  path.resolve(__dirname + '/../../packages/Languages'),
 ];
-
+const extraNodeModules = {
+  '@rsksmart/rif-theme': path.resolve(__dirname + '/../../packages/rif-theme'),
+};
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -19,6 +22,9 @@ module.exports = {
         inlineRequires: false,
       },
     }),
+  },
+  resolver: {
+    extraNodeModules,
   },
   watchFolders,
 };

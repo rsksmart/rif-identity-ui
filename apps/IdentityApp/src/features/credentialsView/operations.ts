@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import EthrDID from 'ethr-did';
+import { TINYQR_ENDPOINT } from '@env';
 
 import { JwtPresentationPayload, createVerifiablePresentationJwt } from 'did-jwt-vc';
 import { Credential, CredentialStatus } from './reducer';
@@ -212,14 +213,12 @@ export const createPresentation = (jwt: string, address: string, privateKey: str
 
   createVerifiablePresentationJwt(vpPayload, holder)
     .then(uploadPresentation)
-    .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)))
+    .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
 };
 
 const uploadPresentation = (jwt: string) => {
-  const TINY_QR_SERVER = 'https://tiny-qr.herokuapp.com'
+  const request = axios.post(`${TINYQR_ENDPOINT}/presentation`, { jwt });
+  const hashFn = keccak256(jwt);
 
-  const request = axios.post(`${TINY_QR_SERVER}/presentation`, { jwt })
-  const hashFn = keccak256(jwt)
-
-  return Promise.all([ request, hashFn ])
-}
+  return Promise.all([request, hashFn]);
+};

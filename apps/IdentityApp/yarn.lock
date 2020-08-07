@@ -5816,10 +5816,10 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-dotenv@^2.2.6:
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.2.6.tgz#81d898ff459580190e11883afc747771caea9e65"
-  integrity sha512-HC7OjKLzPfxQyeyxsJjwIc2Za8T+bvjmfwfOwCMHZDUSEcqFOxpVu+YUKeoi8xiQ9/tx9BCEuFP0ujvhDPX01g==
+react-native-dotenv@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.3.0.tgz#5c41bb06879616e9222f998446c4e401447c0638"
+  integrity sha512-I+qChtJT8U8EXSr91O1cMC7uU4Xaalg3aVFtRb1b47DX+30PMK+I8sCOMGnZcJW6YQyUaf0fjqlVXmmaMOcfWg==
   dependencies:
     dotenv "^8.0.0"
 

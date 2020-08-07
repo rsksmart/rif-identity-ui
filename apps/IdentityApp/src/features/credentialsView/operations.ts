@@ -85,6 +85,9 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
   dispatch: Dispatch,
 ) => {
   dispatch(requestCredential());
+  if (!server.endpoint || server.endpoint === '') {
+    return dispatch(errorRequestCredential('No server connected'));
+  }
 
   const payload = {
     metadata,

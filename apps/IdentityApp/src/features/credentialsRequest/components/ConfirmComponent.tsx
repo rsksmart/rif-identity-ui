@@ -8,8 +8,9 @@ import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface RequestTypeComponentProps {
   route: {
@@ -21,6 +22,7 @@ interface RequestTypeComponentProps {
   profile: ProfileInterface;
   requirements: [];
   requestCredential: (metadata: []) => {};
+  handleEditProfile: () => {};
   strings: any;
   isRequestingCredential: boolean;
   requestCredentialError: string | null;
@@ -30,6 +32,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
   profile,
   requestCredential,
+  handleEditProfile,
   isRequestingCredential,
   requestCredentialError,
   route,
@@ -46,12 +49,12 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
-  // const requirements = route.params.requirements;
 
   const meetsRequirements = () => {
     const results = requirements.filter(
-      (item: string) => profile[item] === '' || profile[item] === null,
+      (item: string) => !profile[item] || profile[item] === '' || profile[item] === null,
     );
+    console.log(results.length, results.length === 0);
     return results.length === 0;
   };
 
@@ -81,9 +84,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
             <View style={styles.grayBox}>
               <Text style={typography.header1}>{strings[type.toLowerCase()]}</Text>
-              <Text style={typography.paragraphBold}>
-                {strings.information_requested}:
-              </Text>
+              <Text style={typography.paragraphBold}>{strings.information_requested}:</Text>
 
               {requirements.map((item: string) => requiredItem(item))}
 
@@ -98,17 +99,25 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
               </Text>
             </View>
             {!meetsRequirements() && (
-              <Text style={styles.warning}>{strings.missing_requirements}</Text>
+              <>
+                <MessageComponent type="WARNING" message={strings.missing_requirements} />
+                <SquareButton title="Edit Profile" onPress={handleEditProfile} />
+              </>
             )}
 
-            {requestCredentialError && <Text style={styles.warning}>{requestCredentialError}</Text>}
+            {requestCredentialError && (
+              <MessageComponent type="ERROR" message={requestCredentialError} />
+            )}
+
+            {meetsRequirements() && (
+              <SquareButton
+                title={strings.confirm}
+                onPress={handlePress}
+                disabled={isRequestingCredential}
+              />
+            )}
 
             {isRequestingCredential && <LoadingComponent />}
-            <SquareButton
-              title={strings.confirm}
-              onPress={handlePress}
-              disabled={!meetsRequirements() || isRequestingCredential}
-            />
           </View>
         </View>
       </BackScreenComponent>
@@ -136,10 +145,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingTop: 15,
-  },
-  warning: {
-    fontSize: 18,
-    marginBottom: 20,
   },
 });
 

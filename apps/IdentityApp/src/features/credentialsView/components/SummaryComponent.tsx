@@ -7,7 +7,9 @@ import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import { QRDetailsContainer } from '../containers';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
+import MissingMnemonic from './MissingMnemonic';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -17,6 +19,8 @@ interface SummaryComponentProps {
   checkPending: () => {};
   createPresentation: (credentialHash: string) => {};
   isCheckingPendingStatus: boolean;
+  hasMnemonic: boolean;
+  hasPending: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -27,6 +31,8 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   checkPending,
   isCheckingPendingStatus,
   createPresentation,
+  hasMnemonic,
+  hasPending,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
@@ -38,6 +44,10 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       createPresentation(credentialHash);
       setQrModalHash(credentialHash);
     }
+  };
+
+  const setUpMnemonic = () => {
+    navigation.navigate('SignupFlow', { screen: 'MnemonicView' });
   };
 
   if (isLoading) {
@@ -55,7 +65,15 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           <Text style={typography.header1}>{strings.my_credentials}</Text>
         </View>
       </View>
-      <View style={[layout.row, styles.credentialsRow ]}>
+
+      {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
+      {hasPending && <MessageComponent message={strings.pull_down_refresh} type="WARNING" />}
+
+      <View style={[layout.row, styles.credentialsRow]}>
+        {credentials.length === 0 && (
+          <Text style={typography.paragraph}>{strings.no_credentials}</Text>
+        )}
+
         {credentials.map(credential => (
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
@@ -83,7 +101,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
 const styles = StyleSheet.create({
   credentialsRow: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   single: {
     width: '50%',

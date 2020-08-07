@@ -19,6 +19,10 @@ const mapStateToProps = (state: RootState) => ({
   did: state.localUi.did,
   address: state.localUi.address,
   privateKey: state.localUi.privateKey,
+  hasMnemonic: state.identity.hasMnemonic,
+  hasPending:
+    state.credentials.credentials.filter((item: Credential) => item.status === 'PENDING').length !==
+    0,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

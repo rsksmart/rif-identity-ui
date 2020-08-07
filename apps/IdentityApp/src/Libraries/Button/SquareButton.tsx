@@ -33,7 +33,7 @@ const SquareButton: React.FC<SquareButtonInterface> = ({
 const sharedStyles = {
   button: {
     width: '100%',
-    borderWidth: 3,
+    borderWidth: 1,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 8,

@@ -48,7 +48,6 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
         <Text style={[styles.name, disabled ? styles.disabled : {}]}>
           {strings[credential.type.toLowerCase()]}
         </Text>
-        <Text style={disabled ? styles.disabled : {}}>{credential.hash.substr(0, 8)}</Text>
         <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>

@@ -130,7 +130,8 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
-const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
+export const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
+  console.log('checking status.');
   return await axios
     .get(server.endpoint + '/response?request=' + hash)
     .then((response: { data: string }) => {

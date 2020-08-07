@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { ProfileEditContainer, ProfileViewContainer, SettingsContainer } from './containers';
-
 import { initialStart } from './operations';
 
 export const Stack = createStackNavigator();
@@ -18,13 +17,14 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
     start();
   }, [start]);
 
+  const options = { headerShown: false };
   return (
     <Stack.Navigator
       screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}
       initialRouteName="View">
-      <Stack.Screen name="View" component={ProfileViewContainer} options={{ headerShown: false }} />
-      <Stack.Screen name="Edit" component={ProfileEditContainer} options={{ headerShown: false }} />
-      <Stack.Screen name="Settings" component={SettingsContainer} options={{ headerShown: false }} />
+      <Stack.Screen name="View" component={ProfileViewContainer} options={options} />
+      <Stack.Screen name="Edit" component={ProfileEditContainer} options={options} />
+      <Stack.Screen name="Settings" component={SettingsContainer} options={options} />
     </Stack.Navigator>
   );
 };

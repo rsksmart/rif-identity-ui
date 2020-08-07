@@ -29,7 +29,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <Text style={typography.header1}>{strings.personal_info}</Text>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={() => navigation.navigate('Settings', {})}>
+            onPress={() =>
+              navigation.navigate('Settings', {}, { params: { previousScreen: 'ViewProfile' } })
+            }>
             <FontAwesome name="cog" size={25} />
           </TouchableOpacity>
           <Text style={typography.paragraph}>{strings.profile_explanation}</Text>

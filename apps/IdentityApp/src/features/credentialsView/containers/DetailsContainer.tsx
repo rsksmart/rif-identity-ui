@@ -3,7 +3,8 @@ import { Dispatch } from 'redux';
 import { DetailsComponent } from '../components';
 import { RootState } from '../../../state/store';
 import { Credential } from '../reducer';
-import { removeCredential, createPresentation } from '../operations';
+import { removeCredential, createPresentation, checkStatusOfCredential } from '../operations';
+import { serverInterface } from '../../../Providers/Issuers';
 
 const mapStateToProps = (state: RootState) => ({
   allCredentials: state.credentials.credentials,

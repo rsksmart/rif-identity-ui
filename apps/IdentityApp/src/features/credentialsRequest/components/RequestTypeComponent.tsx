@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { Dimensions, StyleSheet, ScrollView, View, Text } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { SquareButton } from '../../../Libraries/Button';
+import { Dimensions, StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native';
 import { serverInterface, credentialTypes } from '../../../Providers/Issuers';
+import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 
 interface RequestTypeComponentProps {
   strings: any;
@@ -20,49 +19,40 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   start,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [type, setType] = useState();
   useEffect(() => {
     start();
   }, [start]);
 
   // hardcode the first server:
   const server = issuers[0];
-  const items = server.credentialsOffered.map((item: credentialTypes) => ({
-    label: strings[item.name.toLowerCase()],
-    value: item.name,
-  }));
 
-  const handlePress = () => {
-    if (type) {
-      navigation.navigate('ConfirmRequest', {
-        type: type,
-        requirements: server.credentialsOffered.filter(
-          (item: credentialTypes) => item.name === type,
-        )[0].requirements,
-      });
-    }
+  const handlePress = (item: credentialTypes) => {
+    navigation.navigate('ConfirmRequest', {
+      type: item.name,
+      requirements: item.requirements,
+    });
   };
 
   return (
     <ScrollView style={layout.container}>
-      <View style={[ layout.row, styles.row ]}>
-        <View style={layout.column1}>
-          <Text style={typography.header1}>{strings.request_credential}</Text>
-          <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
-
-          <DropDownPicker
-            items={items}
-            containerStyle={styles.containerStyle}
-            style={styles.style}
-            itemStyle={styles.itemStyle}
-            dropDownStyle={styles.dropDownStyle}
-            onChangeItem={item => setType(item.value)}
-          />
+      <BackScreenComponent>
+        <View style={[layout.row, styles.row]}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.request_credential}</Text>
+            <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
+            <View style={styles.credentialList}>
+              {server.credentialsOffered.map((item: credentialTypes, index: number) => (
+                <TouchableOpacity
+                  key={item.name}
+                  style={[styles.credentialButton, index % 2 === 0 ? styles.odd : {}]}
+                  onPress={() => handlePress(item)}>
+                  <Text style={typography.paragraph}>{strings[item.name.toLowerCase()]}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
         </View>
-        <View style={layout.column1}>
-          <SquareButton title={strings.confirm} onPress={handlePress} />
-        </View>
-      </View>
+      </BackScreenComponent>
     </ScrollView>
   );
 };
@@ -76,26 +66,17 @@ const styles = StyleSheet.create({
     // tab bar was set to 95px:
     height: screenHeight - 110,
   },
-  first: {
-    justifyContent: 'flex-start',
-    flex: 1,
+  credentialList: {
+    marginTop: 20,
   },
-  second: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  credentialButton: {
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
   },
-  containerStyle: {
-    height: 56,
-  },
-  style: {
-    backgroundColor: '#f1f1f1',
-    borderColor: '#919191',
-  },
-  itemStyle: {
-    justifyContent: 'flex-start',
-  },
-  dropDownStyle: {
-    backgroundColor: '#fafafa',
+  odd: {
+    backgroundColor: '#F0F0F0',
   },
 });
 

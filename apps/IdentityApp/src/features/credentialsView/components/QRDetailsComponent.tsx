@@ -6,7 +6,7 @@ import QRCode from 'react-native-qrcode-svg';
 
 import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
-import LoadingComponent from '../../../screens/Shared/LoadingComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface QRDetailsComponentProps {
   credential: Credential | null;
@@ -51,7 +51,6 @@ const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
         {strings[type]} <StatusIcon status="CERTIFIED" />
       </Text>
       <View style={styles.qrView}>{qrCode()}</View>
-      <Text>{hash}</Text>
     </View>
   );
 };

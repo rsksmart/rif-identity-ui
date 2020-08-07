@@ -14,16 +14,16 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   handleScan: (
-    jwt: string, scannedPresentations: VerifiedPresentation[], navigation: any,
-  ) => dispatch(scanQR(jwt, scannedPresentations, navigation)) // TODO: Improve navigation stuff
+    data: string, scannedPresentations: VerifiedPresentation[], navigation: any,
+  ) => dispatch(scanQR(data, scannedPresentations, navigation)) // TODO: Improve navigation stuff
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   ...ownProps,
-  handleScan: (jwt: string, navigation: any) =>
-    dispatchProps.handleScan(jwt, stateProps.scannedPresentations, navigation),
+  handleScan: (data: string, navigation: any) =>
+    dispatchProps.handleScan(data, stateProps.scannedPresentations, navigation),
 });
 
 export default connect(

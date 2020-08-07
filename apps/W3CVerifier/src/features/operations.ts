@@ -2,11 +2,13 @@ import { Dispatch } from 'react';
 import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt, showPresentationRequest } from './scanned-presentation/actions';
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
-import { verifyPresentation } from 'did-jwt-vc'
+import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
 import { mapFromPayload, VerifiedPresentation, EXPECTED_ISSUER } from '../api';
 import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
+import axios from 'axios'
+import { keccak256 } from 'js-sha3';
 
 export const RPC_URL = 'https://mainnet.infura.io/v3/1e0af90f0e934c88b0f0b6612146e07a';
 
@@ -19,14 +21,12 @@ const providerConfig = {
 }
 const resolver = new Resolver(getResolver(providerConfig));
 
-export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[], navigation: any) => async (dispatch: Dispatch) => {
+export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[], navigation: any) => async (dispatch: Dispatch) => {
   const baseFailedPresentation = {
     dateVerified: new Date(),
     success: false,
-    vpJwt: jwt
+    qrData: data,
   }
-
-  let presentation: VerifiedPresentation
 
   const dispatchAndAddToStorage = () => {
     dispatch(addScannedPresentation(presentation))
@@ -38,28 +38,36 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
   }
   
   dispatch(requestVerifyJwt())
-  
-  if (!jwt || jwt.split('.').length !== 3) {
-    presentation = {
-      ...baseFailedPresentation,
-      failureReason: 'Invalid JWT format',
+
+  let presentation: VerifiedPresentation
+
+  try {
+    const { pwd, url, vpHash } = JSON.parse(data)
+
+    if (!pwd || !url || !vpHash) {
+      throw new Error('Invalid QR code')
     }
 
-    dispatch(receiveInvalidJwt(presentation))
+    let vpJwt: string;
 
-    dispatchAndAddToStorage()
-  } else {
-    verifyPresentation(jwt, resolver)
-      .then((vp) => {
-        const verified = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], jwt)
-
+    axios.post(url, { pwd })
+      .then((res: any) => res.status === 200 && res.data)
+      .then((data: any) => data.jwt)
+      .then((jwt: string) => keccak256(jwt).toString('hex') !== vpHash ? (() => { throw new Error('Corrupted presentation') })() : jwt)
+      .then((jwt: string) => {
+        vpJwt = jwt;
+        return verifyPresentation(jwt, resolver)
+      })
+      .then((vp: W3CVerifiedPresentation) => {
+        const verified = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], data)
+  
         presentation = validateVerifiedPresentation(verified, baseFailedPresentation);
         dispatch(receiveValidJwt(presentation))
       })
       .catch((err: Error) => {
         // the jwt is well formatted, so try to decode it and get the subject fullName anyway
         try {
-          const decoded = decodeJWT(jwt)
+          const decoded = decodeJWT(data)
 
           if (decoded?.payload?.vp?.verifiableCredential[0]) {
             const credential = decodeJWT(decoded.payload.vp.verifiableCredential[0])
@@ -69,6 +77,7 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
               failureReason: err.message,
               fullName: credential.payload.vc.credentialSubject['fullName'],
               credentialDetails: credential.payload.vc,
+              vpJwt, 
             }
           }
         } catch {
@@ -81,7 +90,16 @@ export const scanQR = (jwt: string, scannedPresentations: VerifiedPresentation[]
         dispatch(receiveInvalidJwt(presentation))
       })
       .finally(dispatchAndAddToStorage)
+  } catch (err) {
+    presentation = {
+      ...baseFailedPresentation,
+      failureReason: err.message,
     }
+
+    dispatch(receiveInvalidJwt(presentation))
+
+    dispatchAndAddToStorage()
+  }
 }
 
 export const cleanStorage = () => async (dispatch: Dispatch) => {

@@ -10,26 +10,36 @@ import LoadingComponent from '../../../screens/Shared/LoadingComponent';
 
 interface QRDetailsComponentProps {
   credential: Credential | null;
-  presentation: string;
+  presentationUrl: string;
+  presentationPwd: string;
+  presentationHash: string;
   strings: any;
 }
 
 const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
   credential,
-  presentation,
+  presentationUrl,
+  presentationPwd,
+  presentationHash,
   strings,
 }) => {
   const { typography }: ThemeInterface = useContext(ThemeContext);
   const qrCode = () => {
-    if (!presentation || !credential) {
+    if (!presentationUrl || !credential) {
       return <LoadingComponent />;
     }
 
-    return presentation === 'ERROR' ? (
-      <Text>{strings.presentation_error}</Text>
-    ) : (
-      <QRCode value={presentation} size={275} />
-    );
+    if (presentationUrl === 'ERROR') {
+      return <Text>{strings.presentation_error}</Text>
+    }
+
+    const presentationQrValue = {
+      url: presentationUrl,
+      pwd: presentationPwd,
+      vpHash: presentationHash
+    }
+
+    return <QRCode value={JSON.stringify(presentationQrValue)} size={275} />
   };
 
   const type = credential ? credential.type.toLowerCase() : '';

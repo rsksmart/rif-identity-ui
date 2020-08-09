@@ -1,3 +1,4 @@
+import { ISSUER_ENDPOINT, ISSUER_NAME } from '@env';
 export enum CredentialTypes {
   DRIVERS_LICENSE = 'DRIVERS_LICENSE',
   PARKING_PERMIT = 'PARKING_PERMIT',
@@ -29,8 +30,8 @@ export interface serverInterface {
 
 export const ISSUERS: serverInterface[] = [
   {
-    name: "Jesse's Discount Credentials",
-    endpoint: 'https://jesse-issuer-server.herokuapp.com',
+    name: ISSUER_NAME,
+    endpoint: ISSUER_ENDPOINT,
     credentialsOffered: [
       {
         name: 'ID',

@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../styles';
 import { VerifiedPresentation } from '../../api';
 
@@ -51,7 +52,15 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
   return (
     <View style={styles.container}>
       <Text>
-        {presentation.success.toString()}
+        <Ionicons
+          name={
+            presentation.success
+              ? 'checkmark-circle-outline'
+              : 'close-circle-outline'
+          }
+          size={50}
+          color={presentation.success ? colors.lightBlue : colors.red}
+        />
       </Text>
       <Text style={styles.title}>
         {presentation.success ? presentation.fullName : presentation.failureReason}

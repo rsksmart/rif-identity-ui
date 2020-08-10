@@ -7,7 +7,7 @@ import {
 import { VerifiedPresentation } from '../../api'
 import { layoutStyles, colors } from '../../styles';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface PresentationListProps {
   presentations: VerifiedPresentation[];
@@ -85,7 +85,15 @@ const PresentationList: React.FC<PresentationListProps> = ({
           <Text style={styles.contentText}>{toDateString(presentation.dateVerified.toString())}</Text>
         </View>
         <View style={styles.cell}>
-          <Text style={styles.contentText}>{presentation.success.toString()}</Text>
+          <Ionicons
+            name={
+              presentation.success
+                ? 'checkmark-circle-outline'
+                : 'close-circle-outline'
+            }
+            size={25}
+            color={presentation.success ? colors.lightBlue : colors.red}
+          />
         </View>
       </TouchableOpacity>
     )

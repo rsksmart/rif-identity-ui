@@ -5,6 +5,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 import { colors } from '../../styles';
 import { VerifiedPresentation } from '../../api';
 
@@ -49,6 +52,17 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
     },
   });
 
+  const icon = (type: "driver-license" | "parking-permit" | undefined) => {
+    switch (type) {
+      case "driver-license": 
+        return <FontAwesome name="automobile" color={colors.gray4} size={30} />;
+      case "parking-permit":
+        return <FontAwesome5 name="parking" color={colors.gray4} size={30} />;
+      default:
+        return <></>
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text>
@@ -65,9 +79,8 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
       <Text style={styles.title}>
         {presentation.success ? presentation.fullName : presentation.failureReason}
       </Text>
-      <Text>
-        CREDENTIAL ICON
-      </Text>
+
+      {icon(presentation.type)}
       <Text style={styles.subtitle}>
         {(presentation.success && strings.valid_id_credential_card) || strings.invalid_id_credential_card}
       </Text>

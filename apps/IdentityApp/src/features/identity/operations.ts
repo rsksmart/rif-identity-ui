@@ -1,9 +1,8 @@
 import { Dispatch } from 'redux';
+import { entropyToMnemonic, setDefaultWordlist } from 'bip39';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { receiveMnemonic, restoreSeedError, setNewMnemnoic } from './actions';
 import { randomBytes } from 'react-native-randombytes';
-
-const bip39 = require('bip39');
 
 /**
  * Saves Mnemonic to Localstorage
@@ -15,7 +14,7 @@ export const saveMnemonicToLocalStorage = (mnemonic: string[]) => async (dispatc
       dispatch(receiveMnemonic(true, mnemonic));
       return true;
     })
-    .catch((error:any) => console.log(error));
+    .catch((error: any) => console.log(error));
 };
 
 /**
@@ -54,8 +53,13 @@ const getRandom = (count: number) =>
     return randomBytes(count, (err: any, bytes: any) => (err ? reject(err) : resolve(bytes)));
   });
 
-export const generateNewMnemonic = () => async (dispatch: Dispatch) => {
+/**
+ * Generate New Mnemonic
+ * @param language string Language code from multilanguage reducer
+ */
+export const generateNewMnemonic = (language: string) => async (dispatch: Dispatch) => {
+  setDefaultWordlist(language === 'en' ? 'english' : 'spanish');
   const entropy = await getRandom(16);
-  const mnemonic = bip39.entropyToMnemonic(entropy);
+  const mnemonic = entropyToMnemonic(entropy);
   dispatch(setNewMnemnoic(mnemonic.split(' ')));
 };

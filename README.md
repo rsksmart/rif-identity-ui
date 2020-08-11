@@ -40,6 +40,8 @@ yarn
 yarn lerna bootstrap
 ```
 
+> If you add/remove a dependency from any folder inside `./apps` or `./packages`, please install (or re-install) the dependencies with `yarn lerna bootstrap`.
+
 ### Holder's app
 
 This is a react native app, you will first need to [set up React Native environment](https://reactnative.dev/docs/environment-setup).

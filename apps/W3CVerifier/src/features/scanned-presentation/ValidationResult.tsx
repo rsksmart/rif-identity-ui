@@ -79,7 +79,6 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
       <Text style={styles.title}>
         {presentation.success ? presentation.fullName : presentation.failureReason}
       </Text>
-
       {icon(presentation.type)}
       <Text style={styles.subtitle}>
         {(presentation.success && strings.valid_id_credential_card) || strings.invalid_id_credential_card}

@@ -5,8 +5,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScanQRContainer from './scan-qr/ScanQRContainer';
 import PresentationNavigation from './presentations/PresentationNavigation';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
+import { goToScanner } from '../features/operations';
 
-const MainFlowNavigation: React.FC<{}> = () => {
+const mapStateToProps = (state: RootState) => ({});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  handleGoToScanner: () => dispatch(goToScanner())
+});
+
+interface MainFlowProps {
+  handleGoToScanner: () => void
+}
+
+const MainFlowNavigation: React.FC<MainFlowProps> = ({
+  handleGoToScanner,
+}) => {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
@@ -25,6 +38,12 @@ const MainFlowNavigation: React.FC<{}> = () => {
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('PresentationNavigation', { screen: 'List' });
+          },
+        })}
       />
       <Tab.Screen
         name="ScanQR"
@@ -39,6 +58,12 @@ const MainFlowNavigation: React.FC<{}> = () => {
             />
           ),
         }}
+        listeners={() => ({
+          tabPress: event => {
+            event.preventDefault();
+            handleGoToScanner()
+          },
+        })}
       />
       {/* <Tab.Screen
         name="Profile"
@@ -48,4 +73,4 @@ const MainFlowNavigation: React.FC<{}> = () => {
   );
 };
 
-export default connect()(MainFlowNavigation);
+export default connect(mapStateToProps, mapDispatchToProps)(MainFlowNavigation);

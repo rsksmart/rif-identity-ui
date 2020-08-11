@@ -9,7 +9,7 @@ import { VerifiedPresentation } from '../../api';
 const mapStateToProps = (state: RootState) => ({
   scannedPresentations: state.presentationList.presentations,
   isVerifying: state.scannedPresentation.isVerifying,
-  allowScanAgain: state.scannedPresentation.allowScanAgain,
+  allowScanAgain: state.localUi.allowScanAgain,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

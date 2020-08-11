@@ -1,18 +1,17 @@
 import { MNEMONIC_TYPES } from './actions';
-import sample from './sampleMnemonic';
 
 export type SetupState = {
   hasMnemonic: boolean;
   mnemonic: string[] | null;
   mnemonicError: string | null;
-  newMnemonic: string[];
+  newMnemonic: string[] | null;
 };
 
 export const initialState = {
   hasMnemonic: false,
   mnemonic: null,
   mnemonicError: false,
-  newMnemonic: sample,
+  newMnemonic: [],
 };
 
 const reducer = (state: SetupState = initialState, action: any) => {
@@ -28,6 +27,11 @@ const reducer = (state: SetupState = initialState, action: any) => {
       return {
         ...state,
         mnemonicError: action.mnemonicError,
+      };
+    case MNEMONIC_TYPES.SET_NEW_MNEMONIC:
+      return {
+        ...state,
+        newMnemonic: action.mnemonic,
       };
     default:
       return state;

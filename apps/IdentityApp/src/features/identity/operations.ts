@@ -1,6 +1,9 @@
 import { Dispatch } from 'redux';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { receiveMnemonic, restoreSeedError } from './actions';
+import { receiveMnemonic, restoreSeedError, setNewMnemnoic } from './actions';
+import { randomBytes } from 'react-native-randombytes';
+
+const bip39 = require('bip39');
 
 /**
  * Saves Mnemonic to Localstorage
@@ -44,4 +47,15 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
 
   dispatch(restoreSeedError('short_seed_error'));
   return false;
+};
+
+const getRandom = (count: number) =>
+  new Promise((resolve, reject) => {
+    return randomBytes(count, (err: any, bytes: any) => (err ? reject(err) : resolve(bytes)));
+  });
+
+export const generateNewMnemonic = () => async (dispatch: Dispatch) => {
+  const entropy = await getRandom(16);
+  const mnemonic = bip39.entropyToMnemonic(entropy);
+  dispatch(setNewMnemnoic(mnemonic.split(' ')));
 };

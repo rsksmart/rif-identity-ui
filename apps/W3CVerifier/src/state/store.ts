@@ -4,11 +4,13 @@ import logger from './middleware/customLogger';
 import multiLanguageReducer from './multiLanguageReducer';
 import presentationListReducer from '../features/scanned-presentations-list/reducer'
 import scannedPresentationReducer from '../features/scanned-presentation/reducer'
+import localUiReducer from './localUi/reducer'
 
 const middleware = [thunk, logger];
 
 const rootReducer = combineReducers({
   multilanguage: multiLanguageReducer,
+  localUi: localUiReducer,
   presentationList: presentationListReducer,
   scannedPresentation: scannedPresentationReducer
 });

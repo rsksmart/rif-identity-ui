@@ -1,23 +1,22 @@
-import { Dispatch } from 'react';
+import { Dispatch, createRef } from 'react';
 import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt, showPresentationRequest } from './scanned-presentation/actions';
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
-import { mapFromPayload, VerifiedPresentation, EXPECTED_ISSUER } from '../api';
+import { mapFromPayload, VerifiedPresentation } from '../api';
+import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS } from '@env'
 import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
 import axios from 'axios'
 import { keccak256 } from 'js-sha3';
-
-export const RPC_URL = 'https://mainnet.infura.io/v3/1e0af90f0e934c88b0f0b6612146e07a';
-
-// https://github.com/uport-project/ethr-did-registry
-export const DID_REGISTRY_ADDRESS = '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b';
+import { requestScanAgain, receiveQrScan } from '../state/localUi/actions';
+import { navigate } from '../AppNavigation';
 
 const providerConfig = {
-  rpcUrl: RPC_URL,
-  registry: DID_REGISTRY_ADDRESS,
+  networks: [
+    { name: "rsk:testnet", rpcUrl: RPC_URL, registry: DID_REGISTRY_ADDRESS }
+  ]
 }
 const resolver = new Resolver(getResolver(providerConfig));
 
@@ -37,6 +36,7 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
     })
   }
   
+  dispatch(receiveQrScan())
   dispatch(requestVerifyJwt())
 
   let presentation: VerifiedPresentation
@@ -60,8 +60,9 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
       })
       .then((vp: W3CVerifiedPresentation) => {
         const verified = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], data)
-  
+
         presentation = validateVerifiedPresentation(verified, baseFailedPresentation);
+
         dispatch(receiveValidJwt(presentation))
       })
       .catch((err: Error) => {
@@ -114,6 +115,12 @@ export const showPresentation = (presentation: VerifiedPresentation, navigation:
   navigation.navigate('PresentationNavigation', { screen: 'Details' });
 }
 
+export const goToScanner = () =>  async (dispatch: Dispatch) => {
+  dispatch(requestScanAgain())
+
+  navigate('ScanQR', { screen: 'Details' });
+}
+
 const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFailedPresentation: VerifiedPresentation): VerifiedPresentation => {
   if (!presentation.credentialDetails) {
     return {
@@ -121,24 +128,18 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
       failureReason: 'Invalid credential details'
     };
   }
+
+  const ALLOWED_DIDS: string[] = ISSUER_DID.split(',')
   
-  // if (presentation.credentialDetails.expirationDate < new Date()) {
-  //   return {
-  //     ...baseFailedPresentation,
-  //     failureReason: 'Expired credential',
-  //     fullName: presentation.credentialDetails.credentialSubject['fullName']
-  //   };
-  // }
-  
-  // REMOVED FOR TESTING PURPOSES
-  // if (presentation.credentialDetails.issuer !== EXPECTED_ISSUER) {
-  //   return {
-  //     ...baseFailedPresentation,
-  //     fullName: presentation.credentialDetails.credentialSubject['fullName'],
-  //     failureReason: 'Invalid issuer'
-  //   };
-  // }
-  
+  if (ISSUER_DID && !ALLOWED_DIDS.some(
+    did => did.toLowerCase() === presentation.credentialDetails!.issuer.toLowerCase()
+  )) {
+    return {
+      ...baseFailedPresentation,
+      fullName: presentation.credentialDetails.credentialSubject['fullName'],
+      failureReason: 'Invalid issuer',
+    };
+  }
+
   return presentation
 }
-

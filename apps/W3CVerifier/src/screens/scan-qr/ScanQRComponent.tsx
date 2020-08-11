@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Text, View, TextInput, TouchableOpacity, StyleSheet,
+  Text, View, TextInput, StyleSheet,
 } from 'react-native';
-import { layoutStyles, typeStyles, colors } from '../../styles/';
+import { layoutStyles, typeStyles } from '../../styles/';
 import { multilanguage } from 'redux-multilanguage';
 import Button from '../../shared/Button'
 import { RNCamera } from 'react-native-camera';
@@ -33,7 +33,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
       return;
     }
     setIsScanFinished(true)
-    console.log(`scanResult: ${JSON.stringify(scanResult)}`);
+
     handleScan(data, navigation);
   }
 
@@ -60,6 +60,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
         <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
         <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
       </View>
+      {/* Leave this comment for testing purposes, the scanner does not work in the simulators */}
       {/* <View>
         <Text style={typeStyles.paragraph}>{strings.enter_jwt}</Text>
         <TextInput

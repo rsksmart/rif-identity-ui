@@ -21,11 +21,9 @@ export interface CredentialDetails {
   credentialSubject: any
 }
 
-export const mapFromPayload = (credential: W3CCredential, vpJwt: string): VerifiedPresentation => {
-  // TODO: Check that credential type
-  
+export const mapFromPayload = (credential: W3CCredential, qrData: string): VerifiedPresentation => {
   const type = 'driver-license'
-  const fullName = credential.credentialSubject['fullName']
+  const fullName = credential.credentialSubject['name']
   const success = true
   const dateVerified = new Date()
 
@@ -43,6 +41,7 @@ export const mapFromPayload = (credential: W3CCredential, vpJwt: string): Verifi
     success,
     dateVerified,
     credentialDetails,
-    vpJwt
+    vpJwt: credential['proof'].jwt,
+    qrData,
   }
 }

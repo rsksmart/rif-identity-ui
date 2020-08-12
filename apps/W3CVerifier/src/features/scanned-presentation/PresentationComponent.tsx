@@ -15,10 +15,11 @@ interface ValidPresentationProps {
   presentation: VerifiedPresentation;
   navigation: any;
   isVerifying: boolean;
+  handleGoToScanner: (navigation: any) => void
 }
 
 const PresentationComponent: React.FC<ValidPresentationProps> = ({
-  strings, presentation, navigation, isVerifying,
+  strings, presentation, navigation, isVerifying, handleGoToScanner
 }) => {
   const styles = StyleSheet.create({
     header: {
@@ -48,8 +49,6 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
 
   const handleViewDetails = () => setViewDetails(!viewDetails)
 
-  const handleGoToScanQR = () => navigation.navigate('MainFlow', { screen: 'ScanQR' })
-
   if (isVerifying) {
     return (
       <LoadingComponent />
@@ -72,7 +71,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
       }
       {
         !presentation.success &&
-        <Button title={strings.scan_again} onPress={handleGoToScanQR} />
+        <Button title={strings.scan_again} onPress={handleGoToScanner} />
       }
       <Button title={strings.go_to_credential_list} onPress={handleGoToCredentialList} />
     </View>

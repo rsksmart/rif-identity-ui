@@ -1,6 +1,7 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from 'react';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { receiveMnemonic, restoreSeedError } from './actions';
+import { receiveMnemonic, restoreSeedError, setNewMnemnoic } from './actions';
+import { generateMnemonic } from 'mnemonicsss';
 
 /**
  * Saves Mnemonic to Localstorage
@@ -12,7 +13,7 @@ export const saveMnemonicToLocalStorage = (mnemonic: string[]) => async (dispatc
       dispatch(receiveMnemonic(true, mnemonic));
       return true;
     })
-    .catch((error:any) => console.log(error));
+    .catch((error: any) => console.log(error));
 };
 
 /**
@@ -44,4 +45,9 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
 
   dispatch(restoreSeedError('short_seed_error'));
   return false;
+};
+
+export const generateNewMnemonic = () => async (dispatch: Dispatch) => {
+  const mnemonic = generateMnemonic(12);
+  dispatch(setNewMnemnoic(mnemonic.split(' ')));
 };

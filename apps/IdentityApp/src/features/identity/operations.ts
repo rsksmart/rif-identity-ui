@@ -1,11 +1,13 @@
 import { Dispatch } from 'react';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
+import { rskDIDFromPrivateKey } from 'rifdids';
 import {
   receiveMnemonic,
   restoreSeedError,
   setNewMnemnoic,
   requestSaveIdentity,
   receiveSaveIdentity,
+  receiveIdentity,
 } from './actions';
 import { generateMnemonic, mnemonicToSeed, seedToRSKHDKey } from 'mnemonicsss';
 
@@ -19,16 +21,21 @@ export const saveIdentityToLocalStorage = (mnemonic: string[]) => async (dispatc
   mnemonicToSeed(mnemonic.join(' '))
     .then(seed => {
       const hdKey = seedToRSKHDKey(seed);
+      const privateKey = hdKey.derive(0).privateKey?.toString('hex');
+      const rskDID = rskDIDFromPrivateKey()(privateKey);
+      const did = `did:ethr:rsk:testnet:${rskDID.address}`;
 
       const identity = {
-        publicKey: hdKey.derive(0).privateKey?.toString('hex'),
-        privateKey: hdKey.derive(0).publicKey?.toString('hex'),
+        publicKey: hdKey.derive(0).publicKey?.toString('hex'),
+        privateKey,
         mnemonic,
+        did,
+        address: rskDID.address,
       };
 
       StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(identity)).then(() => {
         dispatch(receiveMnemonic(true, mnemonic));
-        dispatch(receiveSaveIdentity());
+        dispatch(receiveSaveIdentity(rskDID.address, did));
         return true;
       });
     })
@@ -44,6 +51,8 @@ export const getMnemonicFromLocalStorage = () => async (dispatch: Dispatch) => {
     .then(response => {
       if (typeof response === 'string') {
         const identity = JSON.parse(response);
+
+        dispatch(receiveIdentity(identity.address, identity.did));
         return dispatch(receiveMnemonic(true, identity.mnemonic));
       }
       return dispatch(receiveMnemonic(false));

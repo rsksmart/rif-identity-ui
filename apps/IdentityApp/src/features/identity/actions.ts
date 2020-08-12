@@ -7,6 +7,7 @@ export enum MNEMONIC_TYPES {
   SET_NEW_MNEMONIC = 'SET_NEW_MNEMONIC',
   REQUEST_SAVE_IDENTITY = 'REQUEST_SAVE_IDENTITY',
   RECEIVE_SAVE_IDENTITY = 'RECEIVE_SAVE_IDENTITY',
+  RECEIVE_IDENTITY = 'RECEIVE_IDENTITY',
 }
 
 export const clearError = () => ({
@@ -38,6 +39,14 @@ export const requestSaveIdentity = () => ({
   type: MNEMONIC_TYPES.REQUEST_SAVE_IDENTITY,
 });
 
-export const receiveSaveIdentity = () => ({
+export const receiveSaveIdentity = (address: string, did: string) => ({
   type: MNEMONIC_TYPES.RECEIVE_SAVE_IDENTITY,
+  address,
+  did,
+});
+
+export const receiveIdentity = (address: string, did: string) => ({
+  type: MNEMONIC_TYPES.RECEIVE_IDENTITY,
+  address,
+  did,
 });

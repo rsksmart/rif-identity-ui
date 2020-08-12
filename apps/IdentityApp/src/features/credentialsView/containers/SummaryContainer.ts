@@ -16,8 +16,8 @@ const mapStateToProps = (state: RootState) => ({
   credentials: simpleCredentials(state.credentials.credentials),
   fullCredentials: state.credentials.credentials,
   isCheckingPendingStatus: state.credentials.isCheckingPendingStatus,
-  did: state.localUi.did,
-  address: state.localUi.address,
+  did: state.identity.did,
+  address: state.identity.address,
   privateKey: state.localUi.privateKey,
   hasMnemonic: state.identity.hasMnemonic,
   hasPending:

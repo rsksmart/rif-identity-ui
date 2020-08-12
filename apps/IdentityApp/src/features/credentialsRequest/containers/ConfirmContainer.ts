@@ -10,7 +10,7 @@ import * as RootNavigation from '../../../AppNavigation';
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
   profile: state.profile.profile,
-  did: state.localUi.did,
+  did: state.identity.did,
   isRequestingCredential: state.credentials.isRequestingCredential,
   requestCredentialError: state.credentials.requestCredentialError,
 });

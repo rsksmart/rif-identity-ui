@@ -49,6 +49,7 @@
     "redux-multilanguage": "^0.1.2",
     "redux-saga": "^1.1.3",
     "redux-thunk": "^2.3.0",
+    "rifdids": "0.0.2",
     "rn-nodeify": "^10.2.0",
     "rn-secure-storage": "^2.0.5",
     "stream-browserify": "^1.0.0"

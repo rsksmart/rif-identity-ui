@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from 'react';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import EthrDID from 'ethr-did';
@@ -194,13 +194,9 @@ export const checkStatusOfCredentials = (
  * holder who is issuing the presentation.
  * @param jwt JWT of the credential to be presented
  * @param address address of the holder
- * @param privateKey privateKey of the holder
  */
-export const createPresentation = (jwt: string, address: string, privateKey: string) => async (
-  dispatch: Dispatch,
-) => {
+export const createPresentation = (jwt: string) => async (dispatch: Dispatch) => {
   dispatch(requestPresentation());
-
   const vpPayload: JwtPresentationPayload = {
     vp: {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
@@ -209,11 +205,13 @@ export const createPresentation = (jwt: string, address: string, privateKey: str
     },
   };
 
-  const holder = new EthrDID({ address: address, privateKey: privateKey });
-
-  createVerifiablePresentationJwt(vpPayload, holder)
-    .then(uploadPresentation)
-    .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
+  StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: string) => {
+    const identity = JSON.parse(response);
+    const holder = new EthrDID({ address: identity.address, privateKey: identity.privateKey });
+    createVerifiablePresentationJwt(vpPayload, holder)
+      .then(uploadPresentation)
+      .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
+  });
 };
 
 const uploadPresentation = (jwt: string) => {

@@ -4,18 +4,15 @@ import { DetailsComponent } from '../components';
 import { RootState } from '../../../state/store';
 import { Credential } from '../reducer';
 import { removeCredential, createPresentation, checkStatusOfCredential } from '../operations';
-import { serverInterface } from '../../../Providers/Issuers';
 
 const mapStateToProps = (state: RootState) => ({
   allCredentials: state.credentials.credentials,
-  address: state.localUi.address,
-  privateKey: state.localUi.privateKey,
+  address: state.identity.address,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeCredential: (hash: string) => dispatch(removeCredential(hash)),
-  createPresentation: (credential: Credential, address: string, privateKey: string) =>
-    dispatch(createPresentation(credential.jwt, address, privateKey)),
+  createPresentation: (credential: Credential) => dispatch(createPresentation(credential.jwt)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -28,8 +25,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   createPresentation: (hash: string) =>
     dispatchProps.createPresentation(
       stateProps.allCredentials.filter((item: Credential) => item.hash === hash)[0],
-      stateProps.address,
-      stateProps.privateKey,
     ),
 });
 

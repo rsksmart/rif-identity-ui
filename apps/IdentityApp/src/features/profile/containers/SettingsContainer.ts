@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
   version: state.localUi.appVersion,
   credentials: state.credentials.credentials,
   mnemonic: state.identity.mnemonic,
-  did: state.localUi.did,
+  did: state.identity.did,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

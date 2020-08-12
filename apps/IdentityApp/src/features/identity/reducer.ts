@@ -1,18 +1,23 @@
 import { MNEMONIC_TYPES } from './actions';
-import sample from './sampleMnemonic';
 
 export type SetupState = {
   hasMnemonic: boolean;
   mnemonic: string[] | null;
   mnemonicError: string | null;
-  newMnemonic: string[];
+  newMnemonic: string[] | null;
+  isSaving: boolean;
+  address: string | null;
+  did: string | null;
 };
 
 export const initialState = {
   hasMnemonic: false,
   mnemonic: null,
   mnemonicError: false,
-  newMnemonic: sample,
+  newMnemonic: [],
+  isSaving: false,
+  address: null,
+  did: null,
 };
 
 const reducer = (state: SetupState = initialState, action: any) => {
@@ -28,6 +33,31 @@ const reducer = (state: SetupState = initialState, action: any) => {
       return {
         ...state,
         mnemonicError: action.mnemonicError,
+      };
+    case MNEMONIC_TYPES.SET_NEW_MNEMONIC:
+      return {
+        ...state,
+        newMnemonic: action.mnemonic,
+      };
+
+    case MNEMONIC_TYPES.REQUEST_SAVE_IDENTITY:
+      return {
+        ...state,
+        mnemonicError: null,
+        isSaving: true,
+      };
+    case MNEMONIC_TYPES.RECEIVE_SAVE_IDENTITY:
+      return {
+        ...state,
+        isSaving: false,
+        address: action.address,
+        did: action.did,
+      };
+    case MNEMONIC_TYPES.RECEIVE_IDENTITY:
+      return {
+        ...state,
+        address: action.address,
+        did: action.did,
       };
     default:
       return state;

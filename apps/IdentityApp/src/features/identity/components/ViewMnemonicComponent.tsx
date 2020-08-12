@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
@@ -6,16 +6,19 @@ import { StyleSheet, View, Text } from 'react-native';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface ViewMnemonicComponentProps {
-  mnemonic: string[];
+  mnemonic: string[] | null;
   onSubmit: () => void | null;
+  generateNewMnemonic: () => {};
   strings: any;
 }
 
 const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
   mnemonic,
   onSubmit,
+  generateNewMnemonic,
   strings,
 }) => {
   const [popup, setPopup] = useState<boolean>(false);
@@ -25,6 +28,14 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
     setPopup(false);
     onSubmit();
   };
+
+  useEffect(() => {
+    generateNewMnemonic();
+  }, []);
+
+  if (mnemonic?.length === 0) {
+    return <LoadingComponent />;
+  }
 
   return (
     <BackScreenComponent overrideBack={{ location: 'CredentialsFlow' }}>

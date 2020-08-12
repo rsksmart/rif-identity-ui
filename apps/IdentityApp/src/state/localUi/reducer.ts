@@ -6,8 +6,6 @@ type LocalUiState = {
   isSignedUp: boolean;
   isLoggedIn: boolean;
   loginError: string | null;
-  did: string;
-  address: string;
   privateKey: string;
 };
 
@@ -17,8 +15,6 @@ export const initialState = {
   isSignedUp: false,
   isLoggedIn: false,
   loginError: null,
-  did: 'did:ethr:rsk:0x1234567801010101010101001',
-  address: 'COMPLETE',
   privateKey: 'COMPLETE',
 };
 

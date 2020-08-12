@@ -26,12 +26,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => {
     dispatch(clearError());
   },
-  onSubmit: (userInput: string[], expectedInput: string[]) => {
+  onSubmit: async (userInput: string[], expectedInput: string[]) => {
     if (userInput.every((val, index) => val === expectedInput[index])) {
-      dispatch(clearError());
-      if (dispatch(saveIdentityToLocalStorage(userInput))) {
+      dispatch(saveIdentityToLocalStorage(userInput)).then(() => {
         RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
-      }
+      });
     } else {
       dispatch(newMnemonicError('word_order_error'));
     }

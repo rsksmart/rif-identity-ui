@@ -16,30 +16,30 @@ import { generateMnemonic, mnemonicToSeed, seedToRSKHDKey } from 'mnemonicsss';
  * @param mnemonic string[] Mnemonic to create identity and save as JSON
  */
 export const saveIdentityToLocalStorage = (mnemonic: string[]) => async (dispatch: Dispatch) => {
-  dispatch(requestSaveIdentity());
+  return new Promise((resolve, reject) => {
+    dispatch(requestSaveIdentity());
 
-  mnemonicToSeed(mnemonic.join(' '))
-    .then(seed => {
-      const hdKey = seedToRSKHDKey(seed);
-      const privateKey = hdKey.derive(0).privateKey?.toString('hex');
-      const rskDID = rskDIDFromPrivateKey()(privateKey);
-      const did = `did:ethr:rsk:testnet:${rskDID.address}`;
+    mnemonicToSeed(mnemonic.join(' '))
+      .then(seed => {
+        const hdKey = seedToRSKHDKey(seed);
+        const privateKey = hdKey.derive(0).privateKey?.toString('hex');
+        const rskDID = rskDIDFromPrivateKey()(privateKey);
 
-      const identity = {
-        publicKey: hdKey.derive(0).publicKey?.toString('hex'),
-        privateKey,
-        mnemonic,
-        did,
-        address: rskDID.address,
-      };
+        const identity = {
+          publicKey: hdKey.derive(0).publicKey?.toString('hex'),
+          privateKey,
+          mnemonic,
+          did: rskDID.did,
+          address: rskDID.address,
+        };
 
-      StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(identity)).then(() => {
-        dispatch(receiveMnemonic(true, mnemonic));
-        dispatch(receiveSaveIdentity(rskDID.address, did));
-        return true;
-      });
-    })
-    .catch(error => console.log('error', error));
+        StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(identity)).then(() => {
+          dispatch(receiveMnemonic(true, mnemonic));
+          resolve(dispatch(receiveSaveIdentity(rskDID.address, rskDID.did)));
+        });
+      })
+      .catch(error => reject(error.message));
+  });
 };
 
 /**

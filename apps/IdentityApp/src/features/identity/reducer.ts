@@ -43,6 +43,7 @@ const reducer = (state: SetupState = initialState, action: any) => {
     case MNEMONIC_TYPES.REQUEST_SAVE_IDENTITY:
       return {
         ...state,
+        mnemonicError: null,
         isSaving: true,
       };
     case MNEMONIC_TYPES.RECEIVE_SAVE_IDENTITY:

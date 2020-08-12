@@ -5,10 +5,12 @@ import { StyleSheet, View, Text } from 'react-native';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
   isError: string | null;
+  isSaving: boolean;
   onSubmit: (words: string[]) => {};
   start: () => {};
   strings: any;
@@ -19,6 +21,7 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   isError,
   onSubmit,
   start,
+  isSaving,
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
@@ -42,6 +45,10 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
       : selectedWords.filter(item => item !== word);
     setSelectedWords(newSelected);
   };
+
+  if (isSaving) {
+    return <LoadingComponent />;
+  }
 
   return (
     <BackScreenComponent>

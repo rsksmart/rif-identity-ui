@@ -5,6 +5,8 @@ export enum MNEMONIC_TYPES {
   SAVE_MNEMONIC = 'SAVE_MNEMONIC',
   RECEIVE_MNEMONIC = 'RECEIVE_MNEMONIC',
   SET_NEW_MNEMONIC = 'SET_NEW_MNEMONIC',
+  REQUEST_SAVE_IDENTITY = 'REQUEST_SAVE_IDENTITY',
+  RECEIVE_SAVE_IDENTITY = 'RECEIVE_SAVE_IDENTITY',
 }
 
 export const clearError = () => ({
@@ -30,4 +32,12 @@ export const restoreSeedError = (mnemonicError: string) => ({
 export const setNewMnemnoic = (mnemonic: string[]) => ({
   type: MNEMONIC_TYPES.SET_NEW_MNEMONIC,
   mnemonic,
-})
+});
+
+export const requestSaveIdentity = () => ({
+  type: MNEMONIC_TYPES.REQUEST_SAVE_IDENTITY,
+});
+
+export const receiveSaveIdentity = () => ({
+  type: MNEMONIC_TYPES.RECEIVE_SAVE_IDENTITY,
+});

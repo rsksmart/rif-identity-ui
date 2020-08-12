@@ -5,6 +5,7 @@ export type SetupState = {
   mnemonic: string[] | null;
   mnemonicError: string | null;
   newMnemonic: string[] | null;
+  isSaving: boolean;
 };
 
 export const initialState = {
@@ -12,6 +13,7 @@ export const initialState = {
   mnemonic: null,
   mnemonicError: false,
   newMnemonic: [],
+  isSaving: false,
 };
 
 const reducer = (state: SetupState = initialState, action: any) => {
@@ -32,6 +34,17 @@ const reducer = (state: SetupState = initialState, action: any) => {
       return {
         ...state,
         newMnemonic: action.mnemonic,
+      };
+
+    case MNEMONIC_TYPES.REQUEST_SAVE_IDENTITY:
+      return {
+        ...state,
+        isSaving: true,
+      };
+    case MNEMONIC_TYPES.RECEIVE_SAVE_IDENTITY:
+      return {
+        ...state,
+        isSaving: false,
       };
     default:
       return state;

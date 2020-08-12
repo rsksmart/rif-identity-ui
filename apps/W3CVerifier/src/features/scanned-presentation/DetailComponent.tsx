@@ -47,14 +47,16 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
   return (
     presentation.credentialDetails?.credentialSubject &&
     <ScrollView>
-      {Object.keys(presentation.credentialDetails?.credentialSubject).map(item => (
+      {/* {Object.keys(presentation.credentialDetails?.credentialSubject).map((item: any) => ( */}
+      {presentation.credentialDetails?.credentialSubject.otherClaims.map((item: any) => (
         item !== 'id' &&
-        <View style={styles.row} key={item}>
+        <View style={styles.row} key={item['claimType']}>
           <View style={styles.cell}>
-            <Text style={styles.labelText}>{strings[item] ? strings[item] : item}:</Text>
+            <Text style={styles.labelText}>{strings[item] ? strings[item] : item['claimType']}:</Text>
           </View>
           <View style={styles.cell}>
-            <Text style={styles.valueText}>{presentation.credentialDetails?.credentialSubject[item].toString()}</Text>
+            <Text style={styles.valueText}>{item['claimValue']}</Text>
+            {/* <Text style={styles.valueText}>{presentation.credentialDetails?.credentialSubject[item].toString()}</Text> */}
           </View>
         </View>
       ))}

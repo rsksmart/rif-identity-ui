@@ -23,13 +23,13 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
   return (
     <View>
       <Text style={typography.paragraphBold}>Credential Metadata:</Text>
-      {Object.keys(metadata).map(key => (
-        <View style={layout.row} key={key}>
+      {metadata.otherClaims?.map((claim: any) => (
+        <View style={layout.row} key={claim.claimType}>
           <View style={styles.headingColumn}>
-            <Text style={styles.heading}>{strings[key] ? strings[key] : key}</Text>
+            <Text style={styles.heading}>{strings[claim.claimType] ? strings[claim.claimType] : claim.claimType}</Text>
           </View>
           <View style={styles.viewColumn}>
-            <Text style={styles.value}>{metadata[key]}</Text>
+            <Text style={styles.value}>{claim.claimValue}</Text>
           </View>
         </View>
       ))}

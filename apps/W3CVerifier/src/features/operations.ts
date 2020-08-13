@@ -129,17 +129,17 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
     };
   }
 
-  const ALLOWED_DIDS: string[] = ISSUER_DID.split(',')
+  // const ALLOWED_DIDS: string[] = ISSUER_DID.split(',')
   
-  if (ISSUER_DID && !ALLOWED_DIDS.some(
-    did => did.toLowerCase() === presentation.credentialDetails!.issuer.toLowerCase()
-  )) {
-    return {
-      ...baseFailedPresentation,
-      fullName: presentation.credentialDetails.credentialSubject['fullName'],
-      failureReason: 'Invalid issuer',
-    };
-  }
+  // if (ISSUER_DID && !ALLOWED_DIDS.some(
+  //   did => did.toLowerCase() === presentation.credentialDetails!.issuer.toLowerCase()
+  // )) {
+  //   return {
+  //     ...baseFailedPresentation,
+  //     fullName: presentation.credentialDetails.credentialSubject['fullName'],
+  //     failureReason: 'Invalid issuer',
+  //   };
+  // }
 
   return presentation
 }

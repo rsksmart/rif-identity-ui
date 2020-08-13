@@ -20,6 +20,7 @@
     "@types/react-redux": "^7.1.9",
     "axios": "^0.19.2",
     "buffer": "^4.9.1",
+    "did-jwt": "^4.4.0",
     "did-jwt-vc": "^1.0.4",
     "ethr-did": "^1.1.0",
     "events": "^1.0.0",

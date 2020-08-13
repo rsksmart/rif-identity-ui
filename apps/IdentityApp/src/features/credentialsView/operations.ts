@@ -101,21 +101,31 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
 
   let claims;
 
+  // TODO: The hardcoded values will be set in the issuer app, this is for demo purposes
   switch (metadata.type) {
     case CredentialTypes.PARKING_PERMIT:
       claims = [
         ...baseClaims,
         { claimType: 'phone', claimValue: metadata.phone },
-        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number }
+        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
+        { claimType: 'parkingPermitId', claimValue: '123456789' },
+        { claimType: 'typeOfVehicle', claimValue: 'car' },
+        { claimType: 'typeOfParkingPermit', claimValue: 'Regular' },
+        { claimType: 'issuanceOffice', claimValue: 'Downtown Office' }
       ]
       break
     case CredentialTypes.DRIVERS_LICENSE:
         claims = [
           ...baseClaims,
-          { claimType: 'birthdate', claimValue: metadata.birthdate }
+          { claimType: 'birthdate', claimValue: metadata.birthdate },
+          { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
+          { claimType: 'typeOfVehicle', claimValue: 'car' },
+          { claimType: 'typeOfLicense', claimValue: 'A1' },
+          { claimType: 'isInternational', claimValue: true },
+          { claimType: 'issuanceOffice', claimValue: 'Downtown Office' }
         ]
         break
-    case CredentialTypes.DRIVERS_LICENSE:
+    case CredentialTypes.ID:
     default:
         claims = [
           ...baseClaims,

@@ -53,7 +53,7 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
   });
 
   const icon = (type: "driver-license" | "parking-permit" | undefined) => {
-    switch (type) {
+    switch (type?.toLowerCase()) {
       case "driver-license": 
         return <FontAwesome name="automobile" color={colors.gray4} size={30} />;
       case "parking-permit":

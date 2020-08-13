@@ -23,7 +23,7 @@ export interface CredentialDetails {
 
 export const mapFromPayload = (credential: W3CCredential, qrData: string): VerifiedPresentation => {
   const type = 'driver-license'
-  const fullName = credential.credentialSubject['name']
+  const fullName = credential.credentialSubject['fullName']
   const success = true
   const dateVerified = new Date()
 

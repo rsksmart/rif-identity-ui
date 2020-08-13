@@ -22,9 +22,7 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [textValue, setTextValue] = useState(
-    'raw liar aunt gap knee venture expand basic myth clerk chief surprise',
-  );
+  const [textValue, setTextValue] = useState();
 
   return (
     <BackScreenComponent>

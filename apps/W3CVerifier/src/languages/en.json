@@ -12,6 +12,8 @@
   "clean_scanned_credentials": "Clean scanned credentials",
   "success": "Success!",
   "valid_id_credential_card": "ID card credential is valid.",
+  "valid_drivers_license": "Drivers License credential is valid.",
+  "valid_parking_permit": "Parking Permit credential is valid.",
   "invalid_id_credential_card": "ID card credential is invalid.",
   "notSuccess": "Oops...",
   "international": "Is international",
@@ -24,5 +26,14 @@
   "camera_permission_title": "Permission to use camera",
   "camera_permission_message": "We need your permission to use your camera",
   "ok": "Ok",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "issuer": "Issuer",
+  "subject": "Subject",
+  "birthdate": "Birth date",
+  "idNumber": "ID number",
+  "city": "City",
+  "driverLicenseNumber": "Driver License number",
+  "phone": "Phone",
+  "parkingPermitId": "Parking Permit id",
+  "isInternational": "Is international"
 }

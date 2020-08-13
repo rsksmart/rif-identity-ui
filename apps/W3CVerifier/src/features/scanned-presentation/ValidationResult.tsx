@@ -50,16 +50,48 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
       fontWeight: 'bold',
       margin: gutter
     },
+    row: {
+      alignSelf: 'stretch',
+      flexDirection: 'row'
+    },
+    cell: { 
+      alignSelf: 'stretch',
+    },
+    valueText: {
+      color: colors.gray4,
+      fontWeight: '500',
+      fontSize: 12,
+      lineHeight: 18,
+    },
+    labelText: {
+      color: colors.gray3,
+      fontWeight: '500',
+      fontSize: 12,
+      lineHeight: 18,
+    },
   });
 
-  const icon = (type: "driver-license" | "parking-permit" | undefined) => {
+  const transformDID = (did: string) => did.slice(0, 25) + '...' + did.slice(-4)
+
+  const icon = (type: 'drivers_license' | 'parking_permit' | undefined) => {
     switch (type?.toLowerCase()) {
-      case "driver-license": 
+      case 'drivers_license':
         return <FontAwesome name="automobile" color={colors.gray4} size={30} />;
-      case "parking-permit":
+      case 'parking_permit':
         return <FontAwesome5 name="parking" color={colors.gray4} size={30} />;
       default:
-        return <></>
+        return <FontAwesome name="id-card" color={colors.gray4} size={30} />;
+    }
+  }
+
+  const legend = (type: 'drivers_license' | 'parking_permit' | undefined) => {
+    switch (type?.toLowerCase()) {
+      case 'drivers_license':
+        return strings.valid_drivers_license
+      case 'parking_permit':
+        return strings.valid_parking_permit
+      default:
+        return strings.valid_id_credential_card
     }
   }
 
@@ -81,8 +113,29 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
       </Text>
       {icon(presentation.type)}
       <Text style={styles.subtitle}>
-        {(presentation.success && strings.valid_id_credential_card) || strings.invalid_id_credential_card}
+        {(presentation.success && legend(presentation.type)) || strings.invalid_id_credential_card}
       </Text>
+      {(
+        presentation.success && 
+        <View>
+          <View key="issuer" style={styles.row}>
+            <View style={styles.cell}>
+              <Text style={styles.labelText}>{strings.issuer}: </Text>
+            </View>
+            <View style={styles.cell}>
+              <Text style={styles.valueText}>{transformDID(presentation.credentialDetails?.issuer!)}</Text>
+            </View>
+          </View>
+          <View key="subject" style={styles.row}>
+            <View style={styles.cell}>
+              <Text style={styles.labelText}>{strings.subject}: </Text>
+            </View>
+            <View style={styles.cell}>
+              <Text style={styles.valueText}>{transformDID(presentation.credentialDetails?.subject!)}</Text>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

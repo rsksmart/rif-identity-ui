@@ -3,7 +3,7 @@ import { W3CCredential } from 'did-jwt-vc'
 export const EXPECTED_ISSUER = 'did:ethr:0x16e3Df3c58E42dd92411E0b961e8d3e0C0238e5C'
 
 export interface VerifiedPresentation {
-  type?: 'driver-license' | 'parking-permit' 
+  type?: 'drivers_license' | 'parking_permit' 
   fullName?: string
   dateVerified: Date
   success: boolean
@@ -22,7 +22,7 @@ export interface CredentialDetails {
 }
 
 export const mapFromPayload = (credential: W3CCredential, qrData: string): VerifiedPresentation => {
-  const type = 'driver-license'
+  const type = credential.credentialSubject['type']
   const fullName = credential.credentialSubject['fullName']
   const success = true
   const dateVerified = new Date()

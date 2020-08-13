@@ -60,21 +60,6 @@ export const getMnemonicFromLocalStorage = () => async (dispatch: Dispatch) => {
     .catch(() => dispatch(receiveMnemonic(false)));
 };
 
-/**
- * Restores a wallet from a seed phrase
- * @param seed string Seed with spaces
- */
-export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Dispatch) => {
-  const seedArray = seed.split(' ');
-  if (seedArray.length >= 12) {
-    await dispatch(saveIdentityToLocalStorage(seedArray));
-    return true;
-  }
-
-  dispatch(restoreSeedError('short_seed_error'));
-  return false;
-};
-
 export const generateNewMnemonic = () => async (dispatch: Dispatch) => {
   const mnemonic = generateMnemonic(12);
   dispatch(setNewMnemnoic(mnemonic.split(' ')));

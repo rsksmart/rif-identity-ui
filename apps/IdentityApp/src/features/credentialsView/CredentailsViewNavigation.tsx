@@ -3,16 +3,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { SummaryContainer, DetailsContainer } from './containers';
 import { connect } from 'react-redux';
 import { getCredentialsFromStorage } from './operations';
+import { RootState } from '../../state/store';
 
 interface CredentailsViewNavigationProps {
   start: () => {};
+  credentialCount: number;
 }
 
-const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({ start }) => {
+const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({
+  start,
+  credentialCount,
+}) => {
   useEffect(() => {
-    console.log('using effect!');
-    start();
-  }, [start]);
+    if (credentialCount === 0) {
+      start();
+    }
+  }, [start, credentialCount]);
 
   const Stack = createStackNavigator();
   return (
@@ -30,8 +36,12 @@ const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({ s
   );
 };
 
+const mapStateToProps = (state: RootState) => ({
+  credentialCount: state.credentials.credentials.length,
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => dispatch(getCredentialsFromStorage()),
 });
 
-export default connect(null, mapDispatchToProps)(CredentailsViewNavigation);
+export default connect(mapStateToProps, mapDispatchToProps)(CredentailsViewNavigation);

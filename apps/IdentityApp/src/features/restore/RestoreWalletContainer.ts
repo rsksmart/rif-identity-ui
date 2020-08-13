@@ -2,18 +2,19 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import RestoreWalletComponent from './RestoreWalletComponent';
 import * as RootNavigation from '../../AppNavigation';
-import { restoreWalletFromUserSeed } from '../identity/operations';
+import { restoreWalletFromUserSeed } from './operations';
 import { RootState } from 'src/state/store';
 
 const mapStateToProps = (state: RootState) => ({
-  mnemonicError: state.identity.mnemonicError,
+  isRestoring: state.restore.isRestoring,
+  mnemonicError: state.restore.mnemonicError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onSubmit: async (seed: string) => {
-    if (await dispatch(restoreWalletFromUserSeed(seed))) {
+  onSubmit: (seed: string) => {
+    dispatch(restoreWalletFromUserSeed(seed)).then(() => {
       RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-    }
+    });
   },
 });
 

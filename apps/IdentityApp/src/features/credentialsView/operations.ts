@@ -28,21 +28,24 @@ import { createJWT, SimpleSigner } from 'did-jwt'
  * Save a Credential Array to LocalStorage
  * @param credentials Credential Array to be stored
  */
-const saveAllCredentials = async (credentials: Credential[]) => {
+export const saveAllCredentials = async (credentials: Credential[]) => {
   // Save to localStorage:
   return await StorageProvider.set(STORAGE_KEYS.CREDENTIALS, JSON.stringify(credentials))
     .then(() => {
+      console.log('Credentials stored!');
+      console.log(JSON.stringify(credentials));
+
       return Promise.resolve(true);
     })
     .catch(error => Promise.reject(error));
 };
 
 /**
- * Prepare a Single Credential to be saved to LocalStorage and Redirect to Credentials Home
- * This is used when a credential is being requested.
+ * Prepare a Single Credential to be saved to LocalStorage
+ * This is used when a credential is being requested or restored.
  * @param credential Credential to be saved
  */
-const saveCredentialAndRedirect = (credential: Credential) => async (dispatch: Dispatch) => {
+export const saveCredentialToLocalStorage = (credential: Credential) => async (dispatch: Dispatch) => {
   // get existing array from localStorage:
   await dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
     console.log('existing,', existingCredentials);
@@ -50,12 +53,8 @@ const saveCredentialAndRedirect = (credential: Credential) => async (dispatch: D
     saveAllCredentials(newData)
       .then(() => {
         // Add Credential to redux:
+        console.log('credential saved, adding to redux');
         dispatch(receiveCredential(credential));
-
-        // Redirect to home:
-        RootNavigation.navigate('CredentialsFlow', {
-          screen: 'CredentialsHome',
-        });
       })
       .catch(error => console.log('save Error', error));
   });
@@ -187,7 +186,12 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
             type: metadata.type,
             payload: data,
           };
-          dispatch(saveCredentialAndRedirect(credential));
+          dispatch(saveCredentialToLocalStorage(credential));
+
+          // Redirect to home:
+          RootNavigation.navigate('CredentialsFlow', {
+            screen: 'CredentialsHome',
+          });
         })
         .catch(function (error) {
           dispatch(errorRequestCredential(error.message));

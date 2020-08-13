@@ -17,7 +17,7 @@ export interface Credential {
   issuer: serverInterface;
   hash: string;
   status: CredentialStatus;
-  dateRequested: Date;
+  dateRequested?: Date;
   VerifiedCredential?: VerifiedCredential;
   type: CredentialTypes;
   jwt?: string;

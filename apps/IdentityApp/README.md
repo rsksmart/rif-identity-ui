@@ -2,6 +2,19 @@
 
 To run start Android studio, open up the ADB Manager and start an emulated Android device. Or connect an Android device and confirm that it is connected by typing: `adb devices`.
 
+
+**.env file**
+
+Create a .env file with the following settings:
+
+```
+ISSUER_NAME=
+ISSUER_ENDPOINT=
+TINYQR_ENDPOINT=
+IPFS_GATEWAY_ENDPOINT=https://ipfs.io/ipfs
+DATA_VAULT_ENDPOINT=
+```
+
 **Install**
 ```
 npm install

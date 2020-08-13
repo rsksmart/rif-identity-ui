@@ -24,6 +24,7 @@
     "did-jwt-vc": "^1.0.4",
     "did-resolver": "^2.0.1",
     "ethr-did": "^1.1.0",
+    "ethr-did-resolver": "^2.3.2",
     "events": "^1.0.0",
     "js-sha3": "^0.8.0",
     "jwt-decode": "^2.2.0",

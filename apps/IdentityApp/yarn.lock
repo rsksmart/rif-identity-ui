@@ -2704,7 +2704,7 @@ did-jwt@^0.1.1:
     tweetnacl "^1.0.1"
     tweetnacl-util "^0.15.0"
 
-did-jwt@^4.3.2:
+did-jwt@^4.3.2, did-jwt@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-4.4.0.tgz#9e701c97fe8ea6d216b3b4e25332506feaf7c649"
   integrity sha512-wCzo+dqF46fPw1xlSI35lt3y4Ovpvquj772lB8mpsSLo6eRo8YhiF4XR+MznllShb/PtHUdiDBUpWrGQjkwfAQ==
@@ -4837,7 +4837,15 @@ jwt-decode@^2.2.0:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
   integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
 
-keccak@^1.0.2:
+keccak256@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/keccak256/-/keccak256-1.0.0.tgz#1ba55ce78ed3d63fb7091d045469007da984171d"
+  integrity sha512-8qv2vJdQk+Aa2tFXo8zYodm+6DgXqUOqvNJhj1p1V2pxQJT1oNKxNF+zWfhtKXNLZdLvyxjB/dvd9GwcvTHSQQ==
+  dependencies:
+    bn.js "^4.11.8"
+    keccak "^1.4.0"
+
+keccak@^1.0.2, keccak@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/keccak/-/keccak-1.4.0.tgz#572f8a6dbee8e7b3aa421550f9e6408ca2186f80"
   integrity sha512-eZVaCpblK5formjPjeTBik7TAg+pqnDrMHIffSvi9Lh7PQgM1+hSzakUeZFCk9DVVG0dacZJuaz2ntwlzZUIBw==
@@ -6683,10 +6691,10 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
-rifdids@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/rifdids/-/rifdids-0.0.1.tgz#eb530005382f58781bc61f817772cc19a8c3a87e"
-  integrity sha512-lWEdkb7aEB0VDzrM5e1ywSxDOWvR+FHo+Ypj5aNNRWm8Yc2qFmKGK5gEk0IRbQnF3bx5AZuejfDRJsBulQGCXQ==
+rifdids@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/rifdids/-/rifdids-0.0.2.tgz#27e981b42934724263323bea7bb3d0bb0c9804ec"
+  integrity sha512-KIviGEqYH/NExW385orvwu0RuVUErCW7+nWLx55KXskaiowKKJYJ2SWLiIzT1m1UdauThjSVSKFII+qCwOxqwA==
   dependencies:
     "@types/elliptic" "^6.4.12"
     "@types/keccak" "^3.0.1"

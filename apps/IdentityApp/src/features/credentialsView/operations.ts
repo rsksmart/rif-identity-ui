@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import axios from 'axios';
-import { keccak256 } from 'js-sha3';
+import keccak256 from 'keccak256';
 import EthrDID from 'ethr-did';
 import { TINYQR_ENDPOINT } from '@env';
 
@@ -13,7 +13,7 @@ import {
   receivePresentation,
 } from './actions';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { serverInterface } from '../../Providers/Issuers';
+import { serverInterface, CredentialTypes } from '../../Providers/Issuers';
 import {
   requestCredential,
   receiveCredential,
@@ -22,6 +22,7 @@ import {
   errorRequestCredential,
 } from './actions';
 import * as RootNavigation from '../../AppNavigation';
+import { createJWT, SimpleSigner } from 'did-jwt'
 
 /**
  * Save a Credential Array to LocalStorage
@@ -90,31 +91,99 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
     return dispatch(errorRequestCredential('No server connected'));
   }
 
-  const payload = {
-    metadata,
-    did,
-  };
-  // post to the credential server:
-  axios
-    .post(server.endpoint + '/requestCredential', { payload: payload })
-    .then(function (response) {
-      // Create Credential object:
-      const credential: Credential = {
-        issuer: {
-          name: server.name,
-          endpoint: server.endpoint,
-        },
-        hash: response.data.token,
-        status: CredentialStatus.PENDING,
-        dateRequested: new Date(),
-        type: metadata.type,
-        payload: payload,
-      };
-      dispatch(saveCredentialAndRedirect(credential));
-    })
-    .catch(function (error) {
-      dispatch(errorRequestCredential(error.message));
-    });
+  const baseClaims = [
+    { claimType: 'credentialRequest', claimValue: 'cred1', essential: true }, // or type here?
+    { claimType: 'fullName', claimValue: metadata.full_name, essential: true },
+    { claimType: 'type', claimValue: metadata.type, essential: true },
+    { claimType: 'idNumber', claimValue: metadata.id_number },
+    { claimType: 'city', claimValue: metadata.city }
+  ]
+
+  let claims;
+
+  switch (metadata.type) {
+    case CredentialTypes.PARKING_PERMIT:
+      claims = [
+        ...baseClaims,
+        { claimType: 'phone', claimValue: metadata.phone },
+        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number }
+      ]
+      break
+    case CredentialTypes.DRIVERS_LICENSE:
+        claims = [
+          ...baseClaims,
+          { claimType: 'birthdate', claimValue: metadata.birthdate }
+        ]
+        break
+    case CredentialTypes.DRIVERS_LICENSE:
+    default:
+        claims = [
+          ...baseClaims,
+          { claimType: 'phone', claimValue: metadata.phone },
+          { claimType: 'birthdate', claimValue: metadata.birthdate },
+          { claimType: 'civilStatus', claimValue: metadata.civil_status },
+          { claimType: 'email', claimValue: metadata.email },
+          { claimType: 'address', claimValue: metadata.address }
+        ]
+        break
+      
+  }
+
+  const sdrData = {
+    issuer: did,
+    claims,
+    credentials: [],
+  }
+
+  StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: any) => {
+    const identity = JSON.parse(response);
+   
+    const signer = SimpleSigner(identity.privateKey)
+    createJWT(
+      {
+        type: 'sdr',
+        ...sdrData,
+      },
+      {
+        signer,
+        alg: 'ES256K-R',
+        issuer: did,
+      },
+    ).then(sdrJwt => {
+      const issuer = `did:ethr:rsk:testnet:0xc253a4d5653ea8b1b288a4b45ba67e9a4be865fc`
+
+      const data = {
+        from: did,
+        to: issuer, // TODO: check if mandatory
+        type: 'jwt',
+        body: sdrJwt,
+      }
+
+      fetch(server.endpoint + '/requestCredential', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }).then(() => {
+          const hash = keccak256(sdrJwt).toString('hex')
+          console.log(hash)
+          // Create Credential object:
+          const credential: Credential = {
+            issuer: {
+              name: server.name,
+              endpoint: server.endpoint,
+            },
+            hash,
+            status: CredentialStatus.PENDING,
+            dateRequested: new Date(),
+            type: metadata.type,
+            payload: data,
+          };
+          dispatch(saveCredentialAndRedirect(credential));
+        })
+        .catch(function (error) {
+          dispatch(errorRequestCredential(error.message));
+        });
+      })
+  });
 };
 
 /**
@@ -137,7 +206,7 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
 export const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
   console.log('checking status.');
   return await axios
-    .get(server.endpoint + '/response?request=' + hash)
+    .get(server.endpoint + `/receiveCredential/?hash=${hash}`)
     .then((response: { data: string }) => {
       return Promise.resolve(response.data);
     })
@@ -167,15 +236,25 @@ export const checkStatusOfCredentials = (
       if (selectStatus && item.status !== selectStatus) {
         return item;
       }
-      const jwt = await checkStatusOfCredential(
+      const data: any = await checkStatusOfCredential(
         item.issuer,
-        keccak256(JSON.stringify(item.payload) + item.hash),
+        item.hash,
       );
       didUpdate = true;
+      
+      let status, jwt;
+      console.log(data.status)
+      if (data.status.toLowerCase() === 'success') {
+        status = CredentialStatus.CERTIFIED
+        jwt = data.payload.raw
+      } else if (data.status.toLowerCase() === 'denied') {
+        status = CredentialStatus.DENIED
+      } else {
+        status = CredentialStatus.PENDING
+      }
+
       return {
-        ...item,
-        jwt: jwt,
-        status: jwt ? CredentialStatus.CERTIFIED : CredentialStatus.DENIED,
+        ...item, jwt, status
       };
     }),
   );

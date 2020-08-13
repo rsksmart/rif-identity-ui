@@ -79,5 +79,6 @@
   "show_security_words": "Show security words",
   "restore_access": "Restore access",
   "restore_access_explanation": "Please enter your 12 security words in order to reset your PIN number.",
-  "pull_down_refresh": "Pull down to refresh the status of pending credentials."
+  "pull_down_refresh": "Pull down to refresh the status of pending credentials.",
+  "restoring_credentials": "Your credentials are currently being restored, please don't close the app."
 }

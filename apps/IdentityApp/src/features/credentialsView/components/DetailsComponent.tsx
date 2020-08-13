@@ -61,10 +61,14 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
             <View style={styles.details}>
               <Text style={typography.paragraphBold}>Issuer:</Text>
               <Text style={paragraphIndent}>{credential.issuer.name}</Text>
-              <Text style={typography.paragraphBold}>{strings.date_requested}:</Text>
-              <Text style={paragraphIndent}>
-                {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
-              </Text>
+              {credential.dateRequested && (
+                <>
+                  <Text style={typography.paragraphBold}>{strings.date_requested}:</Text>
+                  <Text style={paragraphIndent}>
+                    {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
+                  </Text>
+                </>
+              )}
 
               {credential.jwt && <JwtDataComponent jwt={credential.jwt} />}
 

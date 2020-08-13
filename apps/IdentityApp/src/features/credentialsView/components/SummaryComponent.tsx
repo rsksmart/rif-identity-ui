@@ -21,6 +21,7 @@ interface SummaryComponentProps {
   isCheckingPendingStatus: boolean;
   hasMnemonic: boolean;
   hasPending: boolean;
+  isGettingCredentials: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -33,6 +34,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   createPresentation,
   hasMnemonic,
   hasPending,
+  isGettingCredentials,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
@@ -68,9 +70,12 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
       {hasPending && <MessageComponent message={strings.pull_down_refresh} type="WARNING" />}
+      {isGettingCredentials && (
+        <MessageComponent message={strings.restoring_credentials} type="WARNING" />
+      )}
 
       <View style={[layout.row, styles.credentialsRow]}>
-        {credentials.length === 0 && (
+        {credentials.length === 0 && !isGettingCredentials && (
           <Text style={typography.paragraph}>{strings.no_credentials}</Text>
         )}
 

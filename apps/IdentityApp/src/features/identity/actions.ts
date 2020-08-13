@@ -25,11 +25,6 @@ export const receiveMnemonic = (hasMnemonic: boolean, mnemonic?: string[]) => ({
   mnemonic,
 });
 
-export const restoreSeedError = (mnemonicError: string) => ({
-  type: MNEMONIC_TYPES.MNEMONIC_ERROR,
-  mnemonicError,
-});
-
 export const setNewMnemnoic = (mnemonic: string[]) => ({
   type: MNEMONIC_TYPES.SET_NEW_MNEMONIC,
   mnemonic,

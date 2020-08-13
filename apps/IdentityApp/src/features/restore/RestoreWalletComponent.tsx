@@ -6,20 +6,23 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { SquareButton } from '../../Libraries/Button';
 import BackScreenComponent from '../../Libraries/BackScreen/BackScreenComponent';
 import MessageComponent from '../../Libraries/Message/MessageComponent';
+import LoadingComponent from '../../Libraries/Loading/LoadingComponent';
 
 interface RestoreWalletComponentProps {
   onSubmit: (text: String) => void | null;
   mnemonicError: string | null;
+  isRestoring: boolean;
   strings: any;
 }
 
 const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
   mnemonicError,
+  isRestoring,
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [textValue, setTextValue] = useState('');
+  const [textValue, setTextValue] = useState();
 
   return (
     <BackScreenComponent>
@@ -47,7 +50,12 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
       </View>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <SquareButton title="Restore" onPress={() => onSubmit(textValue)} />
+          <SquareButton
+            title="Restore"
+            onPress={() => onSubmit(textValue)}
+            disabled={isRestoring}
+          />
+          {isRestoring && <LoadingComponent />}
         </View>
       </View>
     </BackScreenComponent>

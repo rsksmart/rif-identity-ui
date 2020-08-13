@@ -37,7 +37,6 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   };
 
   const showQR = credential.status === 'CERTIFIED';
-
   return (
     <View style={styles.credential}>
       <TouchableOpacity

@@ -9,7 +9,7 @@ import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
 import axios from 'axios'
-import keccak256 from 'keccak256';
+import { keccak256 } from 'js-sha3';
 import { requestScanAgain, receiveQrScan } from '../state/localUi/actions';
 import { navigate } from '../AppNavigation';
 

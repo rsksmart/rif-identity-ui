@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import axios from 'axios';
-import keccak256 from 'keccak256';
+import { keccak256 } from 'js-sha3';
 import EthrDID from 'ethr-did';
 import { TINYQR_ENDPOINT } from '@env';
 

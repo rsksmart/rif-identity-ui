@@ -22,7 +22,8 @@ import {
   errorRequestCredential,
 } from './actions';
 import * as RootNavigation from '../../AppNavigation';
-import { createJWT, SimpleSigner } from 'did-jwt'
+import { createJWT, SimpleSigner } from 'did-jwt';
+import { putInDataVault } from '../../Providers/DataVaultProvider';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -259,8 +260,9 @@ export const checkStatusOfCredentials = (
       let status, jwt;
       console.log(data.status)
       if (data.status.toLowerCase() === 'success') {
-        status = CredentialStatus.CERTIFIED
-        jwt = data.payload.raw
+        status = CredentialStatus.CERTIFIED;
+        jwt = data.payload.raw;
+        putInDataVault(jwt);
       } else if (data.status.toLowerCase() === 'denied') {
         status = CredentialStatus.DENIED
       } else {

@@ -7,14 +7,14 @@ interface hashInterface {
 interface StateInterface {
   isRestoring: boolean;
   mnemonicError: string | null;
-  isGettingHashes: boolean;
+  isGettingCredentials: boolean;
   hashes: string[];
 }
 
 export const initialState = {
   isRestoring: false,
   mnemonicError: null,
-  isGettingHashes: false,
+  isGettingCredentials: false,
   hashes: [],
 };
 
@@ -43,13 +43,13 @@ const reducer = (state: StateInterface = initialState, action: any) => {
     case RESTORE_TYPES.REQUEST_DATA_VAULT: {
       return {
         ...state,
-        isGettingHashes: true,
+        isGettingCredentials: true,
       };
     }
     case RESTORE_TYPES.RECEIVE_DATA_VAULT: {
       return {
         ...state,
-        isGettingHashes: false,
+        isGettingCredentials: false,
       };
     }
 

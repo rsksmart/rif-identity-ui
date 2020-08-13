@@ -48,18 +48,18 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
 
   return (
     metadata &&
-    <ScrollView>
+    <View>
       {metadata.otherClaims.map((elem: any) => (
         <View style={styles.row} key={elem.claimType}>
           <View style={styles.cell}>
             <Text style={styles.labelText}>{strings[elem.claimType] ? strings[elem.claimType] : elem.claimType}:</Text>
           </View>
           <View style={styles.cell}>
-            <Text style={styles.valueText}>{elem.claimValue}</Text>
+            <Text style={styles.valueText}>{elem.claimValue?.toString()}</Text>
           </View>
         </View>
       ))}
-    </ScrollView>
+    </View>
   )
 };
 

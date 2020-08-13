@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Text, View, StyleSheet,
+  Text, StyleSheet, ScrollView,
 } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import Button from '../../shared/Button'
@@ -56,7 +56,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
   }
   
   return (
-    <View style={layoutStyles.container}>
+    <ScrollView contentContainerStyle={layoutStyles.container}>
       <Text style={styles.header}>{presentation.success ? strings.success : strings.notSuccess}</Text>
       <ValidationResult presentation={presentation} strings={strings} />
       {
@@ -74,7 +74,7 @@ const PresentationComponent: React.FC<ValidPresentationProps> = ({
         <Button title={strings.scan_again} onPress={handleGoToScanner} />
       }
       <Button title={strings.go_to_credential_list} onPress={handleGoToCredentialList} />
-    </View>
+    </ScrollView>
   )
 };
 

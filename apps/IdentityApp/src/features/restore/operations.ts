@@ -24,7 +24,8 @@ import { receiveAllCredentials } from '../credentialsView/actions';
  */
 export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Dispatch) => {
   dispatch(requestRestore());
-  const seedArray = seed.split(' ');
+  // convert to lowercase, replace 2 spaces with 1, trim then split:
+  const seedArray = seed.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
 
   if (seedArray.length < 12) {
     return dispatch(restoreSeedError('short_seed_error'));

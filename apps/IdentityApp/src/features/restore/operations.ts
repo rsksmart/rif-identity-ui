@@ -43,7 +43,8 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
 
   getFromDataVault().then(cids => {
     if (cids.length === 0) {
-      return;
+      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
+      return dispatch(receiveRestore());
     }
 
     // FUTURE: support for multiple issuers:
@@ -72,7 +73,7 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
 
     // save at the end because saving into LocalStorage can erase credentials if saving
     // at the same time.
-    return Promise.all(promiseArray).then((values: Credential[]) => {
+    Promise.all(promiseArray).then((values: Credential[]) => {
       saveAllCredentials(values);
       dispatch(receiveAllCredentials(values));
       dispatch(receiveRestore());

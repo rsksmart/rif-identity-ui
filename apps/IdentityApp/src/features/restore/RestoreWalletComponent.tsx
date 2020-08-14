@@ -59,7 +59,7 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
       </View>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <SquareButton title="Restore" onPress={handleRestore} disabled={isRestoring} />
+          <SquareButton title={strings.restore} onPress={handleRestore} disabled={isRestoring} />
           {isRestoring && <LoadingComponent />}
           {isGettingDataVault && <Text>{strings.loading_hashes}</Text>}
           {isGettingIpfs && <Text>{strings.loading_ipfs}</Text>}

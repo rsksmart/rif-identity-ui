@@ -80,5 +80,7 @@
   "restore_access": "Restore access",
   "restore_access_explanation": "Please enter your 12 security words in order to reset your PIN number.",
   "pull_down_refresh": "Pull down to refresh the status of pending credentials.",
-  "restoring_credentials": "Your credentials are currently being restored, please don't close the app."
+  "restoring_credentials": "Your credentials are currently being restored, please don't close the app.",
+  "loading_hashes": "Loading hashes from data vault",
+  "loading_ipfs": "Loading Credentials from IPFS"
 }

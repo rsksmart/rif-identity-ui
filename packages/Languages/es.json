@@ -80,5 +80,7 @@
   "restore_access": "Recuperar acceso",
   "restore_access_explanation": "Por favor, ingrese las palabras de seguridad en orden para restablecer su código PIN",
   "pull_down_refresh": "Arrastre la pantalla hacia abajo para refrescar el estado de las credenciales",
-  "restoring_credentials": "Sus credenciales están siendo restauradas, por favor no cierre la aplicación"
+  "restoring_credentials": "Sus credenciales están siendo restauradas, por favor no cierre la aplicación",
+  "loading_hashes": "Recuperando hashes de la data vault",
+  "loading_ipfs": "Recuperando credenciales desde IPFS"
 }

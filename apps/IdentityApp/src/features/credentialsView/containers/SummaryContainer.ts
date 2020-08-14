@@ -22,7 +22,7 @@ const mapStateToProps = (state: RootState) => ({
   hasPending:
     state.credentials.credentials.filter((item: Credential) => item.status === 'PENDING').length !==
     0,
-  isGettingCredentials: state.restore.isGettingCredentials,
+  isRestoring: state.restore.isRestoring,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -3,7 +3,7 @@ export enum RESTORE_TYPES {
   RECEIVE_RESTORE = 'RECEIVE_RESTORE',
   MNEMONIC_ERROR = 'MNEMONIC_ERROR',
   REQUEST_DATA_VAULT = 'REQUEST_DATA_VAULT',
-  RECEIVE_DATA_VAULT = 'RECEIVE_DATA_VAULT',
+  REQUEST_IPFS = 'REQUEST_IPFS',
 }
 
 export const requestRestore = () => ({
@@ -23,6 +23,6 @@ export const requestDataVault = () => ({
   type: RESTORE_TYPES.REQUEST_DATA_VAULT,
 });
 
-export const receiveDataVault = () => ({
-  type: RESTORE_TYPES.RECEIVE_DATA_VAULT,
+export const requestFromIpfs = () => ({
+  type: RESTORE_TYPES.REQUEST_IPFS,
 });

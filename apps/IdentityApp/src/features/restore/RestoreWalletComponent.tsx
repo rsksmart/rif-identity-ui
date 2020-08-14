@@ -12,6 +12,8 @@ interface RestoreWalletComponentProps {
   onSubmit: (text: String) => void | null;
   mnemonicError: string | null;
   isRestoring: boolean;
+  isGettingDataVault: boolean;
+  isGettingIpfs: boolean;
   strings: any;
 }
 
@@ -19,6 +21,8 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
   mnemonicError,
   isRestoring,
+  isGettingDataVault,
+  isGettingIpfs,
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
@@ -56,6 +60,8 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
             disabled={isRestoring}
           />
           {isRestoring && <LoadingComponent />}
+          {isGettingDataVault && <Text>Loaded hashes from data vault</Text>}
+          {isGettingIpfs && <Text>Loading Credentials from IPFS</Text>}
         </View>
       </View>
     </BackScreenComponent>

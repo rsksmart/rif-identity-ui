@@ -11,9 +11,9 @@ import {
   requestRestore,
   receiveRestore,
   requestDataVault,
-  receiveDataVault,
+  requestFromIpfs,
 } from './actions';
-import { Credential, CredentialStatus, CredentialTypes } from '../credentialsView/reducer';
+import { Credential, CredentialStatus } from '../credentialsView/reducer';
 
 import { saveAllCredentials } from '../credentialsView/operations';
 import { receiveAllCredentials } from '../credentialsView/actions';
@@ -50,7 +50,7 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
     const issuer = {
       name: ISSUER_NAME,
     };
-
+    dispatch(requestFromIpfs());
     let promiseArray = [];
     cids.forEach((hash: string) => {
       promiseArray.push(
@@ -75,7 +75,6 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
     return Promise.all(promiseArray).then((values: Credential[]) => {
       saveAllCredentials(values);
       dispatch(receiveAllCredentials(values));
-      dispatch(receiveDataVault());
       dispatch(receiveRestore());
       RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
     });

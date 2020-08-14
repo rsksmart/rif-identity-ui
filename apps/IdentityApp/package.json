@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto --hack;"
+    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto --hack && cp postinstall/ethrDID-copy.js node_modules/ethr-did/lib/index.js"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^2.6.0",

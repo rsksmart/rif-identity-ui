@@ -12,9 +12,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSubmit: (seed: string) => {
-    dispatch(restoreWalletFromUserSeed(seed)).then(() => {
-      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-    });
+    dispatch(restoreWalletFromUserSeed(seed));
   },
 });
 

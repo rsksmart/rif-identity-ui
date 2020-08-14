@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { ISSUER_NAME, IPFS_GATEWAY_ENDPOINT } from '@env';
 import { getFromDataVault } from '../../Providers/DataVaultProvider';
 import { saveIdentityToLocalStorage } from '../identity/operations';
+import * as RootNavigation from '../../AppNavigation';
 
 import {
   restoreSeedError,
@@ -23,18 +24,14 @@ import { receiveAllCredentials } from '../credentialsView/actions';
  */
 export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Dispatch) => {
   dispatch(requestRestore());
+  const seedArray = seed.split(' ');
 
-  return new Promise((resolve, reject) => {
-    const seedArray = seed.split(' ');
+  if (seedArray.length < 12) {
+    return dispatch(restoreSeedError('short_seed_error'));
+  }
 
-    if (seedArray.length < 12) {
-      return reject(dispatch(restoreSeedError('short_seed_error')));
-    }
-
-    dispatch(saveIdentityToLocalStorage(seedArray)).then(() => {
-      dispatch(restoreCredentialsFromDataVault());
-      resolve(dispatch(receiveRestore()));
-    });
+  dispatch(saveIdentityToLocalStorage(seedArray)).then(() => {
+    dispatch(restoreCredentialsFromDataVault());
   });
 };
 
@@ -44,7 +41,6 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
 export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) => {
   dispatch(requestDataVault());
 
-  console.log('getting hashes!');
   getFromDataVault().then(cids => {
     if (cids.length === 0) {
       return;
@@ -76,10 +72,12 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
 
     // save at the end because saving into LocalStorage can erase credentials if saving
     // at the same time.
-    Promise.all(promiseArray).then((values: Credential[]) => {
+    return Promise.all(promiseArray).then((values: Credential[]) => {
       saveAllCredentials(values);
       dispatch(receiveAllCredentials(values));
       dispatch(receiveDataVault());
+      dispatch(receiveRestore());
+      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
     });
   });
 };

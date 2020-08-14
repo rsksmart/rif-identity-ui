@@ -10,12 +10,11 @@ type LocalUiState = {
 };
 
 export const initialState = {
-  appVersion: '7',
+  appVersion: '10.4',
   checkingSingedUp: true,
   isSignedUp: false,
   isLoggedIn: false,
   loginError: null,
-  privateKey: 'COMPLETE',
 };
 
 const reducer = (state: LocalUiState = initialState, action: any) => {

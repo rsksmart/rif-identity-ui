@@ -3,7 +3,6 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
-import { colors } from 'src/styles';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -19,9 +18,33 @@ interface JwtInterface {
 }
 
 const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => {
-  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
+  const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
   const data: JwtInterface = jwtDecode(jwt);
   const metadata: any = data.vc.credentialSubject;
+
+  const styles = StyleSheet.create({
+    headingColumn: {
+      paddingLeft: 20,
+      width: '40%',
+    },
+    heading: {
+      color: colors.darkGray,
+      fontSize: 16,
+      paddingBottom: 5,
+    },
+    viewColumn: {
+      width: '60%',
+    },
+    value: {
+      fontSize: 16,
+      color: colors.primary,
+    },
+    did: {
+      fontSize: 16,
+      color: colors.darkGray,
+      paddingLeft: 20,
+    },
+  });
 
   return (
     <View>
@@ -41,30 +64,11 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
         </View>
       ))}
       <Text style={typography.paragraphBold}>{strings.issuer}:</Text>
-      <Text style={styles.heading}>{data.iss}</Text>
+      <Text style={styles.did}>{data.iss}</Text>
       <Text style={typography.paragraphBold}>{strings.subject}:</Text>
-      <Text style={styles.heading}>{data.sub}</Text>
+      <Text style={styles.did}>{data.sub}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  headingColumn: {
-    paddingLeft: 20,
-    width: '40%',
-  },
-  heading: {
-    color: '#919191',
-    fontSize: 16,
-    paddingBottom: 5,
-  },
-  viewColumn: {
-    width: '60%',
-  },
-  value: {
-    fontSize: 16,
-    color: '#50555C',
-  },
-});
 
 export default multilanguage(JwtDataComponent);

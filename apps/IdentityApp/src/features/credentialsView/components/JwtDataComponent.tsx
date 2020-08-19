@@ -3,6 +3,7 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
+import { colors } from 'src/styles';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -13,6 +14,8 @@ interface JwtInterface {
   vc: {
     credentialSubject: {};
   };
+  iss: string;
+  sub: string;
 }
 
 const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => {
@@ -22,17 +25,25 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
 
   return (
     <View>
-      <Text style={typography.paragraphBold}>Credential Metadata:</Text>
+      <Text style={typography.paragraphBold}>{strings.metadata}</Text>
       {metadata.otherClaims?.map((claim: any) => (
         <View style={layout.row} key={claim.claimType}>
           <View style={styles.headingColumn}>
-            <Text style={styles.heading}>{strings[claim.claimType] ? strings[claim.claimType] : claim.claimType}</Text>
+            <Text style={styles.heading}>
+              {strings[claim.claimType.toLowerCase()]
+                ? strings[claim.claimType.toLowerCase()]
+                : claim.claimType}
+            </Text>
           </View>
           <View style={styles.viewColumn}>
             <Text style={styles.value}>{claim.claimValue}</Text>
           </View>
         </View>
       ))}
+      <Text style={typography.paragraphBold}>{strings.issuer}:</Text>
+      <Text style={styles.heading}>{data.iss}</Text>
+      <Text style={typography.paragraphBold}>{strings.subject}:</Text>
+      <Text style={styles.heading}>{data.sub}</Text>
     </View>
   );
 };
@@ -45,7 +56,6 @@ const styles = StyleSheet.create({
   heading: {
     color: '#919191',
     fontSize: 16,
-    textTransform: 'capitalize',
     paddingBottom: 5,
   },
   viewColumn: {

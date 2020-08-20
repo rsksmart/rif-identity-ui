@@ -82,5 +82,12 @@
   "pull_down_refresh": "Pull down to refresh the status of pending credentials.",
   "restoring_credentials": "Your credentials are currently being restored, please don't close the app.",
   "loading_hashes": "Loading hashes from data vault",
-  "loading_ipfs": "Loading credentials from IPFS"
+  "loading_ipfs": "Loading credentials from IPFS",
+  "metadata": "Metadata",
+  "driverlicensenumber": "Driver License Number",
+  "typeofvehicle": "Type of Vehicle",
+  "typeoflicense": "Type of License",
+  "isinternational": "Is international",
+  "issuanceoffice": "Issuance Office",
+  "subject": "Subject"
 }

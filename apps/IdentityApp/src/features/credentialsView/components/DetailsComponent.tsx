@@ -59,8 +59,6 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
         <View style={layout.row}>
           <View style={layout.column1}>
             <View style={styles.details}>
-              <Text style={typography.paragraphBold}>Issuer:</Text>
-              <Text style={paragraphIndent}>{credential.issuer.name}</Text>
               {credential.dateRequested && (
                 <>
                   <Text style={typography.paragraphBold}>{strings.date_requested}:</Text>

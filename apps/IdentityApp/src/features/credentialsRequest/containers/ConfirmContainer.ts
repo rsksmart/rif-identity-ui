@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { NavigationContainer } from '@react-navigation/native';
 import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import { sendRequestToServer } from '../../credentialsView/operations';
-import { ISSUERS } from '../../../Providers';
 import * as RootNavigation from '../../../AppNavigation';
+import { serverInterface } from '../../../Providers/Issuers';
+import { getEndpoint } from '../../../Providers/Endpoints';
 
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
@@ -16,8 +16,15 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  requestCredential: (metadata, did: string) =>
-    dispatch(sendRequestToServer(ISSUERS[0], did, metadata)),
+  requestCredential: async (metadata: any, did: string) => {
+    getEndpoint('issuer').then((endpoint: string) => {
+      const server: serverInterface = {
+        name: 'Credential Server',
+        endpoint: endpoint,
+      };
+      dispatch(sendRequestToServer(server, did, metadata));
+    });
+  },
   handleEditProfile: () =>
     RootNavigation.navigate('CredentialsFlow', {
       screen: 'Profile',

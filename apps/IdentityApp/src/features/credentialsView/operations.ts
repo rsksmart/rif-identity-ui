@@ -2,7 +2,6 @@ import { Dispatch } from 'react';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import EthrDID from 'ethr-did';
-import { TINYQR_ENDPOINT } from '@env';
 
 import { JwtPresentationPayload, createVerifiablePresentationJwt } from 'did-jwt-vc';
 import { Credential, CredentialStatus } from './reducer';
@@ -24,6 +23,7 @@ import {
 import * as RootNavigation from '../../AppNavigation';
 import { createJWT, SimpleSigner } from 'did-jwt';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
+import { getEndpoint } from '../../Providers/Endpoints';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -309,8 +309,9 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
   });
 };
 
-const uploadPresentation = (jwt: string) => {
-  const request = axios.post(`${TINYQR_ENDPOINT}/presentation`, { jwt });
+const uploadPresentation = async (jwt: string) => {
+  const tinyServer = await getEndpoint('tinyQr');
+  const request = axios.post(`${tinyServer}/presentation`, { jwt });
   const hashFn = keccak256(jwt);
 
   return Promise.all([request, hashFn]);

@@ -6,13 +6,8 @@ import {
   requestSaveEndpoints,
   receiveSaveEndpoints,
 } from './actions';
-import {
-  ISSUER_ENDPOINT,
-  TINYQR_ENDPOINT,
-  IPFS_GATEWAY_ENDPOINT,
-  DATA_VAULT_ENDPOINT,
-  RSK_NODE,
-} from '@env';
+
+import { defaults } from '../../Providers/Endpoints';
 import { EndpointsInterface } from './reducer';
 
 import { receiveIsSignedUp, receiveLoggedIn } from '../../state/localUi/actions';
@@ -28,15 +23,7 @@ export const getEndpointsFromLocalStorage = () => (dispatch: Dispatch) => {
     .then((response: string) => dispatch(receiveEndpointsStorage(JSON.parse(response))))
     .catch(() => {
       // no endpoints are saved in localStorage, use ENV:
-      dispatch(
-        receiveEndpointsStorage({
-          issuer: ISSUER_ENDPOINT,
-          tinyQr: TINYQR_ENDPOINT,
-          ipfs: IPFS_GATEWAY_ENDPOINT,
-          dataVault: DATA_VAULT_ENDPOINT,
-          rskNode: RSK_NODE,
-        }),
-      );
+      dispatch(receiveEndpointsStorage(defaults));
     });
 };
 

@@ -26,7 +26,7 @@ export const requestSaveEndpoints = () => ({
   type: SETTINGS_TYPES.REQUEST_SAVE_ENDPOINTS,
 });
 
-export const receiveSaveEndpoints = (endponts: EndpointsInterface) => ({
+export const receiveSaveEndpoints = (endpoints: EndpointsInterface) => ({
   type: SETTINGS_TYPES.RECEIVE_SAVE_ENDPOINTS,
-  endponts,
+  endpoints,
 });

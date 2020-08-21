@@ -14,34 +14,11 @@ const SignupNavigation: React.FC<SignupNavigationProps> = ({}) => {
   return (
     <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
       <Stack.Screen name="Welcome" component={WelcomeContainer} options={{ headerShown: false }} />
-
-      <Stack.Screen
-        name="MnemonicView"
-        component={ViewMnemonicContainer}
-        options={options}
-      />
-      <Stack.Screen
-        name="MnemonicConfirm"
-        component={ConfirmMnemonicContainer}
-        options={options}
-      />
-
-      <Stack.Screen
-        name="RestoreWallet"
-        component={RestoreWalletContainer}
-        options={options}
-      />
-
-      <Stack.Screen
-        name="PinCreate"
-        component={CreatePinContainer}
-        options={options}
-      />
-      <Stack.Screen
-        name="PinConfirm"
-        component={ConfirmPinContainer}
-        options={options}
-      />
+      <Stack.Screen name="MnemonicView" component={ViewMnemonicContainer} options={options} />
+      <Stack.Screen name="MnemonicConfirm" component={ConfirmMnemonicContainer} options={options} />
+      <Stack.Screen name="RestoreWallet" component={RestoreWalletContainer} options={options} />
+      <Stack.Screen name="PinCreate" component={CreatePinContainer} options={options} />
+      <Stack.Screen name="PinConfirm" component={ConfirmPinContainer} options={options} />
     </Stack.Navigator>
   );
 };

@@ -8,7 +8,9 @@ interface CredentialsRequestNavigationProps {}
 const CredentialsRequestNavigation: React.FC<CredentialsRequestNavigationProps> = ({}) => {
   const Stack = createStackNavigator();
   return (
-    <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}>
+    <Stack.Navigator
+      screenOptions={{ cardStyle: { backgroundColor: '#FFFFFF' } }}
+      initialRouteName="RequestType">
       <Stack.Screen
         name="RequestType"
         component={RequestTypeContainer}

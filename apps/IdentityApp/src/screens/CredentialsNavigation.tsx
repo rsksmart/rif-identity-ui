@@ -9,6 +9,7 @@ import CredentailsViewNavigation from '../features/credentialsView/CredentailsVi
 import CredentialsRequestNavigation from '../features/credentialsRequest/CredentialsRequestNavigation';
 import { ProfileNavigation } from '../features/profile/index';
 import { RootState } from '../state/store';
+import { StyleSheet } from 'react-native';
 
 interface CredentialsNavigationProps {
   isLoggedIn: boolean;
@@ -39,7 +40,11 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
-            navigation.navigate('CredentialsHome', { screen: 'Summary' });
+            navigation.popToTop();
+            navigation.navigate('CredentialsFlow', {
+              screen: 'CredentialsHome',
+              params: { screen: 'Summary' },
+            });
           },
         })}
       />
@@ -49,14 +54,22 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         options={{
           tabBarLabel: '',
           tabBarIcon: () => (
-            <Icon name="add-circle" size={75} color={hasMnemonic ? '#50555C' : '#e1e1e1'} style={{ marginTop: 15 }} />
+            <Icon
+              name="add-circle"
+              size={75}
+              color={hasMnemonic ? '#50555C' : '#e1e1e1'}
+              style={styles.circlePlusIcon}
+            />
           ),
         }}
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
             if (hasMnemonic) {
-              navigation.navigate('AddCredential', { screen: 'RequestType' });
+              navigation.popToTop();
+              navigation.navigate('CredentialsFlow', {
+                screen: 'AddCredential',
+              });
             }
           },
         })}
@@ -73,13 +86,22 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
-            navigation.navigate('Profile', { screen: 'View' });
+            navigation.popToTop();
+            navigation.navigate('CredentialsFlow', {
+              screen: 'Profile',
+            });
           },
         })}
       />
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  circlePlusIcon: {
+    marginTop: 15,
+  },
+});
 
 // container:
 const mapStateToProps = (state: RootState) => ({

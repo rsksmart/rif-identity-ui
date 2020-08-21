@@ -6,6 +6,7 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { SquareButton } from '../../../Libraries/Button';
 import ChangeLangaugeModalContainer from '../../../Libraries/ChangeLanguage/ChangeLangaugeModalContainer';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import { ISSUER_ENDPOINT } from '@env';
 
 interface SettingsComponentProps {
   strings: any;

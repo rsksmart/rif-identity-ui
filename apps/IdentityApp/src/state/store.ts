@@ -10,6 +10,7 @@ import credentialReducer from '../features/credentialsView/reducer';
 import { PinReducer } from '../features/pin';
 import { IdentityReducer } from '../features/identity';
 import RestoreReducer from '../features/restore/reducer';
+import { SettingsReducer } from '../features/settings';
 
 const middleware = [thunk, customLogger];
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   pin: PinReducer,
   identity: IdentityReducer,
   restore: RestoreReducer,
+  settings: SettingsReducer,
   multilanguage: createMultilanguageReducer(initialLanguageState),
 });
 

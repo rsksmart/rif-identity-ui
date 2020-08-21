@@ -3,8 +3,9 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { ProfileEditContainer, ProfileViewContainer, SettingsContainer } from './containers';
+import { ProfileEditContainer, ProfileViewContainer } from './containers';
 import { initialStart } from './operations';
+import { SettingsContainer, DeveloperSettingsContainer } from '../settings/containers';
 
 export const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
       <Stack.Screen name="View" component={ProfileViewContainer} options={options} />
       <Stack.Screen name="Edit" component={ProfileEditContainer} options={options} />
       <Stack.Screen name="Settings" component={SettingsContainer} options={options} />
+      <Stack.Screen name="Advanced" component={DeveloperSettingsContainer} options={options} />
     </Stack.Navigator>
   );
 };

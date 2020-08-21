@@ -5,6 +5,7 @@ export interface EndpointsInterface {
   tinyQr: string;
   ipfs: string;
   dataVault: string;
+  rskNode: string;
 }
 
 export interface SettingsInterface {

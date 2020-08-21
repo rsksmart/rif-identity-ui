@@ -4,11 +4,11 @@ import { Resolver } from 'did-resolver';
 import { getResolver } from 'ethr-did-resolver';
 import { verifyCredential } from 'did-jwt-vc';
 
-import { DATA_VAULT_ENDPOINT, IPFS_GATEWAY_ENDPOINT } from '@env';
+import { DATA_VAULT_ENDPOINT, IPFS_GATEWAY_ENDPOINT, RSK_NODE } from '@env';
 import { StorageProvider, STORAGE_KEYS } from './index';
 
 // eslint-disable-next-line prettier/prettier
-const resolver = new Resolver(getResolver({ networks: [{ name: 'rsk:testnet', registry: '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b', rpcUrl: 'https://did.testnet.rsk.co:4444' }] }))
+const resolver = new Resolver(getResolver({ networks: [{ name: 'rsk:testnet', registry: '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b', rpcUrl: RSK_NODE }] }));
 
 const trace = (v: any) => {
   console.log(v);
@@ -42,7 +42,8 @@ const loginAndSendClaimWithToken = (method: string) => (claim: any) =>
       )
       .then(jwt => axios.post(DATA_VAULT_ENDPOINT + method, { jwt }))
       .then(res => res.status === 200 && res.data)
-      .then(trace);
+      .then(trace)
+      .catch(err => console.log('data valut error', err.message));
   });
 
 /*

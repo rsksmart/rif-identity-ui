@@ -26,6 +26,7 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [newEndpoints, setNewEndpoints] = useState<EndpointsInterface>(endpoints);
+  const [saved, setSaved] = useState<boolean>(false);
   const handleChange = (field: string, value: string) => {
     setNewEndpoints({
       ...newEndpoints,
@@ -33,12 +34,18 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
     });
   };
 
+  const handleSave = () => {
+    setSaved(true);
+    saveEndpoints(newEndpoints);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
   return (
     <ScrollView style={layout.container}>
       <BackScreenComponent>
         <View style={layout.row}>
           <View style={layout.column1}>
-            <Text style={typography.header1}>{strings.developer_settings}</Text>
+            <Text style={typography.header1}>{strings.advanced_settings}</Text>
             <Text style={typography.paragraphBold}>{strings.version}</Text>
             <Text style={typography.paragraph}>{version}</Text>
 
@@ -72,9 +79,10 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               <SquareButton
                 title={strings.save}
                 variation="hollow"
-                onPress={() => saveEndpoints(newEndpoints)}
+                onPress={handleSave}
                 disabled={isSavingEndpoints}
               />
+              {saved && <Text style={typography.paragraph}>{strings.settings_saved}</Text>}
             </View>
 
             <Text style={typography.header2}>{strings.danger}</Text>

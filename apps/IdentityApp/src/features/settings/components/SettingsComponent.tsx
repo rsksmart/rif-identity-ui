@@ -56,7 +56,7 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
           </View>
           <View style={styles.buttonView}>
             <SquareButton
-              title="Advanced Settings"
+              title={strings.advanced_settings}
               variation="hollow"
               onPress={() => navigation.navigate('Advanced')}
             />

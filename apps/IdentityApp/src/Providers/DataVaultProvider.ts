@@ -39,7 +39,7 @@ const login = (did: string) =>
 
 const getLoginToken = (did: any) =>
   createResolver().then(resolver => {
-    login(did)
+    return login(did)
       .then(res => res.status === 200 && res.data)
       .then(jwt => verifyCredential(jwt, resolver))
       .then(({ verifiableCredential }) => (verifiableCredential.credentialSubject as any).token)

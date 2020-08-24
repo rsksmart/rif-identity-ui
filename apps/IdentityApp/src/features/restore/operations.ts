@@ -42,7 +42,7 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
   dispatch(requestDataVault());
 
   getFromDataVault().then(cids => {
-    if (cids.length === 0) {
+    if (!cids || cids.length === 0) {
       RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
       return dispatch(receiveRestore());
     }

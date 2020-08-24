@@ -6,6 +6,7 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { SquareButton } from '../../../Libraries/Button';
 import ChangeLangaugeModalContainer from '../../../Libraries/ChangeLanguage/ChangeLangaugeModalContainer';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface SettingsComponentProps {
   strings: any;
@@ -30,7 +31,7 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.settings}</Text>
           <Text style={typography.paragraphBold}>{strings.identity}</Text>
-          <Text>{did}</Text>
+          <CopyButton value={did} />
 
           {mnemonic && (
             <View style={styles.buttonView}>

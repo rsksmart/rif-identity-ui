@@ -11,6 +11,7 @@
     "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto --hack && cp postinstall/ethrDID-copy.js node_modules/ethr-did/lib/index.js"
   },
   "dependencies": {
+    "@react-native-community/clipboard": "^1.2.3",
     "@react-native-community/datetimepicker": "^2.6.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.6.1",

@@ -23,6 +23,7 @@
     "did-resolver": "^2.0.1",
     "ethr-did-resolver": "^2.3.2",
     "js-sha3": "^0.8.0",
+    "moment": "^2.27.0",
     "react": "16.13.1",
     "react-native": "0.63.0",
     "react-native-barcode-mask": "^1.2.4",

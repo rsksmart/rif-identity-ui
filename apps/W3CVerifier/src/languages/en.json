@@ -35,5 +35,7 @@
   "driverLicenseNumber": "Driver License number",
   "phone": "Phone",
   "parkingPermitId": "Parking Permit id",
-  "isInternational": "Is international"
+  "isInternational": "Is international",
+  "issuance_date": "Issuance Date",
+  "expiration_date": "Expriation Date"
 }

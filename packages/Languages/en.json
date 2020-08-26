@@ -108,5 +108,6 @@
   "typeOfVehicle": "Type of Vehicle",
   "isInternational": "Is International",
   "issuanceOffice": "Issuance Office",
-  "driversLicenseNumber": "Driver's License Number"
+  "driversLicenseNumber": "Driver's License Number",
+  "typeOfLicense": "Type of License"
 }

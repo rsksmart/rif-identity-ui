@@ -8,19 +8,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 interface CopyButtonProps {
   value: string;
   text?: string;
+  color?: string;
   strings: any;
 }
 
-const CopyButton: React.FC<CopyButtonProps> = ({ value, text, strings }) => {
+const CopyButton: React.FC<CopyButtonProps> = ({ value, text, color, strings }) => {
   const { typography, colors }: ThemeInterface = useContext(ThemeContext);
+  const textIconColor = color ? color : colors.primary;
   return (
     <BaseCopy value={value} prompt={strings.copied}>
       <View style={styles.copyContainer}>
         <View style={styles.copyText}>
-          <Text style={typography.paragraph}>{text ? text : value}</Text>
+          <Text style={[typography.paragraph, { color: textIconColor }]}>
+            {text ? text : value}
+          </Text>
         </View>
         <View style={styles.copyIcon}>
-          <FontAwesome name="copy" size={30} color={colors.primary} />
+          <FontAwesome name="copy" size={30} color={textIconColor} />
         </View>
       </View>
     </BaseCopy>
@@ -31,11 +35,10 @@ const styles = StyleSheet.create({
   copyContainer: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: 20,
   },
   copyIcon: {
     flex: 1,
-    paddingTop: 15,
+    alignSelf: 'center',
   },
   copyText: {
     flex: 6,

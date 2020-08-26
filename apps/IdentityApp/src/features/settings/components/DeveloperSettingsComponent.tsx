@@ -6,11 +6,13 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { EndpointsInterface } from '../reducer';
 import { SquareButton } from '../../../Libraries/Button';
 import EditItem from '../../profile/components/EditItem';
+import { CopyButton } from '../../../Libraries/CopyButton/';
 
 interface DeveloperSettingsComponentProps {
   endpoints: EndpointsInterface;
   version: string;
   strings: any;
+  did: string;
   startOverPress: (event: GestureResponderEvent) => void;
   saveEndpoints: (endpoints: EndpointsInterface) => void;
   isSavingEndpoints: boolean;
@@ -23,6 +25,7 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
   startOverPress,
   saveEndpoints,
   isSavingEndpoints,
+  did,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [newEndpoints, setNewEndpoints] = useState<EndpointsInterface>(endpoints);
@@ -38,6 +41,14 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
     setSaved(true);
     saveEndpoints(newEndpoints);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const clipboardData = () => {
+    return JSON.stringify({
+      endpoints: newEndpoints,
+      did,
+      version,
+    });
   };
 
   return (
@@ -83,6 +94,11 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
                 disabled={isSavingEndpoints}
               />
               {saved && <Text style={typography.paragraph}>{strings.settings_saved}</Text>}
+            </View>
+
+            <Text style={typography.header2}>{strings.copy_settings}</Text>
+            <View style={styles.buttonView}>
+              <CopyButton text={strings.copy_settings_explanation} value={clipboardData()} />
             </View>
 
             <Text style={typography.header2}>{strings.danger}</Text>

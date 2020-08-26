@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => ({
   endpoints: state.settings.endpoints,
   isSavingEndpoints: state.settings.isSavingEndpoints,
   version: state.localUi.appVersion,
+  did: state.identity.did,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

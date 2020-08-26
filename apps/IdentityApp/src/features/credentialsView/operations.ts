@@ -96,8 +96,8 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
     { claimType: 'fullName', claimValue: metadata.full_name, essential: true },
     { claimType: 'type', claimValue: metadata.type, essential: true },
     { claimType: 'idNumber', claimValue: metadata.id_number },
-    { claimType: 'city', claimValue: metadata.city }
-  ]
+    { claimType: 'city', claimValue: metadata.city },
+  ];
 
   let claims;
 
@@ -108,46 +108,37 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
         ...baseClaims,
         { claimType: 'phone', claimValue: metadata.phone },
         { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
-        { claimType: 'parkingPermitId', claimValue: '123456789' },
-        { claimType: 'typeOfVehicle', claimValue: 'car' },
-        { claimType: 'typeOfParkingPermit', claimValue: 'Regular' },
-        { claimType: 'issuanceOffice', claimValue: 'Downtown Office' }
-      ]
-      break
+      ];
+      break;
     case CredentialTypes.DRIVERS_LICENSE:
-        claims = [
-          ...baseClaims,
-          { claimType: 'birthdate', claimValue: metadata.birthdate },
-          { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
-          { claimType: 'typeOfVehicle', claimValue: 'car' },
-          { claimType: 'typeOfLicense', claimValue: 'A1' },
-          { claimType: 'isInternational', claimValue: true },
-          { claimType: 'issuanceOffice', claimValue: 'Downtown Office' }
-        ]
-        break
+      claims = [
+        ...baseClaims,
+        { claimType: 'birthdate', claimValue: metadata.birthdate },
+        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
+      ];
+      break;
     case CredentialTypes.ID:
     default:
-        claims = [
-          ...baseClaims,
-          { claimType: 'phone', claimValue: metadata.phone },
-          { claimType: 'birthdate', claimValue: metadata.birthdate },
-          { claimType: 'civilStatus', claimValue: metadata.civil_status },
-          { claimType: 'email', claimValue: metadata.email },
-          { claimType: 'address', claimValue: metadata.address }
-        ]
-        break
-      
+      claims = [
+        ...baseClaims,
+        { claimType: 'phone', claimValue: metadata.phone },
+        { claimType: 'birthdate', claimValue: metadata.birthdate },
+        { claimType: 'civilStatus', claimValue: metadata.civil_status },
+        { claimType: 'email', claimValue: metadata.email },
+        { claimType: 'address', claimValue: metadata.address }
+      ];
+      break;
   }
 
   const sdrData = {
     issuer: did,
     claims,
     credentials: [],
-  }
+  };
 
   StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: any) => {
     const identity = JSON.parse(response);
-   
+
     const signer = SimpleSigner(identity.privateKey)
     createJWT(
       {

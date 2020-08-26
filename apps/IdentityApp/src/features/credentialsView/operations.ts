@@ -107,14 +107,14 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
       claims = [
         ...baseClaims,
         { claimType: 'phone', claimValue: metadata.phone },
-        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
+        { claimType: 'driversLicenseNumber', claimValue: metadata.drivers_license_number },
       ];
       break;
     case CredentialTypes.DRIVERS_LICENSE:
       claims = [
         ...baseClaims,
         { claimType: 'birthdate', claimValue: metadata.birthdate },
-        { claimType: 'driverLicenseNumber', claimValue: metadata.driver_license_number },
+        { claimType: 'driversLicenseNumber', claimValue: metadata.drivers_license_number },
       ];
       break;
     case CredentialTypes.ID:

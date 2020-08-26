@@ -84,11 +84,6 @@
   "loading_hashes": "Loading hashes from data vault",
   "loading_ipfs": "Loading credentials from IPFS",
   "metadata": "Metadata",
-  "driverlicensenumber": "Driver License Number",
-  "typeofvehicle": "Type of Vehicle",
-  "typeoflicense": "Type of License",
-  "isinternational": "Is international",
-  "issuanceoffice": "Issuance Office",
   "subject": "Subject",
   "developer_settings": "Developer Settings",
   "version": "Version",
@@ -105,5 +100,13 @@
   "issuance_date": "Issuance Date",
   "expiration_date": "Expriation Date",
   "copy_settings": "Copy settings to clipboard",
-  "copy_settings_explanation": "Copies settings, version and DID. No private data will be added to the clipboard."
+  "copy_settings_explanation": "Copies settings, version and DID. No private data will be added to the clipboard.",
+  "fullName": "Full Name",
+  "idNumber": "Id Number",
+  "parkingPermitId": "Parking Permit Id",
+  "typeOfParkingPermit": "Type of Parking Permit",
+  "typeOfVehicle": "Type of Vehicle",
+  "isInternational": "Is International",
+  "issuanceOffice": "Issuance Office",
+  "driversLicenseNumber": "Driver's License Number"
 }

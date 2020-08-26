@@ -56,9 +56,7 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
         <View style={layout.row} key={claim.claimType}>
           <View style={styles.headingColumn}>
             <Text style={styles.heading}>
-              {strings[claim.claimType.toLowerCase()]
-                ? strings[claim.claimType.toLowerCase()]
-                : claim.claimType}
+              {strings[claim.claimType] ? strings[claim.claimType] : claim.claimType}
             </Text>
           </View>
           <View style={styles.viewColumn}>

@@ -172,9 +172,15 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
       fetch(server.endpoint + '/requestCredential', {
         method: 'POST',
         body: JSON.stringify(data),
-      }).then(() => {
-          const hash = keccak256(sdrJwt).toString('hex')
-          console.log(hash)
+      })
+        .then((postResponse: Response) => {
+          if (postResponse.status !== 200) {
+            return postResponse.text().then((errorReason: string) => {
+              dispatch(errorRequestCredential(errorReason));
+            });
+          }
+          const hash = keccak256(sdrJwt).toString('hex');
+
           // Create Credential object:
           const credential: Credential = {
             issuer: {

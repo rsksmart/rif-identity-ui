@@ -1131,6 +1131,33 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
 
+"@rsksmart/rif-id-ethr-did@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-ethr-did/-/rif-id-ethr-did-0.0.1.tgz#9ee42d361ffb922327329085e1531bc153259147"
+  integrity sha512-TPIzZJac6P8xvrkTaD52HkSi59+g1UTla9ig11IE+8bLGRGwE1mtzhJoKcAUNG6MvWA/yelln7lqS1lf7vyrUQ==
+  dependencies:
+    "@types/elliptic" "^6.4.12"
+    "@types/keccak" "^3.0.1"
+    "@types/lodash" "^4.14.157"
+    "@types/node" "^14.0.23"
+    elliptic "^6.5.3"
+    ethr-did "^1.1.0"
+    keccak "^3.0.0"
+    lodash "^4.17.19"
+    rskjs-util "^1.0.3"
+
+"@rsksmart/rif-id-mnemonic@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-mnemonic/-/rif-id-mnemonic-0.0.1.tgz#b90b224e05e99429d62f4da839ba4b2ccea4cd09"
+  integrity sha512-8r9Qb+YTsXMNcoKA3Ki4dDy7emdUa5Ekx89Zv/zPjdEb0gVlajJFHvac75GLVWGtSrzz57bbiNpIRSFZqlF38Q==
+  dependencies:
+    "@types/lodash" "^4.14.155"
+    "@types/randombytes" "^2.0.0"
+    bip32 "^2.0.5"
+    bip39 "^3.0.2"
+    lodash "^4.17.15"
+    randombytes "^2.1.0"
+
 "@stablelib/utf8@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@stablelib/utf8/-/utf8-1.0.0.tgz#7c0c039b6d154da50326003ea92777ddc8f5db2c"
@@ -5515,18 +5542,6 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-mnemonicsss@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/mnemonicsss/-/mnemonicsss-0.0.0.tgz#ba0b64a2d1891e9ea46446acfd9ba485590f7635"
-  integrity sha512-hpTOKNh/JVVXo8r2i7K6PFzdSjS8fAhMSLlTbVV8vj3agiwqMFxdj5ypq1KKIHAJbTFlBoDwpdOjt3dwX2dzxw==
-  dependencies:
-    "@types/lodash" "^4.14.155"
-    "@types/randombytes" "^2.0.0"
-    bip32 "^2.0.5"
-    bip39 "^3.0.2"
-    lodash "^4.17.15"
-    randombytes "^2.1.0"
-
 moment@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
@@ -6814,21 +6829,6 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
-
-rifdids@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/rifdids/-/rifdids-0.0.2.tgz#27e981b42934724263323bea7bb3d0bb0c9804ec"
-  integrity sha512-KIviGEqYH/NExW385orvwu0RuVUErCW7+nWLx55KXskaiowKKJYJ2SWLiIzT1m1UdauThjSVSKFII+qCwOxqwA==
-  dependencies:
-    "@types/elliptic" "^6.4.12"
-    "@types/keccak" "^3.0.1"
-    "@types/lodash" "^4.14.157"
-    "@types/node" "^14.0.23"
-    elliptic "^6.5.3"
-    ethr-did "^1.1.0"
-    keccak "^3.0.0"
-    lodash "^4.17.19"
-    rskjs-util "^1.0.3"
 
 rimraf@2.6.3:
   version "2.6.3"

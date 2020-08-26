@@ -103,5 +103,7 @@
   "settings_saved": "Settings saved",
   "copied": "Copied to clipboard",
   "issuance_date": "Issuance Date",
-  "expiration_date": "Expriation Date"
+  "expiration_date": "Expriation Date",
+  "copy_settings": "Copy settings to clipboard",
+  "copy_settings_explanation": "Copies settings, version and DID. No private data will be added to the clipboard."
 }

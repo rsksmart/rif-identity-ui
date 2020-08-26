@@ -19,7 +19,7 @@ const EditItem: React.FC<EditItemProps> = ({ name, value, onChange, keyboardType
         onChangeText={text => onChange(text)}
         value={value}
         editable
-        maxLength={40}
+        maxLength={120}
         keyboardType={keyboardType ? keyboardType : 'default'}
       />
     </View>

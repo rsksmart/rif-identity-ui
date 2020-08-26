@@ -13,6 +13,18 @@ ISSUER_ENDPOINT=
 TINYQR_ENDPOINT=
 IPFS_GATEWAY_ENDPOINT=https://ipfs.io/ipfs
 DATA_VAULT_ENDPOINT=
+RSK_NODE=
+```
+
+Example:
+
+```
+ISSUER_NAME=RIFOS
+ISSUER_ENDPOINT=https://identity-credentials.testnet.rifos.org
+TINYQR_ENDPOINT=https://identity-tiny-qr.testnet.rifos.org
+IPFS_GATEWAY_ENDPOINT=https://ipfs.io/ipfs
+DATA_VAULT_ENDPOINT=https://identity-data-vault.testnet.rifos.org
+RSK_NODE=https://did.testnet.rsk.co:4444
 ```
 
 **Install**

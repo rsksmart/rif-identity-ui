@@ -9,6 +9,7 @@ export enum STORAGE_KEYS {
   PROFILE = 'PROFILE',
   CREDENTIALS = 'CREDENTIALS',
   IDENTITY = 'IDENTITY',
+  END_POINTS = 'END_POINTS',
 }
 
 const set = async (key: string, value: string) => {

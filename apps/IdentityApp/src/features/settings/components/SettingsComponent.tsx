@@ -6,23 +6,22 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { SquareButton } from '../../../Libraries/Button';
 import ChangeLangaugeModalContainer from '../../../Libraries/ChangeLanguage/ChangeLangaugeModalContainer';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
+import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface SettingsComponentProps {
   strings: any;
-  version: string;
   startOverPress: (event: GestureResponderEvent) => void | null;
   reverify: (event: GestureResponderEvent) => void | null;
   did: string;
   mnemonic: string[];
+  navigation: any;
 }
 
 const SettingsComponent: React.FC<SettingsComponentProps> = ({
   strings,
-  version,
-  startOverPress,
-  reverify,
   did,
   mnemonic,
+  navigation,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [showWords, setShowWords] = useState<boolean>(false);
@@ -31,10 +30,8 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
       <View style={layout.row}>
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.settings}</Text>
-          <Text style={typography.paragraphBold}>APK version:</Text>
-          <Text>{version}</Text>
           <Text style={typography.paragraphBold}>{strings.identity}</Text>
-          <Text>{did}</Text>
+          <CopyButton value={did} />
 
           {mnemonic && (
             <View style={styles.buttonView}>
@@ -58,14 +55,12 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
           <View style={styles.buttonView}>
             <ChangeLangaugeModalContainer />
           </View>
-
-          <Text style={typography.header2}>Developer Zone:</Text>
           <View style={styles.buttonView}>
-            <SquareButton title="Reset entire App" variation="hollow" onPress={startOverPress} />
-          </View>
-
-          <View style={styles.buttonView}>
-            <SquareButton title="Reverify All Credentials" variation="hollow" onPress={reverify} />
+            <SquareButton
+              title={strings.advanced_settings}
+              variation="hollow"
+              onPress={() => navigation.navigate('Advanced')}
+            />
           </View>
         </View>
       </View>

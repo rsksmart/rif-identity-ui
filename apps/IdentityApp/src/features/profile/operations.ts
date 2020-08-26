@@ -1,11 +1,7 @@
 import { Dispatch } from 'redux';
-import { toggleEdit, updateProfile, receiveProfile, resetProfile } from './actions';
+import { toggleEdit, updateProfile, receiveProfile } from './actions';
 import { ProfileInterface } from './reducer';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { receiveIsSignedUp, receiveLoggedIn } from '../../state/localUi/actions';
-import { receiveMnemonic } from '../identity/actions';
-import { resetCredentials } from '../credentialsView/actions';
-import * as RootNavigation from '../../AppNavigation';
 
 export const initialStart = () => async (dispatch: Dispatch) => {
   dispatch(toggleEdit(false));
@@ -49,18 +45,4 @@ export const isEmpty = (profile: ProfileInterface) => {
     }
   });
   return empty;
-};
-
-/**
- * Development feature to reset entire Application.
- */
-export const signOutAndReset = () => async (dispatch: Dispatch) => {
-  console.log('here :)');
-  await StorageProvider.removeAll();
-  dispatch(receiveIsSignedUp(false));
-  dispatch(receiveLoggedIn(false));
-  dispatch(receiveMnemonic(false));
-  dispatch(resetProfile());
-  dispatch(resetCredentials());
-  RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
 };

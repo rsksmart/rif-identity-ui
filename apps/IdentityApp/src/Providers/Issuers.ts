@@ -1,4 +1,3 @@
-import { ISSUER_ENDPOINT, ISSUER_NAME } from '@env';
 export enum CredentialTypes {
   DRIVERS_LICENSE = 'DRIVERS_LICENSE',
   PARKING_PERMIT = 'PARKING_PERMIT',
@@ -28,10 +27,11 @@ export interface serverInterface {
   credentialsOffered?: credentialTypes[];
 }
 
+// name and endpoint are not used, but are here to allow for multiple issuers
 export const ISSUERS: serverInterface[] = [
   {
-    name: ISSUER_NAME,
-    endpoint: ISSUER_ENDPOINT,
+    name: 'Issuer',
+    endpoint: 'Temp',
     credentialsOffered: [
       {
         name: 'ID',

@@ -1,8 +1,6 @@
 import { Dispatch } from 'react';
-import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { ISSUER_NAME, IPFS_GATEWAY_ENDPOINT } from '@env';
-import { getFromDataVault } from '../../Providers/DataVaultProvider';
+import { getFromDataVault, getFromIPFS } from '../../Providers/DataVaultProvider';
 import { saveIdentityToLocalStorage } from '../identity/operations';
 import * as RootNavigation from '../../AppNavigation';
 
@@ -17,6 +15,7 @@ import { Credential, CredentialStatus } from '../credentialsView/reducer';
 
 import { saveAllCredentials } from '../credentialsView/operations';
 import { receiveAllCredentials } from '../credentialsView/actions';
+import { JWT } from 'did-jwt-vc/lib/types';
 
 /**
  * Restores a wallet from a seed phrase
@@ -43,28 +42,28 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
   dispatch(requestDataVault());
 
   getFromDataVault().then(cids => {
-    if (cids.length === 0) {
+    if (!cids || cids.length === 0) {
       RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
       return dispatch(receiveRestore());
     }
 
     // FUTURE: support for multiple issuers:
     const issuer = {
-      name: ISSUER_NAME,
+      name: 'Issuer',
     };
     dispatch(requestFromIpfs());
-    let promiseArray = [];
+    let promiseArray: Promise<Credential>[] = [];
     cids.forEach((hash: string) => {
       promiseArray.push(
         new Promise(resolve => {
-          return axios.get(`${IPFS_GATEWAY_ENDPOINT}/${hash}`).then((response: AxiosResponse) => {
-            const jwt = jwtDecode(response.data);
+          getFromIPFS(hash).then((data: string) => {
+            const jwt: JWT = jwtDecode(data);
             const credential = <Credential>{
               issuer,
               status: CredentialStatus.CERTIFIED,
               hash, // hash is the IPFS hash, but used as the unique identifier.
               type: jwt.vc.credentialSubject.type,
-              jwt: response.data,
+              jwt: data,
             };
             resolve(credential);
           });

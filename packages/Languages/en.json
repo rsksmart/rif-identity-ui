@@ -89,5 +89,19 @@
   "typeoflicense": "Type of License",
   "isinternational": "Is international",
   "issuanceoffice": "Issuance Office",
-  "subject": "Subject"
+  "subject": "Subject",
+  "developer_settings": "Developer Settings",
+  "version": "Version",
+  "edit_endpionts": "Edit Endpoints",
+  "tiny_qr": "Tiny QR",
+  "ipfs_gateway": "IPFS Gateway",
+  "data_vault": "Data Vault",
+  "rsk_node": "RSK Node",
+  "danger": "Danger",
+  "reset_app": "Reset App",
+  "advanced_settings": "Advanced Settings",
+  "settings_saved": "Settings saved",
+  "copied": "Copied to clipboard",
+  "issuance_date": "Issuance Date",
+  "expiration_date": "Expriation Date"
 }

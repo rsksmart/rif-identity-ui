@@ -7,7 +7,7 @@ import {
 import { VerifiedPresentation } from '../../api'
 import { ScrollView } from 'react-native-gesture-handler';
 import { colors } from '../../styles';
-
+import moment from 'moment';
 
 interface PresentationDetailProps {
   presentation: VerifiedPresentation;
@@ -46,21 +46,56 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
 
   const metadata = presentation.credentialDetails?.credentialSubject
 
-  return (
-    metadata &&
-    <View>
-      {metadata.otherClaims.map((elem: any) => (
-        <View style={styles.row} key={elem.claimType}>
-          <View style={styles.cell}>
-            <Text style={styles.labelText}>{strings[elem.claimType] ? strings[elem.claimType] : elem.claimType}:</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text style={styles.valueText}>{elem.claimValue?.toString()}</Text>
-          </View>
+  const DataRow: React.FC<{label: string; value: string}> = ({
+    label,
+    value,
+  }) => {
+    if (!value) {
+      return <></>;
+    }
+
+    return (
+      <View style={styles.row}>
+        <View style={styles.cell}>
+          <Text style={styles.labelText}>{label}</Text>
         </View>
-      ))}
-    </View>
-  )
+        <View style={styles.cell}>
+          <Text style={styles.valueText}>{value.toString()}</Text>
+        </View>
+      </View>
+    );
+  };
+
+  return (
+    metadata && (
+      <View>
+        {metadata.otherClaims.map((elem: any) => (
+          <DataRow
+            label={strings[elem.claimType] ? strings[elem.claimType] : elem.claimType}
+            value={elem.claimValue}
+            key={elem.claimType}
+          />
+        ))}
+
+        {presentation.credentialDetails.issuanceDate && (
+          <DataRow 
+            label={strings.issuance_date}
+            value={moment(presentation.credentialDetails.issuanceDate).format(
+              'MMMM Do YYYY, h:mm a',
+            )}
+          />
+        )}
+        {presentation.credentialDetails.expirationDate && (
+          <DataRow
+            label={strings.expiration_date}
+            value={moment(presentation.credentialDetails.expirationDate).format(
+              'MMMM Do YYYY, h:mm a',
+            )}
+          />
+        )}
+      </View>
+    )
+  );
 };
 
 export default PresentationDetail;

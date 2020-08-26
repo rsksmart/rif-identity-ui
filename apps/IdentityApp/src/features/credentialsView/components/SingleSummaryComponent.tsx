@@ -44,9 +44,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
         onPress={() => onPress('DETAILS')}
         disabled={disabled}>
         {icon()}
-        <Text style={[styles.name, disabled ? styles.disabled : {}]}>
-          {strings[credential.type.toLowerCase()]}
-        </Text>
+        <Text style={styles.name}>{strings[credential.type.toLowerCase()]}</Text>
         <StatusIcon status={credential.status} />
       </TouchableOpacity>
       <View style={styles.qr}>

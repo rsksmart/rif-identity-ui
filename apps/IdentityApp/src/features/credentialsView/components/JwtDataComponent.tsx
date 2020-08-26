@@ -3,6 +3,7 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
+import moment from 'moment';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -15,6 +16,8 @@ interface JwtInterface {
   };
   iss: string;
   sub: string;
+  iat: number;
+  exp?: number;
 }
 
 const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => {
@@ -67,6 +70,28 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
       <Text style={styles.did}>{data.iss}</Text>
       <Text style={typography.paragraphBold}>{strings.subject}:</Text>
       <Text style={styles.did}>{data.sub}</Text>
+
+      {data.iat && (
+        <>
+          <Text style={typography.paragraphBold}>{strings.issuance_date}:</Text>
+          <Text style={styles.did}>
+            {moment(data.iat * 1000)
+              .format('MMMM Do YYYY, h:mm a')
+              .toString()}
+          </Text>
+        </>
+      )}
+
+      {data.exp && (
+        <>
+          <Text style={typography.paragraphBold}>{strings.expiration_date}:</Text>
+          <Text style={styles.did}>
+            {moment(data.exp * 1000)
+              .format('MMMM Do YYYY, h:mm a')
+              .toString()}
+          </Text>
+        </>
+      )}
     </View>
   );
 };

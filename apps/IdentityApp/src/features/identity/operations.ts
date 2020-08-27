@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { rskDIDFromPrivateKey } from 'rifdids';
+import { rskDIDFromPrivateKey } from '@rsksmart/rif-id-ethr-did';
 import {
   receiveMnemonic,
   restoreSeedError,
@@ -9,7 +9,7 @@ import {
   receiveSaveIdentity,
   receiveIdentity,
 } from './actions';
-import { generateMnemonic, mnemonicToSeed, seedToRSKHDKey } from 'mnemonicsss';
+import { generateMnemonic, mnemonicToSeed, seedToRSKHDKey } from '@rsksmart/rif-id-mnemonic';
 
 /**
  * Saves Identity to Localstorage

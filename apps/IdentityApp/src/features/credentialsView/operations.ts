@@ -295,6 +295,7 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
       type: ['VerifiablePresentation'],
       verifiableCredential: [jwt],
     },
+    exp: Math.floor(new Date().getTime() / 1000) + 600,
   };
 
   StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: string) => {

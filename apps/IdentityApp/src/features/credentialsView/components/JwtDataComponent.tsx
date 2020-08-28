@@ -4,6 +4,7 @@ import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface JwtDataComponentProps {
   jwt: string;
@@ -27,7 +28,7 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
 
   const styles = StyleSheet.create({
     headingColumn: {
-      paddingLeft: 20,
+      paddingLeft: 5,
       width: '40%',
     },
     heading: {
@@ -41,11 +42,15 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
     value: {
       fontSize: 16,
       color: colors.primary,
+      paddingLeft: 10,
     },
     did: {
       fontSize: 16,
       color: colors.darkGray,
-      paddingLeft: 20,
+      paddingLeft: 5,
+    },
+    noMargin: {
+      marginBottom: 0,
     },
   });
 
@@ -56,9 +61,7 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
         <View style={layout.row} key={claim.claimType}>
           <View style={styles.headingColumn}>
             <Text style={styles.heading}>
-              {strings[claim.claimType.toLowerCase()]
-                ? strings[claim.claimType.toLowerCase()]
-                : claim.claimType}
+              {strings[claim.claimType] ? strings[claim.claimType] : claim.claimType}
             </Text>
           </View>
           <View style={styles.viewColumn}>
@@ -66,10 +69,11 @@ const JwtDataComponent: React.FC<JwtDataComponentProps> = ({ jwt, strings }) => 
           </View>
         </View>
       ))}
-      <Text style={typography.paragraphBold}>{strings.issuer}:</Text>
-      <Text style={styles.did}>{data.iss}</Text>
-      <Text style={typography.paragraphBold}>{strings.subject}:</Text>
-      <Text style={styles.did}>{data.sub}</Text>
+      <Text style={[typography.paragraphBold, styles.noMargin]}>{strings.issuer}:</Text>
+      <CopyButton value={data.iss} color={colors.darkGray} />
+
+      <Text style={[typography.paragraphBold, styles.noMargin]}>{strings.subject}:</Text>
+      <CopyButton value={data.sub} color={colors.darkGray} />
 
       {data.iat && (
         <>

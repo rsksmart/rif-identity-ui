@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
   },
   indent: {
-    marginLeft: 20,
+    marginLeft: 5,
     marginBottom: 2,
     marginTop: 2,
   },

@@ -35,7 +35,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
   return (
     <ScrollView style={layout.container}>
-      <BackScreenComponent>
+      <BackScreenComponent overrideBack={{ location: 'CredentialsFlow' }}>
         <View style={[layout.row, styles.row]}>
           <View style={layout.column1}>
             <Text style={typography.header1}>{strings.request_credential}</Text>

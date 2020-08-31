@@ -36,6 +36,11 @@ const reducer = (state: LocalUiState = initialState, action: any) => {
         isLoggedIn: action.isLoggedIn,
         loginError: action.loginError,
       };
+    case LOCALUI_ACTION_TYPES.LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+      };
     default:
       return state;
   }

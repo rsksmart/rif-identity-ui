@@ -34,7 +34,7 @@ export interface VerifiedCredential {
 }
 
 export interface CredentialsStateInterface {
-  credentials: Credential[];
+  credentials: Credential[] | null;
   isLoading: boolean;
   isRequestingCredential: boolean;
   isCheckingPendingStatus: boolean;
@@ -46,7 +46,7 @@ export interface CredentialsStateInterface {
 }
 
 export const initialState = {
-  credentials: [],
+  credentials: null,
   isLoading: true,
   isRequestingCredential: false,
   isCheckingPendingStatus: false,

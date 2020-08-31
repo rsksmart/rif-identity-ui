@@ -9,6 +9,7 @@ interface RequestTypeComponentProps {
   strings: any;
   issuers: serverInterface[];
   navigation: any;
+  profileIsLoaded: boolean;
   start: () => {};
 }
 
@@ -16,12 +17,15 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
   issuers,
   navigation,
+  profileIsLoaded,
   start,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   useEffect(() => {
-    start();
-  }, [start]);
+    if (!profileIsLoaded) {
+      start();
+    }
+  }, [start, profileIsLoaded]);
 
   // hardcode the first server:
   const server = issuers[0];

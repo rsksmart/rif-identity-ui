@@ -1,10 +1,10 @@
 import { Dispatch } from 'redux';
-import { toggleEdit, updateProfile, receiveProfile } from './actions';
+import { requestProfile, updateProfile, receiveProfile } from './actions';
 import { ProfileInterface } from './reducer';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 
-export const initialStart = () => async (dispatch: Dispatch) => {
-  dispatch(toggleEdit(false));
+export const getProfileFromLocalStorage = () => async (dispatch: Dispatch) => {
+  dispatch(requestProfile());
 
   await StorageProvider.get(STORAGE_KEYS.PROFILE)
     .then(response => {
@@ -14,7 +14,7 @@ export const initialStart = () => async (dispatch: Dispatch) => {
       }
       dispatch(receiveProfile());
     })
-    .catch(error => console.log('STORAGE_KEYS.PROFILE', error));
+    .catch(() => dispatch(receiveProfile()));
 };
 
 /**
@@ -27,8 +27,7 @@ export const saveProfile = (profile: ProfileInterface) => async (dispatch: Dispa
       dispatch(updateProfile(profile));
       return true;
     })
-    .catch(error => {
-      console.log(error);
+    .catch(() => {
       return false;
     });
 };

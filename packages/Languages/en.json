@@ -109,5 +109,9 @@
   "isInternational": "Is International",
   "issuanceOffice": "Issuance Office",
   "driversLicenseNumber": "Driver's License Number",
-  "typeOfLicense": "Type of License"
+  "typeOfLicense": "Type of License",
+  "warning": "Warning",
+  "no_identity_explanation": "No credentials were found using this mnemonic. Check that it is correct, or create a new identity using this mnemonic.",
+  "check_mnemonic": "Check Mnemonic",
+  "create_new_identity": "Create new Identity"
 }

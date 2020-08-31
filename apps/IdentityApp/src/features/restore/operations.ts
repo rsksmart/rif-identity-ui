@@ -10,6 +10,7 @@ import {
   receiveRestore,
   requestDataVault,
   requestFromIpfs,
+  errorNoIdentity,
 } from './actions';
 import { Credential, CredentialStatus } from '../credentialsView/reducer';
 
@@ -43,8 +44,7 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
 
   getFromDataVault().then(cids => {
     if (!cids || cids.length === 0) {
-      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-      return dispatch(receiveRestore());
+      return dispatch(errorNoIdentity());
     }
 
     // FUTURE: support for multiple issuers:

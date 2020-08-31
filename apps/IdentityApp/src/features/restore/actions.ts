@@ -4,6 +4,8 @@ export enum RESTORE_TYPES {
   MNEMONIC_ERROR = 'MNEMONIC_ERROR',
   REQUEST_DATA_VAULT = 'REQUEST_DATA_VAULT',
   REQUEST_IPFS = 'REQUEST_IPFS',
+  ERROR_NO_IDENTITY = 'ERROR_NO_IDENTITY',
+  CLOSE_ERROR_NO_IDENTITY = 'CLOSE_ERROR_NO_IDENTITY',
 }
 
 export const requestRestore = () => ({
@@ -25,4 +27,12 @@ export const requestDataVault = () => ({
 
 export const requestFromIpfs = () => ({
   type: RESTORE_TYPES.REQUEST_IPFS,
+});
+
+export const errorNoIdentity = () => ({
+  type: RESTORE_TYPES.ERROR_NO_IDENTITY,
+});
+
+export const closeErrorNoIdentity = () => ({
+  type: RESTORE_TYPES.CLOSE_ERROR_NO_IDENTITY,
 });

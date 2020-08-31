@@ -5,6 +5,7 @@ interface StateInterface {
   mnemonicError: string | null;
   isGettingDataVault: boolean;
   isGettingIpfs: boolean;
+  noIdentityError: boolean;
 }
 
 export const initialState = {
@@ -12,6 +13,7 @@ export const initialState = {
   mnemonicError: null,
   isGettingDataVault: false,
   isGettingIpfs: false,
+  noIdentityError: false,
 };
 
 const reducer = (state: StateInterface = initialState, action: any) => {
@@ -28,6 +30,7 @@ const reducer = (state: StateInterface = initialState, action: any) => {
         isRestoring: false,
         isGettingDataVault: false,
         isGettingIpfs: false,
+        noIdentityError: false,
       };
     }
     case RESTORE_TYPES.MNEMONIC_ERROR: {
@@ -49,6 +52,22 @@ const reducer = (state: StateInterface = initialState, action: any) => {
       return {
         ...state,
         isGettingIpfs: true,
+      };
+    }
+
+    case RESTORE_TYPES.ERROR_NO_IDENTITY: {
+      return {
+        ...state,
+        noIdentityError: true,
+      };
+    }
+
+    case RESTORE_TYPES.CLOSE_ERROR_NO_IDENTITY: {
+      return {
+        ...state,
+        isRestoring: false,
+        noIdentityError: false,
+        isGettingDataVault: false,
       };
     }
 

@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
   isRestoring: state.restore.isRestoring,
   isGettingDataVault: state.restore.isGettingDataVault,
   isGettingIpfs: state.restore.isGettingIpfs,
-  mnemonicError: state.restore.mnemonicError,
+  restoreError: state.restore.restoreError,
   noIdentityError: state.restore.noIdentityError,
 });
 

@@ -11,7 +11,7 @@ import ModalComponent from '../../Libraries/Modal/ModalComponent';
 
 interface RestoreWalletComponentProps {
   onSubmit: (text: string) => void;
-  mnemonicError: string | null;
+  restoreError: string | null;
   isRestoring: boolean;
   isGettingDataVault: boolean;
   isGettingIpfs: boolean;
@@ -23,7 +23,7 @@ interface RestoreWalletComponentProps {
 
 const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
-  mnemonicError,
+  restoreError,
   isRestoring,
   isGettingDataVault,
   isGettingIpfs,
@@ -46,7 +46,12 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.restore_access}</Text>
           <Text style={typography.paragraph}>{strings.restore_access_explanation}</Text>
-          {mnemonicError && <MessageComponent type="ERROR" message={strings[mnemonicError]} />}
+          {restoreError && (
+            <MessageComponent
+              type="ERROR"
+              message={strings[restoreError] ? strings[restoreError] : restoreError}
+            />
+          )}
         </View>
       </View>
       <View style={layout.row}>

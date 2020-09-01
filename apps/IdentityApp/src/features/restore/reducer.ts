@@ -2,7 +2,7 @@ import { RESTORE_TYPES } from './actions';
 
 interface StateInterface {
   isRestoring: boolean;
-  mnemonicError: string | null;
+  restoreError: string | null;
   isGettingDataVault: boolean;
   isGettingIpfs: boolean;
   noIdentityError: boolean;
@@ -10,7 +10,7 @@ interface StateInterface {
 
 export const initialState = {
   isRestoring: false,
-  mnemonicError: null,
+  restoreError: null,
   isGettingDataVault: false,
   isGettingIpfs: false,
   noIdentityError: false,
@@ -22,6 +22,7 @@ const reducer = (state: StateInterface = initialState, action: any) => {
       return {
         ...state,
         isRestoring: true,
+        restoreError: null,
       };
     }
     case RESTORE_TYPES.RECEIVE_RESTORE: {
@@ -33,18 +34,21 @@ const reducer = (state: StateInterface = initialState, action: any) => {
         noIdentityError: false,
       };
     }
-    case RESTORE_TYPES.MNEMONIC_ERROR: {
-      return {
-        ...state,
-        mnemonicError: action.mnemonicError,
-        isRestoring: false,
-      };
-    }
 
     case RESTORE_TYPES.REQUEST_DATA_VAULT: {
       return {
         ...state,
         isGettingDataVault: true,
+      };
+    }
+
+    case RESTORE_TYPES.ERROR_RESTORE: {
+      return {
+        ...state,
+        isRestoring: false,
+        isGettingDataVault: false,
+        isGettingIpfs: false,
+        restoreError: action.message,
       };
     }
 

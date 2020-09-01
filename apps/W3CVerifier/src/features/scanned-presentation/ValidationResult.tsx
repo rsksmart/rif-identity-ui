@@ -43,7 +43,7 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
       margin: gutter
     },
     subtitle: {
-      lineHeight: 18,
+      lineHeight: 24,
       textAlign: 'center',
       fontSize: 20,
       color: colors.black,

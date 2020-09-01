@@ -5,11 +5,12 @@ import { saveIdentityToLocalStorage } from '../identity/operations';
 import * as RootNavigation from '../../AppNavigation';
 
 import {
-  restoreSeedError,
   requestRestore,
   receiveRestore,
   requestDataVault,
   requestFromIpfs,
+  errorNoIdentity,
+  errorRestore,
 } from './actions';
 import { Credential, CredentialStatus } from '../credentialsView/reducer';
 
@@ -27,7 +28,7 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
   const seedArray = seed.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
 
   if (seedArray.length < 12) {
-    return dispatch(restoreSeedError('short_seed_error'));
+    return dispatch(errorRestore('short_seed_error'));
   }
 
   dispatch(saveIdentityToLocalStorage(seedArray)).then(() => {
@@ -41,43 +42,50 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
 export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) => {
   dispatch(requestDataVault());
 
-  getFromDataVault().then(cids => {
-    if (!cids || cids.length === 0) {
-      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-      return dispatch(receiveRestore());
-    }
+  getFromDataVault()
+    .then(cids => {
+      if (!cids || cids.length === 0) {
+        return dispatch(errorNoIdentity());
+      }
 
-    // FUTURE: support for multiple issuers:
-    const issuer = {
-      name: 'Issuer',
-    };
-    dispatch(requestFromIpfs());
-    let promiseArray: Promise<Credential>[] = [];
-    cids.forEach((hash: string) => {
-      promiseArray.push(
-        new Promise(resolve => {
-          getFromIPFS(hash).then((data: string) => {
-            const jwt: JWT = jwtDecode(data);
-            const credential = <Credential>{
-              issuer,
-              status: CredentialStatus.CERTIFIED,
-              hash, // hash is the IPFS hash, but used as the unique identifier.
-              type: jwt.vc.credentialSubject.type,
-              jwt: data,
-            };
-            resolve(credential);
-          });
-        }),
-      );
-    });
+      // FUTURE: support for multiple issuers:
+      const issuer = {
+        name: 'Issuer',
+      };
+      dispatch(requestFromIpfs());
+      let promiseArray: Promise<Credential>[] = [];
+      cids.forEach((hash: string) => {
+        promiseArray.push(
+          new Promise((resolve, reject) => {
+            getFromIPFS(hash)
+              .then((data: string) => {
+                const jwt: JWT = jwtDecode(data);
+                const credential = <Credential>{
+                  issuer,
+                  status: CredentialStatus.CERTIFIED,
+                  hash, // hash is the IPFS hash, but used as the unique identifier.
+                  type: jwt.vc.credentialSubject.type,
+                  jwt: data,
+                };
+                resolve(credential);
+              })
+              .catch(error => reject(error));
+          }),
+        );
+      });
 
-    // save at the end because saving into LocalStorage can erase credentials if saving
-    // at the same time.
-    Promise.all(promiseArray).then((values: Credential[]) => {
-      saveAllCredentials(values);
-      dispatch(receiveAllCredentials(values));
-      dispatch(receiveRestore());
-      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-    });
-  });
+      // save at the end because saving into LocalStorage can erase credentials if saving
+      // at the same time.
+      Promise.all(promiseArray)
+        .then((values: Credential[]) => {
+          saveAllCredentials(values);
+          dispatch(receiveAllCredentials(values));
+          dispatch(receiveRestore());
+          RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
+        })
+        .catch(() => {
+          dispatch(errorRestore('IPFS Netork Error'));
+        });
+    })
+    .catch(() => dispatch(errorRestore('Data Vault Network Error')));
 };

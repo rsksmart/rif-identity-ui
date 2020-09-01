@@ -7,22 +7,29 @@ import { SquareButton } from '../../Libraries/Button';
 import BackScreenComponent from '../../Libraries/BackScreen/BackScreenComponent';
 import MessageComponent from '../../Libraries/Message/MessageComponent';
 import LoadingComponent from '../../Libraries/Loading/LoadingComponent';
+import ModalComponent from '../../Libraries/Modal/ModalComponent';
 
 interface RestoreWalletComponentProps {
   onSubmit: (text: string) => void;
-  mnemonicError: string | null;
+  restoreError: string | null;
   isRestoring: boolean;
   isGettingDataVault: boolean;
   isGettingIpfs: boolean;
+  noIdentityError: boolean;
+  closeIdentityError: () => void;
+  createNewItentity: () => void;
   strings: any;
 }
 
 const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
-  mnemonicError,
+  restoreError,
   isRestoring,
   isGettingDataVault,
   isGettingIpfs,
+  noIdentityError,
+  closeIdentityError,
+  createNewItentity,
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
@@ -39,7 +46,12 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.restore_access}</Text>
           <Text style={typography.paragraph}>{strings.restore_access_explanation}</Text>
-          {mnemonicError && <MessageComponent type="ERROR" message={strings[mnemonicError]} />}
+          {restoreError && (
+            <MessageComponent
+              type="ERROR"
+              message={strings[restoreError] ? strings[restoreError] : restoreError}
+            />
+          )}
         </View>
       </View>
       <View style={layout.row}>
@@ -65,6 +77,20 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
           {isGettingIpfs && <Text>{strings.loading_ipfs}</Text>}
         </View>
       </View>
+      <ModalComponent visible={noIdentityError}>
+        <View>
+          <Text style={typography.header2}>{strings.warning}</Text>
+          <Text style={typography.paragraph}>{strings.no_identity_explanation}</Text>
+          <View style={styles.firstButton}>
+            <SquareButton title={strings.check_mnemonic} onPress={closeIdentityError} />
+          </View>
+          <SquareButton
+            title={strings.create_new_identity}
+            variation="hollow"
+            onPress={createNewItentity}
+          />
+        </View>
+      </ModalComponent>
     </BackScreenComponent>
   );
 };
@@ -72,6 +98,10 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
 const styles = StyleSheet.create({
   textInput: {
     textAlignVertical: 'top',
+  },
+  firstButton: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 

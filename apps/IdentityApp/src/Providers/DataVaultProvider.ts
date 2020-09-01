@@ -59,7 +59,7 @@ const loginAndSendClaimWithToken = (method: string) => (claim: any) =>
       .then(jwt => axios.post(data_valut_endpoint + method, { jwt }))
       .then(res => res.status === 200 && res.data)
       .then(trace)
-      .catch(err => console.log('data valut error', err.message));
+      .catch(err => err.message);
   });
 
 export const putInDataVault = (credentialJWT: string) =>

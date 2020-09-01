@@ -4,7 +4,6 @@ import ProfileEditComponent from '../components/ProfileEditComponent';
 import { RootState } from '../../../state/store';
 import { saveProfile } from '../operations';
 import { ProfileInterface } from '../reducer';
-import * as AppNavigation from '../../../AppNavigation';
 
 const mapStateToProps = (state: RootState) => ({
   profile: state.profile.profile,

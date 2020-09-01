@@ -2,16 +2,18 @@ import { RESTORE_TYPES } from './actions';
 
 interface StateInterface {
   isRestoring: boolean;
-  mnemonicError: string | null;
+  restoreError: string | null;
   isGettingDataVault: boolean;
   isGettingIpfs: boolean;
+  noIdentityError: boolean;
 }
 
 export const initialState = {
   isRestoring: false,
-  mnemonicError: null,
+  restoreError: null,
   isGettingDataVault: false,
   isGettingIpfs: false,
+  noIdentityError: false,
 };
 
 const reducer = (state: StateInterface = initialState, action: any) => {
@@ -20,6 +22,7 @@ const reducer = (state: StateInterface = initialState, action: any) => {
       return {
         ...state,
         isRestoring: true,
+        restoreError: null,
       };
     }
     case RESTORE_TYPES.RECEIVE_RESTORE: {
@@ -28,13 +31,7 @@ const reducer = (state: StateInterface = initialState, action: any) => {
         isRestoring: false,
         isGettingDataVault: false,
         isGettingIpfs: false,
-      };
-    }
-    case RESTORE_TYPES.MNEMONIC_ERROR: {
-      return {
-        ...state,
-        mnemonicError: action.mnemonicError,
-        isRestoring: false,
+        noIdentityError: false,
       };
     }
 
@@ -45,10 +42,36 @@ const reducer = (state: StateInterface = initialState, action: any) => {
       };
     }
 
+    case RESTORE_TYPES.ERROR_RESTORE: {
+      return {
+        ...state,
+        isRestoring: false,
+        isGettingDataVault: false,
+        isGettingIpfs: false,
+        restoreError: action.message,
+      };
+    }
+
     case RESTORE_TYPES.REQUEST_IPFS: {
       return {
         ...state,
         isGettingIpfs: true,
+      };
+    }
+
+    case RESTORE_TYPES.ERROR_NO_IDENTITY: {
+      return {
+        ...state,
+        noIdentityError: true,
+      };
+    }
+
+    case RESTORE_TYPES.CLOSE_ERROR_NO_IDENTITY: {
+      return {
+        ...state,
+        isRestoring: false,
+        noIdentityError: false,
+        isGettingDataVault: false,
       };
     }
 

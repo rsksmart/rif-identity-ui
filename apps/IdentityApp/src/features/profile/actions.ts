@@ -1,20 +1,19 @@
-import { ProfileInterface } from "./reducer";
+import { ProfileInterface } from './reducer';
 
 export enum PROFILE_ACTION_TYPES {
-  TOGGLE_EDIT = 'TOGGLE_EDIT',
   EDIT_PROFILE = 'EDIT_PROFILE',
+  REQUEST_PROFILE = 'REQUEST_PROFILE',
   RECEIVE_PROFILE = 'RECEIVE_PROFILE',
   RESET = 'RESET',
 }
 
-export const toggleEdit = (isEditing: boolean) => ({
-  type: PROFILE_ACTION_TYPES.TOGGLE_EDIT,
-  isEditing,
-});
-
 export const updateProfile = (profile: ProfileInterface) => ({
   type: PROFILE_ACTION_TYPES.EDIT_PROFILE,
   profile,
+});
+
+export const requestProfile = () => ({
+  type: PROFILE_ACTION_TYPES.REQUEST_PROFILE,
 });
 
 export const receiveProfile = () => ({

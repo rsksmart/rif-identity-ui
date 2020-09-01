@@ -4,19 +4,28 @@ import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { ProfileEditContainer, ProfileViewContainer } from './containers';
-import { initialStart } from './operations';
+import { getProfileFromLocalStorage } from './operations';
 import { SettingsContainer, DeveloperSettingsContainer } from '../settings/containers';
+import { RootState } from '../../state/store';
+import LoadingComponent from '../../Libraries/Loading/LoadingComponent';
 
 export const Stack = createStackNavigator();
 
 interface ProfileNavigationProps {
+  isLoaded: boolean;
   start: () => {};
 }
 
-const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
+const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start, isLoaded }) => {
   useEffect(() => {
-    start();
-  }, [start]);
+    if (!isLoaded) {
+      start();
+    }
+  }, [start, isLoaded]);
+
+  if (!isLoaded) {
+    return <LoadingComponent />;
+  }
 
   const options = { headerShown: false };
   return (
@@ -31,8 +40,12 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => dispatch(initialStart()),
+const mapStateToProps = (state: RootState) => ({
+  isLoaded: state.profile.isLoaded,
 });
 
-export default connect(null, mapDispatchToProps)(ProfileNavigation);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  start: () => dispatch(getProfileFromLocalStorage()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileNavigation);

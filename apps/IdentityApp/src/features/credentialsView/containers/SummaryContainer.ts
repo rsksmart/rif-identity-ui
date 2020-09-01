@@ -6,10 +6,19 @@ import { Credential, CredentialStatus } from '../reducer';
 import { checkStatusOfCredentials, createPresentation } from '../operations';
 
 const simpleCredentials = (credentials: Credential[]) => {
+  if (!credentials) {
+    return [];
+  }
   return credentials.map((item: Credential) => {
     const { hash, status, type } = item;
     return { hash, status, type };
   });
+};
+
+const hasPending = (credentials: Credential[] | null) => {
+  return !credentials
+    ? false
+    : credentials.filter((item: Credential) => item.status === 'PENDING').length !== 0;
 };
 
 const mapStateToProps = (state: RootState) => ({
@@ -19,9 +28,7 @@ const mapStateToProps = (state: RootState) => ({
   did: state.identity.did,
   address: state.identity.address,
   hasMnemonic: state.identity.hasMnemonic,
-  hasPending:
-    state.credentials.credentials.filter((item: Credential) => item.status === 'PENDING').length !==
-    0,
+  hasPending: hasPending(state.credentials.credentials),
   isRestoring: state.restore.isRestoring,
 });
 

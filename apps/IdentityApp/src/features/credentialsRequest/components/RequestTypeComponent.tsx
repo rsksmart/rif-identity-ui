@@ -9,6 +9,7 @@ interface RequestTypeComponentProps {
   strings: any;
   issuers: serverInterface[];
   navigation: any;
+  profileIsLoaded: boolean;
   start: () => {};
 }
 
@@ -16,12 +17,15 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
   issuers,
   navigation,
+  profileIsLoaded,
   start,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   useEffect(() => {
-    start();
-  }, [start]);
+    if (!profileIsLoaded) {
+      start();
+    }
+  }, [start, profileIsLoaded]);
 
   // hardcode the first server:
   const server = issuers[0];
@@ -35,13 +39,14 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
 
   return (
     <ScrollView style={layout.container}>
-      <BackScreenComponent>
+      <BackScreenComponent
+        overrideBack={{ location: 'CredentialsFlow', params: { screen: 'CredentialsHome' } }}>
         <View style={[layout.row, styles.row]}>
           <View style={layout.column1}>
             <Text style={typography.header1}>{strings.request_credential}</Text>
             <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
             <View style={styles.credentialList}>
-              {server.credentialsOffered.map((item: credentialTypes, index: number) => (
+              {server.credentialsOffered?.map((item: credentialTypes, index: number) => (
                 <TouchableOpacity
                   key={item.name}
                   style={[styles.credentialButton, index % 2 === 0 ? styles.odd : {}]}
@@ -63,7 +68,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // tab bar was set to 95px:
     height: screenHeight - 110,
   },
   credentialList: {

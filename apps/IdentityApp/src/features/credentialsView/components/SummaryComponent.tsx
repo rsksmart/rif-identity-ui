@@ -52,7 +52,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
     navigation.navigate('SignupFlow', { screen: 'MnemonicView' });
   };
 
-  if (isLoading) {
+  if (isLoading || !credentials) {
     return <LoadingComponent />;
   }
 

@@ -13,7 +13,9 @@ const logger = store => next => action => {
       languages: '...',
     },
   };
-  console.log('STATE:' + JSON.stringify(modifiedState));
+  console.log('STATE', modifiedState);
+  // const util = require('util');
+  // console.log('stickers', util.inspect(modifiedState, { depth: 4 }));
   console.log(' ');
   console.log(' ');
   return result;

@@ -10,6 +10,7 @@ import { QRDetailsContainer } from '../containers';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import DafTestComponent from '../../../daf/DafTestComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
@@ -87,6 +88,8 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
           </View>
         ))}
       </View>
+
+      <DafTestComponent />
 
       <ModalComponent visible={qrModalHash !== null}>
         <View style={layout.column1}>

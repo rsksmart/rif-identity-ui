@@ -8,6 +8,7 @@ Create a `.env` file with
 ISSUER_DID=
 RPC_URL=
 DID_REGISTRY_ADDRESS=
+DEFAULT_VP_EXPIRATION_SECONDS=
 ```
 
 Example: 
@@ -15,6 +16,7 @@ Example:
 ISSUER_DID=did:ethr:rsk:testnet:0x2f4324044cf9c1c0eb7b0df0169253f665a50e2f
 RPC_URL=https://did.testnet.rsk.co:4444
 DID_REGISTRY_ADDRESS=0xdca7ef03e98e0dc2b855be647c39abe984fcf21b
+DEFAULT_VP_EXPIRATION_SECONDS=120
 ```
 
 ## Install

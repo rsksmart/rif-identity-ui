@@ -11,8 +11,9 @@ export interface VerifiedPresentation {
   credentialDetails?: CredentialDetails
   vpJwt?: string
   qrData: string
-  presentationIssuanceDate?: Date
-  presentationExpirationDate?: Date
+  issuanceDate?: Date
+  expirationDate?: Date
+  issuer?: string
 }
 
 export interface CredentialDetails {
@@ -29,8 +30,15 @@ export const mapFromPayload = (presentation: W3CVerifiedPresentation, qrData: st
   const fullName = credential.credentialSubject['fullName']
   const success = true
   const dateVerified = new Date()
-  const presentationIssuanceDate = new Date(parseInt(presentation.verifiablePresentation.issuanceDate!) * 1000)
-  const presentationExpirationDate = new Date(parseInt(presentation.verifiablePresentation.expirationDate!) * 1000)
+  const issuer = presentation.issuer
+
+  let presentationIssuanceDate, presentationExpirationDate;
+  if (presentation.verifiablePresentation.issuanceDate) {
+    presentationIssuanceDate = new Date(presentation.verifiablePresentation.issuanceDate!)
+  }
+  if (presentation.verifiablePresentation.expirationDate) {
+    presentationExpirationDate = new Date(presentation.verifiablePresentation.expirationDate)
+  }
   
   const credentialDetails: CredentialDetails = {
     issuer: credential.issuer.id,
@@ -41,6 +49,7 @@ export const mapFromPayload = (presentation: W3CVerifiedPresentation, qrData: st
   }
 
   return {
+    issuer,
     type,
     fullName,
     success,
@@ -48,7 +57,7 @@ export const mapFromPayload = (presentation: W3CVerifiedPresentation, qrData: st
     credentialDetails,
     vpJwt: credential['proof'].jwt,
     qrData,
-    presentationIssuanceDate,
-    presentationExpirationDate
+    issuanceDate: presentationIssuanceDate,
+    expirationDate: presentationExpirationDate
   }
 }

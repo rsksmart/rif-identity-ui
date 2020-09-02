@@ -4,7 +4,7 @@ import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
 import { mapFromPayload, VerifiedPresentation } from '../api';
-import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS } from '@env'
+import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS } from '@env'
 import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
@@ -141,11 +141,47 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
     };
   }
 
-  if (credentialDetails.expirationDate && credentialDetails.expirationDate.getTime() <= Date.now()) {
+  if (!credentialDetails.expirationDate) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'no_vc_expiration'
+    };
+  } else if (credentialDetails.expirationDate.getTime() <= Date.now()) {
     return {
       ...presentation,
       success: false,
       failureReason: 'expired_credential'
+    };
+  }
+
+  if (
+      !presentation.issuer || 
+      presentation.issuer.toLowerCase() !== credentialDetails.subject.toLowerCase()
+    ) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'invalid_vp_issuer'
+    };
+  }
+
+  if (!presentation.issuanceDate) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'no_issuance_date'
+    };
+  }
+
+  if (
+    !presentation.expirationDate && 
+    presentation.issuanceDate.getTime() + DEFAULT_VP_EXPIRATION_SECONDS * 1000 <= Date.now()
+  ) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'expired_presentation'
     };
   }
 

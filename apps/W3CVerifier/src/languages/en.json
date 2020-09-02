@@ -44,5 +44,8 @@
   "corrupted_presentation": "Corrupted presentation",
   "invalid_qr": "Invalid QR code",
   "invalid_credential_details": "Invalid credential detail",
-  "expired_credential": "Expired credential"
+  "expired_credential": "Expired credential",
+  "invalid_vp_issuer": "Invalid presentation issuer. Must be the holder DID",
+  "no_issuance_date": "Presentation must have an issuance date",
+  "no_vc_expiration": "Credential has not expiration date"
 }

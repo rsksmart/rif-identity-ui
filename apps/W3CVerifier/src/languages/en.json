@@ -13,7 +13,9 @@
   "success": "Success!",
   "valid_id_credential_card": "ID card credential is valid.",
   "valid_drivers_license": "Drivers License credential is valid.",
+  "invalid_drivers_license": "Drivers License credential is invalid.",
   "valid_parking_permit": "Parking Permit credential is valid.",
+  "invalid_parking_permit": "Parking Permit credential is invalid.",
   "invalid_id_credential_card": "ID card credential is invalid.",
   "notSuccess": "Oops...",
   "international": "Is international",
@@ -37,5 +39,10 @@
   "parkingPermitId": "Parking Permit id",
   "isInternational": "Is international",
   "issuance_date": "Issuance Date",
-  "expiration_date": "Expiration Date"
+  "expiration_date": "Expiration Date",
+  "expired_presentation": "Expired presentation. Please ask for a new one.",
+  "corrupted_presentation": "Corrupted presentation",
+  "invalid_qr": "Invalid QR code",
+  "invalid_credential_details": "Invalid credential detail",
+  "expired_credential": "Expired credential"
 }

@@ -84,46 +84,47 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
     }
   }
 
-  const legend = (type: 'drivers_license' | 'parking_permit' | undefined) => {
+  const legend = (type: 'drivers_license' | 'parking_permit' | undefined, sucess: boolean) => {
     switch (type?.toLowerCase()) {
       case 'drivers_license':
-        return strings.valid_drivers_license
+        return success ? strings.valid_drivers_license : strings.invalid_drivers_license
       case 'parking_permit':
-        return strings.valid_parking_permit
+        return success ? strings.valid_parking_permit : strings.invalid_parking_permit
       default:
-        return strings.valid_id_credential_card
+        return success ? strings.valid_id_credential_card : strings.invalid_id_credential_card
     }
   }
 
+  const { success, fullName, failureReason, type, credentialDetails } = presentation
   return (
     <View style={styles.container}>
       <Text>
         <Ionicons
           name={
-            presentation.success
+            success
               ? 'checkmark-circle-outline'
               : 'close-circle-outline'
           }
           size={50}
-          color={presentation.success ? colors.lightBlue : colors.red}
+          color={success ? colors.lightBlue : colors.red}
         />
       </Text>
       <Text style={styles.title}>
-        {presentation.success ? presentation.fullName : presentation.failureReason}
+        {(success && fullName) || (failureReason && (strings[failureReason] || failureReason)) || '' }
       </Text>
-      {icon(presentation.type)}
+      {icon(type)}
       <Text style={styles.subtitle}>
-        {(presentation.success && legend(presentation.type)) || strings.invalid_id_credential_card}
+        {legend(type, success)}
       </Text>
       {(
-        presentation.success && 
+        success && 
         <View>
           <View key="issuer" style={styles.row}>
             <View style={styles.cell}>
               <Text style={styles.labelText}>{strings.issuer}: </Text>
             </View>
             <View style={styles.cell}>
-              <Text style={styles.valueText}>{transformDID(presentation.credentialDetails?.issuer!)}</Text>
+              <Text style={styles.valueText}>{transformDID(credentialDetails?.issuer!)}</Text>
             </View>
           </View>
           <View key="subject" style={styles.row}>
@@ -131,7 +132,7 @@ const ValidationResult: React.FC<ValidationResultProps> = ({
               <Text style={styles.labelText}>{strings.subject}: </Text>
             </View>
             <View style={styles.cell}>
-              <Text style={styles.valueText}>{transformDID(presentation.credentialDetails?.subject!)}</Text>
+              <Text style={styles.valueText}>{transformDID(credentialDetails?.subject!)}</Text>
             </View>
           </View>
         </View>

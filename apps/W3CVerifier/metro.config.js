@@ -8,12 +8,8 @@ const path = require('path');
 
 // react-native >= 0.57
 
-const extraNodeModules = {
-  'IdentityApp': path.resolve(__dirname + '/../IdentityApp/'),
-};
-const watchFolders = [
-  path.resolve(__dirname + '/../IdentityApp/')
-];
+const extraNodeModules = {};
+const watchFolders = [];
 
 module.exports = {
   resolver: {

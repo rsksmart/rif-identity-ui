@@ -141,13 +141,7 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
     };
   }
 
-  if (!credentialDetails.expirationDate) {
-    return {
-      ...presentation,
-      success: false,
-      failureReason: 'no_vc_expiration'
-    };
-  } else if (credentialDetails.expirationDate.getTime() <= Date.now()) {
+  if (credentialDetails.expirationDate && credentialDetails.expirationDate.getTime() <= Date.now()) {
     return {
       ...presentation,
       success: false,

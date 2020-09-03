@@ -19,9 +19,8 @@ export const newMnemonicError = (mnemonicError: string) => ({
   mnemonicError,
 });
 
-export const receiveMnemonic = (hasMnemonic: boolean, mnemonic?: string[]) => ({
+export const receiveMnemonic = (mnemonic: string[] | null) => ({
   type: MNEMONIC_TYPES.RECEIVE_MNEMONIC,
-  hasMnemonic,
   mnemonic,
 });
 

@@ -67,7 +67,7 @@ export const agent = new Daf.Agent({
   messageHandler,
 });
 
-export const dropDb = () => {
+export const dropDafDb = () => {
   dbConnection.then((dbconn: Connection) => {
     console.log('dropping db');
     dbconn.dropDatabase();

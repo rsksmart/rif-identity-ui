@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import {
   requestEndpointsStorage,
@@ -9,12 +9,7 @@ import {
 
 import { defaults } from '../../Providers/Endpoints';
 import { EndpointsInterface } from './reducer';
-
-import { receiveIsSignedUp, receiveLoggedIn } from '../../state/localUi/actions';
-import { receiveMnemonic } from '../identity/actions';
-import { resetCredentials } from '../credentialsView/actions';
-import * as RootNavigation from '../../AppNavigation';
-import { resetProfile } from '../../features/profile/actions';
+import { dropDafDb } from '../../daf/dafSetup';
 
 export const getEndpointsFromLocalStorage = () => (dispatch: Dispatch) => {
   dispatch(requestEndpointsStorage());
@@ -39,13 +34,7 @@ export const saveEndpointsToLocalStorage = (endpoints: EndpointsInterface) => (
 /**
  * Development feature to reset entire Application.
  */
-export const signOutAndReset = () => async (dispatch: Dispatch) => {
-  console.log('RESETING APP :)');
+export const signOutAndReset = async () => {
   await StorageProvider.removeAll();
-  dispatch(receiveIsSignedUp(false));
-  dispatch(receiveLoggedIn(false));
-  dispatch(receiveMnemonic(false));
-  dispatch(resetProfile());
-  dispatch(resetCredentials());
-  RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
+  await dropDafDb();
 };

@@ -7,13 +7,14 @@ import { EndpointsInterface } from '../reducer';
 import { SquareButton } from '../../../Libraries/Button';
 import EditItem from '../../profile/components/EditItem';
 import { CopyButton } from '../../../Libraries/CopyButton/';
+import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 
 interface DeveloperSettingsComponentProps {
   endpoints: EndpointsInterface;
   version: string;
   strings: any;
   did: string;
-  startOverPress: (event: GestureResponderEvent) => void;
+  startOverPress: () => void;
   saveEndpoints: (endpoints: EndpointsInterface) => void;
   isSavingEndpoints: boolean;
 }
@@ -30,6 +31,7 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [newEndpoints, setNewEndpoints] = useState<EndpointsInterface>(endpoints);
   const [saved, setSaved] = useState<boolean>(false);
+  const [resetApp, setResetApp] = useState<boolean>(false);
   const handleChange = (field: string, value: string) => {
     setNewEndpoints({
       ...newEndpoints,
@@ -41,6 +43,11 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
     setSaved(true);
     saveEndpoints(newEndpoints);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleReset = () => {
+    setResetApp(true);
+    startOverPress();
   };
 
   const clipboardData = () => {
@@ -103,7 +110,13 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
 
             <Text style={typography.header2}>{strings.danger}</Text>
             <View style={styles.buttonView}>
-              <SquareButton title={strings.reset_app} variation="hollow" onPress={startOverPress} />
+              <SquareButton title={strings.reset_app} variation="hollow" onPress={handleReset} />
+              <ModalComponent visible={resetApp}>
+                <View>
+                  <Text style={typography.header2}>App Reset</Text>
+                  <Text style={typography.paragraph}>Close the app completly and start over.</Text>
+                </View>
+              </ModalComponent>
             </View>
           </View>
         </View>

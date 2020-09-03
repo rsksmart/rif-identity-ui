@@ -1,44 +1,36 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import { rskDIDFromPrivateKey } from '@rsksmart/rif-id-ethr-did';
 import {
   receiveMnemonic,
-  restoreSeedError,
   setNewMnemnoic,
   requestSaveIdentity,
   receiveSaveIdentity,
   receiveIdentity,
 } from './actions';
-import { generateMnemonic, mnemonicToSeed, seedToRSKHDKey } from '@rsksmart/rif-id-mnemonic';
+import { generateMnemonic } from '@rsksmart/rif-id-mnemonic';
+import { rifIdentityProvider } from '../../daf/dafSetup';
 
 /**
- * Saves Identity to Localstorage
+ * Creates Identity from DAF
  * @param mnemonic string[] Mnemonic to create identity and save as JSON
  */
 export const saveIdentityToLocalStorage = (mnemonic: string[]) => async (dispatch: Dispatch) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async resolve => {
     dispatch(requestSaveIdentity());
 
-    mnemonicToSeed(mnemonic.join(' '))
-      .then(seed => {
-        const hdKey = seedToRSKHDKey(seed);
-        const privateKey = hdKey.derive(0).privateKey?.toString('hex');
-        const rskDID = rskDIDFromPrivateKey()(privateKey);
+    await rifIdentityProvider.importMnemonic(mnemonic.join(' '));
+    const identity = await rifIdentityProvider.createIdentity();
 
-        const identity = {
-          publicKey: hdKey.derive(0).publicKey?.toString('hex'),
-          privateKey,
-          mnemonic,
-          did: rskDID.did,
-          address: rskDID.address,
-        };
+    const jsonIdentity = {
+      mnemonic,
+      did: identity.did,
+    };
 
-        StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(identity)).then(() => {
-          dispatch(receiveMnemonic(true, mnemonic));
-          resolve(dispatch(receiveSaveIdentity(rskDID.address, rskDID.did)));
-        });
-      })
-      .catch(error => reject(error.message));
+    StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(jsonIdentity)).then(() => {
+      dispatch(receiveMnemonic(mnemonic));
+      dispatch(receiveSaveIdentity(identity.identityController.address, identity.did));
+      resolve(dispatch(receiveSaveIdentity(identity.identityController.address, identity.did)));
+    });
   });
 };
 
@@ -53,11 +45,11 @@ export const getMnemonicFromLocalStorage = () => async (dispatch: Dispatch) => {
         const identity = JSON.parse(response);
 
         dispatch(receiveIdentity(identity.address, identity.did));
-        return dispatch(receiveMnemonic(true, identity.mnemonic));
+        return dispatch(receiveMnemonic(identity.mnemonic));
       }
-      return dispatch(receiveMnemonic(false));
+      return dispatch(receiveMnemonic(null));
     })
-    .catch(() => dispatch(receiveMnemonic(false)));
+    .catch(() => dispatch(receiveMnemonic(null)));
 };
 
 export const generateNewMnemonic = () => async (dispatch: Dispatch) => {

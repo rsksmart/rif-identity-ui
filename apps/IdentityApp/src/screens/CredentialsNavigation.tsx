@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 // container:
 const mapStateToProps = (state: RootState) => ({
   isLoggedIn: state.localUi.isLoggedIn,
-  hasMnemonic: state.identity.hasMnemonic,
+  hasMnemonic: state.identity.mnemonic !== null,
 });
 
 export default connect(mapStateToProps)(CredentialsNavigation);

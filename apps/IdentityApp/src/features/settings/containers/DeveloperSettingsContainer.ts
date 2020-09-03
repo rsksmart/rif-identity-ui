@@ -13,7 +13,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  startOverPress: () => dispatch(signOutAndReset()),
+  startOverPress: () => signOutAndReset(),
   saveEndpoints: (endPoints: EndpointsInterface) =>
     dispatch(saveEndpointsToLocalStorage(endPoints)),
 });

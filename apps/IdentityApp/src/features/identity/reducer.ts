@@ -1,7 +1,6 @@
 import { MNEMONIC_TYPES } from './actions';
 
 export type SetupState = {
-  hasMnemonic: boolean;
   mnemonic: string[] | null;
   mnemonicError: string | null;
   newMnemonic: string[] | null;
@@ -11,7 +10,6 @@ export type SetupState = {
 };
 
 export const initialState = {
-  hasMnemonic: false,
   mnemonic: null,
   mnemonicError: false,
   newMnemonic: [],
@@ -25,7 +23,6 @@ const reducer = (state: SetupState = initialState, action: any) => {
     case MNEMONIC_TYPES.RECEIVE_MNEMONIC:
       return {
         ...state,
-        hasMnemonic: action.hasMnemonic,
         mnemonic: action.mnemonic,
         mnemonicError: null,
       };

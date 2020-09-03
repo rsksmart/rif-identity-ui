@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { generateMnemonic } from '@rsksmart/rif-id-mnemonic';
 
 import { SquareButton } from '../Libraries/Button';
-import { rifIdentityProvider, agent, seedStore } from './dafSetup';
+import { rifIdentityProvider, agent, dropDb } from './dafSetup';
 
 interface DafTestComponentProps {}
 
@@ -19,12 +19,11 @@ const DafTestComponent: React.FC<DafTestComponentProps> = ({}) => {
     console.log('creating Identity');
     const mnemonic = generateMnemonic(12);
     console.log('mnemonic:', mnemonic);
-    // await rifIdentityProvider.importMnemonic(mnemonic);
+    await rifIdentityProvider.importMnemonic(mnemonic);
 
-    console.log(rifIdentityProvider);
-
-    const seed = await seedStore.get();
-    console.log('seed:', seed);
+    // console.log(rifIdentityProvider);
+    // const seed = await seedStore.get();
+    // console.log('seed:', seed);
 
     const identity = await rifIdentityProvider.createIdentity().catch(e => console.log(e));
     // const identity = await agent.identityManager.createIdentity();
@@ -33,11 +32,7 @@ const DafTestComponent: React.FC<DafTestComponentProps> = ({}) => {
     console.log(identity);
   };
 
-  const deleteIdentity = async () => {
-    console.log('deleting');
-    // await identityProvider.kms.deleteKey();
-    console.log('deleted');
-  };
+  const deleteIdentity = async () => await dropDb()
 
   return (
     <View>

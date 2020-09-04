@@ -1,10 +1,10 @@
-import { Dispatch, createRef } from 'react';
+import { Dispatch } from 'react';
 import { requestVerifyJwt, receiveValidJwt, receiveInvalidJwt, showPresentationRequest } from './scanned-presentation/actions';
 import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
 import { mapFromPayload, VerifiedPresentation } from '../api';
-import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS } from '@env'
+import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS } from '@env'
 import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
@@ -45,7 +45,7 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
     const { pwd, url, vpHash } = JSON.parse(data)
 
     if (!pwd || !url || !vpHash) {
-      throw new Error('Invalid QR code')
+      throw new Error('invalid_qr')
     }
 
     let vpJwt: string;
@@ -53,38 +53,46 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
     axios.post(url, { pwd })
       .then((res: any) => res.status === 200 && res.data)
       .then((data: any) => data.jwt)
-      .then((jwt: string) => keccak256(jwt).toString('hex') !== vpHash ? (() => { throw new Error('Corrupted presentation') })() : jwt)
+      .then((jwt: string) => keccak256(jwt).toString('hex') !== vpHash ? (() => { throw new Error('corrupted_presentation') })() : jwt)
       .then((jwt: string) => {
         vpJwt = jwt;
         return verifyPresentation(jwt, resolver)
       })
       .then((vp: W3CVerifiedPresentation) => {
-        const verified = mapFromPayload(vp.verifiablePresentation.verifiableCredential[0], data)
+        const verified = mapFromPayload(vp, data)
 
         presentation = validateVerifiedPresentation(verified, baseFailedPresentation);
 
         dispatch(receiveValidJwt(presentation))
       })
       .catch((err: Error) => {
-        // the jwt is well formatted, so try to decode it and get the subject fullName anyway
+        // if the jwt is well formatted, so try to decode it and get the subject details anyway
+        
+        let failureReason = err.message
+        let credentialDetails = { }
+        
         try {
-          const decoded = decodeJWT(data)
+          if (vpJwt) {
+            const decoded = decodeJWT(vpJwt)
 
-          if (decoded?.payload?.vp?.verifiableCredential[0]) {
-            const credential = decodeJWT(decoded.payload.vp.verifiableCredential[0])
+            failureReason = getFailureReason(err.message)
 
-            presentation = {
-              ...baseFailedPresentation,
-              failureReason: err.message,
-              fullName: credential.payload.vc.credentialSubject['fullName'],
-              credentialDetails: credential.payload.vc,
-              vpJwt, 
+            if (decoded?.payload?.vp?.verifiableCredential[0]) {
+              const credential = decodeJWT(decoded.payload.vp.verifiableCredential[0])
+
+              credentialDetails = {
+                type: credential.payload.vc.credentialSubject['type'],
+                fullName: credential.payload.vc.credentialSubject['fullName'],
+                credentialDetails: credential.payload.vc,
+                vpJwt, 
+              }
             }
           }
-        } catch {
+        } finally {
           presentation = {
             ...baseFailedPresentation,
-            failureReason: err.message,
+            failureReason,
+            ...credentialDetails,
           }
         }
 
@@ -92,9 +100,11 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
       })
       .finally(dispatchAndAddToStorage)
   } catch (err) {
+    const failureReason = getFailureReason(err.message)
+
     presentation = {
       ...baseFailedPresentation,
-      failureReason: err.message,
+      failureReason,
     }
 
     dispatch(receiveInvalidJwt(presentation))
@@ -122,10 +132,50 @@ export const goToScanner = () =>  async (dispatch: Dispatch) => {
 }
 
 const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFailedPresentation: VerifiedPresentation): VerifiedPresentation => {
-  if (!presentation.credentialDetails) {
+  const { credentialDetails } = presentation;
+  
+  if (!credentialDetails) {
     return {
       ...baseFailedPresentation,
-      failureReason: 'Invalid credential details'
+      failureReason: 'invalid_credential_details'
+    };
+  }
+
+  if (credentialDetails.expirationDate && credentialDetails.expirationDate.getTime() <= Date.now()) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'expired_credential'
+    };
+  }
+
+  if (
+      !presentation.issuer || 
+      presentation.issuer.toLowerCase() !== credentialDetails.subject.toLowerCase()
+    ) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'invalid_vp_issuer'
+    };
+  }
+
+  if (!presentation.issuanceDate) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'no_issuance_date'
+    };
+  }
+
+  if (
+    !presentation.expirationDate && 
+    presentation.issuanceDate.getTime() + DEFAULT_VP_EXPIRATION_SECONDS * 1000 <= Date.now()
+  ) {
+    return {
+      ...presentation,
+      success: false,
+      failureReason: 'expired_presentation'
     };
   }
 
@@ -142,4 +192,16 @@ const validateVerifiedPresentation = (presentation: VerifiedPresentation, baseFa
   // }
 
   return presentation
+}
+
+const getFailureReason = (error: string): string => {
+  if (error.toLowerCase().includes('jwt has expired')) {
+    return 'expired_presentation'
+  }
+
+  if (error.toLowerCase().includes('json parse error')) {
+    return 'invalid_qr'
+  }
+
+  return error
 }

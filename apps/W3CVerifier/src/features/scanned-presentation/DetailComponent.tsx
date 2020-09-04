@@ -5,7 +5,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { VerifiedPresentation } from '../../api'
-import { ScrollView } from 'react-native-gesture-handler';
 import { colors } from '../../styles';
 import moment from 'moment';
 
@@ -77,7 +76,7 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
           />
         ))}
 
-        {presentation.credentialDetails.issuanceDate && (
+        {presentation.credentialDetails?.issuanceDate && (
           <DataRow 
             label={strings.issuance_date}
             value={moment(presentation.credentialDetails.issuanceDate).format(
@@ -85,7 +84,7 @@ const PresentationDetail: React.FC<PresentationDetailProps> = ({
             )}
           />
         )}
-        {presentation.credentialDetails.expirationDate && (
+        {presentation.credentialDetails?.expirationDate && (
           <DataRow
             label={strings.expiration_date}
             value={moment(presentation.credentialDetails.expirationDate).format(

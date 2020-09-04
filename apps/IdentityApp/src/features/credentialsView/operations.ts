@@ -295,6 +295,7 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
       type: ['VerifiablePresentation'],
       verifiableCredential: [jwt],
     },
+    nbf: Math.floor(new Date().getTime() / 1000),
     exp: Math.floor(new Date().getTime() / 1000) + 600,
   };
 

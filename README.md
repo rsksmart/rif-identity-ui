@@ -104,3 +104,4 @@ The holder's app and the verifier's app have some thing in common that might be 
 1. SSI Library is a WIP
 2. Run `cd ios && pod install` first
 3. iOS support is a WIP
+

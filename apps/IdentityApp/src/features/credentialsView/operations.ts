@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 import EthrDID from 'ethr-did';
@@ -24,6 +24,7 @@ import * as RootNavigation from '../../AppNavigation';
 import { createJWT, SimpleSigner } from 'did-jwt';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
+import { agent } from '../../daf/dafSetup';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -125,7 +126,7 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
         { claimType: 'birthdate', claimValue: metadata.birthdate },
         { claimType: 'civilStatus', claimValue: metadata.civil_status },
         { claimType: 'email', claimValue: metadata.email },
-        { claimType: 'address', claimValue: metadata.address }
+        { claimType: 'address', claimValue: metadata.address },
       ];
       break;
   }
@@ -136,66 +137,43 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
     credentials: [],
   };
 
-  StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: any) => {
-    const identity = JSON.parse(response);
-
-    const signer = SimpleSigner(identity.privateKey)
-    createJWT(
-      {
-        type: 'sdr',
-        ...sdrData,
-      },
-      {
-        signer,
-        alg: 'ES256K-R',
-        issuer: did,
-      },
-    ).then(sdrJwt => {
-      const issuer = `did:ethr:rsk:testnet:0xc253a4d5653ea8b1b288a4b45ba67e9a4be865fc`
-
-      const data = {
-        from: did,
-        to: issuer, // TODO: check if mandatory
-        type: 'jwt',
-        body: sdrJwt,
-      }
-
-      fetch(server.endpoint + '/requestCredential', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      })
-        .then((postResponse: Response) => {
-          if (postResponse.status !== 200) {
-            return postResponse.text().then((errorReason: string) => {
-              dispatch(errorRequestCredential(errorReason));
-            });
-          }
-          const hash = keccak256(sdrJwt).toString('hex');
-
-          // Create Credential object:
-          const credential: Credential = {
-            issuer: {
-              name: server.name,
-              endpoint: server.endpoint,
-            },
-            hash,
-            status: CredentialStatus.PENDING,
-            dateRequested: new Date(),
-            type: metadata.type,
-            payload: data,
-          };
-          dispatch(saveCredentialToLocalStorage(credential));
-
-          // Redirect to home:
-          RootNavigation.navigate('CredentialsFlow', {
-            screen: 'CredentialsHome',
-          });
-        })
-        .catch(function (error) {
-          dispatch(errorRequestCredential(error.message));
-        });
-      })
+  const sdrJwt = await agent.handleAction({
+    type: 'sign.sdr.jwt',
+    data: sdrData,
   });
+
+  const didCommData = {
+    from: did,
+    to: 'did:ethr:rsk:testnet:0x37309bf0fcda162ad7d2c154b305b996621767b9',
+    type: 'jwt',
+    body: sdrJwt,
+  };
+
+  await agent
+    .handleAction({
+      type: 'send.message.didcomm-alpha-1',
+      data: didCommData,
+      url: server.endpoint + '/requestCredential',
+      save: true,
+    })
+    .then(response => {
+      // Create Credential object:
+      const credential: Credential = {
+        issuer: {
+          name: server.name,
+          endpoint: server.endpoint,
+        },
+        hash: keccak256(sdrJwt).toString('hex'),
+        status: CredentialStatus.PENDING,
+        dateRequested: new Date(),
+        type: metadata.type,
+      };
+      dispatch(saveCredentialToLocalStorage(credential));
+      // Redirect to home:
+      RootNavigation.navigate('CredentialsFlow', {
+        screen: 'CredentialsHome',
+      });
+    });
 };
 
 /**

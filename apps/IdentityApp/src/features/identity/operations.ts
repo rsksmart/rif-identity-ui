@@ -51,8 +51,3 @@ export const getMnemonicFromLocalStorage = () => async (dispatch: Dispatch) => {
     })
     .catch(() => dispatch(receiveMnemonic(null)));
 };
-
-export const generateNewMnemonic = () => async (dispatch: Dispatch) => {
-  const mnemonic = generateMnemonic(12);
-  dispatch(setNewMnemnoic(mnemonic.split(' ')));
-};

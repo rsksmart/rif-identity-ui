@@ -68,11 +68,7 @@ export const agent = new Daf.Agent({
 });
 
 export const dropDafDb = () => {
-  dbConnection.then((dbconn: Connection) => {
-    console.log('dropping db');
-    dbconn.dropDatabase();
-    console.log('dropped');
-  });
+  dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
 };
 
 export const resetSeedStore = async () => await seedStore.delete();

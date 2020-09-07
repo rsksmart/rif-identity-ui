@@ -10,35 +10,40 @@ import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface SettingsComponentProps {
   strings: any;
-  startOverPress: (event: GestureResponderEvent) => void | null;
-  reverify: (event: GestureResponderEvent) => void | null;
-  did: string;
-  mnemonic: string[];
+  did: string | null;
   navigation: any;
+  getMnemonic: () => string[];
 }
 
-const SettingsComponent: React.FC<SettingsComponentProps> = ({
-  strings,
-  did,
-  mnemonic,
-  navigation,
-}) => {
+const SettingsComponent: React.FC<SettingsComponentProps> = ({ strings, did, navigation, getMnemonic }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [showWords, setShowWords] = useState<boolean>(false);
+  const [mnemonic, setMnemonic] = useState<string[]>([]);
+
+  const showMnemonic = async () => {
+    const storageMnemonic = await getMnemonic();
+    setMnemonic(storageMnemonic);
+    setShowWords(true);
+  };
+
   return (
     <BackScreenComponent>
       <View style={layout.row}>
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.settings}</Text>
-          <Text style={typography.paragraphBold}>{strings.identity}</Text>
-          <CopyButton value={did} />
+          {did && (
+            <>
+              <Text style={typography.paragraphBold}>{strings.identity}</Text>
+              <CopyButton value={did} />
+            </>
+          )}
 
-          {mnemonic && (
+          {did && (
             <View style={styles.buttonView}>
               <SquareButton
                 title={strings.show_security_words}
                 variation="hollow"
-                onPress={() => setShowWords(true)}
+                onPress={showMnemonic}
               />
               <ModalComponent visible={showWords}>
                 <Text style={typography.paragraphBold}>{strings.security_words_write_down}</Text>

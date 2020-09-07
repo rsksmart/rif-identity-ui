@@ -74,3 +74,5 @@ export const dropDafDb = () => {
     console.log('dropped');
   });
 };
+
+export const resetSeedStore = async () => await seedStore.delete();

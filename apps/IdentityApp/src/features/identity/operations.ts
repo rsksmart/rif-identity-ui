@@ -13,12 +13,11 @@ import { agent, rifIdentityProvider } from '../../daf/dafSetup';
  * local storage so the user can backup.
  * @param mnemonic string[] Mnemonic to create identity and save as JSON
  */
-export const saveIdentityToLocalStorage = (mnemonic: string[]) => async (dispatch: Dispatch) => {
+export const createIdentitySaveMnemonic = (mnemonic: string[]) => async (dispatch: Dispatch) => {
   return new Promise(async resolve => {
     const initIdentity = initIdentityFactory(agent);
     const createIdentity = createIdentityFactory(agent);
 
-    console.log('adding,', mnemonic);
     await rifIdentityProvider.importMnemonic(mnemonic.join(' '));
 
     await initIdentity()(dispatch);

@@ -3,8 +3,10 @@ import EthrDID from 'ethr-did';
 import { Resolver } from 'did-resolver';
 import { getResolver } from 'ethr-did-resolver';
 import { verifyCredential } from 'did-jwt-vc';
-import { StorageProvider, STORAGE_KEYS } from './index';
+
 import { getEndpoint } from './Endpoints';
+import { agent, seedStore } from '../daf/dafSetup';
+import { seedToRSKHDKey } from '@rsksmart/rif-id-mnemonic';
 
 const createResolver = async () =>
   getEndpoint('rskNode').then(
@@ -26,11 +28,25 @@ const trace = (v: any) => {
   console.log(v);
   return v;
 };
-
+/*
 const getDid = () =>
   StorageProvider.get(STORAGE_KEYS.IDENTITY)
     .then(res => res && JSON.parse(res))
     .then(identity => new EthrDID({ address: identity.address, privateKey: identity.privateKey }));
+*/
+const getDid = async () => {
+  const identities = await agent.identityManager.getIdentities();
+  const seed = await seedStore.get();
+  const hdKey = await seedToRSKHDKey(Buffer.from(seed.seedHex, 'hex'));
+  return new Promise(resolve => {
+    resolve(
+      new EthrDID({
+        address: identities[0].did,
+        privateKey: hdKey.derive(0).privateKey?.toString('hex'),
+      }),
+    );
+  });
+};
 
 const login = (did: string) =>
   getEndpoint('dataVault').then(dataVaultEndpoint =>

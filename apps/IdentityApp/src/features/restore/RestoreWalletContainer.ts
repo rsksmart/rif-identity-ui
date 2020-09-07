@@ -5,6 +5,7 @@ import { restoreWalletFromUserSeed } from './operations';
 import { RootState } from 'src/state/store';
 import { closeErrorNoIdentity, receiveRestore } from './actions';
 import * as RootNavigation from '../../AppNavigation';
+import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
 
 const mapStateToProps = (state: RootState) => ({
   isRestoring: state.restore.isRestoring,
@@ -18,7 +19,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSubmit: (seed: string) => {
     dispatch(restoreWalletFromUserSeed(seed));
   },
-  closeIdentityError: () => dispatch(closeErrorNoIdentity()),
+  closeIdentityError: () => {
+    dispatch(deleteAllIdentities());
+    dispatch(closeErrorNoIdentity());
+  },
   createNewItentity: () => {
     RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
     dispatch(receiveRestore());

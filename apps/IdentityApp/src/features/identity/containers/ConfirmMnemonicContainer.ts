@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import { saveIdentityToLocalStorage } from '../operations';
+import { createIdentitySaveMnemonic } from '../operations';
 import * as RootNavigation from '../../../AppNavigation';
 
 interface dispatchInterface {
@@ -10,7 +10,7 @@ interface dispatchInterface {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSubmit: (mnemonic: string[]) =>
-    dispatch(saveIdentityToLocalStorage(mnemonic)).then(() => {
+    dispatch(createIdentitySaveMnemonic(mnemonic)).then(() => {
       RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
     }),
 });

@@ -1,7 +1,7 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import jwtDecode from 'jwt-decode';
 import { getFromDataVault, getFromIPFS } from '../../Providers/DataVaultProvider';
-import { saveIdentityToLocalStorage } from '../identity/operations';
+import { createIdentitySaveMnemonic } from '../identity/operations';
 import * as RootNavigation from '../../AppNavigation';
 
 import {
@@ -17,6 +17,8 @@ import { Credential, CredentialStatus } from '../credentialsView/reducer';
 import { saveAllCredentials } from '../credentialsView/operations';
 import { receiveAllCredentials } from '../credentialsView/actions';
 import { JWT } from 'did-jwt-vc/lib/types';
+import { resetSeedStore } from '../../daf/dafSetup';
+import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
 
 /**
  * Restores a wallet from a seed phrase
@@ -31,7 +33,7 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
     return dispatch(errorRestore('short_seed_error'));
   }
 
-  dispatch(saveIdentityToLocalStorage(seedArray)).then(() => {
+  dispatch(createIdentitySaveMnemonic(seedArray)).then(() => {
     dispatch(restoreCredentialsFromDataVault());
   });
 };
@@ -85,7 +87,13 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
         })
         .catch(() => {
           dispatch(errorRestore('IPFS Netork Error'));
+          resetSeedStore();
         });
     })
-    .catch(() => dispatch(errorRestore('Data Vault Network Error')));
+    .catch((err: any) => {
+      console.log(err);
+      dispatch(errorRestore('Data Vault Network Error'));
+      dispatch(errorNoIdentity());
+      resetSeedStore();
+    });
 };

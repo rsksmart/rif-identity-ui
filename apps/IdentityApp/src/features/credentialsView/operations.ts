@@ -1,9 +1,7 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
-import EthrDID from 'ethr-did';
 
-import { JwtPresentationPayload, createVerifiablePresentationJwt } from 'did-jwt-vc';
 import { Credential, CredentialStatus } from './reducer';
 import {
   requestAllPendingStatus,
@@ -257,29 +255,26 @@ export const checkStatusOfCredentials = (
 };
 
 /**
- * Create presentation of a VC using the JWT, and the address and private key of the
- * holder who is issuing the presentation.
+ * Create presentation of a VC using the JWT and the identityManger in the agent.
  * @param jwt JWT of the credential to be presented
- * @param address address of the holder
  */
 export const createPresentation = (jwt: string) => async (dispatch: Dispatch) => {
   dispatch(requestPresentation());
-  const vpPayload: JwtPresentationPayload = {
-    vp: {
-      '@context': ['https://www.w3.org/2018/credentials/v1'],
-      type: ['VerifiablePresentation'],
-      verifiableCredential: [jwt],
-    },
-    nbf: Math.floor(new Date().getTime() / 1000),
-    exp: Math.floor(new Date().getTime() / 1000) + 600,
-  };
-
-  StorageProvider.get(STORAGE_KEYS.IDENTITY).then((response: string) => {
-    const identity = JSON.parse(response);
-    const holder = new EthrDID({ address: identity.address, privateKey: identity.privateKey });
-    createVerifiablePresentationJwt(vpPayload, holder)
+  agent.identityManager.getIdentities().then(identities => {
+    agent
+      .handleAction({
+        type: 'sign.w3c.vp.jwt',
+        data: {
+          issuer: identities[0].did,
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          type: ['VerifiablePresentation'],
+          verifiableCredential: [jwt],
+        },
+      })
+      .then(sdrJwt => sdrJwt._raw)
       .then(uploadPresentation)
       .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
+
   });
 };
 

@@ -1131,7 +1131,17 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
 
-"@rsksmart/rif-id-daf@^0.0.2":
+"@reduxjs/toolkit@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.4.0.tgz#ee2e2384cc3d1d76780d844b9c2da3580d32710d"
+  integrity sha512-hkxQwVx4BNVRsYdxjNF6cAseRmtrkpSlcgJRr3kLUcHPIAMZAmMJkXmHh/eUEGTMqPzsYpJLM7NN2w9fxQDuGw==
+  dependencies:
+    immer "^7.0.3"
+    redux "^4.0.0"
+    redux-thunk "^2.3.0"
+    reselect "^4.0.0"
+
+"@rsksmart/rif-id-daf@0.0.2", "@rsksmart/rif-id-daf@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.2.tgz#af39315732b59ab841bd8d023464ae98adf6450a"
   integrity sha512-2OEQRYEno6tdR17gnVVobwLoCS1PrBt/8pvFXwlkIdpE/d/D6MYipj4hhPTwy11qSxh0iN7zufc9HBUYVqTDgQ==
@@ -2656,6 +2666,17 @@ daf-core@^6.0.0, daf-core@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-6.1.1.tgz#4d2b45e4bb1b5a8fee7b6d20ab1cde597109537a"
   integrity sha512-EsKMU5lwqPvwq2zf20uoShivZuMJUEV/wY6MCBasfaFfOj2+VDmLINnqZpsDOBvAAmWiwROxVEd/IgNhhThw9w==
+  dependencies:
+    blakejs "^1.1.0"
+    debug "^4.1.1"
+    events "^3.0.0"
+    typeorm "^0.2.24"
+    uuid "^7.0.2"
+
+daf-core@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-6.1.2.tgz#cf412bdc7046bdbd0c097767dd07b0a5b6c1fe14"
+  integrity sha512-2uCYhbc2zR/LCk8DY/mc3H/p51K9wCzV15h/icmjqhRVRigoxEpnB+MDcWzwdwfFlbaaHH3ZWOKE3rI4t+WyEg==
   dependencies:
     blakejs "^1.1.0"
     debug "^4.1.1"
@@ -4269,6 +4290,11 @@ image-size@^0.6.0:
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
   integrity sha512-47xSUiQioGaB96nqtp5/q55m0aBQSQdyIloMOc/x+QVTDZLNmXE892IIDrJ0hM1A5vcNUDD5tDffkSP5lCaIIA==
 
+immer@^7.0.3:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.8.tgz#41dcbc5669a76500d017bef3ad0d03ce0a1d7c1e"
+  integrity sha512-XnpIN8PXBBaOD43U8Z17qg6RQiKQYGDGGCIbz1ixmLGwBkSWwmrmx5X7d+hTtXDM8ur7m5OdLE0PiO+y5RB3pw==
+
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-2.0.0.tgz#d81355c15612d386c61f9ddd3922d4304822a546"
@@ -4660,6 +4686,15 @@ istanbul-reports@^2.2.6:
   integrity sha512-uu1F/L1o5Y6LzPVSVZXNOoD/KXpJue9aeLRd0sM9uMXfZvzomB0WxVamWb5ue8kA2vVWEmW7EG+A5n3f1kqHKg==
   dependencies:
     html-escaper "^2.0.0"
+
+jesse-rif-id-core@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.2.tgz#e2e7f59c5dcb2458da88a3a82577904bf1795e9f"
+  integrity sha512-k9FeT7cCQAmWebcpYfcbFTS8Uv9sXudy0HQ+0EFlsjnTaA2Tw7syviX2X53OTiW+kUOiI7dUE2YUWOurtdwAZQ==
+  dependencies:
+    "@reduxjs/toolkit" "^1.4.0"
+    "@rsksmart/rif-id-daf" "0.0.2"
+    daf-core "^6.1.2"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"
@@ -7153,6 +7188,11 @@ reselect@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
   integrity sha1-79qpjqdFEyTQkrKyFjpqHXqaIUc=
+
+reselect@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
+  integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

@@ -2,11 +2,11 @@ import { MNEMONIC_TYPES } from './actions';
 
 export type SetupState = {
   mnemonic: string[] | null;
+  address: string | null;
+  did: string | null;
   mnemonicError: string | null;
   newMnemonic: string[] | null;
   isSaving: boolean;
-  address: string | null;
-  did: string | null;
 };
 
 export const initialState = {

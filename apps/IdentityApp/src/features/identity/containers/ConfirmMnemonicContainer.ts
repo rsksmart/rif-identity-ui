@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 });
 
 const mergeProps = (
+  _stateProps: [],
   dispatchProps: dispatchInterface,
   ownProps: { route: { params: { mnemonic: string[] } } },
 ) => ({

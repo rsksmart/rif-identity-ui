@@ -27,7 +27,7 @@ const mapStateToProps = (state: RootState) => ({
   isCheckingPendingStatus: state.credentials.isCheckingPendingStatus,
   did: state.identity.did,
   address: state.identity.address,
-  hasMnemonic: state.identity.mnemonic !== null,
+  hasMnemonic: state.identity.identities.length !== 0,
   hasPending: hasPending(state.credentials.credentials),
   isRestoring: state.restore.isRestoring,
 });

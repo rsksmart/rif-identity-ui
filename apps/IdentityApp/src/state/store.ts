@@ -8,9 +8,10 @@ import localUiReducer from './localUi/reducer';
 import profileReducer from '../features/profile/reducer';
 import credentialReducer from '../features/credentialsView/reducer';
 import { PinReducer } from '../features/pin';
-import { IdentityReducer } from '../features/identity';
+// import { IdentityReducer } from '../features/identity';
 import RestoreReducer from '../features/restore/reducer';
 import { SettingsReducer } from '../features/settings';
+import identityReducer from 'jesse-rif-id-core/lib/reducers/identitySlice';
 
 const middleware = [thunk, customLogger];
 
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   credentials: credentialReducer,
   pin: PinReducer,
-  identity: IdentityReducer,
+  identity: identityReducer,
   restore: RestoreReducer,
   settings: SettingsReducer,
   multilanguage: createMultilanguageReducer(initialLanguageState),

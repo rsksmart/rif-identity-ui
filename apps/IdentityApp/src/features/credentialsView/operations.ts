@@ -21,7 +21,6 @@ import {
   errorRequestCredential,
 } from './actions';
 import * as RootNavigation from '../../AppNavigation';
-import { createJWT, SimpleSigner } from 'did-jwt';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
@@ -226,26 +225,24 @@ export const checkStatusOfCredentials = (
       if (selectStatus && item.status !== selectStatus) {
         return item;
       }
-      const data: any = await checkStatusOfCredential(
-        item.issuer,
-        item.hash,
-      );
+      const data: any = await checkStatusOfCredential(item.issuer, item.hash);
       didUpdate = true;
-      
+
       let status, jwt;
-      console.log(data.status)
       if (data.status.toLowerCase() === 'success') {
         status = CredentialStatus.CERTIFIED;
         jwt = data.payload.raw;
         putInDataVault(jwt);
       } else if (data.status.toLowerCase() === 'denied') {
-        status = CredentialStatus.DENIED
+        status = CredentialStatus.DENIED;
       } else {
-        status = CredentialStatus.PENDING
+        status = CredentialStatus.PENDING;
       }
 
       return {
-        ...item, jwt, status
+        ...item,
+        jwt,
+        status,
       };
     }),
   );

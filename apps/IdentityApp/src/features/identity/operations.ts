@@ -21,16 +21,15 @@ export const createIdentitySaveMnemonic = (mnemonic: string[]) => async (dispatc
     await rifIdentityProvider.importMnemonic(mnemonic.join(' '));
 
     await initIdentity()(dispatch);
-    // creates the identity and then adds it to redux:
-    await createIdentity()(dispatch);
 
     // store the mnemonic into localStorage
-    const jsonIdentity = {
-      mnemonic,
-    };
-    StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify(jsonIdentity)).then(() => {
-      resolve(true);
-    });
+    const callBack = () =>
+      StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify({ mnemonic })).then(() => {
+        resolve(true);
+      });
+
+    // creates the identity and then adds it to redux:
+    await createIdentity(callBack)(dispatch);
   });
 };
 

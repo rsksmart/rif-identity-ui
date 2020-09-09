@@ -40,7 +40,7 @@
     "ethr-did": "^1.1.0",
     "ethr-did-resolver": "^2.3.2",
     "events": "^1.0.0",
-    "jesse-rif-id-core": "^0.0.5",
+    "jesse-rif-id-core": "^0.0.6",
     "js-sha3": "^0.8.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.27.0",

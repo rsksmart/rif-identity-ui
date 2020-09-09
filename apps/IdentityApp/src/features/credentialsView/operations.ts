@@ -225,7 +225,6 @@ export const checkStatusOfCredentials = (
       }
       const data: any = await checkStatusOfCredential(item.issuer, item.hash);
       didUpdate = true;
-
       let status, jwt;
       if (data.status.toLowerCase() === 'success') {
         status = CredentialStatus.CERTIFIED;
@@ -269,12 +268,13 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           type: ['VerifiablePresentation'],
           verifiableCredential: [jwt],
+          nbf: Math.floor(new Date().getTime() / 1000),
+          exp: Math.floor(new Date().getTime() / 1000) + 600,
         },
       })
       .then(sdrJwt => sdrJwt._raw)
       .then(uploadPresentation)
       .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
-
   });
 };
 

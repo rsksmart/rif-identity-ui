@@ -3,8 +3,7 @@ import {
   RIFIdKeyManagementSystem,
   MnemonicStore,
   Entities,
-} from 'jesse-rif-id-daf';
-/*} from '@rsksmart/rif-id-daf';*/
+} from '@rsksmart/rif-id-daf';
 
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';

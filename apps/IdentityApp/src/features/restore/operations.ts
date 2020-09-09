@@ -17,8 +17,7 @@ import { Credential, CredentialStatus } from '../credentialsView/reducer';
 import { saveAllCredentials } from '../credentialsView/operations';
 import { receiveAllCredentials } from '../credentialsView/actions';
 import { JWT } from 'did-jwt-vc/lib/types';
-import { resetSeedStore } from '../../daf/dafSetup';
-import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
+import { resetMnemonicStore } from '../../daf/dafSetup';
 
 /**
  * Restores a wallet from a seed phrase
@@ -87,13 +86,12 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
         })
         .catch(() => {
           dispatch(errorRestore('IPFS Netork Error'));
-          resetSeedStore();
+          resetMnemonicStore();
         });
     })
     .catch((err: any) => {
       console.log(err);
       dispatch(errorRestore('Data Vault Network Error'));
-      dispatch(errorNoIdentity());
-      resetSeedStore();
+      resetMnemonicStore();
     });
 };

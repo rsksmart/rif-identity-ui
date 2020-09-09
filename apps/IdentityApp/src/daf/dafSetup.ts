@@ -1,9 +1,10 @@
 import {
   RIFIdentityProvider,
   RIFIdKeyManagementSystem,
-  SeedStore,
+  MnemonicStore,
   Entities,
-} from '@rsksmart/rif-id-daf';
+} from 'jesse-rif-id-daf';
+/*} from '@rsksmart/rif-id-daf';*/
 
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';
@@ -28,8 +29,12 @@ export const dbConnection = createConnection({
 
 const keyStore = new Daf.KeyStore(dbConnection);
 const keyManagementSystem = new KeyManagementSystem(keyStore);
-export const seedStore = new SeedStore(dbConnection);
-const rifIdKeyManagementSystem = new RIFIdKeyManagementSystem(keyManagementSystem, keyStore, seedStore);
+export const mnemonicStore = new MnemonicStore(dbConnection);
+const rifIdKeyManagementSystem = new RIFIdKeyManagementSystem(
+  keyManagementSystem,
+  keyStore,
+  mnemonicStore,
+);
 
 const identityStore = new Daf.IdentityStore('rsk-testnet', dbConnection);
 
@@ -71,4 +76,4 @@ export const dropDafDb = () => {
   dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
 };
 
-export const resetSeedStore = async () => await seedStore.delete();
+export const resetMnemonicStore = async () => await mnemonicStore.delete();

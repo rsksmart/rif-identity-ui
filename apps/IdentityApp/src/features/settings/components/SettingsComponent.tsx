@@ -12,18 +12,18 @@ interface SettingsComponentProps {
   strings: any;
   did: string | null;
   navigation: any;
-  getMnemonic: () => string[];
+  getMnemonic: () => {
+    mnemonic: string;
+  };
 }
 
 const SettingsComponent: React.FC<SettingsComponentProps> = ({ strings, did, navigation, getMnemonic }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [showWords, setShowWords] = useState<boolean>(false);
-  const [mnemonic, setMnemonic] = useState<string[]>([]);
+  const [mnemonic, setMnemonic] = useState<string | null>(null);
 
   const showMnemonic = async () => {
     const storageMnemonic = await getMnemonic();
-    setMnemonic(storageMnemonic);
-    setShowWords(true);
+    setMnemonic(storageMnemonic.mnemonic);
   };
 
   return (
@@ -45,13 +45,13 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({ strings, did, nav
                 variation="hollow"
                 onPress={showMnemonic}
               />
-              <ModalComponent visible={showWords}>
+              <ModalComponent visible={mnemonic !== null}>
                 <Text style={typography.paragraphBold}>{strings.security_words_write_down}</Text>
-                <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic.join(', ')}</Text>
+                <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic}</Text>
                 <SquareButton
                   title={strings.close}
                   variation="hollow"
-                  onPress={() => setShowWords(false)}
+                  onPress={() => setMnemonic(null)}
                 />
               </ModalComponent>
             </View>

@@ -1141,7 +1141,7 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
-"@rsksmart/rif-id-daf@0.0.2", "@rsksmart/rif-id-daf@^0.0.2":
+"@rsksmart/rif-id-daf@0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.2.tgz#af39315732b59ab841bd8d023464ae98adf6450a"
   integrity sha512-2OEQRYEno6tdR17gnVVobwLoCS1PrBt/8pvFXwlkIdpE/d/D6MYipj4hhPTwy11qSxh0iN7zufc9HBUYVqTDgQ==
@@ -2684,6 +2684,17 @@ daf-core@^6.1.2:
     typeorm "^0.2.24"
     uuid "^7.0.2"
 
+daf-core@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-6.3.0.tgz#98b5781bc9cea4a7da4542b28dc13db9794dcf69"
+  integrity sha512-CZfpGs27OErWMCGTNA3SCBMDvExnAtrHD591iZenusztXKBdLjO/L7Y5y/akoQGH+drTt0WPN7bzpI6/jcx/1A==
+  dependencies:
+    blakejs "^1.1.0"
+    debug "^4.1.1"
+    events "^3.0.0"
+    typeorm "^0.2.24"
+    uuid "^7.0.2"
+
 daf-did-comm@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/daf-did-comm/-/daf-did-comm-6.1.1.tgz#7508fc04b0fdb0daac0811d6d300eb918e693051"
@@ -2710,6 +2721,17 @@ daf-ethr-did@^6.1.1:
   integrity sha512-OPrHCsritK/nSNzh1sRWhDqoWXIEr55929f1+dKEizgAZnR8Zy1JbOdXtrTfAU9Klz2+WV50YpIgnhbe4p/ZuQ==
   dependencies:
     daf-core "^6.1.1"
+    debug "^4.1.1"
+    ethjs-provider-signer "^0.1.4"
+    ethr-did "^1.1.0"
+    js-sha3 "^0.8.0"
+
+daf-ethr-did@^6.1.2:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-ethr-did/-/daf-ethr-did-6.3.0.tgz#aeb90354cb39122f0b48685cdff63a945502136c"
+  integrity sha512-2vMjmvYa0ZxbgRQzAmaBV4fSgr30QH+ftnnODbdxcqWFC0asxysZJcSvHwJMfrYsjrsqVv99gtrTkB7cXx4e+A==
+  dependencies:
+    daf-core "^6.3.0"
     debug "^4.1.1"
     ethjs-provider-signer "^0.1.4"
     ethr-did "^1.1.0"
@@ -4687,14 +4709,25 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-jesse-rif-id-core@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.5.tgz#ae26629f2bdc5e7426255e5ed12be418638def8b"
-  integrity sha512-hG7SHNw1piHh1GW3Wqiu0WcMX00kJlsA0NAqHdXj6SlCNrctH0Ca78KhaJp+NhYEKieI5MYz5Vwh+mcvYQA1ZQ==
+jesse-rif-id-core@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.7.tgz#305645e0bd48f4b30ef7d21cb68ba34ec163c7bd"
+  integrity sha512-Ux194piz1LnkE+qcNfXtMrXJb0BcnC0rby9QQ8t3PqDN1QzZqqLra+M29hVGVns+ZF6ZAmX81VYUXvHn2EXC/A==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
     "@rsksmart/rif-id-daf" "0.0.2"
     daf-core "^6.1.2"
+
+jesse-rif-id-daf@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-daf/-/jesse-rif-id-daf-0.0.2.tgz#48c26582d4ace580cef93cd34fd034c549eb7d9d"
+  integrity sha512-Wgtp9oeV2BhY0m9ZwBZI22tFGJSAzz3gOAYE+sWZq7PZGb9FLCsakVDuh0PNM1X8/89YbzGWOb7MC1lh8UAOXQ==
+  dependencies:
+    "@rsksmart/rif-id-ethr-did" "0.0.1"
+    "@rsksmart/rif-id-mnemonic" "0.0.1"
+    daf-core "^6.1.2"
+    daf-ethr-did "^6.1.2"
+    typeorm "0.2.24"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"

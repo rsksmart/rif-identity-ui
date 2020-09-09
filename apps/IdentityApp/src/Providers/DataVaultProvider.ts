@@ -5,7 +5,7 @@ import { getResolver } from 'ethr-did-resolver';
 import { verifyCredential } from 'did-jwt-vc';
 
 import { getEndpoint } from './Endpoints';
-import { agent, seedStore } from '../daf/dafSetup';
+import { agent, mnemonicStore } from '../daf/dafSetup';
 import { seedToRSKHDKey } from '@rsksmart/rif-id-mnemonic';
 
 const createResolver = async () =>
@@ -36,7 +36,7 @@ const getDid = () =>
 */
 const getDid = async () => {
   const identities = await agent.identityManager.getIdentities();
-  const seed = await seedStore.get();
+  const seed = await mnemonicStore.get();
   const hdKey = await seedToRSKHDKey(Buffer.from(seed.seedHex, 'hex'));
   return new Promise(resolve => {
     resolve(

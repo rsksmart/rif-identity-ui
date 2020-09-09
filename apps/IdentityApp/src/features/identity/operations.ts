@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 
 import {
   initIdentityFactory,
@@ -7,30 +6,21 @@ import {
 } from 'jesse-rif-id-core/lib/operations/identity';
 import { addIdentity } from 'jesse-rif-id-core/lib/reducers/identitySlice';
 import { agent, rifIdentityProvider } from '../../daf/dafSetup';
+import { AbstractIdentity } from 'daf-core';
 
 /**
- * Creates Identity from identityFactory, then saves the DID and Mnemonic to
- * local storage so the user can backup.
+ * Creates Identity from identityFactory
  * @param mnemonic string[] Mnemonic to create identity and save as JSON
+ * @param callback function(err, res) Optional function to be called
  */
-export const createIdentitySaveMnemonic = (mnemonic: string[]) => async (dispatch: Dispatch) => {
-  return new Promise(async resolve => {
-    const initIdentity = initIdentityFactory(agent);
-    const createIdentity = createIdentityFactory(agent);
-
-    await rifIdentityProvider.importMnemonic(mnemonic.join(' '));
-
-    await initIdentity()(dispatch);
-
-    // store the mnemonic into localStorage
-    const callBack = () =>
-      StorageProvider.set(STORAGE_KEYS.IDENTITY, JSON.stringify({ mnemonic })).then(() => {
-        resolve(true);
-      });
-
-    // creates the identity and then adds it to redux:
-    await createIdentity(callBack)(dispatch);
-  });
+export const createRifIdentity = (
+  mnemonic: string[],
+  callback?: (_err: any, res: AbstractIdentity) => null,
+) => (dispatch: Dispatch) => {
+  const createIdentity = createIdentityFactory(agent);
+  rifIdentityProvider
+    .importMnemonic(mnemonic.join(' '))
+    .then(() => dispatch(createIdentity(callback)));
 };
 
 /**

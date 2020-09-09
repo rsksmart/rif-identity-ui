@@ -4709,7 +4709,7 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-jesse-rif-id-core@^0.0.7:
+jesse-rif-id-core@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.7.tgz#305645e0bd48f4b30ef7d21cb68ba34ec163c7bd"
   integrity sha512-Ux194piz1LnkE+qcNfXtMrXJb0BcnC0rby9QQ8t3PqDN1QzZqqLra+M29hVGVns+ZF6ZAmX81VYUXvHn2EXC/A==

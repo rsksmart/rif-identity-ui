@@ -1,18 +1,20 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import { createIdentitySaveMnemonic } from '../operations';
+import { createRifIdentity } from '../operations';
 import * as RootNavigation from '../../../AppNavigation';
+import { AbstractIdentity } from 'daf-core';
 
 interface dispatchInterface {
   onSubmit: Function;
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onSubmit: (mnemonic: string[]) =>
-    dispatch(createIdentitySaveMnemonic(mnemonic)).then(() => {
-      RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
-    }),
+  onSubmit: (mnemonic: string[]) => {
+    const callback = (_err: any, res: AbstractIdentity) =>
+      res && RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+    dispatch(createRifIdentity(mnemonic, callback));
+  },
 });
 
 const mergeProps = (

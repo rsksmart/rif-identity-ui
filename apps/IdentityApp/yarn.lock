@@ -1141,14 +1141,15 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
-"@rsksmart/rif-id-daf@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.2.tgz#af39315732b59ab841bd8d023464ae98adf6450a"
-  integrity sha512-2OEQRYEno6tdR17gnVVobwLoCS1PrBt/8pvFXwlkIdpE/d/D6MYipj4hhPTwy11qSxh0iN7zufc9HBUYVqTDgQ==
+"@rsksmart/rif-id-daf@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.3.tgz#3bff55ba00ca5ef4bb176cd5b65fe92ac2693c3b"
+  integrity sha512-e4zst/Qy3mzff6zapye/fqOUQ+39C/OVUDYOtFIowPu0qt9LGmaRtqbLXgn5TYcrkFBBOnvWCkWf+/tap0RfIw==
   dependencies:
     "@rsksmart/rif-id-ethr-did" "0.0.1"
     "@rsksmart/rif-id-mnemonic" "0.0.1"
-    daf-core "^6.1.1"
+    daf-core "^6.1.2"
+    daf-ethr-did "^6.1.2"
     typeorm "0.2.24"
 
 "@rsksmart/rif-id-daf@0.0.4":
@@ -4720,13 +4721,13 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-jesse-rif-id-core@0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.11.tgz#9538603b0e680308b4cd9121bf0a72e8187b9894"
-  integrity sha512-t8vl56XsmZ1kDP4S3bVfZo+49Ur+8BRbiLyrxdu7VWIWyU0Uq/wGRK4zhcQaH3Gm+UxBfLCqIMseHfLtaN/v3g==
+jesse-rif-id-core@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.12.tgz#1bcdcf316f9dae300dd9f3cce503ac73a33629ac"
+  integrity sha512-VyqqZ7Bq+YqAt5WDPUNCeXZKrxQLcl2nBeturx4TyBN9WRk6VyHzWffCNhzfUE80XRmeckaDriCcb63XiNjyag==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
-    "@rsksmart/rif-id-daf" "0.0.2"
+    "@rsksmart/rif-id-daf" "0.0.3"
     daf-core "^6.1.2"
 
 jest-changed-files@^24.9.0:

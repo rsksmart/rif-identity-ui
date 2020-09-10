@@ -8,7 +8,7 @@ import {
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';
 import * as DidJwt from 'daf-did-jwt';
-import { KeyManagementSystem } from 'daf-react-native-libsodium';
+import { KeyManagementSystem, SecretBox } from 'daf-react-native-libsodium';
 
 import * as W3c from 'daf-w3c';
 import * as SD from 'daf-selective-disclosure';

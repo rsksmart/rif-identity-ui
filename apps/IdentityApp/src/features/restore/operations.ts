@@ -20,6 +20,7 @@ import { receiveAllCredentials } from '../credentialsView/actions';
 import { JWT } from 'did-jwt-vc/lib/types';
 import { resetMnemonicStore } from '../../daf/dafSetup';
 import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
+import { Callback } from 'jesse-rif-id-core/src/operations/identity';
 /**
  * Restores a wallet from a seed phrase
  * @param seed string Seed with spaces
@@ -33,8 +34,12 @@ export const restoreWalletFromUserSeed = (seed: string) => (dispatch: Dispatch) 
     return dispatch(errorRestore('short_seed_error'));
   }
 
-  const callBack = (_err: any, res: AbstractIdentity) =>
-    res && dispatch(restoreCredentialsFromDataVault());
+  const callBack: Callback<AbstractIdentity> = (err, res) => {
+    if (err) {
+      throw err;
+    }
+    dispatch(restoreCredentialsFromDataVault());
+  };
 
   dispatch(createRifIdentity(seedArray, callBack));
 };

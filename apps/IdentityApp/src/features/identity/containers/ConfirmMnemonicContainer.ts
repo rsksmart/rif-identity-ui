@@ -11,8 +11,12 @@ interface dispatchInterface {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSubmit: (mnemonic: string[]) => {
-    const callback = (_err: any, res: AbstractIdentity) =>
-      res && RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+    const callback = (err: any, res: AbstractIdentity) => {
+      if (err) {
+        throw err;
+      }
+      RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+    };
     dispatch(createRifIdentity(mnemonic, callback));
   },
 });

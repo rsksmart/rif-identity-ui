@@ -8,7 +8,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = () => ({
-  getMnemonic: async () => await mnemonicStore.get(),
+  getMnemonic: () => mnemonicStore.get(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsComponent);

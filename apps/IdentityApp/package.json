@@ -17,7 +17,7 @@
     "@react-navigation/bottom-tabs": "^5.6.1",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
-    "jesse-rif-id-core": "0.0.11",
+    "jesse-rif-id-core": "0.0.12",
     "@rsksmart/rif-id-daf": "0.0.4",
     "@rsksmart/rif-id-ethr-did": "^0.0.1",
     "@rsksmart/rif-id-mnemonic": "^0.0.1",

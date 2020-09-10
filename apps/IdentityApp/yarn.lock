@@ -4721,10 +4721,10 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-jesse-rif-id-core@0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.12.tgz#1bcdcf316f9dae300dd9f3cce503ac73a33629ac"
-  integrity sha512-VyqqZ7Bq+YqAt5WDPUNCeXZKrxQLcl2nBeturx4TyBN9WRk6VyHzWffCNhzfUE80XRmeckaDriCcb63XiNjyag==
+jesse-rif-id-core@0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.13.tgz#fcae1a9c6b3553bf3ffb7e99583cc13cb4462d65"
+  integrity sha512-vpvKKYOtTU9ZiHh+IXNoTOgOubvgTjYoPUTC543lB8hntyOoqHWnPlSkawhFZprgJGIgtxMGBOokibWqVcRAbQ==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
     "@rsksmart/rif-id-daf" "0.0.3"

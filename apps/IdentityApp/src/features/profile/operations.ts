@@ -1,20 +1,18 @@
 import { Dispatch } from 'redux';
-import { requestProfile, updateProfile, receiveProfile } from './actions';
+import { updateProfile } from './actions';
 import { ProfileInterface } from './reducer';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
+import DeclarativeDetail from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
 
 export const getProfileFromLocalStorage = () => async (dispatch: Dispatch) => {
-  dispatch(requestProfile());
-
   await StorageProvider.get(STORAGE_KEYS.PROFILE)
     .then(response => {
       if (typeof response === 'string') {
         const profile = JSON.parse(response);
         dispatch(updateProfile(profile));
       }
-      dispatch(receiveProfile());
     })
-    .catch(() => dispatch(receiveProfile()));
+    .catch(() => dispatch(updateProfile([])));
 };
 
 /**
@@ -22,8 +20,22 @@ export const getProfileFromLocalStorage = () => async (dispatch: Dispatch) => {
  * @param profile Profile to be saved
  */
 export const saveProfile = (profile: ProfileInterface) => async (dispatch: Dispatch) => {
+  console.log(profile);
+
+  // const name = new DeclarativeDetail()
+  /*
+  Object.keys(profile).map(item => {
+    if (profile[item] !== '' && profile[item] !== undefined) {
+      new DeclarativeDetail('fullName', 'string', 'Charly Garcia'),
+      console.log(item, profile[item]);
+    }
+  });
+  */
+
   await StorageProvider.set(STORAGE_KEYS.PROFILE, JSON.stringify(profile))
     .then(() => {
+      console.log(profile);
+
       dispatch(updateProfile(profile));
       return true;
     })

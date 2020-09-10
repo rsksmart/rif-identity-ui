@@ -1,8 +1,6 @@
 import { PROFILE_ACTION_TYPES } from './actions';
 
 export type ProfileState = {
-  isLoading: boolean;
-  isLoaded: boolean;
   profile: ProfileInterface;
 };
 
@@ -19,8 +17,6 @@ export interface ProfileInterface {
 }
 
 export const initialState = {
-  isLoading: false,
-  isLoaded: false,
   profile: [],
 };
 
@@ -30,17 +26,6 @@ const reducer = (state: ProfileState = initialState, action: any) => {
       return {
         ...state,
         profile: action.profile,
-      };
-    case PROFILE_ACTION_TYPES.REQUEST_PROFILE:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case PROFILE_ACTION_TYPES.RECEIVE_PROFILE:
-      return {
-        ...state,
-        isLoading: false,
-        isLoaded: true,
       };
     case PROFILE_ACTION_TYPES.RESET:
       return initialState;

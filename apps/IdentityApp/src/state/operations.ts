@@ -6,13 +6,21 @@ import { requestIsSignedUp, receiveIsSignedUp } from './localUi/actions';
 import { getEndpointsFromLocalStorage } from '../features/settings/operations';
 import { agent } from '../daf/dafSetup';
 import { initIdentityFactory } from 'jesse-rif-id-core/lib/operations/identity';
+import { getProfileFromLocalStorage } from '../features/profile/operations'; //@todo
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestIsSignedUp());
   dispatch(getEndpointsFromLocalStorage());
 
   const initIdentity = initIdentityFactory(agent);
-  initIdentity()(dispatch);
+  dispatch(initIdentity());
+
+  /*
+  @TODO:
+  const initDeclarativeDetails = initDeclarativeDetailsFactory(agent);
+  dispatch(initDeclarativeDetails());
+  */
+  dispatch(getProfileFromLocalStorage());
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {

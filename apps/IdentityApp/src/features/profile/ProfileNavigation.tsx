@@ -6,27 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ProfileEditContainer, ProfileViewContainer } from './containers';
 import { getProfileFromLocalStorage } from './operations';
 import { SettingsContainer, DeveloperSettingsContainer } from '../settings/containers';
-import { RootState } from '../../state/store';
-import LoadingComponent from '../../Libraries/Loading/LoadingComponent';
 
 export const Stack = createStackNavigator();
 
-interface ProfileNavigationProps {
-  isLoaded: boolean;
-  start: () => {};
-}
-
-const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start, isLoaded }) => {
-  useEffect(() => {
-    if (!isLoaded) {
-      start();
-    }
-  }, [start, isLoaded]);
-
-  if (!isLoaded) {
-    return <LoadingComponent />;
-  }
-
+const ProfileNavigation: React.FC = () => {
   const options = { headerShown: false };
   return (
     <Stack.Navigator
@@ -40,12 +23,8 @@ const ProfileNavigation: React.FC<ProfileNavigationProps> = ({ start, isLoaded }
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  isLoaded: state.profile.isLoaded,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   start: () => dispatch(getProfileFromLocalStorage()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileNavigation);
+export default connect(null, mapDispatchToProps)(ProfileNavigation);

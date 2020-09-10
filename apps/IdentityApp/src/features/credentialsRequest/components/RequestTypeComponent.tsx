@@ -17,16 +17,8 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
   issuers,
   navigation,
-  profileIsLoaded,
-  start,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  useEffect(() => {
-    if (!profileIsLoaded) {
-      start();
-    }
-  }, [start, profileIsLoaded]);
-
   // hardcode the first server:
   const server = issuers[0];
 

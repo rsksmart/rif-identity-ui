@@ -11,6 +11,8 @@ import { ProfileInterface } from '../reducer';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { declarativeDetails } from '../../../Providers/Issuers';
 
+import { DeclarativeDetail } from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
+
 interface ProfileEditComponentProps {
   strings: any;
   profile: ProfileInterface;

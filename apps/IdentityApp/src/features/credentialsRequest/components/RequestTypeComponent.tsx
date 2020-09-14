@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { Dimensions, StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native';
@@ -10,7 +10,6 @@ interface RequestTypeComponentProps {
   issuers: serverInterface[];
   navigation: any;
   profileIsLoaded: boolean;
-  start: () => {};
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({

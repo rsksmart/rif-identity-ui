@@ -6,11 +6,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
-import { ProfileInterface } from '../../../features/profile/reducer';
 import { CredentialTypes } from '../../credentialsView/reducer';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import { HolderAppDeclarativeDetailsInterface } from '../../profile/operations';
 
 interface RequestTypeComponentProps {
   route: {
@@ -19,7 +19,7 @@ interface RequestTypeComponentProps {
       requirements: declarativeDetails[];
     };
   };
-  profile: ProfileInterface;
+  profile: HolderAppDeclarativeDetailsInterface;
   requirements: [];
   requestCredential: (metadata: []) => {};
   handleEditProfile: () => {};
@@ -42,34 +42,28 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   const handlePress = () => {
     let metaData = { type: type };
     requirements.forEach((item: declarativeDetails) => {
-      metaData[item.toLowerCase()] = profile[item];
+      metaData[item] = profile[item].value;
     });
-
     requestCredential(metaData);
   };
 
   const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
 
   const meetsRequirements = () => {
-    const results = requirements.filter(
-      (item: string) => !profile[item] || profile[item] === '' || profile[item] === null,
-    );
-    console.log(results.length, results.length === 0);
+    const results = requirements.filter((item: string) => !profile[item]);
     return results.length === 0;
   };
 
   const requiredItem = (item: declarativeDetails) => {
-    const itemValue = profile[item];
-    const icon =
-      itemValue === '' || !itemValue ? (
-        <MaterialCommunityIcons name="close" size={20} color={colors.red} />
-      ) : (
-        <MaterialCommunityIcons name="check" size={20} color={colors.green} />
-      );
-
+    const isEmpty = !profile[item];
+    const icon = isEmpty ? (
+      <MaterialCommunityIcons name="close" size={20} color={colors.red} />
+    ) : (
+      <MaterialCommunityIcons name="check" size={20} color={colors.green} />
+    );
     return (
       <Text style={styles.required} key={item}>
-        {icon} {strings[item.toLowerCase()]} : {itemValue}
+        {icon} {strings[item]}: {!isEmpty && profile[item].value}
       </Text>
     );
   };

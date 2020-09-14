@@ -9,7 +9,7 @@ import { getEndpoint } from '../../../Providers/Endpoints';
 
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
-  profile: state.profile.profile,
+  declarativeDetails: state.declarativeDetails,
   did: state.identity.identities[0],
   isRequestingCredential: state.credentials.isRequestingCredential,
   requestCredentialError: state.credentials.requestCredentialError,
@@ -37,6 +37,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   ...ownProps,
   requestCredential: (metadata: {}) => dispatchProps.requestCredential(metadata, stateProps.did),
+  profile: stateProps.declarativeDetails[stateProps.did] || [],
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConfirmComponent);

@@ -5,19 +5,17 @@ import initialLanguageState from '@rsksmart/languages';
 import customLogger from './middleware/customLogger';
 
 import localUiReducer from './localUi/reducer';
-import profileReducer from '../features/profile/reducer';
+import declarativeDetailsReducer from 'jesse-rif-id-core/lib/reducers/declarativeDetails';
 import credentialReducer from '../features/credentialsView/reducer';
 import { PinReducer } from '../features/pin';
 import identityReducer from 'jesse-rif-id-core/lib/reducers/identitySlice';
 import RestoreReducer from '../features/restore/reducer';
 import { SettingsReducer } from '../features/settings';
-import declarativeDetailsReducer from 'jesse-rif-id-core/lib/reducers/declarativeDetails';
 
 const middleware = [thunk, customLogger];
 
 const rootReducer = combineReducers({
   localUi: localUiReducer,
-  profile: profileReducer,
   declarativeDetails: declarativeDetailsReducer,
   credentials: credentialReducer,
   pin: PinReducer,

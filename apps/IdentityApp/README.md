@@ -14,7 +14,6 @@ TINYQR_ENDPOINT=
 IPFS_GATEWAY_ENDPOINT=https://ipfs.io/ipfs
 DATA_VAULT_ENDPOINT=
 RSK_NODE=
-SECRET_BOX_KEY=
 ```
 
 Example:
@@ -26,7 +25,6 @@ TINYQR_ENDPOINT=https://identity-tiny-qr.testnet.rifos.org
 IPFS_GATEWAY_ENDPOINT=https://ipfs.io/ipfs
 DATA_VAULT_ENDPOINT=https://identity-data-vault.testnet.rifos.org
 RSK_NODE=https://did.testnet.rsk.co:4444
-SECRET_BOX_KEY=29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c
 ```
 
 **Install**

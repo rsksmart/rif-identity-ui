@@ -1,16 +1,16 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import moment from 'moment';
 
 import DisplayItem from './DisplayItem';
-import { ProfileInterface } from '../reducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { HolderAppDeclarativeDetailsInterface } from '../operations';
 
 interface ProfileViewComponentProps {
   strings: any;
-  profile: ProfileInterface;
+  profile: HolderAppDeclarativeDetailsInterface;
   isEmpty: boolean;
   navigation: any;
 }
@@ -53,23 +53,36 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
                 {strings.no_personal_details}
               </Text>
             )}
-            <DisplayItem name={strings.full_name} value={profile.FULL_NAME} />
             <DisplayItem
-              name={strings.birthdate}
-              value={profile.BIRTHDATE ? moment(profile.BIRTHDATE).format('MMM D YYYY') : ''}
+              name={strings.fullName}
+              value={profile.fullName ? profile.fullName.value : ''}
             />
-            <DisplayItem name={strings.id_number} value={profile.ID_NUMBER} />
-            <DisplayItem name={strings.drivers_license_number} value={profile.DRIVERS_LICENSE_NUMBER} />
 
             <DisplayItem
-              name={strings.civil_status}
-              value={profile.CIVIL_STATUS ? strings[profile.CIVIL_STATUS] : ''}
+              name={strings.birthdate}
+              value={profile.birthdate ? moment(profile.birthdate.value).format('MMM D YYYY') : ''}
             />
-            
-            <DisplayItem name={strings.address} value={profile.ADDRESS} />
-            <DisplayItem name={strings.city} value={profile.CITY} />
-            <DisplayItem name={strings.phone} value={profile.PHONE} />
-            <DisplayItem name={strings.email} value={profile.EMAIL} />
+            <DisplayItem
+              name={strings.idNumber}
+              value={profile.idNumber ? profile.idNumber.value : ''}
+            />
+            <DisplayItem
+              name={strings.driversLicenseNumber}
+              value={profile.driversLicenseNumber ? profile.driversLicenseNumber.value : ''}
+            />
+
+            <DisplayItem
+              name={strings.civilStatus}
+              value={profile.civilStatus ? strings[profile.civilStatus.value] : ''}
+            />
+
+            <DisplayItem
+              name={strings.address}
+              value={profile.address ? profile.address.value : ''}
+            />
+            <DisplayItem name={strings.city} value={profile.city ? profile.city.value : ''} />
+            <DisplayItem name={strings.phone} value={profile.phone ? profile.phone.value : ''} />
+            <DisplayItem name={strings.email} value={profile.email ? profile.email.value : ''} />
           </View>
         </View>
       </View>

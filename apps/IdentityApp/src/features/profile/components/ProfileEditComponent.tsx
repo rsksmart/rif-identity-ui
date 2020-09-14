@@ -7,15 +7,12 @@ import DropDown from './DropDown';
 
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
-import { ProfileInterface } from '../reducer';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
-import { declarativeDetails } from '../../../Providers/Issuers';
-
-import { DeclarativeDetail } from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
+import { DeclarativeDetails } from 'jesse-rif-id-core/lib/reducers/declarativeDetails';
 
 interface ProfileEditComponentProps {
   strings: any;
-  profile: ProfileInterface;
+  profile: DeclarativeDetails;
   handleSave: (profile: any) => void | null;
 }
 
@@ -26,27 +23,23 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
 
-  const [localProfile, setLocalProfile] = useState<ProfileInterface>({
-    FULL_NAME: profile.FULL_NAME,
-    BIRTHDATE: profile.BIRTHDATE,
-    ID_NUMBER: profile.ID_NUMBER,
-    CIVIL_STATUS: profile.CIVIL_STATUS,
-    PHONE: profile.PHONE,
-    EMAIL: profile.EMAIL,
-    ADDRESS: profile.ADDRESS,
-    CITY: profile.CITY,
-    DRIVERS_LICENSE_NUMBER: profile.DRIVERS_LICENSE_NUMBER,
+  const [localProfile, setLocalProfile] = useState({
+    fullName: profile.fullName ? profile.fullName.value : '',
+    birthdate: profile.birthdate ? profile.birthdate.value : '',
+    idNumber: profile.idNumber ? profile.idNumber.value : '',
+    civilStatus: profile.civilStatus ? profile.civilStatus.value : '',
+    phone: profile.phone ? profile.phone.value : '',
+    email: profile.email ? profile.email.value : '',
+    address: profile.address ? profile.address.value : '',
+    city: profile.city ? profile.city.value : '',
+    driversLicenseNumber: profile.driversLicenseNumber ? profile.driversLicenseNumber.value : '',
   });
 
-  const handleChange = (field: declarativeDetails, value: string) => {
+  const handleChange = (field: string, value: string) => {
     setLocalProfile({
       ...localProfile,
       [field]: value,
     });
-  };
-
-  const handleSavePress = () => {
-    handleSave(localProfile);
   };
 
   return (
@@ -56,68 +49,68 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
           <View style={layout.column1}>
             <Text style={typography.header1}>{strings.edit_personal_info}</Text>
             <View style={styles.buttonView}>
-              <SquareButton title={strings.save} onPress={handleSavePress} />
+              <SquareButton title={strings.save} onPress={() => handleSave(localProfile)} />
             </View>
             <EditItem
-              name={strings.full_name}
-              value={localProfile.FULL_NAME}
-              onChange={async text => handleChange(declarativeDetails.FULL_NAME, text)}
+              name={strings.fullName}
+              value={localProfile.fullName}
+              onChange={async text => handleChange('fullName', text)}
             />
 
             <DatePicker
               name={strings.birthdate}
-              value={localProfile.BIRTHDATE}
-              onChange={(text: string) => handleChange(declarativeDetails.BIRTHDATE, text)}
+              value={localProfile.birthdate}
+              onChange={(text: string) => handleChange('birthdate', text)}
             />
 
             <EditItem
-              name={strings.id_number}
-              value={localProfile.ID_NUMBER}
-              onChange={async text => handleChange(declarativeDetails.ID_NUMBER, text)}
+              name={strings.idNumber}
+              value={localProfile.idNumber}
+              onChange={async text => handleChange('idNumber', text)}
               keyboardType="number-pad"
             />
 
             <EditItem
-              name={strings.drivers_license_number}
-              value={localProfile.DRIVERS_LICENSE_NUMBER}
-              onChange={async text => handleChange(declarativeDetails.DRIVERS_LICENSE_NUMBER, text)}
+              name={strings.driversLicenseNumber}
+              value={localProfile.driversLicenseNumber}
+              onChange={async text => handleChange('driversLicenseNumber', text)}
               keyboardType="number-pad"
             />
 
             <DropDown
-              name={strings.civil_status}
-              value={localProfile.CIVIL_STATUS}
+              name={strings.civilStatus}
+              value={localProfile.civilStatus}
               items={[
                 { label: '', value: '' },
                 { label: strings.married, value: 'married' },
                 { label: strings.single, value: 'single' },
               ]}
-              onChange={async text => handleChange(declarativeDetails.CIVIL_STATUS, text)}
+              onChange={async text => handleChange('civilStatus', text)}
             />
 
             <EditItem
               name={strings.address}
-              value={localProfile.ADDRESS}
-              onChange={async text => handleChange(declarativeDetails.ADDRESS, text)}
+              value={localProfile.address}
+              onChange={async text => handleChange('address', text)}
             />
 
             <EditItem
               name={strings.city}
-              value={localProfile.CITY}
-              onChange={async text => handleChange(declarativeDetails.CITY, text)}
+              value={localProfile.city}
+              onChange={async text => handleChange('city', text)}
             />
 
             <EditItem
               name={strings.phone}
-              value={localProfile.PHONE}
-              onChange={async text => handleChange(declarativeDetails.PHONE, text)}
+              value={localProfile.phone}
+              onChange={async text => handleChange('phone', text)}
               keyboardType="phone-pad"
             />
 
             <EditItem
               name={strings.email}
-              value={localProfile.EMAIL}
-              onChange={async text => handleChange(declarativeDetails.EMAIL, text)}
+              value={localProfile.email}
+              onChange={async text => handleChange('email', text)}
               keyboardType="email-address"
             />
           </View>

@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { ProfileEditContainer, ProfileViewContainer } from './containers';
-import { getProfileFromLocalStorage } from './operations';
 import { SettingsContainer, DeveloperSettingsContainer } from '../settings/containers';
 
 export const Stack = createStackNavigator();
@@ -23,8 +20,4 @@ const ProfileNavigation: React.FC = () => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => dispatch(getProfileFromLocalStorage()),
-});
-
-export default connect(null, mapDispatchToProps)(ProfileNavigation);
+export default ProfileNavigation;

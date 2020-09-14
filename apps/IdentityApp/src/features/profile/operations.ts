@@ -1,59 +1,52 @@
-import { Dispatch } from 'redux';
-import { updateProfile } from './actions';
-import { ProfileInterface } from './reducer';
-import { StorageProvider, STORAGE_KEYS } from '../../Providers';
-import DeclarativeDetail from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
+import { Dispatch, AnyAction } from 'redux';
+import { agent } from '../../daf/dafSetup';
 
-export const getProfileFromLocalStorage = () => async (dispatch: Dispatch) => {
-  await StorageProvider.get(STORAGE_KEYS.PROFILE)
-    .then(response => {
-      if (typeof response === 'string') {
-        const profile = JSON.parse(response);
-        dispatch(updateProfile(profile));
-      }
-    })
-    .catch(() => dispatch(updateProfile([])));
-};
+import { setDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
+import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+
+interface Detail {
+  type: string;
+  value: any;
+}
+export interface HolderAppDeclarativeDetailsInterface {
+  fullName: Detail | undefined;
+  birthdate: Detail | undefined;
+  idNumber: Detail | undefined;
+  driversLicenseNumber: Detail | undefined;
+  civilStatus: Detail | undefined;
+  address: Detail | undefined;
+  city: Detail | undefined;
+  phone: Detail | undefined;
+  email: Detail | undefined;
+}
 
 /**
  * Saves Profile to LocalStorage
  * @param profile Profile to be saved
  */
-export const saveProfile = (profile: ProfileInterface) => async (dispatch: Dispatch) => {
-  console.log(profile);
+export const saveProfile = (profile: any, callback: Callback<boolean>) => async (
+  dispatch: Dispatch<AnyAction>,
+) => {
+  agent.identityManager
+    .getIdentities()
+    .then(identities => identities[0].did)
+    .then((did: string) => {
+      const detailBuilder = (value: string, type?: string) =>
+        value === '' ? undefined : { type: type || 'string', value };
 
-  // const name = new DeclarativeDetail()
-  /*
-  Object.keys(profile).map(item => {
-    if (profile[item] !== '' && profile[item] !== undefined) {
-      new DeclarativeDetail('fullName', 'string', 'Charly Garcia'),
-      console.log(item, profile[item]);
-    }
-  });
-  */
+      const declarativeDetails: HolderAppDeclarativeDetailsInterface = {
+        fullName: detailBuilder(profile.fullName),
+        birthdate: detailBuilder(profile.birthdate, 'date'),
+        idNumber: detailBuilder(profile.idNumber, 'number'),
+        driversLicenseNumber: detailBuilder(profile.driversLicenseNumber, 'number'),
+        civilStatus: detailBuilder(profile.civilStatus, 'string'),
+        address: detailBuilder(profile.address),
+        city: detailBuilder(profile.city),
+        phone: detailBuilder(profile.phone),
+        email: detailBuilder(profile.email),
+      };
 
-  await StorageProvider.set(STORAGE_KEYS.PROFILE, JSON.stringify(profile))
-    .then(() => {
-      console.log(profile);
-
-      dispatch(updateProfile(profile));
-      return true;
-    })
-    .catch(() => {
-      return false;
+      const setDeclarativeDetails = setDeclarativeDetailsFactory(agent);
+      dispatch(setDeclarativeDetails(did, declarativeDetails, callback));
     });
-};
-
-/**
- * Helper function to determin if Profile is empty
- * @param profile
- */
-export const isEmpty = (profile: ProfileInterface) => {
-  let empty = true;
-  Object.keys(profile).map(item => {
-    if (profile[item] !== '' && profile[item] !== null) {
-      empty = false;
-    }
-  });
-  return empty;
 };

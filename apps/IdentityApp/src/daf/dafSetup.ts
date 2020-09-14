@@ -8,20 +8,21 @@ import {
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';
 import * as DidJwt from 'daf-did-jwt';
-import { KeyManagementSystem, SecretBox } from 'daf-react-native-libsodium';
+import { KeyManagementSystem } from 'daf-react-native-libsodium';
 
 import * as W3c from 'daf-w3c';
 import * as SD from 'daf-selective-disclosure';
 
 import * as DIDComm from 'daf-did-comm';
 import { createConnection, Connection } from 'typeorm';
+import { DeclarativeDetail } from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
 
 export const dbConnection = createConnection({
   type: 'react-native',
   database: 'daf.sqlite',
   location: 'default',
   synchronize: true,
-  entities: [...Entities, ...Daf.Entities],
+  entities: [...Entities, ...Daf.Entities, DeclarativeDetail],
   dropSchema: false,
   logging: ['error'],
 });

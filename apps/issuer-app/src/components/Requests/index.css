@@ -1,0 +1,22 @@
+.reply-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #008FF7;
+}
+
+.reply-table-header {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #CCCACD;
+}
+
+.row-more-info td {
+  padding: 2px 40px;
+  border: 0;
+}

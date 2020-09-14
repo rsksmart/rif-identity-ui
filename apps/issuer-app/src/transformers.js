@@ -1,0 +1,1 @@
+export const transformDID = did => did.slice(0, 30) + '...' + did.slice(-4)

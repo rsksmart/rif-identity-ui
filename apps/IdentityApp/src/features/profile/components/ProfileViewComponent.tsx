@@ -29,9 +29,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <Text style={typography.header1}>{strings.personal_info}</Text>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={() =>
-              navigation.navigate('Settings', {}, { params: { previousScreen: 'ViewProfile' } })
-            }>
+            onPress={() => navigation.navigate('Settings')}>
             <FontAwesome name="cog" size={25} />
           </TouchableOpacity>
           <Text style={typography.paragraph}>{strings.profile_explanation}</Text>
@@ -39,7 +37,12 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           <View style={styles.viewProfile}>
             <TouchableOpacity
               style={styles.editButton}
-              onPress={() => navigation.navigate('Edit', {})}>
+              onPress={() =>
+                navigation.navigate('CredentialsFlow', {
+                  screen: 'Profile',
+                  params: { screen: 'Edit' },
+                })
+              }>
               <FontAwesome
                 name={isEmpty ? 'plus-circle' : 'edit'}
                 size={35}

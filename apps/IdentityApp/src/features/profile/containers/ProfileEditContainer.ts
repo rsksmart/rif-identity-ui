@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       if (err) {
         throw err;
       }
-      navigation.navigate('View');
+      navigation.goBack();
     };
     dispatch(saveProfile(profile, callback));
   },

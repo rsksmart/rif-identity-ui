@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   handleEditProfile: () =>
     RootNavigation.navigate('CredentialsFlow', {
       screen: 'Profile',
-      params: { screen: 'Edit', params: { previousScreen: 'ConfirmCredential' } },
+      params: { screen: 'Edit' },
     }),
 });
 

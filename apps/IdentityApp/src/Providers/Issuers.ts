@@ -5,15 +5,15 @@ export enum CredentialTypes {
 }
 
 export enum declarativeDetails {
-  FULL_NAME = 'FULL_NAME',
-  ID_NUMBER = 'ID_NUMBER',
-  BIRTHDATE = 'BIRTHDATE',
-  PHONE = 'PHONE',
-  EMAIL = 'EMAIL',
-  ADDRESS = 'ADDRESS',
-  CITY = 'CITY',
-  CIVIL_STATUS = 'CIVIL_STATUS',
-  DRIVERS_LICENSE_NUMBER = 'DRIVERS_LICENSE_NUMBER',
+  FULL_NAME = 'fullName',
+  ID_NUMBER = 'idNumber',
+  BIRTHDATE = 'birthdate',
+  PHONE = 'phone',
+  EMAIL = 'email',
+  ADDRESS = 'address',
+  CITY = 'city',
+  CIVIL_STATUS = 'civilStatus',
+  DRIVERS_LICENSE_NUMBER = 'driversLicenseNumber',
 }
 
 export interface credentialTypes {

@@ -1,11 +1,18 @@
 import { connect } from 'react-redux';
 import ProfileViewComponent from '../components/ProfileViewComponent';
 import { RootState } from '../../../state/store';
-import { isEmpty } from '../operations';
 
 const mapStateToProps = (state: RootState) => ({
-  profile: state.profile.profile,
-  isEmpty: isEmpty(state.profile.profile),
+  declarativeDetails: state.declarativeDetails,
+  did: state.identity.identities[0],
 });
 
-export default connect(mapStateToProps, null)(ProfileViewComponent);
+const mergeProps = (stateProps: any, dispatchProps: any, ownProps: any) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  profile: stateProps.declarativeDetails[stateProps.did] || [],
+  isEmpty: !stateProps.declarativeDetails[stateProps.did],
+});
+
+export default connect(mapStateToProps, null, mergeProps)(ProfileViewComponent);

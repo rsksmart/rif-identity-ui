@@ -91,9 +91,9 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
 
   const baseClaims = [
     { claimType: 'credentialRequest', claimValue: 'cred1', essential: true }, // or type here?
-    { claimType: 'fullName', claimValue: metadata.full_name, essential: true },
+    { claimType: 'fullName', claimValue: metadata.fullName, essential: true },
     { claimType: 'type', claimValue: metadata.type, essential: true },
-    { claimType: 'idNumber', claimValue: metadata.id_number },
+    { claimType: 'idNumber', claimValue: metadata.idNumber },
     { claimType: 'city', claimValue: metadata.city },
   ];
 
@@ -105,14 +105,14 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
       claims = [
         ...baseClaims,
         { claimType: 'phone', claimValue: metadata.phone },
-        { claimType: 'driversLicenseNumber', claimValue: metadata.drivers_license_number },
+        { claimType: 'driversLicenseNumber', claimValue: metadata.driversLicenseNumber },
       ];
       break;
     case CredentialTypes.DRIVERS_LICENSE:
       claims = [
         ...baseClaims,
         { claimType: 'birthdate', claimValue: metadata.birthdate },
-        { claimType: 'driversLicenseNumber', claimValue: metadata.drivers_license_number },
+        { claimType: 'driversLicenseNumber', claimValue: metadata.driversLicenseNumber },
       ];
       break;
     case CredentialTypes.ID:
@@ -121,7 +121,7 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
         ...baseClaims,
         { claimType: 'phone', claimValue: metadata.phone },
         { claimType: 'birthdate', claimValue: metadata.birthdate },
-        { claimType: 'civilStatus', claimValue: metadata.civil_status },
+        { claimType: 'civilStatus', claimValue: metadata.civilStatus },
         { claimType: 'email', claimValue: metadata.email },
         { claimType: 'address', claimValue: metadata.address },
       ];

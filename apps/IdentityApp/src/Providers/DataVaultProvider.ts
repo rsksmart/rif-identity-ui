@@ -1,10 +1,10 @@
 import axios from 'axios';
-import EthrDID from 'ethr-did';
 import { Resolver } from 'did-resolver';
 import { getResolver } from 'ethr-did-resolver';
 import { verifyCredential } from 'did-jwt-vc';
-import { StorageProvider, STORAGE_KEYS } from './index';
+
 import { getEndpoint } from './Endpoints';
+import { agent } from '../daf/dafSetup';
 
 const createResolver = async () =>
   getEndpoint('rskNode').then(
@@ -27,10 +27,7 @@ const trace = (v: any) => {
   return v;
 };
 
-const getDid = () =>
-  StorageProvider.get(STORAGE_KEYS.IDENTITY)
-    .then(res => res && JSON.parse(res))
-    .then(identity => new EthrDID({ address: identity.address, privateKey: identity.privateKey }));
+const getIdentity = () => agent.identityManager.getIdentities().then(identities => identities[0]);
 
 const login = (did: string) =>
   getEndpoint('dataVault').then(dataVaultEndpoint =>
@@ -47,13 +44,15 @@ const getLoginToken = (did: any) =>
   });
 
 const loginAndSendClaimWithToken = (method: string) => (claim: any) =>
-  getDid().then(async identity => {
+  getIdentity().then(async identity => {
     const data_valut_endpoint = await getEndpoint('dataVault');
     return getLoginToken(identity.did)
       .then(token =>
-        identity.signJWT({
-          type: 'sdr',
-          claims: [{ claimType: 'token', claimValue: token }, claim],
+        agent.handleAction({
+          type: 'sign.sdr.jwt',
+          data: {
+            claims: [{ claimType: 'token', claimValue: token }, claim],
+          },
         }),
       )
       .then(jwt => axios.post(data_valut_endpoint + method, { jwt }))

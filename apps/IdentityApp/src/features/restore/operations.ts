@@ -1,7 +1,8 @@
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import jwtDecode from 'jwt-decode';
+import { AbstractIdentity } from 'daf-core';
 import { getFromDataVault, getFromIPFS } from '../../Providers/DataVaultProvider';
-import { saveIdentityToLocalStorage } from '../identity/operations';
+import { createRifIdentity } from '../identity/operations';
 import * as RootNavigation from '../../AppNavigation';
 
 import {
@@ -17,12 +18,14 @@ import { Credential, CredentialStatus } from '../credentialsView/reducer';
 import { saveAllCredentials } from '../credentialsView/operations';
 import { receiveAllCredentials } from '../credentialsView/actions';
 import { JWT } from 'did-jwt-vc/lib/types';
-
+import { resetMnemonicStore } from '../../daf/dafSetup';
+import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
+import { Callback } from 'jesse-rif-id-core/src/operations/identity';
 /**
  * Restores a wallet from a seed phrase
  * @param seed string Seed with spaces
  */
-export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Dispatch) => {
+export const restoreWalletFromUserSeed = (seed: string) => (dispatch: Dispatch) => {
   dispatch(requestRestore());
   // convert to lowercase, replace 2 spaces with 1, trim then split:
   const seedArray = seed.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
@@ -31,9 +34,14 @@ export const restoreWalletFromUserSeed = (seed: string) => async (dispatch: Disp
     return dispatch(errorRestore('short_seed_error'));
   }
 
-  dispatch(saveIdentityToLocalStorage(seedArray)).then(() => {
+  const callBack: Callback<AbstractIdentity> = (err, res) => {
+    if (err) {
+      throw err;
+    }
     dispatch(restoreCredentialsFromDataVault());
-  });
+  };
+
+  dispatch(createRifIdentity(seedArray, callBack));
 };
 
 /**
@@ -85,7 +93,14 @@ export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) 
         })
         .catch(() => {
           dispatch(errorRestore('IPFS Netork Error'));
+          dispatch(deleteAllIdentities());
+          resetMnemonicStore();
         });
     })
-    .catch(() => dispatch(errorRestore('Data Vault Network Error')));
+    .catch((err: any) => {
+      console.log(err);
+      dispatch(errorRestore('Data Vault Network Error'));
+      dispatch(deleteAllIdentities());
+      resetMnemonicStore();
+    });
 };

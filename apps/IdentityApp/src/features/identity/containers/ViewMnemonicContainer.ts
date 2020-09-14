@@ -1,17 +1,11 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'react';
 import ViewMnemonicComponent from '../components/ViewMnemonicComponent';
-import { RootState } from '../../../state/store';
 import * as RootNavigation from '../../../AppNavigation';
-import { generateNewMnemonic } from '../operations';
+import { generateMnemonic } from '@rsksmart/rif-id-mnemonic';
 
-const mapStateToProps = (state: RootState) => ({
-  mnemonic: state.identity.newMnemonic,
+const mapDispatchToProps = () => ({
+  newMnemonic: () => generateMnemonic(12).split(' '),
+  onSubmit: (mnemonic: string[]) => RootNavigation.navigate('MnemonicConfirm', { mnemonic }),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  generateNewMnemonic: () => dispatch(generateNewMnemonic()),
-  onSubmit: () => RootNavigation.navigate('MnemonicConfirm', {}),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewMnemonicComponent);
+export default connect(null, mapDispatchToProps)(ViewMnemonicComponent);

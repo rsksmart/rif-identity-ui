@@ -7,7 +7,6 @@ import { removeCredential, createPresentation, checkStatusOfCredential } from '.
 
 const mapStateToProps = (state: RootState) => ({
   allCredentials: state.credentials.credentials,
-  address: state.identity.address,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

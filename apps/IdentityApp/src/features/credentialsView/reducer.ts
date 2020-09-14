@@ -106,6 +106,7 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
       return {
         ...state,
         presentation: null,
+        presentationUrl: null,
       };
     case CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION:
       return {

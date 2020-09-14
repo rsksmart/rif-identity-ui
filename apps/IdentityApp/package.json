@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto --hack && cp postinstall/ethrDID-copy.js node_modules/ethr-did/lib/index.js"
+    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto,assert,vm,path --hack --yarn"
   },
   "dependencies": {
     "@react-native-community/clipboard": "^1.2.3",
@@ -17,12 +17,24 @@
     "@react-navigation/bottom-tabs": "^5.6.1",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
+    "jesse-rif-id-core": "0.0.12",
+    "@rsksmart/rif-id-daf": "0.0.4",
     "@rsksmart/rif-id-ethr-did": "^0.0.1",
     "@rsksmart/rif-id-mnemonic": "^0.0.1",
     "@types/jwt-decode": "^2.2.1",
     "@types/react-redux": "^7.1.9",
+    "assert": "^1.1.1",
     "axios": "^0.19.2",
     "buffer": "^4.9.1",
+    "daf-core": "^6.1.1",
+    "daf-did-comm": "^6.1.1",
+    "daf-did-jwt": "^6.1.1",
+    "daf-ethr-did": "^6.1.1",
+    "daf-react-native-libsodium": "^6.1.6",
+    "daf-resolver": "^6.0.0",
+    "daf-selective-disclosure": "^6.0.0",
+    "daf-w3c": "^6.0.0",
+    "debug": "^4.1.1",
     "did-jwt": "^4.4.0",
     "did-jwt-vc": "^1.0.4",
     "did-resolver": "^2.0.1",
@@ -32,6 +44,7 @@
     "js-sha3": "^0.8.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.27.0",
+    "path-browserify": "0.0.0",
     "process": "^0.11.0",
     "react": "16.13.1",
     "react-native": "0.63.0",
@@ -44,6 +57,8 @@
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.0.7",
     "react-native-screens": "^2.9.0",
+    "react-native-sodium": "^0.3.8",
+    "react-native-sqlite-storage": "^5.0.0",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.0.0",
     "react-navigation": "^4.4.0",
@@ -56,7 +71,10 @@
     "redux-thunk": "^2.3.0",
     "rn-nodeify": "^10.2.0",
     "rn-secure-storage": "^2.0.5",
-    "stream-browserify": "^1.0.0"
+    "stream-browserify": "^1.0.0",
+    "typeorm": "0.2.24",
+    "url": "^0.11.0",
+    "vm-browserify": "0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -94,7 +112,9 @@
     "_stream_duplex": "readable-stream/duplex",
     "_stream_passthrough": "readable-stream/passthrough",
     "stream": "stream-browserify",
-    "crypto": "react-native-crypto"
+    "crypto": "react-native-crypto",
+    "vm": "vm-browserify",
+    "path": "path-browserify"
   },
   "browser": {
     "_stream_transform": "readable-stream/transform",
@@ -103,6 +123,8 @@
     "_stream_duplex": "readable-stream/duplex",
     "_stream_passthrough": "readable-stream/passthrough",
     "stream": "stream-browserify",
-    "crypto": "react-native-crypto"
+    "crypto": "react-native-crypto",
+    "vm": "vm-browserify",
+    "path": "path-browserify"
   }
 }

@@ -1,46 +1,35 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import ConfirmMnemonicComponent from '../components/ConfirmMnemonicComponent';
-import { RootState } from '../../../state/store';
-import { newMnemonicError, clearError } from '../actions';
-import { saveIdentityToLocalStorage } from '../operations';
+import { createRifIdentity } from '../operations';
 import * as RootNavigation from '../../../AppNavigation';
-
-interface statePropsInterface {
-  mnemonic: string[];
-  isError: string | false;
-}
+import { AbstractIdentity } from 'daf-core';
 
 interface dispatchInterface {
-  start: Function;
   onSubmit: Function;
 }
 
-const mapStateToProps = (state: RootState) => ({
-  mnemonic: state.identity.newMnemonic,
-  isError: state.identity.mnemonicError,
-  isSaving: state.identity.isSaving,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => {
-    dispatch(clearError());
-  },
-  onSubmit: async (userInput: string[], expectedInput: string[]) => {
-    if (userInput.every((val, index) => val === expectedInput[index])) {
-      dispatch(saveIdentityToLocalStorage(userInput)).then(() => {
-        RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
-      });
-    } else {
-      dispatch(newMnemonicError('word_order_error'));
-    }
+  onSubmit: (mnemonic: string[]) => {
+    const callback = (err: any, res: AbstractIdentity) => {
+      if (err) {
+        throw err;
+      }
+      RootNavigation.navigate('CredentialsFlow', { screen: 'CredentialsHome' });
+    };
+    dispatch(createRifIdentity(mnemonic, callback));
   },
 });
 
-const mergeProps = (stateProps: statePropsInterface, dispatchProps: dispatchInterface) => ({
-  ...stateProps,
+const mergeProps = (
+  _stateProps: [],
+  dispatchProps: dispatchInterface,
+  ownProps: { route: { params: { mnemonic: string[] } } },
+) => ({
   ...dispatchProps,
-  onSubmit: (userInput: string[]) => dispatchProps.onSubmit(userInput, stateProps.mnemonic),
+  ...ownProps,
+  onSubmit: () => dispatchProps.onSubmit(ownProps.route.params.mnemonic),
+  mnemonic: ownProps.route.params.mnemonic,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConfirmMnemonicComponent);
+export default connect(null, mapDispatchToProps, mergeProps)(ConfirmMnemonicComponent);

@@ -10,7 +10,7 @@ import { getEndpoint } from '../../../Providers/Endpoints';
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
   profile: state.profile.profile,
-  did: state.identity.did,
+  did: state.identity.identities[0],
   isRequestingCredential: state.credentials.isRequestingCredential,
   requestCredentialError: state.credentials.requestCredentialError,
 });

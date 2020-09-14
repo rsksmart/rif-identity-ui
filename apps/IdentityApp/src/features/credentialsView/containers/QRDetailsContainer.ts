@@ -4,7 +4,7 @@ import { Credential } from '../reducer';
 import QRDetailsComponent from '../components/QRDetailsComponent';
 
 const mapStateToProps = (state: RootState) => ({
-  did: state.identity.did,
+  did: state.identity.identities[0],
   allCredentials: state.credentials.credentials,
   presentationUrl: state.credentials.presentationUrl,
   presentationPwd: state.credentials.presentationPwd,

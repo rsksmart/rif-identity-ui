@@ -3,13 +3,16 @@ import { changeLanguage } from 'redux-multilanguage';
 import * as RootNavigation from '../AppNavigation';
 import { StorageProvider, STORAGE_KEYS } from '../Providers/index';
 import { requestIsSignedUp, receiveIsSignedUp } from './localUi/actions';
-import { getMnemonicFromLocalStorage } from '../features/identity/operations';
 import { getEndpointsFromLocalStorage } from '../features/settings/operations';
+import { agent } from '../daf/dafSetup';
+import { initIdentityFactory } from 'jesse-rif-id-core/lib/operations/identity';
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestIsSignedUp());
-  dispatch(getMnemonicFromLocalStorage());
   dispatch(getEndpointsFromLocalStorage());
+
+  const initIdentity = initIdentityFactory(agent);
+  initIdentity()(dispatch);
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {

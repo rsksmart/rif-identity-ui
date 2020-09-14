@@ -10,43 +10,48 @@ import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface SettingsComponentProps {
   strings: any;
-  startOverPress: (event: GestureResponderEvent) => void | null;
-  reverify: (event: GestureResponderEvent) => void | null;
-  did: string;
-  mnemonic: string[];
+  did: string | null;
   navigation: any;
+  getMnemonic: () => {
+    mnemonic: string;
+  };
 }
 
-const SettingsComponent: React.FC<SettingsComponentProps> = ({
-  strings,
-  did,
-  mnemonic,
-  navigation,
-}) => {
+const SettingsComponent: React.FC<SettingsComponentProps> = ({ strings, did, navigation, getMnemonic }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [showWords, setShowWords] = useState<boolean>(false);
+  const [mnemonic, setMnemonic] = useState<string | null>(null);
+
+  const showMnemonic = async () => {
+    const storageMnemonic = await getMnemonic();
+    setMnemonic(storageMnemonic.mnemonic);
+  };
+
   return (
     <BackScreenComponent>
       <View style={layout.row}>
         <View style={layout.column1}>
           <Text style={typography.header1}>{strings.settings}</Text>
-          <Text style={typography.paragraphBold}>{strings.identity}</Text>
-          <CopyButton value={did} />
+          {did && (
+            <>
+              <Text style={typography.paragraphBold}>{strings.identity}</Text>
+              <CopyButton value={did} />
+            </>
+          )}
 
-          {mnemonic && (
+          {did && (
             <View style={styles.buttonView}>
               <SquareButton
                 title={strings.show_security_words}
                 variation="hollow"
-                onPress={() => setShowWords(true)}
+                onPress={showMnemonic}
               />
-              <ModalComponent visible={showWords}>
+              <ModalComponent visible={mnemonic !== null}>
                 <Text style={typography.paragraphBold}>{strings.security_words_write_down}</Text>
-                <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic.join(', ')}</Text>
+                <Text style={[typography.paragraph, styles.mnemonic]}>{mnemonic}</Text>
                 <SquareButton
                   title={strings.close}
                   variation="hollow"
-                  onPress={() => setShowWords(false)}
+                  onPress={() => setMnemonic(null)}
                 />
               </ModalComponent>
             </View>

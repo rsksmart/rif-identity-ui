@@ -9,41 +9,44 @@ import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface ConfirmMnemonicComponentProps {
   mnemonic: string[];
-  isError: string | null;
-  isSaving: boolean;
   onSubmit: (words: string[]) => {};
-  start: () => {};
   strings: any;
 }
 
 const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
   mnemonic,
-  isError,
   onSubmit,
-  start,
-  isSaving,
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [wordList, setWordList] = useState([]);
   const [selectedWords, setSelectedWords] = useState([]);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
-  // is the word found in the selected list?
   const isFound = (word: string) => selectedWords.find(item => item === word);
 
-  // "randomize" the words for the user
   useEffect(() => {
     const randomList = [...mnemonic].sort(() => 0.5 - Math.random());
     setWordList(randomList);
-    start(); // clears the error state
   }, [mnemonic]);
 
-  // add or remove the item from the selected list
   const toggleClick = (word: string) => {
+    setIsError(false);
     const newSelected = !isFound(word)
       ? [...selectedWords, word]
       : selectedWords.filter(item => item !== word);
     setSelectedWords(newSelected);
+  };
+
+  const handleSubmit = () => {
+    setIsError(false);
+    if (selectedWords.every((val, index) => val === mnemonic[index])) {
+      setIsSaving(true);
+      onSubmit(selectedWords);
+    } else {
+      setIsError(true);
+    }
   };
 
   if (isSaving) {
@@ -79,14 +82,14 @@ const ConfirmMnemonicComponent: React.FC<ConfirmMnemonicComponentProps> = ({
         ))}
       </View>
 
-      {isError && <MessageComponent type="ERROR" message={strings[isError]} />}
+      {isError && <MessageComponent type="ERROR" message={strings.word_order_error} />}
 
       <View style={layout.row}>
         <View style={layout.column1}>
           <SquareButton
             title={strings.next}
             disabled={selectedWords.length !== mnemonic.length}
-            onPress={() => onSubmit(selectedWords)}
+            onPress={handleSubmit}
           />
         </View>
       </View>

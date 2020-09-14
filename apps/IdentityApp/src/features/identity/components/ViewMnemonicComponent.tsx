@@ -9,29 +9,28 @@ import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface ViewMnemonicComponentProps {
-  mnemonic: string[] | null;
-  onSubmit: () => void | null;
-  generateNewMnemonic: () => {};
+  onSubmit: (mnemonic: string[]) => void | null;
+  newMnemonic: () => string[];
   strings: any;
 }
 
 const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
-  mnemonic,
   onSubmit,
-  generateNewMnemonic,
+  newMnemonic,
   strings,
 }) => {
   const [popup, setPopup] = useState<boolean>(false);
+  const [mnemonic, setMnemonic] = useState<string[]>([]);
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
+
+  useEffect(() => {
+    setMnemonic(newMnemonic());
+  }, [newMnemonic]);
 
   const handleSubmit = () => {
     setPopup(false);
-    onSubmit();
+    onSubmit(mnemonic);
   };
-
-  useEffect(() => {
-    generateNewMnemonic();
-  }, []);
 
   if (mnemonic?.length === 0) {
     return <LoadingComponent />;
@@ -67,13 +66,17 @@ const ViewMnemonicComponent: React.FC<ViewMnemonicComponentProps> = ({
       </View>
 
       <ModalComponent visible={popup}>
-        <Text style={[typography.header2, styles.alignCenter]}>{strings.made_secure_copy}</Text>
-        <Text style={[typography.paragraphBold, styles.alignCenter]}>{strings.you_will_need}</Text>
-        <View style={styles.buttonContainer}>
-          <SquareButton title={strings.no} variation="hollow" onPress={() => setPopup(false)} />
-        </View>
-        <View style={styles.buttonContainer}>
-          <SquareButton title={strings.yes} onPress={handleSubmit} />
+        <View>
+          <Text style={[typography.header2, styles.alignCenter]}>{strings.made_secure_copy}</Text>
+          <Text style={[typography.paragraphBold, styles.alignCenter]}>
+            {strings.you_will_need}
+          </Text>
+          <View style={styles.buttonContainer}>
+            <SquareButton title={strings.no} variation="hollow" onPress={() => setPopup(false)} />
+          </View>
+          <View style={styles.buttonContainer}>
+            <SquareButton title={strings.yes} onPress={handleSubmit} />
+          </View>
         </View>
       </ModalComponent>
     </BackScreenComponent>

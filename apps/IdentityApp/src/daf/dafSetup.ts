@@ -16,6 +16,7 @@ import * as SD from 'daf-selective-disclosure';
 import * as DIDComm from 'daf-did-comm';
 import { createConnection, Connection } from 'typeorm';
 import { DeclarativeDetail } from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
+import { SecretBox } from './DummyBox';
 
 export const dbConnection = createConnection({
   type: 'react-native',
@@ -27,9 +28,11 @@ export const dbConnection = createConnection({
   logging: ['error'],
 });
 
-const keyStore = new Daf.KeyStore(dbConnection);
+const secretBox = new SecretBox('29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c');
+
+const keyStore = new Daf.KeyStore(dbConnection, secretBox);
 const keyManagementSystem = new KeyManagementSystem(keyStore);
-export const mnemonicStore = new MnemonicStore(dbConnection);
+export const mnemonicStore = new MnemonicStore(dbConnection, secretBox);
 const rifIdKeyManagementSystem = new RIFIdKeyManagementSystem(
   keyManagementSystem,
   keyStore,

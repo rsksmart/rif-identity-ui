@@ -20,3 +20,8 @@ export const getEndpoint = (name: 'issuer' | 'tinyQr' | 'ipfs' | 'dataVault' | '
     .then(res => res && JSON.parse(res))
     .then(json => json[name])
     .catch(() => defaults[name]);
+
+export const getAllEndpoints = () =>
+  StorageProvider.get(STORAGE_KEYS.END_POINTS)
+    .then(res => res && JSON.parse(res))
+    .catch(() => defaults);

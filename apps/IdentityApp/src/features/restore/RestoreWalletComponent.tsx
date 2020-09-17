@@ -10,14 +10,12 @@ import LoadingComponent from '../../Libraries/Loading/LoadingComponent';
 import ModalComponent from '../../Libraries/Modal/ModalComponent';
 
 interface RestoreWalletComponentProps {
-  onSubmit: (text: string) => void;
+  onSubmit: (text: string[]) => void;
   restoreError: string | null;
   isRestoring: boolean;
-  isGettingDataVault: boolean;
-  isGettingIpfs: boolean;
   noIdentityError: boolean;
   closeIdentityError: () => void;
-  createNewItentity: () => void;
+  createNewItentity: (mnemonic: string[]) => void;
   strings: any;
 }
 
@@ -25,8 +23,6 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   onSubmit,
   restoreError,
   isRestoring,
-  isGettingDataVault,
-  isGettingIpfs,
   noIdentityError,
   closeIdentityError,
   createNewItentity,
@@ -35,10 +31,15 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [textValue, setTextValue] = useState<string>('');
 
+  // convert to lowercase, replace 2 spaces with 1, trim then split:
+  const cleanSeed = (seed: string) => seed.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
+
   const handleRestore = () => {
     Keyboard.dismiss();
-    onSubmit(textValue);
+    onSubmit(cleanSeed(textValue));
   };
+
+  const handleCreateNewIdentity = () => createNewItentity(cleanSeed(textValue));
 
   return (
     <BackScreenComponent>
@@ -73,8 +74,6 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
         <View style={layout.column1}>
           <SquareButton title={strings.restore} onPress={handleRestore} disabled={isRestoring} />
           {isRestoring && <LoadingComponent />}
-          {isGettingDataVault && <Text>{strings.loading_hashes}</Text>}
-          {isGettingIpfs && <Text>{strings.loading_ipfs}</Text>}
         </View>
       </View>
       <ModalComponent visible={noIdentityError}>
@@ -87,7 +86,7 @@ const RestoreWalletComponent: React.FC<RestoreWalletComponentProps> = ({
           <SquareButton
             title={strings.create_new_identity}
             variation="hollow"
-            onPress={createNewItentity}
+            onPress={handleCreateNewIdentity}
           />
         </View>
       </ModalComponent>

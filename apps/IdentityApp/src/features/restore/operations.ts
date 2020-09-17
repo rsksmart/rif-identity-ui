@@ -1,34 +1,33 @@
 import { Dispatch } from 'redux';
-import jwtDecode from 'jwt-decode';
 import { AbstractIdentity } from 'daf-core';
-import { getFromDataVault, getFromIPFS } from '../../Providers/DataVaultProvider';
+import { getFromDataVault, dataVaultKeys } from '../../Providers/IPFSPinnerClient';
 import { createRifIdentity } from '../identity/operations';
 import * as RootNavigation from '../../AppNavigation';
 
-import {
-  requestRestore,
-  receiveRestore,
-  requestDataVault,
-  requestFromIpfs,
-  errorNoIdentity,
-  errorRestore,
-} from './actions';
-import { Credential, CredentialStatus } from '../credentialsView/reducer';
+import { requestRestore, receiveRestore, errorNoIdentity, errorRestore } from './actions';
 
-import { saveAllCredentials } from '../credentialsView/operations';
-import { receiveAllCredentials } from '../credentialsView/actions';
-import { JWT } from 'did-jwt-vc/lib/types';
 import { resetMnemonicStore } from '../../daf/dafSetup';
-import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
-import { Callback } from 'jesse-rif-id-core/src/operations/identity';
+import { setDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
+import { deleteAllIdentitiesFactory } from 'jesse-rif-id-core/lib/operations/identity';
+import { agent } from '../../daf/dafSetup';
+import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+
+/**
+ * Helper function to delete identities in redux and the DB.
+ * Used when a user needs to double check their mnemonic.
+ */
+const resetRestoreProcess = () => (dispatch: Dispatch) => {
+  const deleteAllIdentities = deleteAllIdentitiesFactory(agent);
+  dispatch(deleteAllIdentities(agent.identityManager.getIdentityProviders()[0].type));
+  resetMnemonicStore();
+};
+
 /**
  * Restores a wallet from a seed phrase
  * @param seed string Seed with spaces
  */
-export const restoreWalletFromUserSeed = (seed: string) => (dispatch: Dispatch) => {
+export const restoreWalletFromUserSeed = (seedArray: string[]) => (dispatch: Dispatch) => {
   dispatch(requestRestore());
-  // convert to lowercase, replace 2 spaces with 1, trim then split:
-  const seedArray = seed.toLowerCase().replace(/\s+/g, ' ').trim().split(' ');
 
   if (seedArray.length < 12) {
     return dispatch(errorRestore('short_seed_error'));
@@ -36,71 +35,41 @@ export const restoreWalletFromUserSeed = (seed: string) => (dispatch: Dispatch) 
 
   const callBack: Callback<AbstractIdentity> = (err, res) => {
     if (err) {
+      dispatch(resetRestoreProcess());
       throw err;
     }
-    dispatch(restoreCredentialsFromDataVault());
+    dispatch(restoreProfileFromDataVault(res.did));
   };
-
   dispatch(createRifIdentity(seedArray, callBack));
 };
 
 /**
- * Get Hashes from Data Vault
+ * Get Declarative Details from the Data Vault
  */
-export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch) => {
-  dispatch(requestDataVault());
+export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dispatch) => {
+  // get declarative details from data vault:
+  getFromDataVault(dataVaultKeys.DECLARATIVE_DETAILS)
+    .then(response => {
+      // if mulitiple are saved with this key, get the last one:
+      const details = Array.isArray(response) ? response[response.length - 1] : response;
+      const declarativeDetails = JSON.parse(details);
 
-  getFromDataVault()
-    .then(cids => {
-      if (!cids || cids.length === 0) {
-        return dispatch(errorNoIdentity());
-      }
-
-      // FUTURE: support for multiple issuers:
-      const issuer = {
-        name: 'Issuer',
+      const callback = (err: Error) => {
+        if (err) {
+          console.log(err);
+          dispatch(resetRestoreProcess());
+          return dispatch(errorRestore('Error from DataVault'));
+        }
+        dispatch(receiveRestore());
+        return RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
       };
-      dispatch(requestFromIpfs());
-      let promiseArray: Promise<Credential>[] = [];
-      cids.forEach((hash: string) => {
-        promiseArray.push(
-          new Promise((resolve, reject) => {
-            getFromIPFS(hash)
-              .then((data: string) => {
-                const jwt: JWT = jwtDecode(data);
-                const credential = <Credential>{
-                  issuer,
-                  status: CredentialStatus.CERTIFIED,
-                  hash, // hash is the IPFS hash, but used as the unique identifier.
-                  type: jwt.vc.credentialSubject.type,
-                  jwt: data,
-                };
-                resolve(credential);
-              })
-              .catch(error => reject(error));
-          }),
-        );
-      });
 
-      // save at the end because saving into LocalStorage can erase credentials if saving
-      // at the same time.
-      Promise.all(promiseArray)
-        .then((values: Credential[]) => {
-          saveAllCredentials(values);
-          dispatch(receiveAllCredentials(values));
-          dispatch(receiveRestore());
-          RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-        })
-        .catch(() => {
-          dispatch(errorRestore('IPFS Netork Error'));
-          dispatch(deleteAllIdentities());
-          resetMnemonicStore();
-        });
+      const setDeclarativeDetails = setDeclarativeDetailsFactory(agent);
+      dispatch(setDeclarativeDetails(did, declarativeDetails, callback));
     })
-    .catch((err: any) => {
+    .catch(err => {
       console.log(err);
-      dispatch(errorRestore('Data Vault Network Error'));
-      dispatch(deleteAllIdentities());
-      resetMnemonicStore();
+      dispatch(resetRestoreProcess());
+      return dispatch(errorNoIdentity());
     });
 };

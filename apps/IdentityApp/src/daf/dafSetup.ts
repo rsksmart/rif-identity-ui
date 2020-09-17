@@ -28,7 +28,7 @@ export const dbConnection = createConnection({
   logging: ['error'],
 });
 
-const secretBox = new SecretBox('29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c');
+export const secretBox = new SecretBox('29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c');
 
 const keyStore = new Daf.KeyStore(dbConnection, secretBox);
 const keyManagementSystem = new KeyManagementSystem(keyStore);

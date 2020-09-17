@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto,assert,vm,path --hack --yarn"
+    "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,process,stream,events,crypto,assert,vm,path,constants,os --hack --yarn"
   },
   "dependencies": {
     "@react-native-community/clipboard": "^1.2.3",
@@ -17,7 +17,6 @@
     "@react-navigation/bottom-tabs": "^5.6.1",
     "@react-navigation/native": "^5.6.1",
     "@react-navigation/stack": "^5.6.2",
-    "jesse-rif-id-core": "0.0.15",
     "@rsksmart/rif-id-daf": "0.0.4",
     "@rsksmart/rif-id-ethr-did": "^0.0.1",
     "@rsksmart/rif-id-mnemonic": "^0.0.1",
@@ -26,6 +25,7 @@
     "assert": "^1.1.1",
     "axios": "^0.19.2",
     "buffer": "^4.9.1",
+    "constants-browserify": "1.0.0",
     "daf-core": "^6.1.1",
     "daf-did-comm": "^6.1.1",
     "daf-did-jwt": "^6.1.1",
@@ -41,6 +41,8 @@
     "ethr-did": "^1.1.0",
     "ethr-did-resolver": "^2.3.2",
     "events": "^1.0.0",
+    "jesse-rif-cpinner-client": "0.0.1",
+    "jesse-rif-id-core": "0.0.15",
     "js-sha3": "^0.8.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.27.0",
@@ -52,6 +54,7 @@
     "react-native-dotenv": "^2.3.0",
     "react-native-dropdown-picker": "^3.1.9",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-os": "1.0.3",
     "react-native-qrcode-svg": "^6.0.6",
     "react-native-randombytes": "^3.0.0",
     "react-native-reanimated": "^1.9.0",
@@ -114,7 +117,9 @@
     "stream": "stream-browserify",
     "crypto": "react-native-crypto",
     "vm": "vm-browserify",
-    "path": "path-browserify"
+    "path": "path-browserify",
+    "os": "react-native-os",
+    "constants": "constants-browserify"
   },
   "browser": {
     "_stream_transform": "readable-stream/transform",
@@ -125,6 +130,8 @@
     "stream": "stream-browserify",
     "crypto": "react-native-crypto",
     "vm": "vm-browserify",
-    "path": "path-browserify"
+    "path": "path-browserify",
+    "os": "react-native-os",
+    "constants": "constants-browserify"
   }
 }

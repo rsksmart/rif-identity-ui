@@ -9,12 +9,10 @@ export class SecretBox extends AbstractSecretBox {
   }
 
   async encrypt(message: string): Promise<string> {
-    console.log('secretbox.encrypt', message);
     return new Promise(resolve => resolve(message));
   }
 
   async decrypt(encryptedMessageHex: string): Promise<string> {
-    console.log('secretbox.decrypt', encryptedMessageHex);
     return new Promise(resolve => resolve(encryptedMessageHex));
   }
 }

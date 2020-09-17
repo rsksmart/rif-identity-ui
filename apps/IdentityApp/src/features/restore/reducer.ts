@@ -3,16 +3,12 @@ import { RESTORE_TYPES } from './actions';
 interface StateInterface {
   isRestoring: boolean;
   restoreError: string | null;
-  isGettingDataVault: boolean;
-  isGettingIpfs: boolean;
   noIdentityError: boolean;
 }
 
 export const initialState = {
   isRestoring: false,
   restoreError: null,
-  isGettingDataVault: false,
-  isGettingIpfs: false,
   noIdentityError: false,
 };
 
@@ -23,22 +19,14 @@ const reducer = (state: StateInterface = initialState, action: any) => {
         ...state,
         isRestoring: true,
         restoreError: null,
+        noIdentityError: false,
       };
     }
     case RESTORE_TYPES.RECEIVE_RESTORE: {
       return {
         ...state,
         isRestoring: false,
-        isGettingDataVault: false,
-        isGettingIpfs: false,
         noIdentityError: false,
-      };
-    }
-
-    case RESTORE_TYPES.REQUEST_DATA_VAULT: {
-      return {
-        ...state,
-        isGettingDataVault: true,
       };
     }
 
@@ -46,16 +34,7 @@ const reducer = (state: StateInterface = initialState, action: any) => {
       return {
         ...state,
         isRestoring: false,
-        isGettingDataVault: false,
-        isGettingIpfs: false,
         restoreError: action.message,
-      };
-    }
-
-    case RESTORE_TYPES.REQUEST_IPFS: {
-      return {
-        ...state,
-        isGettingIpfs: true,
       };
     }
 
@@ -71,7 +50,6 @@ const reducer = (state: StateInterface = initialState, action: any) => {
         ...state,
         isRestoring: false,
         noIdentityError: false,
-        isGettingDataVault: false,
       };
     }
 

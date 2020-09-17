@@ -3,29 +3,36 @@ import { Dispatch } from 'redux';
 import RestoreWalletComponent from './RestoreWalletComponent';
 import { restoreWalletFromUserSeed } from './operations';
 import { RootState } from 'src/state/store';
-import { closeErrorNoIdentity, receiveRestore } from './actions';
+import { closeErrorNoIdentity, requestRestore, receiveRestore } from './actions';
 import * as RootNavigation from '../../AppNavigation';
 import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
+import { createRifIdentity } from '../identity/operations';
 
 const mapStateToProps = (state: RootState) => ({
   isRestoring: state.restore.isRestoring,
-  isGettingDataVault: state.restore.isGettingDataVault,
-  isGettingIpfs: state.restore.isGettingIpfs,
   restoreError: state.restore.restoreError,
   noIdentityError: state.restore.noIdentityError,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onSubmit: (seed: string) => {
-    dispatch(restoreWalletFromUserSeed(seed));
+  onSubmit: (mnemonic: string[]) => {
+    dispatch(restoreWalletFromUserSeed(mnemonic));
   },
   closeIdentityError: () => {
     dispatch(deleteAllIdentities());
     dispatch(closeErrorNoIdentity());
   },
-  createNewItentity: () => {
-    RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-    dispatch(receiveRestore());
+  createNewItentity: (mnemonic: string[]) => {
+    dispatch(requestRestore());
+    const callback = (err: Error) => {
+      if (err) {
+        throw err;
+      }
+      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
+      dispatch(receiveRestore());
+    };
+    console.log('creating identity', mnemonic);
+    dispatch(createRifIdentity(mnemonic, callback));
   },
 });
 

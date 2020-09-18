@@ -3242,11 +3242,14 @@ dotenv@^6.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
   integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
 
+<<<<<<< HEAD
 dotenv@^8.0.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+=======
+>>>>>>> Replace .env file with a json config file.
 drbg.js@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/drbg.js/-/drbg.js-1.0.1.tgz#3e36b6c42b37043823cdbc332d58f31e2445480b"
@@ -7653,13 +7656,6 @@ react-native-crypto@^2.1.0:
     pbkdf2 "3.0.8"
     public-encrypt "^4.0.0"
     randomfill "^1.0.3"
-
-react-native-dotenv@^2.3.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.4.0.tgz#1b98351f4039fc279593fc9189c6d3035289c415"
-  integrity sha512-x3vb+RFBNbLTZGkfw/thgcM0Gtm3dzV61bJ0ORAeNkG7pdKltZ8AtfG7lqARbILkjzKHsm+VhqhxccchmYEbZg==
-  dependencies:
-    dotenv "^8.0.0"
 
 react-native-dropdown-picker@^3.1.9:
   version "3.6.8"

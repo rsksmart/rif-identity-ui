@@ -1,23 +1,19 @@
 import { StorageProvider, STORAGE_KEYS } from './index';
-import {
-  ISSUER_ENDPOINT,
-  IPFS_GATEWAY_ENDPOINT,
-  DATA_VAULT_ENDPOINT,
-  RSK_NODE,
-  CONVEY_URL,
-  CONVEY_DID,
-} from '@env';
+import config from '../config.json';
 
 export const defaults = {
-  issuer: ISSUER_ENDPOINT,
-  ipfs: IPFS_GATEWAY_ENDPOINT,
-  dataVault: DATA_VAULT_ENDPOINT,
-  rskNode: RSK_NODE,
-  convey: CONVEY_URL,
-  conveyDid: CONVEY_DID
+  issuer: config.ISSUER_ENDPOINT,
+  tinyQr: config.TINYQR_ENDPOINT,
+  ipfs: config.IPFS_GATEWAY_ENDPOINT,
+  dataVault: config.DATA_VAULT_ENDPOINT,
+  rskNode: config.RSK_NODE,
+  convey: config.CONVEY_URL,
+  conveyDid: config.CONVEY_DID,
 };
 
-export const getEndpoint = (name: 'issuer' | 'ipfs' | 'dataVault' | 'rskNode' | 'convey' | 'conveyDid') =>
+export const getEndpoint = (
+  name: 'issuer' | 'ipfs' | 'dataVault' | 'rskNode' | 'convey' | 'conveyDid',
+) =>
   StorageProvider.get(STORAGE_KEYS.END_POINTS)
     .then(res => res && JSON.parse(res))
     .then(json => json[name])

@@ -9,6 +9,7 @@ import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identi
 import { initDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
 import { getEndpoint } from '../Providers/Endpoints';
 import { serviceLoginFactory } from 'je-id-core/lib/operations/authentication'
+import { initCredentialsFactory } from 'jesse-rif-id-core/lib/operations/credentials';
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestIsSignedUp());
@@ -19,6 +20,12 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
 
   const initDeclarativeDetails = initDeclarativeDetailsFactory(agent);
   dispatch(initDeclarativeDetails());
+
+  // console.log('dbConnection');
+  // console.log((await dbConnection).entityMetadatas);
+
+  const initCredentials = initCredentialsFactory(agent);
+  dispatch(initCredentials());
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {

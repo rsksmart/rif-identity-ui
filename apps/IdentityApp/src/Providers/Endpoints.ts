@@ -1,18 +1,12 @@
 import { StorageProvider, STORAGE_KEYS } from './index';
-import {
-  ISSUER_ENDPOINT,
-  TINYQR_ENDPOINT,
-  IPFS_GATEWAY_ENDPOINT,
-  DATA_VAULT_ENDPOINT,
-  RSK_NODE,
-} from '@env';
+import config from '../config.json';
 
 export const defaults = {
-  issuer: ISSUER_ENDPOINT,
-  tinyQr: TINYQR_ENDPOINT,
-  ipfs: IPFS_GATEWAY_ENDPOINT,
-  dataVault: DATA_VAULT_ENDPOINT,
-  rskNode: RSK_NODE,
+  issuer: config.ISSUER_ENDPOINT,
+  tinyQr: config.TINYQR_ENDPOINT,
+  ipfs: config.IPFS_GATEWAY_ENDPOINT,
+  dataVault: config.DATA_VAULT_ENDPOINT,
+  rskNode: config.RSK_NODE,
 };
 
 export const getEndpoint = (name: 'issuer' | 'tinyQr' | 'ipfs' | 'dataVault' | 'rskNode') =>

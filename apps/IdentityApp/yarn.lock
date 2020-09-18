@@ -2823,12 +2823,32 @@ daf-did-comm@^6.1.1:
     debug "^4.1.1"
     uuid "^3.3.3"
 
+daf-did-comm@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-did-comm/-/daf-did-comm-6.3.0.tgz#851c54700c3d6975b8860838b2655efc36198176"
+  integrity sha512-S+ZR/fN26Bz6NtMIVPs0IsawuXbtXfFstqNXWdOndX6O8kJrTkheN4s2GdMBXxKZXSKvDWoHh5PDflsRK/ZkNA==
+  dependencies:
+    cross-fetch "^3.0.4"
+    daf-core "^6.3.0"
+    debug "^4.1.1"
+    uuid "^3.3.3"
+
 daf-did-jwt@^6.0.0, daf-did-jwt@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-6.1.1.tgz#f03c70cd6cac3e0bf8fb76452560e496102fe419"
   integrity sha512-RldbXbwhnRWi91jGLtlNMQqctPzvSJSESsowMTTiMNS6PJWzN7HqU8OdCFQXhHofsCdIvn3/W6Ej6hgLjhglcw==
   dependencies:
     daf-core "^6.1.1"
+    debug "^4.1.1"
+    did-jwt "^4.3.2"
+    did-resolver "^1.1.0"
+
+daf-did-jwt@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-6.3.0.tgz#3db05197dae05d87086bb58bb40f3527f3db778b"
+  integrity sha512-7/ikZ3fCTU29AVR2YskuTtMF10hCerhPd5P/FEDucOiPNFEJMZX2sXEPsnKKeHpaBsJoEQmyXmGyqPiLFx6/Iw==
+  dependencies:
+    daf-core "^6.3.0"
     debug "^4.1.1"
     did-jwt "^4.3.2"
     did-resolver "^1.1.0"
@@ -2886,6 +2906,18 @@ daf-selective-disclosure@^6.0.0:
     blakejs "^1.1.0"
     daf-core "^6.0.0"
     daf-did-jwt "^6.0.0"
+    debug "^4.1.1"
+    did-jwt "^4.3.2"
+    typeorm "^0.2.24"
+
+daf-selective-disclosure@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-selective-disclosure/-/daf-selective-disclosure-6.3.0.tgz#e7a5889a31c7c7f7fbdc572057c06717ceef5fb7"
+  integrity sha512-SVQJDDZ3sOoK8HlWqf+jwl+0kF6BHNZEvW77TaX9iHtI13Ij88ZfAoiCXvZ3Ez4DXFzQY4amHoMBnGHHC48HwA==
+  dependencies:
+    blakejs "^1.1.0"
+    daf-core "^6.3.0"
+    daf-did-jwt "^6.3.0"
     debug "^4.1.1"
     did-jwt "^4.3.2"
     typeorm "^0.2.24"
@@ -5146,14 +5178,16 @@ jesse-rif-cpinner-client@0.0.1:
     axios "^0.20.0"
     daf-core "^6.3.0"
 
-jesse-rif-id-core@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.15.tgz#c8d7742160d8c5eabcd73af61ee3a22463f1c615"
-  integrity sha512-KR7KKST/JHSs1JpgnVpxVf4OAQ/KSJHWVugKL8zdOtVDJd15U+7506WBZ20X32ToCZDwPCw3WyDvULu9rLg0TA==
+jesse-rif-id-core@0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.18.tgz#aef8c577d4debdb28349931b5cd44edb5bee37c5"
+  integrity sha512-c+A8/3U1+lNiFs1hBUMCARoH9LtdLh2os7EUmMU0bfbzJBx1Gh/HRFohqih0/NrlJOCABTp7zZpiqfg1nsUZBw==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
     "@rsksmart/rif-id-daf" "0.0.3"
     daf-core "^6.1.2"
+    daf-did-comm "^6.3.0"
+    daf-selective-disclosure "^6.3.0"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"

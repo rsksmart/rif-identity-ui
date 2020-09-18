@@ -4,9 +4,11 @@ import * as RootNavigation from '../AppNavigation';
 import { StorageProvider, STORAGE_KEYS } from '../Providers/index';
 import { requestIsSignedUp, receiveIsSignedUp } from './localUi/actions';
 import { getEndpointsFromLocalStorage } from '../features/settings/operations';
-import { agent, dbConnection } from '../daf/dafSetup';
+import { agent } from '../daf/dafSetup';
+
 import { initIdentityFactory } from 'jesse-rif-id-core/lib/operations/identity';
 import { initDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
+import { initCredentialRequestsFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
 import { initCredentialsFactory } from 'jesse-rif-id-core/lib/operations/credentials';
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
@@ -19,11 +21,11 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
   const initDeclarativeDetails = initDeclarativeDetailsFactory(agent);
   dispatch(initDeclarativeDetails());
 
-  // console.log('dbConnection');
-  // console.log((await dbConnection).entityMetadatas);
-
   const initCredentials = initCredentialsFactory(agent);
   dispatch(initCredentials());
+
+  const initCredentialRequests = initCredentialRequestsFactory(agent);
+  dispatch(initCredentialRequests());
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {

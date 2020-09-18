@@ -90,12 +90,12 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
-            if (hasMnemonic) {
+            //if (hasMnemonic) {
               navigation.popToTop();
               navigation.navigate('CredentialsFlow', {
                 screen: 'Profile',
               });
-            }
+            //}
           },
         })}
       />

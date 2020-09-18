@@ -13,6 +13,7 @@ import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface SummaryComponentProps {
   credentials: Credential[];
+  conveyServiceToken: string;
   strings: any;
   navigation: any;
   isLoading: boolean;

@@ -7,6 +7,8 @@ import { getEndpointsFromLocalStorage } from '../features/settings/operations';
 import { agent } from '../daf/dafSetup';
 import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { initDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { getEndpoint } from '../Providers/Endpoints';
+import { serviceLoginFactory } from 'je-id-core/lib/operations/authentication'
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestIsSignedUp());
@@ -17,6 +19,13 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
 
   const initDeclarativeDetails = initDeclarativeDetailsFactory(agent);
   dispatch(initDeclarativeDetails());
+
+  const conveyUrl = await getEndpoint('convey')
+  const conveyDid = await getEndpoint('conveyDid')
+  const identities = await agent.identityManager.getIdentities()
+  
+  const doConveyServiceLogin = serviceLoginFactory(agent as any)
+  dispatch(doConveyServiceLogin(conveyUrl, conveyDid, identities[0].did))
 
   await StorageProvider.get(STORAGE_KEYS.PIN)
     .then(res => {

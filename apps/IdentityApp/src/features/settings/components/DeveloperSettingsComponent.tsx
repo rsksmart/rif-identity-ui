@@ -93,6 +93,16 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               value={newEndpoints.rskNode}
               onChange={async text => handleChange('rskNode', text)}
             />
+            <EditItem
+              name={strings.convey_url}
+              value={newEndpoints.convey}
+              onChange={async text => handleChange('convey', text)}
+            />
+            <EditItem
+              name={strings.convey_did}
+              value={newEndpoints.conveyDid}
+              onChange={async text => handleChange('conveyDid', text)}
+            />
             <View style={styles.buttonView}>
               <SquareButton
                 title={strings.save}

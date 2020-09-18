@@ -11,6 +11,7 @@ import { PinReducer } from '../features/pin';
 import identityReducer from '@rsksmart/rif-id-core/lib/reducers/identitySlice';
 import RestoreReducer from '../features/restore/reducer';
 import { SettingsReducer } from '../features/settings';
+import authenticationReducer from 'je-id-core/lib/reducers/authentication';
 
 const middleware = [thunk, customLogger];
 
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   identity: identityReducer,
   restore: RestoreReducer,
   settings: SettingsReducer,
+  authentication: authenticationReducer,
   multilanguage: createMultilanguageReducer(initialLanguageState),
 });
 

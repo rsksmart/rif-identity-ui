@@ -52,11 +52,9 @@ export const requestPresentation = () => ({
   type: CREDENTIAL_ACTION_TYPES.REQUEST_PRESENTATION,
 });
 
-export const receivePresentation = (presentationUrl: string, presentationPwd: string, presentationHash: string) => ({
+export const receivePresentation = (presentationUri: string) => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION,
-  presentationUrl,
-  presentationPwd,
-  presentationHash,
+  presentationUri,
 });
 
 export const resetCredentials = () => ({

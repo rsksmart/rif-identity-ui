@@ -110,5 +110,7 @@
   "warning": "Warning",
   "no_identity_explanation": "No credentials were found using this mnemonic. Check that it is correct, or create a new identity using this mnemonic.",
   "check_mnemonic": "Check Mnemonic",
-  "create_new_identity": "Create new Identity"
+  "create_new_identity": "Create new Identity",
+  "convey_url": "Convey URL",
+  "convey_did": "Convey DID"
 }

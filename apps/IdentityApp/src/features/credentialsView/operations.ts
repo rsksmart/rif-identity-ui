@@ -22,6 +22,7 @@ import * as RootNavigation from '../../AppNavigation';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
+import { SecretBox } from '../../daf/DummyBox';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -257,7 +258,7 @@ export const checkStatusOfCredentials = (
  * Create presentation of a VC using the JWT and the identityManger in the agent.
  * @param jwt JWT of the credential to be presented
  */
-export const createPresentation = (jwt: string) => async (dispatch: Dispatch) => {
+export const createPresentation = (jwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
   dispatch(requestPresentation());
   agent.identityManager.getIdentities().then(identities => {
     agent
@@ -273,15 +274,19 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
         },
       })
       .then(sdrJwt => sdrJwt._raw)
-      .then(uploadPresentation)
-      .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
+      .then(jwt => uploadPresentation(jwt, serviceToken))
+      .then(uri => dispatch(receivePresentation(uri)));
   });
 };
 
-const uploadPresentation = async (jwt: string) => {
-  const tinyServer = await getEndpoint('tinyQr');
-  const request = axios.post(`${tinyServer}/presentation`, { jwt });
-  const hashFn = keccak256(jwt);
+const uploadPresentation = async (jwt: string, serviceToken: string) => {
+  const conveyServer = await getEndpoint('convey')
 
-  return Promise.all([request, hashFn]);
+  const key = await SecretBox.createSecretKey()
+  const secretBox = new SecretBox(key)
+  const file = await secretBox.encrypt(jwt)
+
+  const resp = await axios.post(`${conveyServer}/file`, { file }, { headers: { 'Authorization': serviceToken }})
+  
+  return `${resp.data.url}#${key}`
 };

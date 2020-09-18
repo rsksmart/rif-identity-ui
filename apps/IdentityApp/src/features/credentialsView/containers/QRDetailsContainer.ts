@@ -6,9 +6,7 @@ import QRDetailsComponent from '../components/QRDetailsComponent';
 const mapStateToProps = (state: RootState) => ({
   did: state.identity.identities[0],
   allCredentials: state.credentials.credentials,
-  presentationUrl: state.credentials.presentationUrl,
-  presentationPwd: state.credentials.presentationPwd,
-  presentationHash: state.credentials.presentationHash,
+  presentationUri: state.credentials.presentationUri
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

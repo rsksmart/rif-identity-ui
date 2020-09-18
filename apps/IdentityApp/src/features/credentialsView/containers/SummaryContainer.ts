@@ -4,6 +4,7 @@ import { SummaryComponent } from '../components';
 import { RootState } from '../../../state/store';
 import { Credential, CredentialStatus } from '../reducer';
 import { checkStatusOfCredentials, createPresentation } from '../operations';
+import { selectServiceTokenByIdentity } from 'je-id-core/lib/reducers/authentication'
 
 const simpleCredentials = (credentials: Credential[]) => {
   if (!credentials) {
@@ -28,12 +29,16 @@ const mapStateToProps = (state: RootState) => ({
   did: state.identity.identities[0],
   hasMnemonic: state.identity.identities.length !== 0,
   hasPending: hasPending(state.credentials.credentials),
+  isRestoring: state.restore.isRestoring,
+  conveyServiceToken: selectServiceTokenByIdentity(
+    state.authentication, state.identity.identities[0], state.settings.endpoints.conveyDid
+  )
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   checkPending: (credentials: Credential[], did: string) =>
     dispatch(checkStatusOfCredentials(credentials, did, CredentialStatus.PENDING)),
-  createPresentation: (credential: Credential) => dispatch(createPresentation(credential.jwt)),
+  createPresentation: (credential: Credential, token: string) => dispatch(createPresentation(credential.jwt, token)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -44,6 +49,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   createPresentation: (hash: string) =>
     dispatchProps.createPresentation(
       stateProps.fullCredentials.filter((item: Credential) => item.hash === hash)[0],
+      stateProps.conveyServiceToken,
     ),
 });
 

@@ -6,6 +6,8 @@ export interface EndpointsInterface {
   ipfs: string;
   dataVault: string;
   rskNode: string;
+  convey: string;
+  conveyDid: string;
 }
 
 export interface SettingsInterface {

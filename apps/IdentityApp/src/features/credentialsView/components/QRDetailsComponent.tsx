@@ -12,21 +12,23 @@ interface QRDetailsComponentProps {
   credential: Credential | null;
   presentationUri: string;
   strings: any;
+  receivePresentationError: boolean;
 }
 
 const QRDetailsComponent: React.FC<QRDetailsComponentProps> = ({
   credential,
   presentationUri,
+  receivePresentationError,
   strings,
 }) => {
   const { typography }: ThemeInterface = useContext(ThemeContext);
   const qrCode = () => {
+    if (receivePresentationError) {
+      return <Text>{strings.presentation_error}</Text>
+    }
+    
     if (!presentationUri) {
       return <LoadingComponent />;
-    }
-
-    if (presentationUri === 'ERROR') {
-      return <Text>{strings.presentation_error}</Text>
     }
 
     return <QRCode value={presentationUri} size={275} />

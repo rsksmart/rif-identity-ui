@@ -2179,7 +2179,7 @@ browserify-rsa@^4.0.0, browserify-rsa@^4.0.1:
     bn.js "^4.1.0"
     randombytes "^2.0.1"
 
-browserify-sign@^4.0.4:
+browserify-sign@^4.0.0, browserify-sign@^4.0.4:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/browserify-sign/-/browserify-sign-4.2.1.tgz#eaf4add46dd54be3bb3b36c0cf15abbeba7956c3"
   integrity sha512-/vrA5fguVAKKAVTNJjgSm1tRQDHUU6DbwO9IROu/0WAzC8PKhucDSh18J0RMvVeHAn5puMd+QHC2erPRNf8lmg==
@@ -2747,6 +2747,23 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
+crypto-browserify@^3.10.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
+  integrity sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
+  dependencies:
+    browserify-cipher "^1.0.0"
+    browserify-sign "^4.0.0"
+    create-ecdh "^4.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.0"
+    diffie-hellman "^5.0.0"
+    inherits "^2.0.1"
+    pbkdf2 "^3.0.3"
+    public-encrypt "^4.0.0"
+    randombytes "^2.0.0"
+    randomfill "^1.0.3"
+
 css-select@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/css-select/-/css-select-2.1.0.tgz#6a34653356635934a81baca68d0255432105dbef"
@@ -2830,12 +2847,32 @@ daf-did-comm@^6.1.1:
     debug "^4.1.1"
     uuid "^3.3.3"
 
+daf-did-comm@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-did-comm/-/daf-did-comm-6.3.0.tgz#851c54700c3d6975b8860838b2655efc36198176"
+  integrity sha512-S+ZR/fN26Bz6NtMIVPs0IsawuXbtXfFstqNXWdOndX6O8kJrTkheN4s2GdMBXxKZXSKvDWoHh5PDflsRK/ZkNA==
+  dependencies:
+    cross-fetch "^3.0.4"
+    daf-core "^6.3.0"
+    debug "^4.1.1"
+    uuid "^3.3.3"
+
 daf-did-jwt@^6.0.0, daf-did-jwt@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-6.1.1.tgz#f03c70cd6cac3e0bf8fb76452560e496102fe419"
   integrity sha512-RldbXbwhnRWi91jGLtlNMQqctPzvSJSESsowMTTiMNS6PJWzN7HqU8OdCFQXhHofsCdIvn3/W6Ej6hgLjhglcw==
   dependencies:
     daf-core "^6.1.1"
+    debug "^4.1.1"
+    did-jwt "^4.3.2"
+    did-resolver "^1.1.0"
+
+daf-did-jwt@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-did-jwt/-/daf-did-jwt-6.3.0.tgz#3db05197dae05d87086bb58bb40f3527f3db778b"
+  integrity sha512-7/ikZ3fCTU29AVR2YskuTtMF10hCerhPd5P/FEDucOiPNFEJMZX2sXEPsnKKeHpaBsJoEQmyXmGyqPiLFx6/Iw==
+  dependencies:
+    daf-core "^6.3.0"
     debug "^4.1.1"
     did-jwt "^4.3.2"
     did-resolver "^1.1.0"
@@ -2897,6 +2934,18 @@ daf-selective-disclosure@^6.0.0:
     did-jwt "^4.3.2"
     typeorm "^0.2.24"
 
+daf-selective-disclosure@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-selective-disclosure/-/daf-selective-disclosure-6.3.0.tgz#e7a5889a31c7c7f7fbdc572057c06717ceef5fb7"
+  integrity sha512-SVQJDDZ3sOoK8HlWqf+jwl+0kF6BHNZEvW77TaX9iHtI13Ij88ZfAoiCXvZ3Ez4DXFzQY4amHoMBnGHHC48HwA==
+  dependencies:
+    blakejs "^1.1.0"
+    daf-core "^6.3.0"
+    daf-did-jwt "^6.3.0"
+    debug "^4.1.1"
+    did-jwt "^4.3.2"
+    typeorm "^0.2.24"
+
 daf-w3c@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/daf-w3c/-/daf-w3c-6.0.0.tgz#9c00abd19dc56dd505f3638bde526d3119473e55"
@@ -2905,6 +2954,18 @@ daf-w3c@^6.0.0:
     blakejs "^1.1.0"
     daf-core "^6.0.0"
     daf-did-jwt "^6.0.0"
+    debug "^4.1.1"
+    did-jwt-vc "0.2.0"
+    did-resolver "^1.1.0"
+
+daf-w3c@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/daf-w3c/-/daf-w3c-6.3.0.tgz#2594e160986d161468f74305f3e23daa2b39c8c4"
+  integrity sha512-XmwYNjLpnC3snv2S+VzBcILt+N9wK10jOIE0nzNxyN49xWXw2+CeL9qjrJ2QcyrXLBR4enSdtZ95Dcn/QkT5mg==
+  dependencies:
+    blakejs "^1.1.0"
+    daf-core "^6.3.0"
+    daf-did-jwt "^6.3.0"
     debug "^4.1.1"
     did-jwt-vc "0.2.0"
     did-resolver "^1.1.0"
@@ -3061,6 +3122,11 @@ detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
   integrity sha1-9B8cEL5LAOh7XxPaaAdZ8sW/0+I=
+
+detect-node@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
+  integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
 
 did-jwt-vc@0.2.0:
   version "0.2.0"
@@ -6549,6 +6615,16 @@ multihashing-async@~0.8.0, multihashing-async@~0.8.1:
     multihashes "^1.0.1"
     murmurhash3js-revisited "^3.0.0"
 
+multihashing@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/multihashing/-/multihashing-0.3.3.tgz#8433d03702a716fd6d9ac78c1ec687ea5c4943fc"
+  integrity sha512-jXVWf5uqnZUhc1mLFPWOssuOpkj/A/vVLKrtEscD1PzSLobXYocBy9Gqa/Aw4229/heGnl0RBHU3cD53MbHUig==
+  dependencies:
+    blakejs "^1.1.0"
+    js-sha3 "~0.8.0"
+    multihashes "~0.4.14"
+    webcrypto "~0.1.1"
+
 murmurhash3js-revisited@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/murmurhash3js-revisited/-/murmurhash3js-revisited-3.0.0.tgz#6bd36e25de8f73394222adc6e41fa3fac08a5869"
@@ -8797,6 +8873,11 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
+text-encoding-polyfill@^0.6.7:
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/text-encoding-polyfill/-/text-encoding-polyfill-0.6.7.tgz#4d27de0153e4c86eb2631ffd74c2f3f57969a9ec"
+  integrity sha512-/DZ1XJqhbqRkCop6s9ZFu8JrFRwmVuHg4quIRm+ziFkR3N3ec6ck6yBvJ1GYeEQZhLVwRW0rZE+C3SSJpy0RTg==
+
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
@@ -9282,6 +9363,14 @@ web-did-resolver@^1.2.0:
   dependencies:
     cross-fetch "^3.0.4"
     did-resolver "2.1.1"
+
+webcrypto@~0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/webcrypto/-/webcrypto-0.1.1.tgz#63316e5ecbce6ce965ab5f259c2faa62c3e782b4"
+  integrity sha512-BAvoatS38TbHdyt42ECLroi27NmDh5iea5l5rHC6nZTZjlbJlndrT0FoIiEq7fmPHpmNtP0lMFKVMEKZQFIrGA==
+  dependencies:
+    crypto-browserify "^3.10.0"
+    detect-node "^2.0.3"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

@@ -8,6 +8,7 @@ import {
   receiveAllPendingStatus,
   requestPresentation,
   receivePresentation,
+  errorReceivePresentation,
 } from './actions';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { serverInterface, CredentialTypes } from '../../Providers/Issuers';
@@ -22,7 +23,11 @@ import * as RootNavigation from '../../AppNavigation';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
-import { SecretBox } from '../../daf/DummyBox';
+import { AESEcryptionBox } from '../../daf/AESEncryptionBox';
+import CID from 'cids'
+import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
+import 'text-encoding-polyfill'
+import multihashing from 'multihashing'
 
 /**
  * Save a Credential Array to LocalStorage
@@ -274,19 +279,42 @@ export const createPresentation = (jwt: string, serviceToken: string) => async (
         },
       })
       .then(sdrJwt => sdrJwt._raw)
-      .then(jwt => uploadPresentation(jwt, serviceToken))
-      .then(uri => dispatch(receivePresentation(uri)));
+      .then(jwt => uploadPresentation(jwt, serviceToken)(dispatch))
+      .then(uri => dispatch(receivePresentation(uri)))
+      .catch((err) => { console.log(err); dispatch(errorReceivePresentation()) })
   });
 };
 
-const uploadPresentation = async (jwt: string, serviceToken: string) => {
-  const conveyServer = await getEndpoint('convey')
+const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
+  const key = await AESEcryptionBox.createSecretKey()
+  const encryptionBox = new AESEcryptionBox(key)
+  const encrypted = await encryptionBox.encrypt(vpJwt)
 
-  const key = await SecretBox.createSecretKey()
-  const secretBox = new SecretBox(key)
-  const file = await secretBox.encrypt(jwt)
+  const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
 
-  const resp = await axios.post(`${conveyServer}/file`, { file }, { headers: { 'Authorization': serviceToken }})
-  
+  const buffer = Buffer.from(encrypted)
+  const multihash = multihashing(buffer, 'sha2-256')
+  const expected = new CID(multihash)
+  const actual = new CID(resp.data.cid)
+
+  // if (resp.data.cid !== expectedCid) {
+  //   console.log(expectedCid)
+  //   throw new Error('Corrupted CID')
+  // }
+
   return `${resp.data.url}#${key}`
-};
+}
+
+const uploadPresentation = (vpJwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
+  const conveyUrl = await getEndpoint('convey')
+
+  if (!serviceToken) {
+    const conveyDid = await getEndpoint('conveyDid')
+    const identities = await agent.identityManager.getIdentities()
+
+    const doConveyServiceAuth = serviceAuthenticationFactory(agent)
+    serviceToken = await doConveyServiceAuth(conveyUrl, conveyDid, identities[0].did)(dispatch)
+  }
+
+  return doUpload(vpJwt, serviceToken!, conveyUrl)
+}

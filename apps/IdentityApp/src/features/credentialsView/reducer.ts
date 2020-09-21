@@ -41,6 +41,7 @@ export interface CredentialsStateInterface {
   requestCredentialError: string | null;
   presentation: string | null;
   presentationUri: string | null;
+  receivePresentationError: boolean;
 }
 
 export const initialState = {
@@ -50,7 +51,8 @@ export const initialState = {
   isCheckingPendingStatus: false,
   requestCredentialError: null,
   presentation: null,
-  presentationUri: null
+  presentationUri: null,
+  receivePresentationError: false
 };
 
 const reducer = (state: CredentialsStateInterface = initialState, action: any) => {
@@ -103,11 +105,20 @@ const reducer = (state: CredentialsStateInterface = initialState, action: any) =
         ...state,
         presentation: null,
         presentationUri: null,
+        receivePresentationError: false,
       };
+
     case CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION:
       return {
         ...state,
         presentationUri: action.presentationUri,
+        receivePresentationError: false,
+      };
+
+    case CREDENTIAL_ACTION_TYPES.ERROR_RECEIVE_PRESENTATION:
+      return {
+        ...state,
+        receivePresentationError: true,
       };
 
     case CREDENTIAL_ACTION_TYPES.RESET:

@@ -8,7 +8,7 @@ import DropDown from './DropDown';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
-import { DeclarativeDetails } from 'jesse-rif-id-core/lib/reducers/declarativeDetails';
+import { DeclarativeDetails } from '@rsksmart/rif-id-core/lib/reducers/declarativeDetails';
 
 interface ProfileEditComponentProps {
   strings: any;

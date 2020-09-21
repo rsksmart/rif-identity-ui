@@ -15,7 +15,7 @@ import * as SD from 'daf-selective-disclosure';
 
 import * as DIDComm from 'daf-did-comm';
 import { createConnection, Connection } from 'typeorm';
-import { DeclarativeDetail } from 'jesse-rif-id-core/lib/entities/DeclarativeDetail';
+import { DeclarativeDetail } from '@rsksmart/rif-id-core/lib/entities/DeclarativeDetail';
 import { SecretBox } from './DummyBox';
 
 export const dbConnection = createConnection({

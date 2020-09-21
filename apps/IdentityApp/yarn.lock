@@ -1141,16 +1141,23 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
-"@rsksmart/rif-id-daf@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.3.tgz#3bff55ba00ca5ef4bb176cd5b65fe92ac2693c3b"
-  integrity sha512-e4zst/Qy3mzff6zapye/fqOUQ+39C/OVUDYOtFIowPu0qt9LGmaRtqbLXgn5TYcrkFBBOnvWCkWf+/tap0RfIw==
+"@rsksmart/rif-cpinner-client@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-cpinner-client/-/rif-cpinner-client-0.0.1.tgz#54f7b9317e2c1668d575a709512902a6d7a79c85"
+  integrity sha512-syQLbTNBMbA8Fa1hkdhWjHu05Tp2IAtjtjSrlzSXZLYlvviCVhfwVcDGKou+UCf/wMNDqltduCZ2MeoxNTgBkw==
   dependencies:
-    "@rsksmart/rif-id-ethr-did" "0.0.1"
-    "@rsksmart/rif-id-mnemonic" "0.0.1"
+    "@rsksmart/rif-storage" "^0.1.0"
+    axios "^0.20.0"
+    daf-core "^6.3.0"
+
+"@rsksmart/rif-id-core@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-core/-/rif-id-core-0.0.2.tgz#7423ab73412174f438e24083c88fedf5cb98777b"
+  integrity sha512-3a9LtaMA6bA3CpVlY9vZqX1seoGAy/yRgL8MPX+SSeLLCNQyCOcwg3tPm1R4cFPVqzN68E+3BPldzJEuYzsIhw==
+  dependencies:
+    "@reduxjs/toolkit" "^1.4.0"
+    "@rsksmart/rif-id-daf" "0.0.4"
     daf-core "^6.1.2"
-    daf-ethr-did "^6.1.2"
-    typeorm "0.2.24"
 
 "@rsksmart/rif-id-daf@0.0.4":
   version "0.0.4"
@@ -5136,24 +5143,6 @@ iterable-ndjson@^1.1.0:
   integrity sha512-OOp1Lb0o3k5MkXHx1YaIY5Z0ELosZfTnBaas9f8opJVcZGBIONA2zY/6CYE+LKkqrSDooIneZbrBGgOZnHPkrg==
   dependencies:
     string_decoder "^1.2.0"
-
-jesse-rif-cpinner-client@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/jesse-rif-cpinner-client/-/jesse-rif-cpinner-client-0.0.1.tgz#92806d58f96f1fa8427f3b67085e09f216f0b605"
-  integrity sha512-T9Zew+DcO6XbFT66S9jg90Y9yg8ObMld3sSma2BWstlI6Vcg1onVXyMl1lm4fZZn6mrPCx5OnVOoiWdUQmcmOg==
-  dependencies:
-    "@rsksmart/rif-storage" "^0.1.0"
-    axios "^0.20.0"
-    daf-core "^6.3.0"
-
-jesse-rif-id-core@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.15.tgz#c8d7742160d8c5eabcd73af61ee3a22463f1c615"
-  integrity sha512-KR7KKST/JHSs1JpgnVpxVf4OAQ/KSJHWVugKL8zdOtVDJd15U+7506WBZ20X32ToCZDwPCw3WyDvULu9rLg0TA==
-  dependencies:
-    "@reduxjs/toolkit" "^1.4.0"
-    "@rsksmart/rif-id-daf" "0.0.3"
-    daf-core "^6.1.2"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"

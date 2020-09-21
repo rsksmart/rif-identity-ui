@@ -7,10 +7,10 @@ import * as RootNavigation from '../../AppNavigation';
 import { requestRestore, receiveRestore, errorNoIdentity, errorRestore } from './actions';
 
 import { resetMnemonicStore } from '../../daf/dafSetup';
-import { setDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
-import { deleteAllIdentitiesFactory } from 'jesse-rif-id-core/lib/operations/identity';
+import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { deleteAllIdentitiesFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { agent } from '../../daf/dafSetup';
-import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 
 /**
  * Helper function to delete identities in redux and the DB.

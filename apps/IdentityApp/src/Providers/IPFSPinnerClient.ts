@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
   CentralizedIPFSPinnerClient,
   ICentralizedIPFSPinnerClient,
-} from 'jesse-rif-cpinner-client/src/index';
+} from '@rsksmart/rif-cpinner-client/lib';
 import { agent, secretBox } from '../daf/dafSetup';
 import { getAllEndpoints } from './Endpoints';
 

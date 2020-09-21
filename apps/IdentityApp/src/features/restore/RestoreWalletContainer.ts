@@ -5,7 +5,7 @@ import { restoreWalletFromUserSeed } from './operations';
 import { RootState } from 'src/state/store';
 import { closeErrorNoIdentity, requestRestore, receiveRestore } from './actions';
 import * as RootNavigation from '../../AppNavigation';
-import { deleteAllIdentities } from 'jesse-rif-id-core/lib/reducers/identitySlice';
+import { deleteAllIdentities } from '@rsksmart/rif-id-core/lib/reducers/identitySlice';
 import { createRifIdentity } from '../identity/operations';
 
 const mapStateToProps = (state: RootState) => ({

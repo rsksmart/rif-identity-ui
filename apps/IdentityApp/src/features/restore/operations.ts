@@ -36,6 +36,7 @@ export const restoreWalletFromUserSeed = (seedArray: string[]) => (dispatch: Dis
   const callBack: Callback<AbstractIdentity> = (err, res) => {
     if (err) {
       dispatch(resetRestoreProcess());
+      dispatch(errorRestore('Error creating Identity'));
       throw err;
     }
     dispatch(restoreProfileFromDataVault(res.did));
@@ -52,7 +53,7 @@ export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dis
     .then(response => {
       // if mulitiple are saved with this key, get the last one:
       const details = Array.isArray(response) ? response[response.length - 1] : response;
-      const declarativeDetails = JSON.parse(details);
+      const declarativeDetails = JSON.parse(details.content);
 
       const callback = (err: Error) => {
         if (err) {

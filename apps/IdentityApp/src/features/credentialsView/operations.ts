@@ -20,13 +20,20 @@ import {
   errorRequestCredential,
 } from './actions';
 import * as RootNavigation from '../../AppNavigation';
-import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
 import { receiveCredentialFactory } from 'jesse-rif-id-core/lib/operations/credentials';
+import { issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
+import { addIssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+import {
+  dataVaultKeys,
+  putInDataVault,
+  findCredentialAndDelete,
+} from '../../Providers/IPFSPinnerClient';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -49,10 +56,11 @@ export const saveAllCredentials = async (credentials: Credential[]) => {
  * This is used when a credential is being requested or restored.
  * @param credential Credential to be saved
  */
-export const saveCredentialToLocalStorage = (credential: Credential) => async (dispatch: Dispatch) => {
+export const saveCredentialToLocalStorage = (credential: Credential) => async (
+  dispatch: Dispatch<any>,
+) => {
   // get existing array from localStorage:
   await dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
-    console.log('existing,', existingCredentials);
     const newData = existingCredentials.concat(credential);
     saveAllCredentials(newData)
       .then(() => {
@@ -68,9 +76,12 @@ export const saveCredentialToLocalStorage = (credential: Credential) => async (d
  * Remove a credential by hash from redux and localStorage.
  * @param hash hash of the credential to be removed
  */
-export const removeCredential = (hash: string) => async (dispatch: Dispatch) => {
-  // get existing array from localStorage:
-  await dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
+export const removeCredential = (
+  did: string,
+  hash: string,
+) => async (dispatch: Dispatch<any>) => {
+  // Remove from old version:
+  dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
     const newData = existingCredentials.filter((item: Credential) => item.hash !== hash);
     console.log('newData', newData);
     saveAllCredentials(newData)
@@ -81,6 +92,26 @@ export const removeCredential = (hash: string) => async (dispatch: Dispatch) => 
       .catch(error => console.log('save Error', error));
   });
 };
+
+/**
+ * Remove an issued credential from the local database and the data vault
+ * @param did string DID of the user
+ * @param raw string the raw jwt used for the data vault lookup
+ * @param hash string hash of the credential
+ * @param callback function function called when found
+ */
+export const removeIssuedCredential = (
+  did: string,
+  raw: string,
+  hash: string,
+  callback?: Callback<Credential> | undefined,
+) => (dispatch: Dispatch<any>) =>
+  findCredentialAndDelete(raw)
+    .then(() => {
+      const deleteCredential = deleteCredentialFactory(agent);
+      dispatch(deleteCredential(did, hash, callback));
+    })
+    .catch(err => console.log('DV error', err));
 
 /**
  * Sends a request to the Credential Server.
@@ -103,8 +134,6 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
   ];
 
   let claims;
-
-  // TODO: The hardcoded values will be set in the issuer app, this is for demo purposes
   switch (metadata.type) {
     case CredentialTypes.PARKING_PERMIT:
       claims = [
@@ -196,7 +225,6 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
 };
 
 export const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
-  console.log('checking status.');
   return await axios
     .get(server.endpoint + `/receiveCredential/?hash=${hash}`)
     .then((response: { data: string }) => {
@@ -234,16 +262,21 @@ export const checkStatusOfCredentials = (
       if (data.status.toLowerCase() === 'success') {
         status = CredentialStatus.CERTIFIED;
         jwt = data.payload.raw;
-        // putInDataVault(jwt);
 
-        const callback = (err, res) => {
-          console.log('res:', res);
-          console.log('err:', err);
+        const callback = (err: Error, res: any) => {
+          if (err) {
+            throw err;
+          }
+          if (res) {
+            console.log('saving:', res.payload.credential.raw);
+            putInDataVault(dataVaultKeys.CREDENTIALS, res.payload.credential.raw)
+              .then(value => console.log('DV success', value))
+              .catch(dverr => console.log('DV err', dverr));
+          }
         };
 
         const receiveCredentialRif = receiveCredentialFactory(agent);
         dispatch(receiveCredentialRif(jwt, callback));
-
       } else if (data.status.toLowerCase() === 'denied') {
         status = CredentialStatus.DENIED;
       } else {

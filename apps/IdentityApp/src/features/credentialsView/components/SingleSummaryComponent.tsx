@@ -2,29 +2,30 @@ import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Credential } from '../reducer';
 import StatusIcon from './StatusIcon';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { CredentialTypes } from '../../../Providers/Issuers';
 
 interface SingleSummaryComponentProps {
-  credential: Credential;
   onPress: (action: string) => {};
+  type: string;
+  status: string;
   strings: any;
   disabled: boolean;
 }
 
 const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
   strings,
-  credential,
+  type,
+  status,
   onPress,
   disabled,
 }) => {
   const { colors }: ThemeInterface = useContext(ThemeContext);
   const icon = () => {
     const color = disabled ? colors.lightGray : colors.primary;
-    switch (credential.type) {
+    switch (type) {
       case CredentialTypes.DRIVERS_LICENSE:
         return <FontAwesome name="automobile" color={color} size={30} />;
       case CredentialTypes.PARKING_PERMIT:
@@ -36,7 +37,7 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
     }
   };
 
-  const showQR = credential.status === 'CERTIFIED';
+  const showQR = status === 'CERTIFIED';
   return (
     <View style={styles.credential}>
       <TouchableOpacity
@@ -44,8 +45,8 @@ const SingleSummaryComponent: React.FC<SingleSummaryComponentProps> = ({
         onPress={() => onPress('DETAILS')}
         disabled={disabled}>
         {icon()}
-        <Text style={styles.name}>{strings[credential.type.toLowerCase()]}</Text>
-        <StatusIcon status={credential.status} />
+        <Text style={styles.name}>{strings[type.toLowerCase()]}</Text>
+        <StatusIcon status={status} />
       </TouchableOpacity>
       <View style={styles.qr}>
         <TouchableOpacity

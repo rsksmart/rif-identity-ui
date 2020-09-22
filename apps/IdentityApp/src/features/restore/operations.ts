@@ -11,12 +11,13 @@ import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operatio
 import { deleteAllIdentitiesFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { agent } from '../../daf/dafSetup';
 import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
+import { receiveCredentialFactory } from 'jesse-rif-id-core/lib/operations/credentials';
 
 /**
  * Helper function to delete identities in redux and the DB.
  * Used when a user needs to double check their mnemonic.
  */
-const resetRestoreProcess = () => (dispatch: Dispatch) => {
+const resetRestoreProcess = () => (dispatch: Dispatch<any>) => {
   const deleteAllIdentities = deleteAllIdentitiesFactory(agent);
   dispatch(deleteAllIdentities(agent.identityManager.getIdentityProviders()[0].type));
   resetMnemonicStore();
@@ -26,7 +27,7 @@ const resetRestoreProcess = () => (dispatch: Dispatch) => {
  * Restores a wallet from a seed phrase
  * @param seed string Seed with spaces
  */
-export const restoreWalletFromUserSeed = (seedArray: string[]) => (dispatch: Dispatch) => {
+export const restoreWalletFromUserSeed = (seedArray: string[]) => (dispatch: Dispatch<any>) => {
   dispatch(requestRestore());
 
   if (seedArray.length < 12) {
@@ -47,7 +48,7 @@ export const restoreWalletFromUserSeed = (seedArray: string[]) => (dispatch: Dis
 /**
  * Get Declarative Details from the Data Vault
  */
-export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dispatch) => {
+export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dispatch<any>) => {
   // get declarative details from data vault:
   getFromDataVault(dataVaultKeys.DECLARATIVE_DETAILS)
     .then(response => {
@@ -61,12 +62,27 @@ export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dis
           dispatch(resetRestoreProcess());
           return dispatch(errorRestore('Error from DataVault'));
         }
-        dispatch(receiveRestore());
-        return RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
+        dispatch(restoreCredentialsFromDataVault());
       };
 
       const setDeclarativeDetails = setDeclarativeDetailsFactory(agent);
       dispatch(setDeclarativeDetails(did, declarativeDetails, callback));
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch(resetRestoreProcess());
+      return dispatch(errorNoIdentity());
+    });
+};
+
+export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch<any>) => {
+  const receiveCredentialRif = receiveCredentialFactory(agent);
+  getFromDataVault(dataVaultKeys.CREDENTIALS)
+    .then(credentials => {
+      credentials.map((item: any) => dispatch(receiveCredentialRif(JSON.parse(item.content))));
+
+      dispatch(receiveRestore());
+      RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
     })
     .catch(err => {
       console.log(err);

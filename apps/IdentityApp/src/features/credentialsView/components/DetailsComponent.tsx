@@ -2,9 +2,8 @@ import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
-import moment from 'moment';
 
-import { Credential } from '../reducer';
+import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
 import StatusIcon from './StatusIcon';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
@@ -14,14 +13,14 @@ import JwtDataComponent from './JwtDataComponent';
 import DeleteCredentialComponent from './DeleteCredentialComponent';
 
 interface DetailsComponentProps {
-  credential: Credential;
+  getCredential: () => RifCredential;
   strings: any;
-  removeCredential: (hash: String) => {};
-  createPresentation: (hash: String) => {};
+  removeCredential: (raw: string, hash: string, status: string) => Boolean;
+  createPresentation: (hash: string) => {};
 }
 
 const DetailsComponent: React.FC<DetailsComponentProps> = ({
-  credential,
+  getCredential,
   removeCredential,
   createPresentation,
   strings,
@@ -33,6 +32,9 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
     setShowQr(true);
     createPresentation(credential.hash);
   };
+
+  const credential = getCredential();
+
   // if the credential does not have a hash, show blank
   if (!credential) {
     return (
@@ -45,37 +47,32 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
       </BackScreenComponent>
     );
   }
+
   const paragraphIndent = [typography.paragraph, styles.indent];
+  const type = credential.credentialSubject.type;
+  const status = 'CERTIFIED';
+
   return (
     <BackScreenComponent>
       <ScrollView style={[layout.container, styles.mainScroll]}>
         <View style={layout.row}>
           <View style={layout.column1}>
             <Text style={typography.header1}>
-              {strings[credential.type.toLowerCase()]} <StatusIcon status={credential.status} />
+              {strings[type.toLowerCase()]} <StatusIcon status={status} />
             </Text>
           </View>
         </View>
         <View style={layout.row}>
           <View style={layout.column1}>
             <View style={styles.details}>
-              {credential.dateRequested && (
-                <>
-                  <Text style={typography.paragraphBold}>{strings.date_requested}:</Text>
-                  <Text style={paragraphIndent}>
-                    {moment(credential.dateRequested).format('MMMM Do YYYY, h:mm a').toString()}
-                  </Text>
-                </>
-              )}
-
-              {credential.jwt && <JwtDataComponent jwt={credential.jwt} />}
+              {credential.raw && <JwtDataComponent jwt={credential.raw} />}
 
               <Text style={typography.paragraphBold}>{strings.status}:</Text>
               <Text style={paragraphIndent}>
-                {strings[credential.status.toLowerCase()]}
-                <StatusIcon status={credential.status} />
+                {strings[status.toLowerCase()]}
+                <StatusIcon status={status} />
               </Text>
-              {credential.status === 'CERTIFIED' && (
+              {status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
                   <ModalComponent visible={showQr}>
@@ -91,7 +88,11 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                 </View>
               )}
             </View>
-            <DeleteCredentialComponent removeCredential={() => removeCredential(credential.hash)} />
+            <DeleteCredentialComponent
+              removeCredential={() =>
+                removeCredential(credential.raw, credential.hash, status.toString())
+              }
+            />
           </View>
         </View>
       </ScrollView>

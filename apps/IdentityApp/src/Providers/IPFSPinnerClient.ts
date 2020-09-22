@@ -36,8 +36,17 @@ const getPinner = () => {
 export const putInDataVault = (key: any, value: string) =>
   getPinner().then((pinner: ICentralizedIPFSPinnerClient) => pinner.put(key, value));
 
-export const getFromDataVault = (key: any) => 
+export const getFromDataVault = (key: any) =>
   getPinner().then((pinner: ICentralizedIPFSPinnerClient) => pinner.get(key));
 
 export const deleteFromDataVault = (key: dataVaultKeys, cid: string) =>
   getPinner().then((pinner: ICentralizedIPFSPinnerClient) => pinner.delete(key, cid));
+
+export const findCredentialAndDelete = (raw: string) =>
+  getFromDataVault(dataVaultKeys.CREDENTIALS)
+    .then(credentials =>
+      credentials.find(
+        (cred: { content: string; cid: string }) => JSON.parse(cred.content) === raw,
+      ),
+    )
+    .then(credential => deleteFromDataVault(dataVaultKeys.CREDENTIALS, credential.cid));

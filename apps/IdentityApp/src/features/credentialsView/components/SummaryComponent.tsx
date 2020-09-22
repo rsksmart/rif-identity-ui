@@ -10,9 +10,11 @@ import { QRDetailsContainer } from '../containers';
 import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
 
 interface SummaryComponentProps {
   credentials: Credential[];
+  issuedCredentials: () => RifCredential[];
   strings: any;
   navigation: any;
   isLoading: boolean;
@@ -26,6 +28,7 @@ interface SummaryComponentProps {
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
   credentials,
+  issuedCredentials,
   strings,
   navigation,
   isLoading,
@@ -70,20 +73,41 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
       {hasPending && <MessageComponent message={strings.pull_down_refresh} type="WARNING" />}
 
+      <Text>Issued Credentials:</Text>
       <View style={[layout.row, styles.credentialsRow]}>
-        {credentials.length === 0 && (
-          <Text style={typography.paragraph}>{strings.no_credentials}</Text>
-        )}
-
-        {credentials.map(credential => (
+        {issuedCredentials().map((credential: RifCredential) => (
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
+              type={credential.credentialSubject.type}
+              status="CERTIFIED"
               credential={credential}
               onPress={async (clickType: string) => handleClick(clickType, credential.hash)}
               disabled={isCheckingPendingStatus}
             />
           </View>
         ))}
+      </View>
+
+      <Text>Old Credential Reducer:</Text>
+      <View style={[layout.row, styles.credentialsRow]}>
+        {credentials.length === 0 && (
+          <Text style={typography.paragraph}>{strings.no_credentials}</Text>
+        )}
+
+        {credentials.map(credential => {
+          if (credential.status.toString() !== 'CERTIFIED') {
+            return (
+              <View style={styles.single} key={credential.hash}>
+                <SingleSummaryComponent
+                  type={credential.type}
+                  status={credential.status}
+                  onPress={async (clickType: string) => console.log('click', clickType)}
+                  disabled={isCheckingPendingStatus}
+                />
+              </View>
+            );
+          }
+        })}
       </View>
 
       <ModalComponent visible={qrModalHash !== null}>

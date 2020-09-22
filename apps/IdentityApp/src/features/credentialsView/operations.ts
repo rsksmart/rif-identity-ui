@@ -24,10 +24,8 @@ import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
 import { AESEcryptionBox } from '../../daf/AESEncryptionBox';
-import CID from 'cids'
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
-import multihashing from 'multihashing'
 
 /**
  * Save a Credential Array to LocalStorage
@@ -285,6 +283,10 @@ export const createPresentation = (jwt: string, serviceToken: string) => async (
   });
 };
 
+const validateCid = async (actual: string) => {
+  // TODO
+}
+
 const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
   const key = await AESEcryptionBox.createSecretKey()
   const encryptionBox = new AESEcryptionBox(key)
@@ -292,15 +294,7 @@ const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) 
 
   const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
 
-  const buffer = Buffer.from(encrypted)
-  const multihash = multihashing(buffer, 'sha2-256')
-  const expected = new CID(multihash)
-  const actual = new CID(resp.data.cid)
-
-  // if (resp.data.cid !== expectedCid) {
-  //   console.log(expectedCid)
-  //   throw new Error('Corrupted CID')
-  // }
+  // await validateCid(resp.data.cid)
 
   return `${resp.data.url}#${key}`
 }

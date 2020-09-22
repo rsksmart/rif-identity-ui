@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
-
-import { createIdentityFactory } from 'jesse-rif-id-core/lib/operations/identity';
-import { Callback } from 'jesse-rif-id-core/src/operations/identity';
+import { createIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 import { agent, rifIdentityProvider } from '../../daf/dafSetup';
 import { AbstractIdentity } from 'daf-core';
 /**

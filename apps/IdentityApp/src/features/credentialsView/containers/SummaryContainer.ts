@@ -28,7 +28,6 @@ const mapStateToProps = (state: RootState) => ({
   did: state.identity.identities[0],
   hasMnemonic: state.identity.identities.length !== 0,
   hasPending: hasPending(state.credentials.credentials),
-  isRestoring: state.restore.isRestoring,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -3,7 +3,7 @@
 To run start Android studio, open up the ADB Manager and start an emulated Android device. Or connect an Android device and confirm that it is connected by typing: `adb devices`.
 
 
-**.env file**
+## .env file
 
 Create a .env file with the following settings:
 
@@ -16,7 +16,7 @@ DATA_VAULT_ENDPOINT=
 RSK_NODE=
 ```
 
-Example:
+**Example:**
 
 ```
 ISSUER_NAME=RIFOS
@@ -27,18 +27,20 @@ DATA_VAULT_ENDPOINT=https://identity-data-vault.testnet.rifos.org
 RSK_NODE=https://did.testnet.rsk.co:4444
 ```
 
-**Install**
+## Install
 ```
-npm install
+yarn install
 ```
-
 
 Start a credential issuer-server and set the URL in `src/providers/index`. In future versions, this URL may be located somewhere else. On Windows, using localhost failed, try using the IP address of your machine.
 
+## react-native-os modification
 
-**Run**
+The DataVault uses RIF-Storage which needs access to the `os` variable which is nodified by `react-native-os`. This package requires a slight modification that needs to be made for React Native to run. Remove `@Override`, the code on line 31, from this file: `node_modules\react-native-os\android\src\main\java\com\peel\react\RNSModule.java`.
+
+## Run
 ```
-npm run android
+yarn android
 ```
 
 It will take a bit of time on first launch.

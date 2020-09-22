@@ -1,8 +1,9 @@
 import { Dispatch, AnyAction } from 'redux';
 import { agent } from '../../daf/dafSetup';
 
-import { setDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
-import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
+import { putInDataVault, dataVaultKeys } from '../../Providers/IPFSPinnerClient';
 
 interface Detail {
   type: string;
@@ -45,6 +46,11 @@ export const saveProfile = (profile: any, callback: Callback<boolean>) => async 
         phone: detailBuilder(profile.phone),
         email: detailBuilder(profile.email),
       };
+
+      putInDataVault(
+        dataVaultKeys.DECLARATIVE_DETAILS,
+        JSON.stringify(declarativeDetails),
+      ).then(res => console.log(res));
 
       const setDeclarativeDetails = setDeclarativeDetailsFactory(agent);
       dispatch(setDeclarativeDetails(did, declarativeDetails, callback));

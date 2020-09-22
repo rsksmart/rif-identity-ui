@@ -5232,10 +5232,10 @@ je-id-core@0.0.6:
     daf-selective-disclosure "^6.3.0"
     daf-w3c "^6.3.0"
 
-jesse-rif-id-core@0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.18.tgz#aef8c577d4debdb28349931b5cd44edb5bee37c5"
-  integrity sha512-c+A8/3U1+lNiFs1hBUMCARoH9LtdLh2os7EUmMU0bfbzJBx1Gh/HRFohqih0/NrlJOCABTp7zZpiqfg1nsUZBw==
+jesse-rif-id-core@0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.19.tgz#19c04f2e9974a2168f60c35f668b0a0364ed677c"
+  integrity sha512-T/ADjONfhiYqMROrzUBMIF1voaQKmU/auCxgicdV2Wa6kkUip3Rbd3irprNXR0tkhgJvJqftRg5heD8BBWQfLQ==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
     "@rsksmart/rif-id-daf" "0.0.3"

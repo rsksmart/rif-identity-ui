@@ -16,9 +16,7 @@ import * as SD from 'daf-selective-disclosure';
 import * as DIDComm from 'daf-did-comm';
 import { createConnection, Connection } from 'typeorm';
 import { DeclarativeDetail } from '@rsksmart/rif-id-core/lib/entities/DeclarativeDetail';
-// import { Credential } from 'daf-core';
-import { Credential } from 'daf-core/build/entities/credential';
-
+import { CredentialRequest } from 'jesse-rif-id-core/lib/entities/CredentialRequest';
 import { SecretBox } from './DummyBox';
 
 export const dbConnection = createConnection({
@@ -26,7 +24,7 @@ export const dbConnection = createConnection({
   database: 'daf.sqlite',
   location: 'default',
   synchronize: true,
-  entities: [...Entities, ...Daf.Entities, DeclarativeDetail, Credential],
+  entities: [...Entities, ...Daf.Entities, DeclarativeDetail, CredentialRequest],
   dropSchema: false,
   logging: ['error'],
 });
@@ -79,6 +77,7 @@ export const agent = new Daf.Agent({
 });
 
 export const dropDafDb = () => {
+  console.log('dropped');
   dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
 };
 

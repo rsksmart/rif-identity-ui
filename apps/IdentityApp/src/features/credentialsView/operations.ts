@@ -26,6 +26,7 @@ import { agent } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
+import { receiveCredentialFactory } from 'jesse-rif-id-core/lib/operations/credentials';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -233,7 +234,16 @@ export const checkStatusOfCredentials = (
       if (data.status.toLowerCase() === 'success') {
         status = CredentialStatus.CERTIFIED;
         jwt = data.payload.raw;
-        putInDataVault(jwt);
+        // putInDataVault(jwt);
+
+        const callback = (err, res) => {
+          console.log('res:', res);
+          console.log('err:', err);
+        };
+
+        const receiveCredentialRif = receiveCredentialFactory(agent);
+        dispatch(receiveCredentialRif(jwt, callback));
+
       } else if (data.status.toLowerCase() === 'denied') {
         status = CredentialStatus.DENIED;
       } else {

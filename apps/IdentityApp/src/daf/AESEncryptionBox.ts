@@ -18,16 +18,17 @@ export class AESEcryptionBox extends AbstractSecretBox {
   // crypto.createCipher is deprecated, it suggests to use createCipheriv
   // This class uses the deprecated method because is the one supported by react-native-crypto: https://www.npmjs.com/package/react-native-crypto/v/2.2.0
   async encrypt(message: string): Promise<string> {
-    var key = crypto.createCipher('aes-256-gcm', this.secretKey);
-    var encrypted = key.update(message, 'utf8', 'hex')
+    const iv = crypto.randomBytes(12)
+    const key = crypto.createCipher('aes-256-cbc', this.secretKey);
+    let encrypted = key.update(message, 'utf8', 'hex')
     encrypted += key.final('hex');
 
     return encrypted
   }
 
   async decrypt(encryptedData: any): Promise<string> {
-    var key = crypto.createDecipher('aes-256-gcm', this.secretKey);
-    var decrypted = key.update(encryptedData, 'hex', 'utf8')
+    const key = crypto.createDecipher('aes-256-gcm', this.secretKey);
+    let decrypted = key.update(encryptedData, 'hex', 'utf8')
     decrypted += key.final('utf8');
 
     return decrypted

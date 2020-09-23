@@ -9,11 +9,15 @@ import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenCompone
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { QRDetailsContainer } from '../containers';
-import JwtDataComponent from './JwtDataComponent';
+import ClaimsDataComponent from './ClaimsDataComponent';
 import DeleteCredentialComponent from './DeleteCredentialComponent';
+import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { CredentialRequestInput } from 'daf-selective-disclosure';
+import { CopyButton } from '../../../Libraries/CopyButton';
 
 interface DetailsComponentProps {
   getCredential: () => RifCredential;
+  getCredentialRequest: () => IssuedCredentialRequest;
   strings: any;
   removeCredential: (raw: string, hash: string, status: string) => Boolean;
   createPresentation: (hash: string) => {};
@@ -21,6 +25,7 @@ interface DetailsComponentProps {
 
 const DetailsComponent: React.FC<DetailsComponentProps> = ({
   getCredential,
+  getCredentialRequest,
   removeCredential,
   createPresentation,
   strings,
@@ -28,15 +33,16 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [showQr, setShowQr] = useState<boolean>(false);
 
+  const credential = getCredential();
+  const credentialRequest = getCredentialRequest();
+
   const handleQrClick = () => {
     setShowQr(true);
     createPresentation(credential.hash);
   };
 
-  const credential = getCredential();
-
   // if the credential does not have a hash, show blank
-  if (!credential) {
+  if (!credential && !credentialRequest) {
     return (
       <BackScreenComponent>
         <View style={layout.row}>
@@ -49,8 +55,14 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   }
 
   const paragraphIndent = [typography.paragraph, styles.indent];
-  const type = credential.credentialSubject.type;
-  const status = 'CERTIFIED';
+  const type = credentialRequest
+    ? credentialRequest.claims.find((item: CredentialRequestInput) => item.claimType === 'type')
+        .claimValue
+    : credential.credentialSubject.type;
+  const status = credentialRequest ? credentialRequest.status.toUpperCase() : 'CERTIFIED';
+  const issuer = credential ? credential.issuer : credentialRequest.to;
+  const subject = credential ? credential.subject : credentialRequest.from;
+  const claims = credential ? credential.credentialSubject.otherClaims : credentialRequest.claims;
 
   return (
     <BackScreenComponent>
@@ -65,13 +77,33 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
         <View style={layout.row}>
           <View style={layout.column1}>
             <View style={styles.details}>
-              {credential.raw && <JwtDataComponent jwt={credential.raw} />}
-
               <Text style={typography.paragraphBold}>{strings.status}:</Text>
               <Text style={paragraphIndent}>
                 {strings[status.toLowerCase()]}
                 <StatusIcon status={status} />
               </Text>
+
+              <ClaimsDataComponent claims={claims} />
+
+              <Text style={[typography.paragraphBold, styles.noMargin]}>{strings.issuer}:</Text>
+              <CopyButton value={issuer} />
+
+              <Text style={[typography.paragraphBold, styles.noMargin]}>{strings.subject}:</Text>
+              <CopyButton value={subject} />
+
+              {credential && (
+                <>
+                  <Text style={typography.paragraphBold}>{strings.issuance_date}:</Text>
+                  <Text style={styles.did}>
+                    {new Date(credential.issuanceDate).toLocaleString()}
+                  </Text>
+                  <Text style={typography.paragraphBold}>{strings.expiration_date}:</Text>
+                  <Text style={styles.did}>
+                    {new Date(credential.expirationDate).toLocaleString()}
+                  </Text>
+                </>
+              )}
+
               {status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
@@ -88,11 +120,13 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                 </View>
               )}
             </View>
-            <DeleteCredentialComponent
-              removeCredential={() =>
-                removeCredential(credential.raw, credential.hash, status.toString())
-              }
-            />
+            {status === 'CERTIFIED' && (
+              <DeleteCredentialComponent
+                removeCredential={() =>
+                  removeCredential(credential.raw, credential.hash, status.toString())
+                }
+              />
+            )}
           </View>
         </View>
       </ScrollView>
@@ -120,6 +154,13 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     marginTop: 10,
+  },
+  noMargin: {
+    marginBottom: 0,
+  },
+  did: {
+    fontSize: 16,
+    paddingLeft: 5,
   },
 });
 

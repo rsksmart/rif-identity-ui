@@ -7,11 +7,13 @@ import conveyConnect from './ConveyConnect'
 import { removeCredential, createPresentation, removeIssuedCredential } from '../operations';
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
 import * as RootNavigation from '../../../AppNavigation';
+import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
 
 const mapStateToProps = (state: RootState) => ({
   allCredentials: state.credentials.credentials,
   did: state.identity.identities[0],
   issuedCredentials: state.issuedCredentials,
+  requestedCredentials: state.requestedCredentials,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -41,7 +43,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     }
 
     return stateProps.issuedCredentials[stateProps.did].filter(
-      (item: RifCredential) => item.hash === ownProps.route.params.credentialHash,
+      (item: RifCredential) => item.hash === ownProps.route.params.credentialIdentifier,
+    )[0];
+  },
+  getCredentialRequest: () => {
+    return stateProps.requestedCredentials[stateProps.did].filter(
+      (item: IssuedCredentialRequest) => item.id === ownProps.route.params.credentialIdentifier,
     )[0];
   },
   createPresentation: (hash: string) =>

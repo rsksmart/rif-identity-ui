@@ -11,10 +11,13 @@ import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { CredentialRequestInput } from 'daf-selective-disclosure';
 
 interface SummaryComponentProps {
   credentials: Credential[];
-  issuedCredentials: () => RifCredential[];
+  issuedCredentials: RifCredential[];
+  requestedCredentials: IssuedCredentialRequest[];
   strings: any;
   navigation: any;
   isLoading: boolean;
@@ -22,13 +25,13 @@ interface SummaryComponentProps {
   createPresentation: (credentialHash: string) => {};
   isCheckingPendingStatus: boolean;
   hasMnemonic: boolean;
-  hasPending: boolean;
   isRestoring: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
   credentials,
   issuedCredentials,
+  requestedCredentials,
   strings,
   navigation,
   isLoading,
@@ -36,17 +39,24 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   isCheckingPendingStatus,
   createPresentation,
   hasMnemonic,
-  hasPending,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [qrModalHash, setQrModalHash] = useState<string | null>(null);
 
-  const handleClick = (clickType: string, credentialHash: string) => {
+  const hasPending =
+    requestedCredentials.filter((item: any) => item.status === 'pending').length !== 0;
+
+  const handleClick = (
+    reducer: 'REQUESTED' | 'ISSUED',
+    clickType: string,
+    credentialIdentifier: string,
+  ) => {
+    console.log('the reducer', reducer);
     if (clickType === 'DETAILS') {
-      return navigation.navigate('Details', { credentialHash: credentialHash });
+      return navigation.navigate('Details', { credentialIdentifier, reducer });
     } else {
-      createPresentation(credentialHash);
-      setQrModalHash(credentialHash);
+      createPresentation(credentialIdentifier);
+      setQrModalHash(credentialIdentifier);
     }
   };
 
@@ -73,15 +83,32 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
       {hasPending && <MessageComponent message={strings.pull_down_refresh} type="WARNING" />}
 
-      <Text>Issued Credentials:</Text>
+      <Text>Issued & Requested Credentials:</Text>
       <View style={[layout.row, styles.credentialsRow]}>
-        {issuedCredentials().map((credential: RifCredential) => (
+        {requestedCredentials.map((credential: IssuedCredentialRequest) => (
+          <View style={styles.single} key={credential.id}>
+            <SingleSummaryComponent
+              type={
+                credential.claims.find((item: CredentialRequestInput) => item.claimType === 'type')
+                  .claimValue
+              }
+              status={credential.status.toUpperCase()}
+              onPress={async (clickType: string) =>
+                handleClick('REQUESTED', clickType, credential.id)
+              }
+              disabled={isCheckingPendingStatus}
+            />
+          </View>
+        ))}
+
+        {issuedCredentials.map((credential: RifCredential) => (
           <View style={styles.single} key={credential.hash}>
             <SingleSummaryComponent
               type={credential.credentialSubject.type}
               status="CERTIFIED"
-              credential={credential}
-              onPress={async (clickType: string) => handleClick(clickType, credential.hash)}
+              onPress={async (clickType: string) =>
+                handleClick('ISSUED', clickType, credential.hash)
+              }
               disabled={isCheckingPendingStatus}
             />
           </View>

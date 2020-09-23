@@ -6,6 +6,7 @@ import { Credential, CredentialStatus } from '../reducer';
 import { checkStatusOfCredentials, createPresentation } from '../operations';
 import conveyConnect from './ConveyConnect'
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
 
 const simpleCredentials = (credentials: Credential[]) => {
   if (!credentials) {
@@ -17,12 +18,6 @@ const simpleCredentials = (credentials: Credential[]) => {
   });
 };
 
-const hasPending = (credentials: Credential[] | null) => {
-  return !credentials
-    ? false
-    : credentials.filter((item: Credential) => item.status === 'PENDING').length !== 0;
-};
-
 const mapStateToProps = (state: RootState) => ({
   credentials: simpleCredentials(state.credentials.credentials),
   issuedCredentials: state.issuedCredentials,
@@ -30,10 +25,8 @@ const mapStateToProps = (state: RootState) => ({
 
   fullCredentials: state.credentials.credentials,
   isCheckingPendingStatus: state.credentials.isCheckingPendingStatus,
-  did: state.identity.identities[0],
+  did: state.identity.identities[0] || '',
   hasMnemonic: state.identity.identities.length !== 0,
-  hasPending: hasPending(state.credentials.credentials),
-  isRestoring: state.restore.isRestoring,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -51,9 +44,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.createPresentation(
       stateProps.fullCredentials.filter((item: Credential) => item.hash === hash)[0],
     ),
-  issuedCredentials: () => {
-    return stateProps.issuedCredentials[stateProps.did] || [];
-  },
+  issuedCredentials: stateProps.issuedCredentials[stateProps.did] || [],
+  requestedCredentials: stateProps.requestedCredentials[stateProps.did] || [],
 });
 
 export default conveyConnect(connect(mapStateToProps, mapDispatchToProps, mergeProps)(SummaryComponent));

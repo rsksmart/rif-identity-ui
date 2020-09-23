@@ -76,10 +76,7 @@ export const saveCredentialToLocalStorage = (credential: Credential) => async (
  * Remove a credential by hash from redux and localStorage.
  * @param hash hash of the credential to be removed
  */
-export const removeCredential = (
-  did: string,
-  hash: string,
-) => async (dispatch: Dispatch<any>) => {
+export const removeCredential = (did: string, hash: string) => async (dispatch: Dispatch<any>) => {
   // Remove from old version:
   dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
     const newData = existingCredentials.filter((item: Credential) => item.hash !== hash);
@@ -114,19 +111,12 @@ export const removeIssuedCredential = (
     .catch(err => console.log('DV error', err));
 
 /**
- * Sends a request to the Credential Server.
- * @param metaData metaData in the credential
+ * Create Claims Data for the different credential types
+ * @param metadata metadata from the app
  */
-export const sendRequestToServer = (server: serverInterface, did: string, metadata: any) => async (
-  dispatch: Dispatch,
-) => {
-  dispatch(requestCredential());
-  if (!server.endpoint || server.endpoint === '') {
-    return dispatch(errorRequestCredential('No server connected'));
-  }
-
+const createClaim = (metadata: any) => {
   const baseClaims = [
-    { claimType: 'credentialRequest', claimValue: 'cred1', essential: true }, // or type here?
+    { claimType: 'credentialRequest', claimValue: 'cred1', essential: true },
     { claimType: 'fullName', claimValue: metadata.fullName, essential: true },
     { claimType: 'type', claimValue: metadata.type, essential: true },
     { claimType: 'idNumber', claimValue: metadata.idNumber },
@@ -162,6 +152,49 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
       break;
   }
 
+  return claims;
+};
+
+/**
+ * Sends a request to the Credential Server.
+ * @param metaData metaData in the credential
+ */
+export const sendRequestToServer = (server: serverInterface, did: string, metadata: any) => async (
+  dispatch: Dispatch,
+) => {
+  dispatch(requestCredential());
+  if (!server.endpoint || server.endpoint === '') {
+    return dispatch(errorRequestCredential('No server connected'));
+  }
+
+  const claims = createClaim(metadata);
+
+  console.log('identity:', did);
+  console.log('claims:', claims);
+  const issueCredentialRequest = issueCredentialRequestFactory(agent);
+  const callback = (err: Error, res: any) => {
+    console.log('callback :)');
+    console.log('err', err);
+    console.log('res', res);
+
+    RootNavigation.navigate('CredentialsFlow', {
+      screen: 'CredentialsHome',
+    });
+  };
+
+  console.log('requesting...');
+  dispatch(
+    issueCredentialRequest(
+      did,
+      'did:ethr:rsk:testnet:0xdcbe93e98e0dcebe677c39a84f5f212b85ba7ef0',
+      claims,
+      'pending',
+      server.endpoint + '/requestCredential',
+      callback,
+    ),
+  );
+
+  /*
   const sdrData = {
     issuer: did,
     claims,
@@ -199,12 +232,14 @@ export const sendRequestToServer = (server: serverInterface, did: string, metada
         dateRequested: new Date(),
         type: metadata.type,
       };
+
       dispatch(saveCredentialToLocalStorage(credential));
       // Redirect to home:
       RootNavigation.navigate('CredentialsFlow', {
         screen: 'CredentialsHome',
       });
     });
+  */
 };
 
 /**

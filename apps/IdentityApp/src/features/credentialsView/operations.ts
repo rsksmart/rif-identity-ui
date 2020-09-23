@@ -25,15 +25,19 @@ import { agent } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
-import { receiveCredentialFactory } from 'jesse-rif-id-core/lib/operations/credentials';
-import { issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
-import { addIssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import {
+  deleteCredentialFactory,
+  receiveCredentialFactory,
+} from 'jesse-rif-id-core/lib/operations/credentials';
+import { deleteIssuedCredentialRequestFactory, issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
+import { addIssuedCredentialRequest, IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
 import { Callback } from 'jesse-rif-id-core/lib/operations/util';
 import {
   dataVaultKeys,
   putInDataVault,
   findCredentialAndDelete,
 } from '../../Providers/IPFSPinnerClient';
+import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -73,42 +77,36 @@ export const saveCredentialToLocalStorage = (credential: Credential) => async (
 };
 
 /**
- * Remove a credential by hash from redux and localStorage.
- * @param hash hash of the credential to be removed
- */
-export const removeCredential = (did: string, hash: string) => async (dispatch: Dispatch<any>) => {
-  // Remove from old version:
-  dispatch(getCredentialsFromStorage()).then((existingCredentials: Credential[]) => {
-    const newData = existingCredentials.filter((item: Credential) => item.hash !== hash);
-    console.log('newData', newData);
-    saveAllCredentials(newData)
-      .then(() => {
-        // Send new CredentialArray to redux
-        dispatch(receiveAllCredentials(newData));
-      })
-      .catch(error => console.log('save Error', error));
-  });
-};
-
-/**
  * Remove an issued credential from the local database and the data vault
  * @param did string DID of the user
  * @param raw string the raw jwt used for the data vault lookup
  * @param hash string hash of the credential
  * @param callback function function called when found
+ * credential?.subject, credential?.raw, credential?.hash, callback
  */
 export const removeIssuedCredential = (
-  did: string,
-  raw: string,
-  hash: string,
-  callback?: Callback<Credential> | undefined,
+  credential: RifCredential,
+  callback: Callback<Credential>,
 ) => (dispatch: Dispatch<any>) =>
-  findCredentialAndDelete(raw)
+  findCredentialAndDelete(credential.raw)
     .then(() => {
       const deleteCredential = deleteCredentialFactory(agent);
-      dispatch(deleteCredential(did, hash, callback));
+      dispatch(deleteCredential(credential.subject, credential.hash, callback));
     })
     .catch(err => console.log('DV error', err));
+
+/**
+ * Remove Requestd Credential
+ * @param request the credential request
+ * @param callback function function called after deletion
+ */
+export const removeRequestedCredential = (
+  request: IssuedCredentialRequest,
+  callback: Callback<void>,
+) => (dispatch: Dispatch<any>) => {
+  const deleteCredentialRequest = deleteIssuedCredentialRequestFactory(agent);
+  dispatch(deleteCredentialRequest(request.from, request.id, callback));
+};
 
 /**
  * Create Claims Data for the different credential types
@@ -159,87 +157,25 @@ const createClaim = (metadata: any) => {
  * Sends a request to the Credential Server.
  * @param metaData metaData in the credential
  */
-export const sendRequestToServer = (server: serverInterface, did: string, metadata: any) => async (
-  dispatch: Dispatch,
+export const sendRequestToServer = (did: string, metadata: any, callback: Callback<any>) => async (
+  dispatch: Dispatch<any>,
 ) => {
   dispatch(requestCredential());
-  if (!server.endpoint || server.endpoint === '') {
-    return dispatch(errorRequestCredential('No server connected'));
-  }
 
-  const claims = createClaim(metadata);
-
-  console.log('identity:', did);
-  console.log('claims:', claims);
-  const issueCredentialRequest = issueCredentialRequestFactory(agent);
-  const callback = (err: Error, res: any) => {
-    console.log('callback :)');
-    console.log('err', err);
-    console.log('res', res);
-
-    RootNavigation.navigate('CredentialsFlow', {
-      screen: 'CredentialsHome',
-    });
-  };
-
-  console.log('requesting...');
-  dispatch(
-    issueCredentialRequest(
-      did,
-      'did:ethr:rsk:testnet:0xdcbe93e98e0dcebe677c39a84f5f212b85ba7ef0',
-      claims,
-      'pending',
-      server.endpoint + '/requestCredential',
-      callback,
-    ),
-  );
-
-  /*
-  const sdrData = {
-    issuer: did,
-    claims,
-    credentials: [],
-  };
-
-  const sdrJwt = await agent.handleAction({
-    type: 'sign.sdr.jwt',
-    data: sdrData,
+  getEndpoint('issuer').then((endpoint: string) => {
+    const claims = createClaim(metadata);
+    const issueCredentialRequest = issueCredentialRequestFactory(agent);
+    dispatch(
+      issueCredentialRequest(
+        did,
+        'did:ethr:rsk:testnet:0xdcbe93e98e0dcebe677c39a84f5f212b85ba7ef0',
+        claims,
+        'pending',
+        endpoint + '/requestCredential',
+        callback,
+      ),
+    );
   });
-
-  const didCommData = {
-    from: did,
-    to: 'did:ethr:rsk:testnet:0x37309bf0fcda162ad7d2c154b305b996621767b9',
-    type: 'jwt',
-    body: sdrJwt,
-  };
-
-  await agent
-    .handleAction({
-      type: 'send.message.didcomm-alpha-1',
-      data: didCommData,
-      url: server.endpoint + '/requestCredential',
-      save: true,
-    })
-    .then(response => {
-      // Create Credential object:
-      const credential: Credential = {
-        issuer: {
-          name: server.name,
-          endpoint: server.endpoint,
-        },
-        hash: keccak256(sdrJwt).toString('hex'),
-        status: CredentialStatus.PENDING,
-        dateRequested: new Date(),
-        type: metadata.type,
-      };
-
-      dispatch(saveCredentialToLocalStorage(credential));
-      // Redirect to home:
-      RootNavigation.navigate('CredentialsFlow', {
-        screen: 'CredentialsHome',
-      });
-    });
-  */
 };
 
 /**

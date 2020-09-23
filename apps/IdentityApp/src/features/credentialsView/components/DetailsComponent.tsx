@@ -19,7 +19,10 @@ interface DetailsComponentProps {
   getCredential: () => RifCredential;
   getCredentialRequest: () => IssuedCredentialRequest;
   strings: any;
-  removeCredential: (raw: string, hash: string, status: string) => Boolean;
+  removeCredential: (
+    credential: RifCredential,
+    issuedCredential: IssuedCredentialRequest,
+  ) => Boolean;
   createPresentation: (hash: string) => {};
 }
 
@@ -41,7 +44,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
     createPresentation(credential.hash);
   };
 
-  // if the credential does not have a hash, show blank
+  // if the credential does not exist, show the delete screen.
   if (!credential && !credentialRequest) {
     return (
       <BackScreenComponent>
@@ -120,13 +123,10 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                 </View>
               )}
             </View>
-            {status === 'CERTIFIED' && (
-              <DeleteCredentialComponent
-                removeCredential={() =>
-                  removeCredential(credential.raw, credential.hash, status.toString())
-                }
-              />
-            )}
+
+            <DeleteCredentialComponent
+              removeCredential={() => removeCredential(credential, credentialRequest)}
+            />
           </View>
         </View>
       </ScrollView>

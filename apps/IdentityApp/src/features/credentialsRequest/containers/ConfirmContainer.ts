@@ -4,8 +4,7 @@ import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import { sendRequestToServer } from '../../credentialsView/operations';
 import * as RootNavigation from '../../../AppNavigation';
-import { serverInterface } from '../../../Providers/Issuers';
-import { getEndpoint } from '../../../Providers/Endpoints';
+import { receiveCredential, errorRequestCredential } from '../../credentialsView/actions';
 
 const mapStateToProps = (state: RootState) => ({
   credentials: state.credentials.credentials,
@@ -17,13 +16,18 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   requestCredential: async (metadata: any, did: string) => {
-    getEndpoint('issuer').then((endpoint: string) => {
-      const server: serverInterface = {
-        name: 'Credential Server',
-        endpoint: endpoint,
-      };
-      dispatch(sendRequestToServer(server, did, metadata));
-    });
+    const callback = (err: Error) => {
+      if (err) {
+        return dispatch(errorRequestCredential('Error Requesting Credential'));
+      }
+
+      dispatch(receiveCredential());
+      RootNavigation.navigate('CredentialsFlow', {
+        screen: 'CredentialsHome',
+      });
+    };
+
+    dispatch(sendRequestToServer( did, metadata, callback));
   },
   handleEditProfile: () =>
     RootNavigation.navigate('CredentialsFlow', {

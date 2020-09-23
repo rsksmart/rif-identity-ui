@@ -51,7 +51,6 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
     clickType: string,
     credentialIdentifier: string,
   ) => {
-    console.log('the reducer', reducer);
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialIdentifier, reducer });
     } else {

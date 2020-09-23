@@ -3,8 +3,7 @@ import { Dispatch } from 'redux';
 import { DetailsComponent } from '../components';
 import { RootState } from '../../../state/store';
 import { Credential } from '../reducer';
-import conveyConnect from './ConveyConnect'
-import { removeCredential, createPresentation, removeIssuedCredential } from '../operations';
+import { createPresentation, removeIssuedCredential, removeRequestedCredential } from '../operations';
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
 import * as RootNavigation from '../../../AppNavigation';
 import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
@@ -18,18 +17,21 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   createPresentation: (credential: RifCredential) => dispatch(createPresentation(credential.raw)),
-  removeCredential: (did: string, raw: string, hash: string, status: string) => {
+  removeCredential: (credential?: RifCredential, requestedCredential?: IssuedCredentialRequest) => {
     const callback = (err: Error) => {
       if (!err) {
-        return true;
+        RootNavigation.navigate('CredentialsFlow', {
+          screen: 'CredentialsHome',
+        });
       } else {
         console.log('err', err);
         return false;
       }
     };
-    return status === 'CERTIFIED'
-      ? dispatch(removeIssuedCredential(did, raw, hash, callback))
-      : dispatch(removeCredential(did, raw, callback));
+
+    return credential
+      ? dispatch(removeIssuedCredential(credential, callback))
+      : dispatch(removeRequestedCredential(requestedCredential, callback));
   },
 });
 
@@ -47,6 +49,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     )[0];
   },
   getCredentialRequest: () => {
+    if (!stateProps.requestedCredentials[stateProps.did]) {
+      return [];
+    }
+
     return stateProps.requestedCredentials[stateProps.did].filter(
       (item: IssuedCredentialRequest) => item.id === ownProps.route.params.credentialIdentifier,
     )[0];
@@ -55,8 +61,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.createPresentation(
       stateProps.allCredentials.filter((item: Credential) => item.hash === hash)[0],
     ),
-  removeCredential: (raw: string, hash: string, status: string) =>
-    dispatchProps.removeCredential(stateProps.did, raw, hash, status),
 });
 
 export default conveyConnect(connect(mapStateToProps, mapDispatchToProps, mergeProps)(DetailsComponent));

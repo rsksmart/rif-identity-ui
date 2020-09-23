@@ -19,14 +19,11 @@ const DeleteCredentialComponent: React.FC<DeleteCredentialComponentProps> = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setIsLoading(true);
-    removeCredential().then((result: boolean) => {
-      if (result) {
-        setShowModal(false);
-      }
-      setIsLoading(false);
-    });
+    await removeCredential();
+    setShowModal(false);
+    setIsLoading(false);
   };
 
   return (

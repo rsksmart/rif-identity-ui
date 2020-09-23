@@ -50,7 +50,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   },
   getCredentialRequest: () => {
     if (!stateProps.requestedCredentials[stateProps.did]) {
-      return [];
+      return RootNavigation.navigate('CredentialsHome');
     }
 
     return stateProps.requestedCredentials[stateProps.did].filter(

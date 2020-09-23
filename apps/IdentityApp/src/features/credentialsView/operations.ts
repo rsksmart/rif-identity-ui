@@ -19,9 +19,8 @@ import {
   receiveAllCredentials,
   errorRequestCredential,
 } from './actions';
-import * as RootNavigation from '../../AppNavigation';
 import { getEndpoint } from '../../Providers/Endpoints';
-import { agent } from '../../daf/dafSetup';
+import { agent, dbConnection } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
@@ -29,8 +28,15 @@ import {
   deleteCredentialFactory,
   receiveCredentialFactory,
 } from 'jesse-rif-id-core/lib/operations/credentials';
-import { deleteIssuedCredentialRequestFactory, issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
-import { addIssuedCredentialRequest, IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import {
+  deleteIssuedCredentialRequestFactory,
+  issueCredentialRequestFactory,
+  setIssuedCredentialRequestStatusFactory,
+} from 'jesse-rif-id-core/lib/operations/credentialRequests';
+import {
+  addIssuedCredentialRequest,
+  IssuedCredentialRequest,
+} from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
 import { Callback } from 'jesse-rif-id-core/lib/operations/util';
 import {
   dataVaultKeys,
@@ -38,6 +44,7 @@ import {
   findCredentialAndDelete,
 } from '../../Providers/IPFSPinnerClient';
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { findOneCredentialRequest } from 'jesse-rif-id-core/lib/entities/CredentialRequest';
 
 /**
  * Save a Credential Array to LocalStorage
@@ -78,11 +85,8 @@ export const saveCredentialToLocalStorage = (credential: Credential) => async (
 
 /**
  * Remove an issued credential from the local database and the data vault
- * @param did string DID of the user
- * @param raw string the raw jwt used for the data vault lookup
- * @param hash string hash of the credential
- * @param callback function function called when found
- * credential?.subject, credential?.raw, credential?.hash, callback
+ * @param credential the credential that should be removed
+ * @param callback function function called after deletion
  */
 export const removeIssuedCredential = (
   credential: RifCredential,
@@ -195,15 +199,78 @@ export const getCredentialsFromStorage = () => async (dispatch: Dispatch) => {
     });
 };
 
-export const checkStatusOfCredential = async (server: serverInterface, hash: string) => {
-  return await axios
-    .get(server.endpoint + `/receiveCredential/?hash=${hash}`)
-    .then((response: { data: string }) => {
-      return Promise.resolve(response.data);
-    })
-    .catch(() => {
-      return Promise.resolve(null);
-    });
+export const checkStatusOfCredential = (hash: string) =>
+  getEndpoint('issuer').then(url =>
+    axios
+      .get(`${url}/receiveCredential/?hash=${hash}`)
+      .then((response: { data: string }) => {
+        return Promise.resolve(response.data);
+      })
+      .catch(() => {
+        return Promise.resolve(null);
+      }),
+  );
+
+/**
+ * Helper function to get the hash of a request
+ * @param id id of the credential request
+ */
+const getHashByRequestId = (id: string) =>
+  dbConnection.then(connection =>
+    findOneCredentialRequest(connection, id)
+      .then(response => (keccak256(response.message.raw) as any).toString('hex'))
+      .catch(err => console.log('hash error', err)),
+  );
+
+export const checkStatusOfRequestedCredentials = (
+  did: string,
+  requestedCredentials: IssuedCredentialRequest[],
+) => (dispatch: Dispatch<any>) => {
+  const setIssuedCredentialStatus = setIssuedCredentialRequestStatusFactory(agent);
+  const deleteIssuedCredential = deleteIssuedCredentialRequestFactory(agent);
+  const receiveCredentialRif = receiveCredentialFactory(agent);
+
+  console.log('checking status of requested');
+  requestedCredentials.forEach((request: IssuedCredentialRequest) => {
+    if (request.status === 'pending') {
+      console.log('checking ', request.id);
+      console.log('did', did);
+      getHashByRequestId(request.id)
+        .then(hash => {
+          checkStatusOfCredential(hash)
+            .then(result => {
+              switch (result.status) {
+                case 'DENIED':
+                  dispatch(setIssuedCredentialStatus(did, request.id, 'DENIED'));
+                  break;
+                case 'SUCCESS':
+                  const callback = (err, res) => {
+                    if (err) {
+                      throw err;
+                    }
+                    if (res) {
+                      putInDataVault(dataVaultKeys.CREDENTIALS, res.payload.credential.raw)
+                        .then(value => console.log('DV success', value))
+                        .catch(dverr => console.log('DV err', dverr));
+                    }
+                  };
+                  dispatch(deleteIssuedCredential(did, request.id));
+                  dispatch(receiveCredentialRif(result.payload.raw, callback));
+                  break;
+                case 'ISSUED':
+                  console.log('ISSUED: id', result.id);
+                  break;
+                default:
+                  break;
+              }
+            })
+            .catch(err => console.log('check err', err));
+        })
+        .catch(err => {
+          console.log('an error', err);
+        });
+    }
+  });
 };
 
 /**

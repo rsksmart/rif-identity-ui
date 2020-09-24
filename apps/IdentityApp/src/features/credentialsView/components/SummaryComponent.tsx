@@ -17,7 +17,7 @@ interface SummaryComponentProps {
   strings: any;
   navigation: any;
   checkPending: () => Promise<any>[];
-  createPresentation: (credentialHash: string) => {};
+  createPresentation: (credentialHash: string) => Promise<any>;
   hasMnemonic: boolean;
 }
 
@@ -45,8 +45,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialIdentifier, reducer });
     } else {
-      createPresentation(credentialIdentifier);
-      setQrModalHash(credentialIdentifier);
+      createPresentation(credentialIdentifier).then((response: string) => setQrModalHash(response));
     }
   };
 
@@ -120,7 +119,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
       <ModalComponent visible={qrModalHash !== null}>
         <View style={layout.column1}>
-          <Text>@@Presentation TODO</Text>
+          <Text>{qrModalHash}</Text>
           <SquareButton
             title={strings.close}
             variation="hollow"

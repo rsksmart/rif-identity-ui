@@ -22,7 +22,7 @@ interface DetailsComponentProps {
     credential: RifCredential,
     issuedCredential: IssuedCredentialRequest,
   ) => Boolean;
-  createPresentation: (hash: string) => {};
+  createPresentation: (hash: string) => Promise<any>;
 }
 
 const DetailsComponent: React.FC<DetailsComponentProps> = ({
@@ -33,14 +33,16 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [showQr, setShowQr] = useState<boolean>(false);
+  const [showQr, setShowQr] = useState<string | null>(null);
 
   const credential = getCredential();
   const credentialRequest = getCredentialRequest();
 
   const handleQrClick = () => {
-    setShowQr(true);
-    createPresentation(credential.hash);
+    createPresentation(credential.hash)
+      .then(response => {
+        setShowQr(response);
+      });
   };
 
   // if the credential does not exist, show the delete screen.
@@ -109,13 +111,13 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
               {status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
-                  <ModalComponent visible={showQr}>
+                  <ModalComponent visible={showQr !== null}>
                     <View style={layout.column1}>
-                      <Text>@TODO Presentations</Text>
+                      <Text>{showQr}</Text>
                       <SquareButton
                         title={strings.close}
                         variation="hollow"
-                        onPress={() => setShowQr(false)}
+                        onPress={() => setShowQr(null)}
                       />
                     </View>
                   </ModalComponent>

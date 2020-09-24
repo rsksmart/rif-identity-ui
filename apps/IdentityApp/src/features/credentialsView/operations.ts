@@ -283,8 +283,8 @@ export const createPresentation = (jwt: string, serviceToken: string) => async (
   });
 };
 
-const validateCid = async (actual: string) => {
-  // TODO
+const validateCid = async (encrypted: string, actual: string) => {
+  // TODO: should calculate the encrypted hash and compare it with the actual one. The must be equals
 }
 
 const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
@@ -294,7 +294,7 @@ const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) 
 
   const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
 
-  // await validateCid(resp.data.cid)
+  // await validateCid(encrypted, resp.data.cid)
 
   return `${resp.data.url}#${key}`
 }

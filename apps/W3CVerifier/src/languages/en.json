@@ -47,5 +47,8 @@
   "expired_credential": "Expired credential",
   "invalid_vp_issuer": "Invalid presentation issuer. Must be the holder DID",
   "no_issuance_date": "Presentation must have an issuance date",
-  "no_vc_expiration": "Credential has not expiration date"
+  "no_vc_expiration": "Credential has not expiration date",
+  "convey_service_present": "Logged in to Convey service",
+  "convey_error": "Error in Convey service login",
+  "no_convey_service_present": "No Convey service present"
 }

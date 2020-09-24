@@ -4,14 +4,17 @@ import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
 import { mapFromPayload, VerifiedPresentation } from '../api';
-import { ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS } from '@env'
+import {
+  ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS,
+  CONVEY_URL, IPFS_GATEWAY,
+} from '../../env.json'
 import { StorageProvider, STORAGE_KEYS } from '../providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
 import axios from 'axios'
-import { keccak256 } from 'js-sha3';
 import { requestScanAgain, receiveQrScan } from '../state/localUi/actions';
 import { navigate } from '../AppNavigation';
+import crypto from 'crypto'
 
 const providerConfig = {
   networks: [
@@ -20,7 +23,43 @@ const providerConfig = {
 }
 const resolver = new Resolver(getResolver(providerConfig));
 
-export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[], navigation: any) => async (dispatch: Dispatch) => {
+const decrypt = async (encryptedData: any, secretKey: string): Promise<string> => {
+  const key = crypto.createDecipher('aes-256-cbc', secretKey);
+  let decrypted = key.update(encryptedData, 'hex', 'utf8')
+  decrypted += key.final('utf8');
+  
+  return decrypted
+}
+
+const getVpJwt = async (data: string, conveyServiceToken: string) => {
+  if (!data.startsWith('convey://')) {
+    throw new Error('invalid_qr')
+  }
+  const index = 'convey://'.length
+  const identifier = data.substring(index)
+  const [cid, encryptionKey] = identifier.split('#')
+
+  if (CONVEY_URL && conveyServiceToken) {
+    try {
+      const jwt = await axios.get(
+          `${CONVEY_URL}/file/${cid}`,
+          { headers: { 'Authorization': conveyServiceToken } }
+        )
+        .then(res => res.status === 200 && !!res.data && res.data.file)
+        .then(file => decrypt(file, encryptionKey))
+      
+      return jwt
+    } catch { } // axios throws an error if 404, so in that case, try to get it from the IPFS gateway
+  }
+
+  return axios.get(`${IPFS_GATEWAY}/ipfs/${cid}`)
+    .then(res => res.status === 200 && res.data)
+    .then(file => decrypt(file, encryptionKey))
+}
+
+export const scanQR = (
+  data: string, scannedPresentations: VerifiedPresentation[], conveyServiceToken: string, navigation: any,
+) => async (dispatch: Dispatch) => {
   const baseFailedPresentation = {
     dateVerified: new Date(),
     success: false,
@@ -42,18 +81,9 @@ export const scanQR = (data: string, scannedPresentations: VerifiedPresentation[
   let presentation: VerifiedPresentation
 
   try {
-    const { pwd, url, vpHash } = JSON.parse(data)
-
-    if (!pwd || !url || !vpHash) {
-      throw new Error('invalid_qr')
-    }
-
     let vpJwt: string;
 
-    axios.post(url, { pwd })
-      .then((res: any) => res.status === 200 && res.data)
-      .then((data: any) => data.jwt)
-      .then((jwt: string) => keccak256(jwt).toString('hex') !== vpHash ? (() => { throw new Error('corrupted_presentation') })() : jwt)
+    getVpJwt(data, conveyServiceToken)
       .then((jwt: string) => {
         vpJwt = jwt;
         return verifyPresentation(jwt, resolver)

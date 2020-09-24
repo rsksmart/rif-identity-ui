@@ -8,7 +8,6 @@ import StatusIcon from './StatusIcon';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
-import { QRDetailsContainer } from '../containers';
 import ClaimsDataComponent from './ClaimsDataComponent';
 import DeleteCredentialComponent from './DeleteCredentialComponent';
 import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
@@ -112,7 +111,7 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
                   <ModalComponent visible={showQr}>
                     <View style={layout.column1}>
-                      <QRDetailsContainer credentialHash={credential.hash} />
+                      <Text>@TODO Presentations</Text>
                       <SquareButton
                         title={strings.close}
                         variation="hollow"

@@ -6,7 +6,6 @@ import customLogger from './middleware/customLogger';
 
 import localUiReducer from './localUi/reducer';
 import declarativeDetailsReducer from '@rsksmart/rif-id-core/lib/reducers/declarativeDetails';
-import oldCredentialReducer from '../features/credentialsView/reducer';
 import { PinReducer } from '../features/pin';
 import identityReducer from '@rsksmart/rif-id-core/lib/reducers/identitySlice';
 import RestoreReducer from '../features/restore/reducer';
@@ -20,7 +19,6 @@ const middleware = [thunk, customLogger];
 const rootReducer = combineReducers({
   localUi: localUiReducer,
   declarativeDetails: declarativeDetailsReducer,
-  credentials: oldCredentialReducer,
   issuedCredentials: CredentialsReducer,
   requestedCredentials: RequestedCredentials,
   pin: PinReducer,

@@ -4,30 +4,27 @@ import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import { sendRequestToServer } from '../../credentialsView/operations';
 import * as RootNavigation from '../../../AppNavigation';
-import { receiveCredential, errorRequestCredential } from '../../credentialsView/actions';
 
 const mapStateToProps = (state: RootState) => ({
-  credentials: state.credentials.credentials,
   declarativeDetails: state.declarativeDetails,
   did: state.identity.identities[0],
-  isRequestingCredential: state.credentials.isRequestingCredential,
-  requestCredentialError: state.credentials.requestCredentialError,
+
+  requestCredentialError: null, //@TODO state.credentials.requestCredentialError,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  requestCredential: async (metadata: any, did: string) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  requestCredential: (metadata: any, did: string) => {
     const callback = (err: Error) => {
       if (err) {
-        return dispatch(errorRequestCredential('Error Requesting Credential'));
+        //@TODO HANDLE THIS ERROR!
       }
 
-      dispatch(receiveCredential());
       RootNavigation.navigate('CredentialsFlow', {
         screen: 'CredentialsHome',
       });
     };
 
-    dispatch(sendRequestToServer( did, metadata, callback));
+    dispatch(sendRequestToServer(did, metadata, callback));
   },
   handleEditProfile: () =>
     RootNavigation.navigate('CredentialsFlow', {

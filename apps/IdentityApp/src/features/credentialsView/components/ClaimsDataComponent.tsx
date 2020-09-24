@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, View, Text } from 'react-native';
-import moment from 'moment';
 
 interface Claim {
   claimType: string;

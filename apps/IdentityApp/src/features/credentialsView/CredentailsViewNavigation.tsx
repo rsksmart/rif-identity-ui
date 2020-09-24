@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
+import { Dispatch } from 'redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SummaryContainer, DetailsContainer } from './containers';
 import { connect } from 'react-redux';
-import { AppState } from 'react-native';
-import { getCredentialsFromStorage } from './operations';
-import { RootState } from '../../state/store';
+/* import { AppState } from 'react-native';
 import { logout } from '../../state/localUi/actions';
 
 interface CredentailsViewNavigationProps {
@@ -12,19 +11,8 @@ interface CredentailsViewNavigationProps {
   credentialsLoaded: boolean;
   handleAppStateChange: (state: string) => {};
 }
-
-const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({
-  start,
-  credentialsLoaded,
-  handleAppStateChange,
-}) => {
-  useEffect(() => {
-    if (!credentialsLoaded) {
-      start();
-      AppState.addEventListener('change', handleAppStateChange);
-    }
-  }, [start, credentialsLoaded, handleAppStateChange]);
-
+*/
+const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = () => {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
@@ -40,14 +28,9 @@ const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({
     </Stack.Navigator>
   );
 };
-
-const mapStateToProps = (state: RootState) => ({
-  credentialsLoaded: state.credentials.credentials ? true : false,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => dispatch(getCredentialsFromStorage()),
+/*
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   handleAppStateChange: (state: string) => state !== 'active' && dispatch(logout()),
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(CredentailsViewNavigation);
+*/
+export default CredentailsViewNavigation; /*connect(null, null)();*/

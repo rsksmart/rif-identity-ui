@@ -1,9 +1,10 @@
 import { Dispatch } from 'react';
 import { Action } from 'redux';
 import { changeLanguage } from 'redux-multilanguage';
+import { BackHandler, AppState } from 'react-native';
 import * as RootNavigation from '../AppNavigation';
 import { StorageProvider, STORAGE_KEYS } from '../Providers/index';
-import { requestIsSignedUp, receiveIsSignedUp } from './localUi/actions';
+import { requestIsSignedUp, receiveIsSignedUp, logout } from './localUi/actions';
 import { getEndpointsFromLocalStorage } from '../features/settings/operations';
 import { agent } from '../daf/dafSetup';
 import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
@@ -42,4 +43,10 @@ export const initialAppStart = () => async (dispatch: Dispatch<Function | Action
   await StorageProvider.get('LANGUAGE')
     .then(res => dispatch(changeLanguage(res)))
     .catch(() => dispatch(changeLanguage('en')));
+
+  // prevent Android back button:
+  BackHandler.addEventListener('hardwareBackPress', () => true);
+
+  // log out when the app is minimized:
+  AppState.addEventListener('change', (state: string) => state !== 'active' && dispatch(logout()));
 };

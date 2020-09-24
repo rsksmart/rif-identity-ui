@@ -6,8 +6,6 @@ import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
 export enum STORAGE_KEYS {
   PIN = 'PIN',
   LANGUAGE = 'LANGUAGE',
-  PROFILE = 'PROFILE',
-  CREDENTIALS = 'CREDENTIALS',
   END_POINTS = 'END_POINTS',
 }
 

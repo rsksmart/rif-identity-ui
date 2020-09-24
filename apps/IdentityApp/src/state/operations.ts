@@ -7,6 +7,8 @@ import { getEndpointsFromLocalStorage } from '../features/settings/operations';
 import { agent } from '../daf/dafSetup';
 import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { initDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { getEndpoint } from '../Providers/Endpoints';
+import { serviceLoginFactory } from 'je-id-core/lib/operations/authentication'
 
 export const initialAppStart = () => async (dispatch: Dispatch) => {
   dispatch(requestIsSignedUp());

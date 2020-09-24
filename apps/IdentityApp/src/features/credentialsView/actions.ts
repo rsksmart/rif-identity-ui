@@ -10,6 +10,7 @@ export enum CREDENTIAL_ACTION_TYPES {
 
   REQUEST_PRESENTATION = 'REQUEST_PRESENTATION',
   RECEIVE_PRESENTATION = 'RECEIVE_PRESENTATION',
+  ERROR_RECEIVE_PRESENTATION = 'ERROR_RECEIVE_PRESENTATION',
 
   REQUEST_ALL_PENDING_STATUS = 'REQUEST_ALL_PENDING_STATUS',
   RECEIVE_ALL_PENDING_STATUS = 'RECEIVE_ALL_PENDING_STATUS',
@@ -52,11 +53,13 @@ export const requestPresentation = () => ({
   type: CREDENTIAL_ACTION_TYPES.REQUEST_PRESENTATION,
 });
 
-export const receivePresentation = (presentationUrl: string, presentationPwd: string, presentationHash: string) => ({
+export const receivePresentation = (presentationUri: string) => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_PRESENTATION,
-  presentationUrl,
-  presentationPwd,
-  presentationHash,
+  presentationUri,
+});
+
+export const errorReceivePresentation = () => ({
+  type: CREDENTIAL_ACTION_TYPES.ERROR_RECEIVE_PRESENTATION,
 });
 
 export const resetCredentials = () => ({

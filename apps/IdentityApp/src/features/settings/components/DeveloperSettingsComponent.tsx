@@ -74,11 +74,6 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               onChange={async text => handleChange('issuer', text)}
             />
             <EditItem
-              name={strings.tiny_qr}
-              value={newEndpoints.tinyQr}
-              onChange={async text => handleChange('tinyQr', text)}
-            />
-            <EditItem
               name={strings.ipfs_gateway}
               value={newEndpoints.ipfs}
               onChange={async text => handleChange('ipfs', text)}
@@ -92,6 +87,16 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               name={strings.rsk_node}
               value={newEndpoints.rskNode}
               onChange={async text => handleChange('rskNode', text)}
+            />
+            <EditItem
+              name={strings.convey_url}
+              value={newEndpoints.convey}
+              onChange={async text => handleChange('convey', text)}
+            />
+            <EditItem
+              name={strings.convey_did}
+              value={newEndpoints.conveyDid}
+              onChange={async text => handleChange('conveyDid', text)}
             />
             <View style={styles.buttonView}>
               <SquareButton

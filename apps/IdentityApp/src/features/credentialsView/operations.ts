@@ -8,6 +8,7 @@ import {
   receiveAllPendingStatus,
   requestPresentation,
   receivePresentation,
+  errorReceivePresentation,
 } from './actions';
 import { StorageProvider, STORAGE_KEYS } from '../../Providers';
 import { serverInterface, CredentialTypes } from '../../Providers/Issuers';
@@ -22,6 +23,9 @@ import * as RootNavigation from '../../AppNavigation';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
+import { AESSecretBox } from '../../daf/AESSecretBox';
+import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
+import 'text-encoding-polyfill'
 
 /**
  * Save a Credential Array to LocalStorage
@@ -257,7 +261,7 @@ export const checkStatusOfCredentials = (
  * Create presentation of a VC using the JWT and the identityManger in the agent.
  * @param jwt JWT of the credential to be presented
  */
-export const createPresentation = (jwt: string) => async (dispatch: Dispatch) => {
+export const createPresentation = (jwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
   dispatch(requestPresentation());
   agent.identityManager.getIdentities().then(identities => {
     agent
@@ -273,15 +277,38 @@ export const createPresentation = (jwt: string) => async (dispatch: Dispatch) =>
         },
       })
       .then(sdrJwt => sdrJwt._raw)
-      .then(uploadPresentation)
-      .then(([res, hash]) => dispatch(receivePresentation(res.data.url, res.data.pwd, hash)));
+      .then(jwt => uploadPresentation(jwt, serviceToken)(dispatch))
+      .then(uri => dispatch(receivePresentation(uri)))
+      .catch((err) => { console.log(err); dispatch(errorReceivePresentation()) })
   });
 };
 
-const uploadPresentation = async (jwt: string) => {
-  const tinyServer = await getEndpoint('tinyQr');
-  const request = axios.post(`${tinyServer}/presentation`, { jwt });
-  const hashFn = keccak256(jwt);
+const validateCid = async (encrypted: string, actual: string) => {
+  // TODO: should calculate the encrypted hash and compare it with the actual one. The must be equals
+}
 
-  return Promise.all([request, hashFn]);
-};
+const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
+  const key = await AESSecretBox.createSecretKey()
+  const secretBox = new AESSecretBox(key)
+  const encrypted = await secretBox.encrypt(vpJwt)
+
+  const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
+
+  // await validateCid(encrypted, resp.data.cid)
+
+  return `${resp.data.url}#${key}`
+}
+
+const uploadPresentation = (vpJwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
+  const conveyUrl = await getEndpoint('convey')
+
+  if (!serviceToken) {
+    const conveyDid = await getEndpoint('conveyDid')
+    const identities = await agent.identityManager.getIdentities()
+
+    const doConveyServiceAuth = serviceAuthenticationFactory(agent)
+    serviceToken = await doConveyServiceAuth(conveyUrl, conveyDid, identities[0].did)(dispatch)
+  }
+
+  return doUpload(vpJwt, serviceToken!, conveyUrl)
+}

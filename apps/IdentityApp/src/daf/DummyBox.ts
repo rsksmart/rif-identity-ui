@@ -8,6 +8,10 @@ export class SecretBox extends AbstractSecretBox {
     }
   }
 
+  static async createSecretKey(): Promise<string> {
+    return 'theSecret'
+  }
+
   async encrypt(message: string): Promise<string> {
     return new Promise(resolve => resolve(message));
   }

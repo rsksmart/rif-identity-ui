@@ -2,7 +2,7 @@ import { AbstractSecretBox } from 'daf-core';
 import '../../shim.js'
 import crypto from 'crypto'
 
-export class AESEcryptionBox extends AbstractSecretBox {
+export class AESSecretBox extends AbstractSecretBox {
   constructor(private secretKey: string) {
     super();
     if (!secretKey) {
@@ -18,7 +18,6 @@ export class AESEcryptionBox extends AbstractSecretBox {
   // crypto.createCipher is deprecated, it suggests to use createCipheriv
   // This class uses the deprecated method because is the one supported by react-native-crypto: https://www.npmjs.com/package/react-native-crypto/v/2.2.0
   async encrypt(message: string): Promise<string> {
-    const iv = crypto.randomBytes(12)
     const key = crypto.createCipher('aes-256-cbc', this.secretKey);
     let encrypted = key.update(message, 'utf8', 'hex')
     encrypted += key.final('hex');

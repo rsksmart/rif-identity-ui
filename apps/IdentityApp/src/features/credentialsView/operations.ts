@@ -23,7 +23,7 @@ import * as RootNavigation from '../../AppNavigation';
 import { putInDataVault } from '../../Providers/DataVaultProvider';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent } from '../../daf/dafSetup';
-import { AESEcryptionBox } from '../../daf/AESEncryptionBox';
+import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
 import 'text-encoding-polyfill'
 
@@ -288,9 +288,9 @@ const validateCid = async (encrypted: string, actual: string) => {
 }
 
 const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
-  const key = await AESEcryptionBox.createSecretKey()
-  const encryptionBox = new AESEcryptionBox(key)
-  const encrypted = await encryptionBox.encrypt(vpJwt)
+  const key = await AESSecretBox.createSecretKey()
+  const secretBox = new AESSecretBox(key)
+  const encrypted = await secretBox.encrypt(vpJwt)
 
   const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
 

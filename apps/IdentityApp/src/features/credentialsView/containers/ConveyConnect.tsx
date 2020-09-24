@@ -5,18 +5,18 @@ import { RootState } from '../../../state/store';
 import { createPresentation } from '../operations';
 import { Credential } from '../reducer';
 
-const mapConveyStateToConveyProps = (state:RootState ) => ({
+const mapStateToProps = (state:RootState ) => ({
   fullCredentials: state.credentials.credentials,
   conveyServiceToken: selectServiceTokenByIdentity(
     state.authentication, state.identity.identities[0], state.settings.endpoints.conveyDid
   )
 })
 
-const mapDispatchToConveyProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   createPresentation: (credential: Credential, token: string) => dispatch(createPresentation(credential.jwt, token)),
 })
 
-const mergeConveyProps = (stateProps, dispatchProps, ownProps) => ({
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   ...ownProps,
@@ -27,4 +27,4 @@ const mergeConveyProps = (stateProps, dispatchProps, ownProps) => ({
     ),
 })
 
-export default connect(mapConveyStateToConveyProps, mapDispatchToConveyProps, mergeConveyProps)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)

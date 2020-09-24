@@ -124,16 +124,15 @@ export const sendRequestToServer = (did: string, metadata: any, callback: Callba
     );
   });
 
+/**
+ * Request Status of Credential from the server.
+ * @param hash string DataVault hash to be requested.
+ */
 export const checkStatusOfCredential = (hash: string) =>
   getEndpoint('issuer').then(url =>
     axios
       .get(`${url}/receiveCredential/?hash=${hash}`)
-      .then((response: { data: string }) => {
-        return Promise.resolve(response.data);
-      })
-      .catch(() => {
-        return Promise.resolve(null);
-      }),
+      .then((response: { data: string }) => response.data),
   );
 
 /**
@@ -155,46 +154,53 @@ export const checkStatusOfRequestedCredentials = (
   const deleteIssuedCredential = deleteIssuedCredentialRequestFactory(agent);
   const receiveCredentialRif = receiveCredentialFactory(agent);
 
+  let promiseArray = <Promise<any>[]>[];
+
   requestedCredentials.forEach(async (request: IssuedCredentialRequest) => {
-    let promiseArray = <Promise<any>[]>[];
     if (request.status === 'pending') {
-      await getHashByRequestId(request.id)
-        .then(hash => {
-          checkStatusOfCredential(hash)
-            .then(result => {
-              switch (result.status) {
-                case 'DENIED':
-                  dispatch(setIssuedCredentialStatus(did, request.id, 'DENIED'));
-                  break;
-                case 'SUCCESS':
-                  const callback = (err: Error, res) => {
-                    if (err) {
-                      throw err;
-                    }
-                    if (res) {
-                      putInDataVault(
-                        dataVaultKeys.CREDENTIALS,
-                        res.payload.credential.raw,
-                      ).then((ipfshash: string) =>
-                        promiseArray.push(new Promise(resolve => resolve(ipfshash))),
-                      );
-                    }
-                  };
+      promiseArray.push(
+        new Promise(resolve => {
+          getHashByRequestId(request.id)
+            .then(hash => {
+              checkStatusOfCredential(hash)
+                .then((result: any) => {
+                  switch (result.status) {
+                    case 'DENIED':
+                      resolve(dispatch(setIssuedCredentialStatus(did, request.id, 'DENIED')));
+                      break;
+                    case 'SUCCESS':
+                      const callback = (err: Error, res: any) => {
+                        if (err) {
+                          throw err;
+                        }
+                        if (res) {
+                          putInDataVault(
+                            dataVaultKeys.CREDENTIALS,
+                            res.payload.credential.raw,
+                          ).then((ipfshash: string) => {
+                            console.log('data vault success!', ipfshash);
+                            resolve(ipfshash);
+                          });
+                        }
+                      };
 
-                  dispatch(receiveCredentialRif(result.payload.raw, callback));
-                  dispatch(deleteIssuedCredential(did, request.id));
-                  break;
-              }
+                      dispatch(receiveCredentialRif(result.payload.raw, callback));
+                      dispatch(deleteIssuedCredential(did, request.id));
+                      break;
+                    default:
+                      resolve();
+                  }
+                })
+                .catch(err => console.log('check err', err));
             })
-            .catch(err => console.log('check err', err));
-        })
-        .catch(err => {
-          console.log('an error', err);
-        });
+            .catch(err => {
+              console.log('an error', err);
+            });
+        }),
+      );
     }
-
-    return Promise.all(promiseArray);
   });
+  return Promise.all(promiseArray);
 };
 
 /**

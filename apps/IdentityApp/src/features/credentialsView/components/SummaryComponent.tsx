@@ -5,7 +5,6 @@ import { multilanguage } from 'redux-multilanguage';
 import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
-import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
 import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
@@ -17,12 +16,9 @@ interface SummaryComponentProps {
   requestedCredentials: IssuedCredentialRequest[];
   strings: any;
   navigation: any;
-  isLoading: boolean;
   checkPending: () => Promise<any>[];
   createPresentation: (credentialHash: string) => {};
-  isCheckingPendingStatus: boolean;
   hasMnemonic: boolean;
-  isRestoring: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
@@ -30,7 +26,6 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   requestedCredentials,
   strings,
   navigation,
-  isLoading,
   checkPending,
   createPresentation,
   hasMnemonic,
@@ -67,10 +62,6 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   const setUpMnemonic = () => {
     navigation.navigate('SignupFlow', { screen: 'MnemonicView' });
   };
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
 
   return (
     <ScrollView

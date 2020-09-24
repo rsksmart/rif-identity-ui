@@ -74,11 +74,6 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               onChange={async text => handleChange('issuer', text)}
             />
             <EditItem
-              name={strings.tiny_qr}
-              value={newEndpoints.tinyQr}
-              onChange={async text => handleChange('tinyQr', text)}
-            />
-            <EditItem
               name={strings.ipfs_gateway}
               value={newEndpoints.ipfs}
               onChange={async text => handleChange('ipfs', text)}

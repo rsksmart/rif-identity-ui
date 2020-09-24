@@ -2,7 +2,6 @@ import { SETTINGS_TYPES } from './actions';
 
 export interface EndpointsInterface {
   issuer: string;
-  tinyQr: string;
   ipfs: string;
   dataVault: string;
   rskNode: string;

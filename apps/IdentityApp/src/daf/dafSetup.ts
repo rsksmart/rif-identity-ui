@@ -76,9 +76,7 @@ export const agent = new Daf.Agent({
   messageHandler,
 });
 
-export const dropDafDb = () => {
-  console.log('dropped');
-  dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
-};
+export const dropDafDb = () => dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
+
 
 export const resetMnemonicStore = async () => await mnemonicStore.delete();

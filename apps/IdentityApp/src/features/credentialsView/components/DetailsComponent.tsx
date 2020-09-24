@@ -15,7 +15,6 @@ import DeleteCredentialComponent from './DeleteCredentialComponent';
 
 interface DetailsComponentProps {
   credential: Credential;
-  conveyServiceToken: string;
   strings: any;
   removeCredential: (hash: String) => {};
   createPresentation: (hash: String) => {};

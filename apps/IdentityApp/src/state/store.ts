@@ -10,9 +10,9 @@ import { PinReducer } from '../features/pin';
 import identityReducer from '@rsksmart/rif-id-core/lib/reducers/identitySlice';
 import RestoreReducer from '../features/restore/reducer';
 import { SettingsReducer } from '../features/settings';
-import authenticationReducer from 'je-id-core/lib/reducers/authentication';
-import CredentialsReducer from 'jesse-rif-id-core/lib/reducers/credentials';
-import RequestedCredentials from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import authenticationReducer from '@rsksmart/rif-id-core/lib/reducers/authentication';
+import CredentialsReducer from '@rsksmart/rif-id-core/lib/reducers/credentials';
+import RequestedCredentials from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 
 const middleware = [thunk, customLogger];
 

@@ -7,9 +7,11 @@ import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
-import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
-import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { CredentialRequestInput } from 'daf-selective-disclosure';
+import QRCode from 'react-native-qrcode-svg';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface SummaryComponentProps {
   issuedCredentials: RifCredential[];

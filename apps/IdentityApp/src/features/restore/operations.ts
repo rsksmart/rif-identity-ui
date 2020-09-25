@@ -11,7 +11,7 @@ import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operatio
 import { deleteAllIdentitiesFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { agent } from '../../daf/dafSetup';
 import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
-import { receiveCredentialFactory } from 'jesse-rif-id-core/lib/operations/credentials';
+import { receiveCredentialFactory } from '@rsksmart/rif-id-core/lib/operations/credentials';
 
 /**
  * Helper function to delete identities in redux and the DB.

@@ -3,14 +3,14 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 
-import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
 import StatusIcon from './StatusIcon';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import ClaimsDataComponent from './ClaimsDataComponent';
 import DeleteCredentialComponent from './DeleteCredentialComponent';
-import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { CredentialRequestInput } from 'daf-selective-disclosure';
 import { CopyButton } from '../../../Libraries/CopyButton';
 

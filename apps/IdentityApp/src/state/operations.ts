@@ -9,10 +9,8 @@ import { getEndpointsFromLocalStorage } from '../features/settings/operations';
 import { agent } from '../daf/dafSetup';
 import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
 import { initDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
-import { getEndpoint } from '../Providers/Endpoints';
-import { serviceLoginFactory } from 'je-id-core/lib/operations/authentication'
-import { initCredentialRequestsFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
-import { initCredentialsFactory } from 'jesse-rif-id-core/lib/operations/credentials';
+import { initCredentialRequestsFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { initCredentialsFactory } from '@rsksmart/rif-id-core/lib/operations/credentials';
 
 export const initialAppStart = () => async (dispatch: Dispatch<Function | Action>) => {
   dispatch(requestIsSignedUp());

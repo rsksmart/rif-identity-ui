@@ -1,10 +1,8 @@
 {
-  "ISSUER_NAME": "RIFOS",
-  "ISSUER_ENDPOINT": "https://identity-credentials.testnet.rifos.org",
-  "TINYQR_ENDPOINT": "https://identity-tiny-qr.testnet.rifos.org",
+  "ISSUER_ENDPOINT": "http://192.168.0.14:5100",
   "IPFS_GATEWAY_ENDPOINT": "http://ec2-3-131-142-122.us-east-2.compute.amazonaws.com:8080/ipfs",
   "DATA_VAULT_ENDPOINT": "http://ec2-3-131-142-122.us-east-2.compute.amazonaws.com:5102",
   "RSK_NODE": "https://did.testnet.rsk.co:4444",
-  "CONVEY_URL": "",
-  "CONVEY_DID": ""
+  "CONVEY_URL": "http://192.168.0.14:5104",
+  "CONVEY_DID": "did:ethr:rsk:testnet:0x0363c4d88b689b4ea86f73352c86ea22e6f66184118a8a76184d83712d0302c331"
 }

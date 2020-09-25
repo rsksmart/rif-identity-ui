@@ -2,31 +2,30 @@ import { Dispatch } from 'redux';
 import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 
-// import { requestPresentation, receivePresentation } from './actions';
 import { CredentialTypes } from '../../Providers/Issuers';
 import { getEndpoint } from '../../Providers/Endpoints';
 import { agent, dbConnection } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
-import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication'
-import 'text-encoding-polyfill'
+import { serviceAuthenticationFactory } from '@rsksmart/rif-id-core/lib/operations/authentication';
+import 'text-encoding-polyfill';
 import {
   deleteCredentialFactory,
   receiveCredentialFactory,
-} from 'jesse-rif-id-core/lib/operations/credentials';
+} from '@rsksmart/rif-id-core/lib/operations/credentials';
 import {
   deleteIssuedCredentialRequestFactory,
   issueCredentialRequestFactory,
   setIssuedCredentialRequestStatusFactory,
-} from 'jesse-rif-id-core/lib/operations/credentialRequests';
-import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
-import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+} from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 import {
   dataVaultKeys,
   putInDataVault,
   findCredentialAndDelete,
 } from '../../Providers/IPFSPinnerClient';
-import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
-import { findOneCredentialRequest } from 'jesse-rif-id-core/lib/entities/CredentialRequest';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
+import { findOneCredentialRequest } from '@rsksmart/rif-id-core/lib/entities/CredentialRequest';
 
 /**
  * Remove an issued credential from the local database and the data vault

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
-import moment from 'moment';
 
 import DisplayItem from './DisplayItem';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -63,7 +62,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
 
             <DisplayItem
               name={strings.birthdate}
-              value={profile.birthdate ? moment(profile.birthdate.value).format('MMM D YYYY') : ''}
+              value={
+                profile.birthdate ? new Date(profile.birthdate.value).toLocaleDateString() : ''
+              }
             />
             <DisplayItem
               name={strings.idNumber}

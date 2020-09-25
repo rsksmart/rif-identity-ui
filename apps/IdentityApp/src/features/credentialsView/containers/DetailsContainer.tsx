@@ -2,14 +2,11 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { DetailsComponent } from '../components';
 import { RootState } from '../../../state/store';
-import {
-  createPresentation,
-  removeIssuedCredential,
-  removeRequestedCredential,
-} from '../operations';
-import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { removeIssuedCredential, removeRequestedCredential } from '../operations';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
 import * as RootNavigation from '../../../AppNavigation';
-import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
+import conveyConnect from './ConveyConnect';
 
 const mapStateToProps = (state: RootState) => ({
   did: state.identity.identities[0],
@@ -18,7 +15,6 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  createPresentation: (credential: RifCredential) => dispatch(createPresentation(credential.raw)),
   removeCredential: (credential?: RifCredential, requestedCredential?: IssuedCredentialRequest) => {
     const callback = (err: Error) => {
       if (!err) {

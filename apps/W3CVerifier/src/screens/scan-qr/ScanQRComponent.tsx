@@ -8,6 +8,7 @@ import Button from '../../shared/Button'
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import LoadingComponent from '../shared/LoadingComponent';
+import { errorConveyLogin } from 'src/state/localUi/actions';
 
 interface ScanQRProps {
   strings: any;
@@ -15,10 +16,14 @@ interface ScanQRProps {
   navigation: any;
   isVerifying: boolean;
   allowScanAgain: boolean;
+  isLoggingInToConvey: boolean;
+  isLoggedInToConvey: boolean;
+  errorConveyLogin: boolean;
 }
 
 const ScanQRComponent: React.FC<ScanQRProps> = ({
-  strings, handleScan, navigation, isVerifying, allowScanAgain
+  strings, handleScan, navigation, isVerifying, allowScanAgain,
+  isLoggingInToConvey, isLoggedInToConvey, errorConveyLogin
 }) => {
   const [isScanFinished, setIsScanFinished] = useState(false)
   const [jwt, setJwt] = useState('')
@@ -50,17 +55,23 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
     },
   })
 
-  if (isVerifying) {
+  if (isVerifying || isLoggingInToConvey) {
     return <LoadingComponent />
   }
 
+  const conveyLegend =
+    (isLoggedInToConvey && strings.convey_service_present) || 
+    (!isLoggedInToConvey && errorConveyLogin && strings.convey_error) ||
+    strings.no_convey_service_present   
+  
   return (
     <View style={styles.body}>
       <View style={layoutStyles.container}>
         <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
         <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
+        <Text style={{ ...typeStyles.legend, paddingTop: 10 }}>{conveyLegend}</Text>
       </View>
-      {/* Leave this comment for testing purposes, the scanner does not work in the simulators */}
+      {/* Leave this comment for testing purposes, the scanner does not work in the emulators */}
       {/* <View>
         <Text style={typeStyles.paragraph}>{strings.enter_jwt}</Text>
         <TextInput

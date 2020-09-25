@@ -32,6 +32,13 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: colors.typography.primary,
   },
+  legend: {
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 12,
+    lineHeight: 14,
+    color: colors.typography.primary,
+  },
   paragraph: {
     fontSize: 18,
   },

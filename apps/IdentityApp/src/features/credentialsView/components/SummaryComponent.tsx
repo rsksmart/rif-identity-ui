@@ -33,8 +33,10 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
   hasMnemonic,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [qrModalHash, setQrModalHash] = useState<string | null>(null);
   const [isCheckingPendingStatus, setIsCheckingPendingStatus] = useState<boolean>(false);
+  const [showQrModal, setShowQrModal] = useState<boolean>(false);
+  const [qrModalHash, setQrModalHash] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
 
   const hasPending =
     requestedCredentials.filter((item: any) => item.status === 'pending').length !== 0;
@@ -47,7 +49,17 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
     if (clickType === 'DETAILS') {
       return navigation.navigate('Details', { credentialIdentifier, reducer });
     } else {
-      createPresentation(credentialIdentifier).then((response: string) => setQrModalHash(response));
+      setQrModalHash(null);
+      setShowQrModal(true);
+      setQrError(null);
+      createPresentation(credentialIdentifier)
+        .then((response: string) => {
+          setQrModalHash(response);
+        })
+        .catch(err => {
+          setQrError(err.toString());
+          console.log('err', err);
+        });
     }
   };
 
@@ -77,9 +89,12 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
       </View>
 
       {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
-      {requestedCredentials.length === 0 && issuedCredentials.length === 0 && hasMnemonic && (
-        <MessageComponent message={strings.no_credentials} type="WARNING" />
-      )}
+      {requestedCredentials.length === 0 &&
+        issuedCredentials.length === 0 &&
+        hasMnemonic &&
+        !isCheckingPendingStatus && (
+          <MessageComponent message={strings.no_credentials} type="WARNING" />
+        )}
 
       {hasPending && !isCheckingPendingStatus && (
         <MessageComponent message={strings.pull_down_refresh} type="WARNING" />
@@ -119,13 +134,17 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         ))}
       </View>
 
-      <ModalComponent visible={qrModalHash !== null}>
+      <ModalComponent visible={showQrModal}>
         <View style={layout.column1}>
-          <Text>{qrModalHash}</Text>
+          <View style={styles.modalQr}>
+            {!qrModalHash && !qrError && <LoadingComponent />}
+            {qrModalHash && <QRCode value={qrModalHash} size={225} />}
+            {qrError && <MessageComponent message={qrError} type="ERROR" />}
+          </View>
           <SquareButton
             title={strings.close}
             variation="hollow"
-            onPress={() => setQrModalHash(null)}
+            onPress={() => setShowQrModal(false)}
           />
         </View>
       </ModalComponent>
@@ -142,6 +161,9 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingRight: 20,
     paddingBottom: 20,
+  },
+  modalQr: {
+    marginBottom: 20,
   },
 });
 

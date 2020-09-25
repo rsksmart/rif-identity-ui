@@ -13,6 +13,9 @@ import DeleteCredentialComponent from './DeleteCredentialComponent';
 import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { CredentialRequestInput } from 'daf-selective-disclosure';
 import { CopyButton } from '../../../Libraries/CopyButton';
+import QRCode from 'react-native-qrcode-svg';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
 
 interface DetailsComponentProps {
   getCredential: () => RifCredential;
@@ -33,16 +36,21 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
   strings,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
-  const [showQr, setShowQr] = useState<string | null>(null);
+  const [showQr, setShowQr] = useState<boolean>(false);
+  const [qrModalHash, setQrModalHash] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
 
   const credential = getCredential();
   const credentialRequest = getCredentialRequest();
 
   const handleQrClick = () => {
+    setShowQr(true);
+    setQrModalHash(null);
     createPresentation(credential.hash)
       .then(response => {
-        setShowQr(response);
-      });
+        setQrModalHash(response);
+      })
+      .catch(err => setQrError(err.toString()));
   };
 
   // if the credential does not exist, show the delete screen.
@@ -111,13 +119,17 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
               {status === 'CERTIFIED' && (
                 <View style={styles.buttonView}>
                   <SquareButton title="Show QR Code" onPress={handleQrClick} />
-                  <ModalComponent visible={showQr !== null}>
+                  <ModalComponent visible={showQr}>
                     <View style={layout.column1}>
-                      <Text>{showQr}</Text>
+                      <View style={styles.modalQr}>
+                        {!qrModalHash && !qrError && <LoadingComponent />}
+                        {qrModalHash && <QRCode value={qrModalHash} size={225} />}
+                        {qrError && <MessageComponent message={qrError} type="ERROR" />}
+                      </View>
                       <SquareButton
                         title={strings.close}
                         variation="hollow"
-                        onPress={() => setShowQr(null)}
+                        onPress={() => setShowQr(false)}
                       />
                     </View>
                   </ModalComponent>
@@ -162,6 +174,9 @@ const styles = StyleSheet.create({
   did: {
     fontSize: 16,
     paddingLeft: 5,
+  },
+  modalQr: {
+    marginBottom: 20,
   },
 });
 

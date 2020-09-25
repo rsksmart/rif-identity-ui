@@ -205,55 +205,67 @@ export const checkStatusOfRequestedCredentials = (
 /**
  * Create presentation of a VC using the JWT and the identityManger in the agent.
  * @param jwt JWT of the credential to be presented
+ * @param serviceToken token to access Convey service if available
  */
-export const createPresentation = (jwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
-  dispatch(requestPresentation());
-  agent.identityManager.getIdentities().then(identities => {
-    agent
-      .handleAction({
-        type: 'sign.w3c.vp.jwt',
-        data: {
-          issuer: identities[0].did,
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          type: ['VerifiablePresentation'],
-          verifiableCredential: [jwt],
-          nbf: Math.floor(new Date().getTime() / 1000),
-          exp: Math.floor(new Date().getTime() / 1000) + 600,
-        },
-      })
-      .then(sdrJwt => sdrJwt._raw)
-      .then(jwt => uploadPresentation(jwt, serviceToken)(dispatch))
-      .then(uri => dispatch(receivePresentation(uri)))
-      .catch((err) => { console.log(err); dispatch(errorReceivePresentation()) })
+export const createPresentation = (jwt: string, serviceToken: string) => (
+  dispatch: Dispatch<any>,
+) => {
+  return new Promise((resolve, reject) => {
+    agent.identityManager.getIdentities().then(identities => {
+      agent
+        .handleAction({
+          type: 'sign.w3c.vp.jwt',
+          data: {
+            issuer: identities[0].did,
+            '@context': ['https://www.w3.org/2018/credentials/v1'],
+            type: ['VerifiablePresentation'],
+            verifiableCredential: [jwt],
+            nbf: Math.floor(new Date().getTime() / 1000),
+            exp: Math.floor(new Date().getTime() / 1000) + 600,
+          },
+        })
+        .then(sdrJwt => sdrJwt._raw)
+        .then(jwt => uploadPresentation(jwt, serviceToken)(dispatch))
+        .then(uri => resolve(uri))
+        .catch(err => {
+          console.log(err);
+          reject(err);
+        });
+    });
   });
 };
 
 const validateCid = async (encrypted: string, actual: string) => {
   // TODO: should calculate the encrypted hash and compare it with the actual one. The must be equals
-}
+};
 
 const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
-  const key = await AESSecretBox.createSecretKey()
-  const secretBox = new AESSecretBox(key)
-  const encrypted = await secretBox.encrypt(vpJwt)
+  const key = await AESSecretBox.createSecretKey();
+  const secretBox = new AESSecretBox(key);
+  const encrypted = await secretBox.encrypt(vpJwt);
 
-  const resp = await axios.post(`${conveyUrl}/file`, { file: encrypted }, { headers: { 'Authorization': serviceToken }})
+  const resp = await axios.post(
+    `${conveyUrl}/file`,
+    { file: encrypted },
+    { headers: { Authorization: serviceToken } },
+  );
 
   // await validateCid(encrypted, resp.data.cid)
 
-  return `${resp.data.url}#${key}`
-}
+  return `${resp.data.url}#${key}`;
+};
 
 const uploadPresentation = (vpJwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
-  const conveyUrl = await getEndpoint('convey')
+  const conveyUrl = await getEndpoint('convey');
 
   if (!serviceToken) {
-    const conveyDid = await getEndpoint('conveyDid')
-    const identities = await agent.identityManager.getIdentities()
+    const conveyDid = await getEndpoint('conveyDid');
+    const identities = await agent.identityManager.getIdentities();
 
-    const doConveyServiceAuth = serviceAuthenticationFactory(agent)
-    serviceToken = await doConveyServiceAuth(conveyUrl, conveyDid, identities[0].did)(dispatch)
+    const doConveyServiceAuth = serviceAuthenticationFactory(agent);
+    serviceToken = await doConveyServiceAuth(conveyUrl, conveyDid, identities[0].did)(dispatch);
+    console.log('got token', serviceToken);
   }
 
-  return doUpload(vpJwt, serviceToken!, conveyUrl)
-}
+  return doUpload(vpJwt, serviceToken!, conveyUrl);
+};

@@ -112,5 +112,6 @@
   "check_mnemonic": "Check Mnemonic",
   "create_new_identity": "Create new Identity",
   "convey_url": "Convey URL",
-  "convey_did": "Convey DID"
+  "convey_did": "Convey DID",
+  "issuer_did": "Issuer DID"
 }

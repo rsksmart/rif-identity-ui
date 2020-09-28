@@ -1196,18 +1196,7 @@
     daf-selective-disclosure "^6.3.0"
     daf-w3c "^6.3.0"
 
-"@rsksmart/rif-id-daf@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.4.tgz#8734617d04eaeb43d6b4224d0f9e986ba4430945"
-  integrity sha512-4SnTwqDz8qhAPNcsEPCS7lkfQHsnLGjPDW+gQp0VsecTha9lNJdiIhU9g8S8+v8hImjc7k5rjosAMLwIQdXhIg==
-  dependencies:
-    "@rsksmart/rif-id-ethr-did" "0.0.1"
-    "@rsksmart/rif-id-mnemonic" "0.0.1"
-    daf-core "^6.1.2"
-    daf-ethr-did "^6.1.2"
-    typeorm "0.2.24"
-
-"@rsksmart/rif-id-daf@0.0.5":
+"@rsksmart/rif-id-daf@0.0.5", "@rsksmart/rif-id-daf@0.0.6":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.5.tgz#2c61c74745b95ccf84a8345def2aef02e538ccd7"
   integrity sha512-0fUL2HyFVg9oQ0NdTZnq9bK3upCSh44QfQV2FeAxwEguQvwGzWA//8KYNzrCQjnf5qQyJrTHtsOSlfKmd5QM/w==
@@ -1217,21 +1206,6 @@
     daf-core "^6.1.2"
     daf-ethr-did "^6.1.2"
     typeorm "0.2.24"
-
-"@rsksmart/rif-id-ethr-did@0.0.1", "@rsksmart/rif-id-ethr-did@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-ethr-did/-/rif-id-ethr-did-0.0.1.tgz#9ee42d361ffb922327329085e1531bc153259147"
-  integrity sha512-TPIzZJac6P8xvrkTaD52HkSi59+g1UTla9ig11IE+8bLGRGwE1mtzhJoKcAUNG6MvWA/yelln7lqS1lf7vyrUQ==
-  dependencies:
-    "@types/elliptic" "^6.4.12"
-    "@types/keccak" "^3.0.1"
-    "@types/lodash" "^4.14.157"
-    "@types/node" "^14.0.23"
-    elliptic "^6.5.3"
-    ethr-did "^1.1.0"
-    keccak "^3.0.0"
-    lodash "^4.17.19"
-    rskjs-util "^1.0.3"
 
 "@rsksmart/rif-id-ethr-did@0.0.2":
   version "0.0.2"
@@ -1244,6 +1218,21 @@
     "@types/lodash" "^4.14.157"
     "@types/node" "^14.0.23"
     elliptic "^6.5.3"
+    keccak "^3.0.0"
+    lodash "^4.17.19"
+    rskjs-util "^1.0.3"
+
+"@rsksmart/rif-id-ethr-did@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-ethr-did/-/rif-id-ethr-did-0.0.1.tgz#9ee42d361ffb922327329085e1531bc153259147"
+  integrity sha512-TPIzZJac6P8xvrkTaD52HkSi59+g1UTla9ig11IE+8bLGRGwE1mtzhJoKcAUNG6MvWA/yelln7lqS1lf7vyrUQ==
+  dependencies:
+    "@types/elliptic" "^6.4.12"
+    "@types/keccak" "^3.0.1"
+    "@types/lodash" "^4.14.157"
+    "@types/node" "^14.0.23"
+    elliptic "^6.5.3"
+    ethr-did "^1.1.0"
     keccak "^3.0.0"
     lodash "^4.17.19"
     rskjs-util "^1.0.3"
@@ -2878,7 +2867,7 @@ create-react-class@^15.6.3:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-cross-fetch@^3.0.4:
+cross-fetch@^3.0.4, cross-fetch@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
   integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
@@ -3074,7 +3063,7 @@ debug@=3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.2.0.tgz#7f150f93920e94c58f5574c2fd01a3110effe7f1"
   integrity sha512-IX2ncY78vDTjZMFUdmsvIRFY2Cf4FnD0wRs+nQwJU8Lu99/tPFdb0VybiiMTPe3I6rQmwsqQqRBvxU+bZ/I8sg==
@@ -5364,6 +5353,33 @@ iterable-ndjson@^1.1.0:
   integrity sha512-OOp1Lb0o3k5MkXHx1YaIY5Z0ELosZfTnBaas9f8opJVcZGBIONA2zY/6CYE+LKkqrSDooIneZbrBGgOZnHPkrg==
   dependencies:
     string_decoder "^1.2.0"
+
+jesse-rif-id-core@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.20.tgz#51a730be341f6236ae86806deed0ac08fa7c059d"
+  integrity sha512-tRt/VHhDa9BUnV12I4cUkX25L+rAS6jXWwayBNE4pV1cbUFT9iv7Nsa1QqvFIv1atWoa72fGvUvqEZQ2UTQnzg==
+  dependencies:
+    "@reduxjs/toolkit" "^1.4.0"
+    "@rsksmart/rif-id-daf" "0.0.6"
+    axios "^0.20.0"
+    daf-core "^6.3.0"
+    daf-did-comm "^6.3.0"
+    daf-selective-disclosure "^6.3.0"
+    daf-w3c "^6.3.0"
+
+jesse-rif-id-daf@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-daf/-/jesse-rif-id-daf-0.0.3.tgz#c7cd3499ba2226736091b17ff7bd2f8c66323288"
+  integrity sha512-lvzjyzX2hpZsSzKYiPsRsAzTGFVsWQkO7PrGcQR44niM5b9otgjuzSMB6NA6xTrwtLmxPgzmiziSq7wy4ekHRA==
+  dependencies:
+    "@rsksmart/rif-id-ethr-did" "0.0.2"
+    "@rsksmart/rif-id-mnemonic" "0.0.1"
+    cross-fetch "^3.0.6"
+    daf-core "^6.3.0"
+    daf-ethr-did "^6.1.2"
+    debug "^4.2.0"
+    typeorm "0.2.24"
+    uuid "^3.3.3"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"

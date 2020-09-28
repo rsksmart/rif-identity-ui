@@ -3,7 +3,11 @@ import axios from 'axios';
 import { keccak256 } from 'js-sha3';
 
 import { CredentialTypes } from '../../Providers/Issuers';
-import { getEndpoint } from '../../Providers/Endpoints';
+import {
+  getAllEndpoints,
+  getEndpoint,
+  defaults as endpointDefaults,
+} from '../../Providers/Endpoints';
 import { agent, dbConnection } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
 import { serviceAuthenticationFactory } from '@rsksmart/rif-id-core/lib/operations/authentication';
@@ -14,9 +18,10 @@ import {
 } from '@rsksmart/rif-id-core/lib/operations/credentials';
 import {
   deleteIssuedCredentialRequestFactory,
-  issueCredentialRequestFactory,
   setIssuedCredentialRequestStatusFactory,
 } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
+// import { issueCredentialRequestFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
 import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 import {
@@ -102,35 +107,64 @@ const createClaim = (metadata: any) => {
 };
 
 /**
+ * Helper function to get the serviceToken
+ * @param url string URL of the service
+ * @param serviceDid string DID of the service
+ * @param userDid string DID of the user
+ * @param callback Function callback function (err, res)
+ */
+const serviceAuthentication = serviceAuthenticationFactory(agent);
+const getServiceToken = (
+  url: string,
+  serviceDid: string,
+  userDid: string,
+  callback: Callback<string>,
+) => (dispatch: Dispatch<any>) =>
+  dispatch(serviceAuthentication(url, serviceDid, userDid, callback));
+
+/**
  * Sends a request to the Credential Server.
  * @param metaData metaData in the credential
  */
-export const sendRequestToServer = (did: string, metadata: any, callback: Callback<any>) => async (
-  dispatch: Dispatch<any>,
-) =>
-  getEndpoint('issuer').then((endpoint: string) => {
+export const sendRequestToServer = (
+  did: string,
+  metadata: any,
+  serviceToken: string | undefined,
+  callback: Callback<any>,
+) => async (dispatch: Dispatch<any>) =>
+  getAllEndpoints().then(async (settings: typeof endpointDefaults) => {
     const claims = createClaim(metadata);
     const issueCredentialRequest = issueCredentialRequestFactory(agent);
-    dispatch(
-      issueCredentialRequest(
-        did,
-        'did:ethr:rsk:testnet:0xdcbe93e98e0dcebe677c39a84f5f212b85ba7ef0',
-        claims,
-        'pending',
-        endpoint + '/requestCredential',
-        callback,
-      ),
-    );
+
+    const makeRequest = (_err: Error | undefined, token: string) =>
+      dispatch(
+        issueCredentialRequest(
+          did,
+          settings.issuerDid,
+          claims,
+          'pending',
+          {
+            url: `${settings.issuer}/requestCredential`,
+            headers: { authorization: token },
+          },
+          /*`${settings.issuer}/requestCredential`,*/
+          callback,
+        ),
+      );
+
+    serviceToken
+      ? makeRequest(undefined, serviceToken)
+      : dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequest));
   });
 
 /**
  * Request Status of Credential from the server.
  * @param hash string DataVault hash to be requested.
  */
-export const checkStatusOfCredential = (hash: string) =>
+export const checkStatusOfCredential = (hash: string, serviceToken: string) =>
   getEndpoint('issuer').then(url =>
     axios
-      .get(`${url}/receiveCredential/?hash=${hash}`)
+      .get(`${url}/receiveCredential/?hash=${hash}`, { headers: { Authorization: serviceToken } })
       .then((response: { data: string }) => response.data),
   );
 
@@ -148,58 +182,71 @@ const getHashByRequestId = (id: string) =>
 export const checkStatusOfRequestedCredentials = (
   did: string,
   requestedCredentials: IssuedCredentialRequest[],
+  serviceToken: string | undefined,
 ) => (dispatch: Dispatch<any>) => {
+  console.log('checking status', did, serviceToken);
   const setIssuedCredentialStatus = setIssuedCredentialRequestStatusFactory(agent);
   const deleteIssuedCredential = deleteIssuedCredentialRequestFactory(agent);
   const receiveCredentialRif = receiveCredentialFactory(agent);
 
   let promiseArray = <Promise<any>[]>[];
 
-  requestedCredentials.forEach(async (request: IssuedCredentialRequest) => {
-    if (request.status === 'pending') {
-      promiseArray.push(
-        new Promise(resolve => {
-          getHashByRequestId(request.id)
-            .then(hash => {
-              checkStatusOfCredential(hash)
-                .then((result: any) => {
-                  switch (result.status) {
-                    case 'DENIED':
-                      resolve(dispatch(setIssuedCredentialStatus(did, request.id, 'DENIED')));
-                      break;
-                    case 'SUCCESS':
-                      const callback = (err: Error, res: any) => {
-                        if (err) {
-                          throw err;
-                        }
-                        if (res) {
-                          putInDataVault(
-                            dataVaultKeys.CREDENTIALS,
-                            res.payload.credential.raw,
-                          ).then((ipfshash: string) => {
-                            console.log('data vault success!', ipfshash);
-                            resolve(ipfshash);
-                          });
-                        }
-                      };
-
-                      dispatch(receiveCredentialRif(result.payload.raw, callback));
-                      dispatch(deleteIssuedCredential(did, request.id));
-                      break;
-                    default:
-                      resolve();
-                  }
-                })
-                .catch(err => console.log('check err', err));
-            })
-            .catch(err => {
-              console.log('an error', err);
-            });
-        }),
-      );
+  const makeRequests = (err: Error | undefined, token: string) => {
+    if (err) {
+      throw err;
     }
+
+    requestedCredentials.forEach(async (request: IssuedCredentialRequest) => {
+      if (request.status === 'pending') {
+        promiseArray.push(
+          new Promise(resolve => {
+            getHashByRequestId(request.id)
+              .then(hash => {
+                checkStatusOfCredential(hash, token)
+                  .then((result: any) => {
+                    switch (result.status) {
+                      case 'DENIED':
+                        resolve(dispatch(setIssuedCredentialStatus(did, request.id, 'DENIED')));
+                        break;
+                      case 'SUCCESS':
+                        const callback = (err: Error, res: any) => {
+                          if (err) {
+                            throw err;
+                          }
+                          if (res) {
+                            putInDataVault(
+                              dataVaultKeys.CREDENTIALS,
+                              res.payload.credential.raw,
+                            ).then((ipfshash: string) => {
+                              console.log('data vault success!', ipfshash);
+                              resolve(ipfshash);
+                            });
+                          }
+                        };
+                        dispatch(receiveCredentialRif(result.payload.raw, callback));
+                        dispatch(deleteIssuedCredential(did, request.id));
+                        break;
+                      default:
+                        resolve();
+                    }
+                  })
+                  .catch(err => console.log('check err', err));
+              })
+              .catch(err => {
+                console.log('an error', err);
+              });
+          }),
+        );
+      }
+    });
+    return Promise.all(promiseArray);
+  };
+
+  return getAllEndpoints().then((settings: typeof endpointDefaults) => {
+    serviceToken
+      ? makeRequests(undefined, serviceToken)
+      : dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequests));
   });
-  return Promise.all(promiseArray);
 };
 
 /**
@@ -225,7 +272,7 @@ export const createPresentation = (jwt: string, serviceToken: string) => (
           },
         })
         .then(sdrJwt => sdrJwt._raw)
-        .then(jwt => uploadPresentation(jwt, serviceToken)(dispatch))
+        .then(jwt => dispatch(uploadPresentation(jwt, identities[0].did, serviceToken)))
         .then(uri => resolve(uri))
         .catch(err => {
           console.log(err);
@@ -235,37 +282,30 @@ export const createPresentation = (jwt: string, serviceToken: string) => (
   });
 };
 
-const validateCid = async (encrypted: string, actual: string) => {
-  // TODO: should calculate the encrypted hash and compare it with the actual one. The must be equals
-};
+const doUpload = (vpJwt: string, serviceToken: string, conveyUrl: string) =>
+  AESSecretBox.createSecretKey().then(key => {
+    const secretBox = new AESSecretBox(key);
+    return secretBox
+      .encrypt(vpJwt)
+      .then((encrypted: string) =>
+        axios.post(
+          `${conveyUrl}/file`,
+          { file: encrypted },
+          { headers: { Authorization: serviceToken } },
+        ),
+      )
+      .then(resp => `${resp.data.url}#${key}`);
+  });
 
-const doUpload = async (vpJwt: string, serviceToken: string, conveyUrl: string) => {
-  const key = await AESSecretBox.createSecretKey();
-  const secretBox = new AESSecretBox(key);
-  const encrypted = await secretBox.encrypt(vpJwt);
+const uploadPresentation = (vpJwt: string, did: string, serviceToken: string) => (dispatch: Dispatch<any>) =>
+  getAllEndpoints().then(
+    (settings: typeof endpointDefaults) =>
+      new Promise(resolve => {
+        const callback = (_err: Error | null, token: string) =>
+          resolve(doUpload(vpJwt, token!, settings.convey));
 
-  const resp = await axios.post(
-    `${conveyUrl}/file`,
-    { file: encrypted },
-    { headers: { Authorization: serviceToken } },
+        serviceToken
+          ? callback(null, serviceToken)
+          : dispatch(getServiceToken(settings.convey, settings.conveyDid, did, callback));
+      }),
   );
-
-  // await validateCid(encrypted, resp.data.cid)
-
-  return `${resp.data.url}#${key}`;
-};
-
-const uploadPresentation = (vpJwt: string, serviceToken: string) => async (dispatch: Dispatch) => {
-  const conveyUrl = await getEndpoint('convey');
-
-  if (!serviceToken) {
-    const conveyDid = await getEndpoint('conveyDid');
-    const identities = await agent.identityManager.getIdentities();
-
-    const doConveyServiceAuth = serviceAuthenticationFactory(agent);
-    serviceToken = await doConveyServiceAuth(conveyUrl, conveyDid, identities[0].did)(dispatch);
-    console.log('got token', serviceToken);
-  }
-
-  return doUpload(vpJwt, serviceToken!, conveyUrl);
-};

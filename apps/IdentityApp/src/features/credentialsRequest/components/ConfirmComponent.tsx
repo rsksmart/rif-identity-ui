@@ -21,11 +21,9 @@ interface RequestTypeComponentProps {
   };
   profile: HolderAppDeclarativeDetailsInterface;
   requirements: [];
-  requestCredential: (metadata: []) => {};
+  requestCredential: (metadata: []) => Promise<any>;
   handleEditProfile: () => {};
   strings: any;
-
-  requestCredentialError: string | null;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
@@ -33,20 +31,23 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   profile,
   requestCredential,
   handleEditProfile,
-
-  requestCredentialError,
   route,
 }) => {
   const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
 
-  const handlePress = () => {
+  const handlePress = async () => {
     setIsRequesting(true);
+    setRequestError(null);
     let metaData = { type: type };
     requirements.forEach((item: declarativeDetails) => {
       metaData[item] = profile[item].value;
     });
-    requestCredential(metaData);
+    requestCredential(metaData).catch((err: Error) => {
+      setIsRequesting(false);
+      setRequestError(err.message);
+    });
   };
 
   const {
@@ -104,15 +105,12 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
               </>
             )}
 
-            {requestCredentialError && (
-              <MessageComponent type="ERROR" message={requestCredentialError} />
-            )}
+            {requestError && <MessageComponent type="ERROR" message={requestError} />}
+            {isRequesting && <LoadingComponent />}
 
             {meetsRequirements() && (
               <SquareButton title={strings.confirm} onPress={handlePress} disabled={isRequesting} />
             )}
-
-            {isRequesting && <LoadingComponent />}
           </View>
         </View>
       </BackScreenComponent>

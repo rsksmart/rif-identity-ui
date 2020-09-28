@@ -74,6 +74,11 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
               onChange={async text => handleChange('issuer', text)}
             />
             <EditItem
+              name={strings.issuer_did}
+              value={newEndpoints.issuerDid}
+              onChange={async text => handleChange('issuerDid', text)}
+            />
+            <EditItem
               name={strings.ipfs_gateway}
               value={newEndpoints.ipfs}
               onChange={async text => handleChange('ipfs', text)}

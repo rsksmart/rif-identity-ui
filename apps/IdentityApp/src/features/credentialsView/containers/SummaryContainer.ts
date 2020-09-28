@@ -10,13 +10,16 @@ const mapStateToProps = (state: RootState) => ({
   issuedCredentials: state.issuedCredentials,
   requestedCredentials: state.requestedCredentials,
   did: state.identity.identities[0] || '',
-
+  authentication: state.authentication,
   hasMnemonic: state.identity.identities.length !== 0,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  checkPending: (did: string, requestedCredentials: IssuedCredentialRequest[]) =>
-    dispatch(checkStatusOfRequestedCredentials(did, requestedCredentials)),
+  checkPending: (
+    did: string,
+    requestedCredentials: IssuedCredentialRequest[],
+    serviceToken: string | undefined,
+  ) => dispatch(checkStatusOfRequestedCredentials(did, requestedCredentials, serviceToken)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -27,6 +30,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     dispatchProps.checkPending(
       stateProps.did,
       stateProps.requestedCredentials[stateProps.did] || [],
+      stateProps.authentication[stateProps.did] || undefined,
     ),
   issuedCredentials: stateProps.issuedCredentials[stateProps.did] || [],
   requestedCredentials: stateProps.requestedCredentials[stateProps.did] || [],

@@ -14,6 +14,7 @@ import * as W3c from 'daf-w3c';
 import * as SD from 'daf-selective-disclosure';
 
 import * as DIDComm from 'daf-did-comm';
+import { DIDCommActionHandler } from 'jesse-rif-id-daf/lib/did-comm-action-handler';
 import { createConnection, Connection } from 'typeorm';
 import { DeclarativeDetail, CredentialRequest } from '@rsksmart/rif-id-core/lib/entities';
 import { SecretBox } from './DummyBox';
@@ -64,7 +65,7 @@ messageHandler
   .setNext(new W3c.W3cMessageHandler())
   .setNext(new SD.SdrMessageHandler());
 
-const actionHandler = new DIDComm.DIDCommActionHandler();
+const actionHandler = new DIDCommActionHandler();
 actionHandler.setNext(new W3c.W3cActionHandler()).setNext(new SD.SdrActionHandler());
 
 export const agent = new Daf.Agent({

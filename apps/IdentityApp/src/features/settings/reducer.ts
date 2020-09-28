@@ -2,6 +2,7 @@ import { SETTINGS_TYPES } from './actions';
 
 export interface EndpointsInterface {
   issuer: string;
+  issuerDid: string;
   ipfs: string;
   dataVault: string;
   rskNode: string;

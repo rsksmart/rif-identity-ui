@@ -4,7 +4,6 @@ import ConfirmComponent from '../components/ConfirmComponent';
 import { RootState } from '../../../state/store';
 import { sendRequestToServer } from '../../credentialsView/operations';
 import * as RootNavigation from '../../../AppNavigation';
-import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 
 const mapStateToProps = (state: RootState) => ({
   declarativeDetails: state.declarativeDetails,
@@ -13,13 +12,11 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  requestCredential: (metadata: any, did: string, serviceToken: string | undefined) => {
-    return new Promise((resolve, reject) => {
-      const callback = (err: Error, res: any) => {
-        console.log(err);
-        console.log(res);
+  requestCredential: (metadata: any, did: string, serviceToken: string | undefined) => 
+    new Promise((resolve, reject) => {
+      const callback = (err: Error) => {
         if (err) {
-          console.log('an error', err);
+          console.log('[ConfirmContainer.ts] err: ', err);
           return reject(err);
         }
 
@@ -30,8 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
         );
       };
       dispatch(sendRequestToServer(did, metadata, serviceToken, callback));
-    });
-  },
+    }),
   handleEditProfile: () =>
     RootNavigation.navigate('CredentialsFlow', {
       screen: 'Profile',

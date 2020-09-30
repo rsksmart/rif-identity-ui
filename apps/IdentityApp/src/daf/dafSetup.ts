@@ -3,7 +3,7 @@ import {
   RIFIdKeyManagementSystem,
   MnemonicStore,
   Entities,
-} from '@rsksmart/rif-id-daf';
+} from 'jesse-rif-id-daf';
 
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';
@@ -16,7 +16,7 @@ import * as SD from 'daf-selective-disclosure';
 import * as DIDComm from 'daf-did-comm';
 import { DIDCommActionHandler } from 'jesse-rif-id-daf/lib/did-comm-action-handler';
 import { createConnection, Connection } from 'typeorm';
-import { DeclarativeDetail, CredentialRequest } from '@rsksmart/rif-id-core/lib/entities';
+import { CredentialRequest, DeclarativeDetail } from 'jesse-rif-id-core/lib/entities';
 import { SecretBox } from './DummyBox';
 
 export const dbConnection = createConnection({

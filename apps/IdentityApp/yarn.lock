@@ -5354,10 +5354,10 @@ iterable-ndjson@^1.1.0:
   dependencies:
     string_decoder "^1.2.0"
 
-jesse-rif-id-core@^0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.20.tgz#51a730be341f6236ae86806deed0ac08fa7c059d"
-  integrity sha512-tRt/VHhDa9BUnV12I4cUkX25L+rAS6jXWwayBNE4pV1cbUFT9iv7Nsa1QqvFIv1atWoa72fGvUvqEZQ2UTQnzg==
+jesse-rif-id-core@0.0.25:
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.25.tgz#76fcc00812700f0903e6203cefbf7c8e6a2de229"
+  integrity sha512-vQwXjbQhUV7FkNmbE6hTW7qIC7N/SbML/J/R8vuAQ6tKYaPHyDpkLVqo9426/1FOOKepr+lk+L6coEHmDo3v9w==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
     "@rsksmart/rif-id-daf" "0.0.6"
@@ -5367,13 +5367,14 @@ jesse-rif-id-core@^0.0.20:
     daf-selective-disclosure "^6.3.0"
     daf-w3c "^6.3.0"
 
-jesse-rif-id-daf@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-daf/-/jesse-rif-id-daf-0.0.3.tgz#c7cd3499ba2226736091b17ff7bd2f8c66323288"
-  integrity sha512-lvzjyzX2hpZsSzKYiPsRsAzTGFVsWQkO7PrGcQR44niM5b9otgjuzSMB6NA6xTrwtLmxPgzmiziSq7wy4ekHRA==
+jesse-rif-id-daf@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/jesse-rif-id-daf/-/jesse-rif-id-daf-0.0.24.tgz#c944b4280f5aaab00f530aa5b3be9bf12250ebe2"
+  integrity sha512-63hoDkvdGcmZ9aGSF2UfbfmauIZeKukZ6hY4yYXNuygkXa+1Q50POKzOtjGmnJbrn+7K9vHMTsI39Zdjt7eSMQ==
   dependencies:
     "@rsksmart/rif-id-ethr-did" "0.0.2"
     "@rsksmart/rif-id-mnemonic" "0.0.1"
+    axios "^0.20.0"
     cross-fetch "^3.0.6"
     daf-core "^6.3.0"
     daf-ethr-did "^6.1.2"

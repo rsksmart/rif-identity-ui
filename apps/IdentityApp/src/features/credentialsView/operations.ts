@@ -10,27 +10,27 @@ import {
 } from '../../Providers/Endpoints';
 import { agent, dbConnection } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
-import { serviceAuthenticationFactory } from '@rsksmart/rif-id-core/lib/operations/authentication';
+import { serviceAuthenticationFactory } from 'jesse-rif-id-core/lib/operations/authentication';
 import 'text-encoding-polyfill';
 import {
   deleteCredentialFactory,
   receiveCredentialFactory,
-} from '@rsksmart/rif-id-core/lib/operations/credentials';
+} from 'jesse-rif-id-core/lib/operations/credentials';
 import {
   deleteIssuedCredentialRequestFactory,
   setIssuedCredentialRequestStatusFactory,
-} from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+} from 'jesse-rif-id-core/lib/operations/credentialRequests';
 import { issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
 // import { issueCredentialRequestFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
-import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
-import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
+import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
+import { Callback } from 'jesse-rif-id-core/lib/operations/util';
 import {
   dataVaultKeys,
   putInDataVault,
   findCredentialAndDelete,
 } from '../../Providers/IPFSPinnerClient';
-import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
-import { findOneCredentialRequest } from '@rsksmart/rif-id-core/lib/entities/CredentialRequest';
+import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
+import { findOneCredentialRequest } from 'jesse-rif-id-core/lib/entities/CredentialRequest';
 
 /**
  * Remove an issued credential from the local database and the data vault
@@ -136,8 +136,11 @@ export const sendRequestToServer = (
     const claims = createClaim(metadata);
     const issueCredentialRequest = issueCredentialRequestFactory(agent);
 
-    const makeRequest = (_err: Error | undefined, token: string) =>
-      dispatch(
+    const makeRequest = (err: Error | undefined, token: string) => {
+      if (err) {
+        return err;
+      }
+      return dispatch(
         issueCredentialRequest(
           did,
           settings.issuerDid,
@@ -145,16 +148,14 @@ export const sendRequestToServer = (
           'pending',
           {
             url: `${settings.issuer}/requestCredential`,
-            headers: { authorization: token },
+            headers: { authorization: token, 'Content-Type': 'text/plain' },
           },
-          /*`${settings.issuer}/requestCredential`,*/
           callback,
         ),
       );
+    };
 
-    serviceToken
-      ? makeRequest(undefined, serviceToken)
-      : dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequest));
+    dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequest));
   });
 
 /**
@@ -242,11 +243,9 @@ export const checkStatusOfRequestedCredentials = (
     return Promise.all(promiseArray);
   };
 
-  return getAllEndpoints().then((settings: typeof endpointDefaults) => {
-    serviceToken
-      ? makeRequests(undefined, serviceToken)
-      : dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequests));
-  });
+  return getAllEndpoints().then((settings: typeof endpointDefaults) =>
+    dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequests)),
+  );
 };
 
 /**
@@ -297,7 +296,9 @@ const doUpload = (vpJwt: string, serviceToken: string, conveyUrl: string) =>
       .then(resp => `${resp.data.url}#${key}`);
   });
 
-const uploadPresentation = (vpJwt: string, did: string, serviceToken: string) => (dispatch: Dispatch<any>) =>
+const uploadPresentation = (vpJwt: string, did: string, serviceToken: string) => (
+  dispatch: Dispatch<any>,
+) =>
   getAllEndpoints().then(
     (settings: typeof endpointDefaults) =>
       new Promise(resolve => {

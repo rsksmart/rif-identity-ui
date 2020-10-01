@@ -1183,34 +1183,38 @@
     axios "^0.20.0"
     daf-core "^6.3.0"
 
-"@rsksmart/rif-id-core@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-core/-/rif-id-core-0.0.3.tgz#18f289079122bb645d7b658544338711284764e9"
-  integrity sha512-a31bvPAToiHh0rS0iZKB9ZtoAO4dF87deeggtb2wSIvSJAqVWDi9+d6y2S/BV7CncvNRhwClpfwC42vob/4O4Q==
+"@rsksmart/rif-id-core@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-core/-/rif-id-core-0.1.0.tgz#49ce959acc51d908e5d696176569176ca6a6c543"
+  integrity sha512-+GsFCNxlDFnQHVafOieEAn8SMy4mjIK9NTrkn1sGzDUymn7mAOhvyx9rIaQ+tniUBwfYbk/vhkGB2A6kvFw76A==
   dependencies:
     "@reduxjs/toolkit" "^1.4.0"
-    "@rsksmart/rif-id-daf" "0.0.5"
+    "@rsksmart/rif-id-daf" "0.1.0"
     axios "^0.20.0"
-    daf-core "^6.1.2"
+    daf-core "^6.3.0"
     daf-did-comm "^6.3.0"
     daf-selective-disclosure "^6.3.0"
     daf-w3c "^6.3.0"
 
-"@rsksmart/rif-id-daf@0.0.5", "@rsksmart/rif-id-daf@0.0.6":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.0.5.tgz#2c61c74745b95ccf84a8345def2aef02e538ccd7"
-  integrity sha512-0fUL2HyFVg9oQ0NdTZnq9bK3upCSh44QfQV2FeAxwEguQvwGzWA//8KYNzrCQjnf5qQyJrTHtsOSlfKmd5QM/w==
+"@rsksmart/rif-id-daf@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-daf/-/rif-id-daf-0.1.0.tgz#169ebb40f0bb0cebe1d81c7b41a0923be82327bc"
+  integrity sha512-lBOsrSHdTYXfcLYYhFXUm0f6SzCyZMVeYTQigdwPDv7Wf7w61kfzsVRLAw2P7BP/eWyB68p58s9HJA7NNESx4g==
   dependencies:
-    "@rsksmart/rif-id-ethr-did" "0.0.2"
-    "@rsksmart/rif-id-mnemonic" "0.0.1"
-    daf-core "^6.1.2"
+    "@rsksmart/rif-id-ethr-did" "0.1.0"
+    "@rsksmart/rif-id-mnemonic" "0.1.0"
+    axios "^0.20.0"
+    cross-fetch "^3.0.6"
+    daf-core "^6.3.0"
     daf-ethr-did "^6.1.2"
+    debug "^4.2.0"
     typeorm "0.2.24"
+    uuid "^3.3.3"
 
-"@rsksmart/rif-id-ethr-did@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-ethr-did/-/rif-id-ethr-did-0.0.2.tgz#d18b14994ce00d315658a70a0aa505bdc5467e4d"
-  integrity sha512-oFVFBUzl7PrP5NDYmj771mjdxywV+o3rX6oe7Ogs3pPwkDBEBi4+9Wwv2lYzTRxoW1THzRbj6QYFKwwPNd04xA==
+"@rsksmart/rif-id-ethr-did@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-ethr-did/-/rif-id-ethr-did-0.1.0.tgz#0db140d7f9b013133008143dbfbe6f5d2f199293"
+  integrity sha512-MzU8x4URq3pgMqC43dTo5BrX4EXG+Ue0qbsjvsJlWJafHGegFqNpj3gPRqG5hUZvUmdUe+FuBIbEjG0Aga5JuA==
   dependencies:
     "@rsksmart/ethr-did" "^1.1.1-beta.1"
     "@types/elliptic" "^6.4.12"
@@ -1237,7 +1241,19 @@
     lodash "^4.17.19"
     rskjs-util "^1.0.3"
 
-"@rsksmart/rif-id-mnemonic@0.0.1", "@rsksmart/rif-id-mnemonic@^0.0.1":
+"@rsksmart/rif-id-mnemonic@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-mnemonic/-/rif-id-mnemonic-0.1.0.tgz#940a0d48aeb9cf839d4c7f9d5c880182a0133998"
+  integrity sha512-8zXs6GPMj/wiUR8NLHFlOLJFy2KVYYZAYxbtvw577DnPlQUhqfEZDFyxx2U6BpCM/vi2eBM1dQ2hQ4IMTeEn4g==
+  dependencies:
+    "@types/lodash" "^4.14.155"
+    "@types/randombytes" "^2.0.0"
+    bip32 "^2.0.5"
+    bip39 "^3.0.2"
+    lodash "^4.17.15"
+    randombytes "^2.1.0"
+
+"@rsksmart/rif-id-mnemonic@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@rsksmart/rif-id-mnemonic/-/rif-id-mnemonic-0.0.1.tgz#b90b224e05e99429d62f4da839ba4b2ccea4cd09"
   integrity sha512-8r9Qb+YTsXMNcoKA3Ki4dDy7emdUa5Ekx89Zv/zPjdEb0gVlajJFHvac75GLVWGtSrzz57bbiNpIRSFZqlF38Q==
@@ -2939,7 +2955,7 @@ d64@^1.0.0:
   resolved "https://registry.yarnpkg.com/d64/-/d64-1.0.0.tgz#4002a87e850cbfc9f9d9706b60fca613a3336e90"
   integrity sha1-QAKofoUMv8n52XBrYPymE6MzbpA=
 
-daf-core@^6.1.2, daf-core@^6.3.0:
+daf-core@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/daf-core/-/daf-core-6.3.0.tgz#98b5781bc9cea4a7da4542b28dc13db9794dcf69"
   integrity sha512-CZfpGs27OErWMCGTNA3SCBMDvExnAtrHD591iZenusztXKBdLjO/L7Y5y/akoQGH+drTt0WPN7bzpI6/jcx/1A==
@@ -5353,34 +5369,6 @@ iterable-ndjson@^1.1.0:
   integrity sha512-OOp1Lb0o3k5MkXHx1YaIY5Z0ELosZfTnBaas9f8opJVcZGBIONA2zY/6CYE+LKkqrSDooIneZbrBGgOZnHPkrg==
   dependencies:
     string_decoder "^1.2.0"
-
-jesse-rif-id-core@0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-core/-/jesse-rif-id-core-0.0.25.tgz#76fcc00812700f0903e6203cefbf7c8e6a2de229"
-  integrity sha512-vQwXjbQhUV7FkNmbE6hTW7qIC7N/SbML/J/R8vuAQ6tKYaPHyDpkLVqo9426/1FOOKepr+lk+L6coEHmDo3v9w==
-  dependencies:
-    "@reduxjs/toolkit" "^1.4.0"
-    "@rsksmart/rif-id-daf" "0.0.6"
-    axios "^0.20.0"
-    daf-core "^6.3.0"
-    daf-did-comm "^6.3.0"
-    daf-selective-disclosure "^6.3.0"
-    daf-w3c "^6.3.0"
-
-jesse-rif-id-daf@^0.0.24:
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/jesse-rif-id-daf/-/jesse-rif-id-daf-0.0.24.tgz#c944b4280f5aaab00f530aa5b3be9bf12250ebe2"
-  integrity sha512-63hoDkvdGcmZ9aGSF2UfbfmauIZeKukZ6hY4yYXNuygkXa+1Q50POKzOtjGmnJbrn+7K9vHMTsI39Zdjt7eSMQ==
-  dependencies:
-    "@rsksmart/rif-id-ethr-did" "0.0.2"
-    "@rsksmart/rif-id-mnemonic" "0.0.1"
-    axios "^0.20.0"
-    cross-fetch "^3.0.6"
-    daf-core "^6.3.0"
-    daf-ethr-did "^6.1.2"
-    debug "^4.2.0"
-    typeorm "0.2.24"
-    uuid "^3.3.3"
 
 jest-changed-files@^24.9.0:
   version "24.9.0"

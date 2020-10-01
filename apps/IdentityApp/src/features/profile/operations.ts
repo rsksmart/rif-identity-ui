@@ -1,8 +1,8 @@
 import { Dispatch, AnyAction } from 'redux';
 import { agent } from '../../daf/dafSetup';
 
-import { setDeclarativeDetailsFactory } from 'jesse-rif-id-core/lib/operations/declarativeDetails';
-import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 import { putInDataVault, dataVaultKeys } from '../../Providers/IPFSPinnerClient';
 
 interface Detail {

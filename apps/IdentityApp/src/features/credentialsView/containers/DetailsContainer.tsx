@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { DetailsComponent } from '../components';
 import { RootState } from '../../../state/store';
 import { removeIssuedCredential, removeRequestedCredential } from '../operations';
-import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/lib/reducers/credentials';
 import * as RootNavigation from '../../../AppNavigation';
 import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import conveyConnect from './ConveyConnect';

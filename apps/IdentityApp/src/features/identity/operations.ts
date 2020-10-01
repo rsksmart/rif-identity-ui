@@ -9,7 +9,7 @@ import { AbstractIdentity } from 'daf-core';
  * @param callback function(err, res) Optional function to be called
  */
 export const createRifIdentity = (mnemonic: string[], callback?: Callback<AbstractIdentity>) => (
-  dispatch: Dispatch,
+  dispatch: Dispatch<any>,
 ) => {
   const createIdentity = createIdentityFactory(agent);
   rifIdentityProvider

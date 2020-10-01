@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { BackHandler } from 'react-native';
 
 import { SignupNavigation, CredentialsNavigation } from './screens';
 import LoadingComponent from './Libraries/Loading/LoadingComponent';
@@ -17,12 +16,6 @@ export const navigate = (name: string, params?: any) =>
 export const goBack = () => navigationRef.current?.goBack();
 
 const AppNavigation = () => {
-  // prevent Android back button:
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-    return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
-  }, []);
-
   const Stack = createStackNavigator();
   const options = { headerShown: false };
   return (

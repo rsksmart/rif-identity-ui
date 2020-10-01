@@ -3,7 +3,7 @@ import {
   RIFIdKeyManagementSystem,
   MnemonicStore,
   Entities,
-} from '@rsksmart/rif-id-daf';
+} from 'jesse-rif-id-daf';
 
 import { DafResolver } from 'daf-resolver';
 import * as Daf from 'daf-core';
@@ -14,8 +14,9 @@ import * as W3c from 'daf-w3c';
 import * as SD from 'daf-selective-disclosure';
 
 import * as DIDComm from 'daf-did-comm';
+import { DIDCommActionHandler } from 'jesse-rif-id-daf/lib/did-comm-action-handler';
 import { createConnection, Connection } from 'typeorm';
-import { DeclarativeDetail } from '@rsksmart/rif-id-core/lib/entities/DeclarativeDetail';
+import { CredentialRequest, DeclarativeDetail } from 'jesse-rif-id-core/lib/entities';
 import { SecretBox } from './DummyBox';
 
 export const dbConnection = createConnection({
@@ -23,7 +24,7 @@ export const dbConnection = createConnection({
   database: 'daf.sqlite',
   location: 'default',
   synchronize: true,
-  entities: [...Entities, ...Daf.Entities, DeclarativeDetail],
+  entities: [...Entities, ...Daf.Entities, DeclarativeDetail, CredentialRequest],
   dropSchema: false,
   logging: ['error'],
 });
@@ -64,7 +65,7 @@ messageHandler
   .setNext(new W3c.W3cMessageHandler())
   .setNext(new SD.SdrMessageHandler());
 
-const actionHandler = new DIDComm.DIDCommActionHandler();
+const actionHandler = new DIDCommActionHandler();
 actionHandler.setNext(new W3c.W3cActionHandler()).setNext(new SD.SdrActionHandler());
 
 export const agent = new Daf.Agent({
@@ -75,8 +76,7 @@ export const agent = new Daf.Agent({
   messageHandler,
 });
 
-export const dropDafDb = () => {
-  dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
-};
+export const dropDafDb = () => dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
+
 
 export const resetMnemonicStore = async () => await mnemonicStore.delete();

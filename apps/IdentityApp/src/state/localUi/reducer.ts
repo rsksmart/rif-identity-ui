@@ -6,7 +6,6 @@ type LocalUiState = {
   isSignedUp: boolean;
   isLoggedIn: boolean;
   loginError: string | null;
-  privateKey: string;
 };
 
 export const initialState = {

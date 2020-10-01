@@ -21,9 +21,8 @@ export const requestCredential = () => ({
   type: CREDENTIAL_ACTION_TYPES.REQUEST_CREDENTIAL,
 });
 
-export const receiveCredential = (credential: Credential) => ({
+export const receiveCredential = () => ({
   type: CREDENTIAL_ACTION_TYPES.RECEIVE_CREDENTAIL,
-  credential,
 });
 
 export const errorRequestCredential = (message: string) => ({

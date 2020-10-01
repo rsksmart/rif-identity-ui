@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
@@ -21,11 +21,9 @@ interface RequestTypeComponentProps {
   };
   profile: HolderAppDeclarativeDetailsInterface;
   requirements: [];
-  requestCredential: (metadata: []) => {};
+  requestCredential: (metadata: []) => Promise<any>;
   handleEditProfile: () => {};
   strings: any;
-  isRequestingCredential: boolean;
-  requestCredentialError: string | null;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
@@ -33,21 +31,29 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   profile,
   requestCredential,
   handleEditProfile,
-  isRequestingCredential,
-  requestCredentialError,
   route,
 }) => {
   const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
+  const [isRequesting, setIsRequesting] = useState<boolean>(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    setIsRequesting(true);
+    setRequestError(null);
     let metaData = { type: type };
     requirements.forEach((item: declarativeDetails) => {
       metaData[item] = profile[item].value;
     });
-    requestCredential(metaData);
+    requestCredential(metaData).catch((err: Error) => {
+      setIsRequesting(false);
+      setRequestError(err.message);
+    });
   };
 
-  const { type, requirements }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
+  const {
+    type,
+    requirements,
+  }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
 
   const meetsRequirements = () => {
     const results = requirements.filter((item: string) => !profile[item]);
@@ -99,19 +105,12 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
               </>
             )}
 
-            {requestCredentialError && (
-              <MessageComponent type="ERROR" message={requestCredentialError} />
-            )}
+            {requestError && <MessageComponent type="ERROR" message={requestError} />}
+            {isRequesting && <LoadingComponent />}
 
             {meetsRequirements() && (
-              <SquareButton
-                title={strings.confirm}
-                onPress={handlePress}
-                disabled={isRequestingCredential}
-              />
+              <SquareButton title={strings.confirm} onPress={handlePress} disabled={isRequesting} />
             )}
-
-            {isRequestingCredential && <LoadingComponent />}
           </View>
         </View>
       </BackScreenComponent>

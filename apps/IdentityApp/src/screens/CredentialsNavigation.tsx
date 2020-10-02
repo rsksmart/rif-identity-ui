@@ -80,22 +80,16 @@ const CredentialsNavigation: React.FC<CredentialsNavigationProps> = ({ isLoggedI
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused }) => (
-            <Icon
-              name={focused ? 'person' : 'person-outline'}
-              size={35}
-              color={hasMnemonic ? '#50555C' : '#e1e1e1'}
-            />
+            <Icon name={focused ? 'person' : 'person-outline'} size={35} color="#50555C" />
           ),
         }}
         listeners={({ navigation }) => ({
           tabPress: event => {
             event.preventDefault();
-            if (hasMnemonic) {
-              navigation.popToTop();
-              navigation.navigate('CredentialsFlow', {
-                screen: 'Profile',
-              });
-            }
+            navigation.popToTop();
+            navigation.navigate('CredentialsFlow', {
+              screen: 'Profile',
+            });
           },
         })}
       />

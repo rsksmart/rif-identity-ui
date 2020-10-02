@@ -6,12 +6,14 @@ import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-nati
 import DisplayItem from './DisplayItem';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { HolderAppDeclarativeDetailsInterface } from '../operations';
+import MissingMnemonic from '../../credentialsView/components/MissingMnemonic';
 
 interface ProfileViewComponentProps {
   strings: any;
   profile: HolderAppDeclarativeDetailsInterface;
   isEmpty: boolean;
   navigation: any;
+  hasIdentity: boolean;
 }
 
 const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
@@ -19,6 +21,7 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
   profile,
   isEmpty,
   navigation,
+  hasIdentity,
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
@@ -33,23 +36,30 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
           </TouchableOpacity>
           <Text style={typography.paragraph}>{strings.profile_explanation}</Text>
 
-          <View style={styles.viewProfile}>
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() =>
-                navigation.navigate('CredentialsFlow', {
-                  screen: 'Profile',
-                  params: { screen: 'Edit' },
-                })
-              }>
-              <FontAwesome
-                name={isEmpty ? 'plus-circle' : 'edit'}
-                size={35}
-                color="#50555C"
-                style={styles.editIcon}
-              />
-            </TouchableOpacity>
+          {!hasIdentity && (
+            <MissingMnemonic
+              setUpMnemonic={() => navigation.navigate('SignupFlow', { screen: 'MnemonicView' })}
+            />
+          )}
 
+          <View style={styles.viewProfile}>
+            {hasIdentity && (
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() =>
+                  navigation.navigate('CredentialsFlow', {
+                    screen: 'Profile',
+                    params: { screen: 'Edit' },
+                  })
+                }>
+                <FontAwesome
+                  name={isEmpty ? 'plus-circle' : 'edit'}
+                  size={35}
+                  color="#50555C"
+                  style={styles.editIcon}
+                />
+              </TouchableOpacity>
+            )}
             {isEmpty && (
               <Text style={[typography.paragraph, styles.empty]}>
                 {strings.no_personal_details}

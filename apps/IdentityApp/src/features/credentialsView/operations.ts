@@ -10,27 +10,26 @@ import {
 } from '../../Providers/Endpoints';
 import { agent, dbConnection } from '../../daf/dafSetup';
 import { AESSecretBox } from '../../daf/AESSecretBox';
-import { serviceAuthenticationFactory } from 'jesse-rif-id-core/lib/operations/authentication';
+import { serviceAuthenticationFactory } from '@rsksmart/rif-id-core/lib/operations/authentication';
 import 'text-encoding-polyfill';
 import {
   deleteCredentialFactory,
   receiveCredentialFactory,
-} from 'jesse-rif-id-core/lib/operations/credentials';
+} from '@rsksmart/rif-id-core/lib/operations/credentials';
 import {
   deleteIssuedCredentialRequestFactory,
   setIssuedCredentialRequestStatusFactory,
-} from 'jesse-rif-id-core/lib/operations/credentialRequests';
-import { issueCredentialRequestFactory } from 'jesse-rif-id-core/lib/operations/credentialRequests';
-// import { issueCredentialRequestFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
-import { IssuedCredentialRequest } from 'jesse-rif-id-core/lib/reducers/issuedCredentialRequests';
-import { Callback } from 'jesse-rif-id-core/lib/operations/util';
+} from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { issueCredentialRequestFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
 import {
   dataVaultKeys,
   putInDataVault,
   findCredentialAndDelete,
 } from '../../Providers/IPFSPinnerClient';
-import { Credential as RifCredential } from 'jesse-rif-id-core/src/reducers/credentials';
-import { findOneCredentialRequest } from 'jesse-rif-id-core/lib/entities/CredentialRequest';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
+import { findOneCredentialRequest } from '@rsksmart/rif-id-core/lib/entities/CredentialRequest';
 
 /**
  * Remove an issued credential from the local database and the data vault

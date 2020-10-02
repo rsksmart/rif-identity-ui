@@ -5,8 +5,8 @@ import multiLanguageReducer from './multiLanguageReducer';
 import presentationListReducer from '../features/scanned-presentations-list/reducer'
 import scannedPresentationReducer from '../features/scanned-presentation/reducer'
 import localUiReducer from './localUi/reducer'
-import authenticationReducer from 'je-id-core/lib/reducers/authentication';
-import identityReducer from 'je-id-core/lib/reducers/identitySlice';
+import authenticationReducer from '@rsksmart/rif-id-core/lib/reducers/authentication';
+import identityReducer from '@rsksmart/rif-id-core/lib/reducers/identitySlice';
 
 const middleware = [thunk, logger];
 

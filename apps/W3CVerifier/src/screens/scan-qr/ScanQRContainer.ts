@@ -5,7 +5,7 @@ import ScanQRComponent from './ScanQRComponent';
 import { RootState } from '../../state/store';
 import { scanQR } from '../../features/operations';
 import { VerifiedPresentation } from '../../api';
-import { selectServiceTokenByIdentity } from 'je-id-core/lib/reducers/authentication'
+import { selectServiceTokenByIdentity } from '@rsksmart/rif-id-core/lib/reducers/authentication'
 import { CONVEY_DID } from '../../../env.json'
 
 const mapStateToProps = (state: RootState) => ({

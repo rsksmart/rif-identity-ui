@@ -7,9 +7,9 @@ import {
   receiveEmptyScannedPresentations
 } from '../features/scanned-presentations-list/actions';
 import { CONVEY_URL, CONVEY_DID } from '../../env.json'
-import { serviceAuthenticationFactory } from 'je-id-core/lib/operations/authentication';
-import { initIdentityFactory } from 'je-id-core/lib/operations/identity'
-import { createIdentityFactory } from 'je-id-core/lib/operations/identity'
+import { serviceAuthenticationFactory } from '@rsksmart/rif-id-core/lib/operations/authentication';
+import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity'
+import { createIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity'
 import { agent } from '../daf/dafSetup';
 import { AbstractIdentity } from 'daf-core'
 import { errorConveyLogin, receiveConveyLogin, requestConveyLogin } from './localUi/actions';

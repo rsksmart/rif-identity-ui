@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontSize: 12,
     lineHeight: 14,
+    marginTop: 10,
     color: colors.typography.primary,
   },
   paragraph: {

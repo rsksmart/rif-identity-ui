@@ -45,9 +45,9 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
   const styles = StyleSheet.create({
     preview: {
       flex: 1,
-      justifyContent: 'flex-end',
+      overflow: 'hidden',
       alignItems: 'center',
-      marginTop: 30
+      marginTop: 30,
     },
     body: {
       flex: 1,
@@ -69,7 +69,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
       <View style={layoutStyles.container}>
         <Text style={typeStyles.header1}>{strings.verify_credentials}</Text>
         <Text style={typeStyles.header2}>{strings.scan_citizen_qr}</Text>
-        <Text style={{ ...typeStyles.legend, paddingTop: 10 }}>{conveyLegend}</Text>
+        <Text style={typeStyles.legend}>{conveyLegend}</Text>
       </View>
       {/* Leave this comment for testing purposes, the scanner does not work in the emulators */}
       {/* <View>

@@ -37,7 +37,7 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
-  const handlePress = async () => {
+  const handlePress = () => {
     setIsRequesting(true);
     setRequestError(null);
     let metaData = { type: type };

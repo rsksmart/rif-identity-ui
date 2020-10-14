@@ -12,20 +12,17 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  requestCredential: (metadata: any, did: string, serviceToken: string | undefined) => 
-    new Promise((resolve, reject) => {
-      const callback = (err: Error) => {
-        if (err) {
-          console.log('[ConfirmContainer.ts] err: ', err);
-          return reject(err);
-        }
+  requestCredential: (metadata: any, did: string, serviceToken: string | undefined) =>
+    new Promise(async (resolve, reject) => {
+      const callback = (err: Error) =>
+        err
+          ? reject(err)
+          : resolve(
+              RootNavigation.navigate('CredentialsFlow', {
+                screen: 'CredentialsHome',
+              }),
+            );
 
-        resolve(
-          RootNavigation.navigate('CredentialsFlow', {
-            screen: 'CredentialsHome',
-          }),
-        );
-      };
       dispatch(sendRequestToServer(did, metadata, serviceToken, callback));
     }),
   handleEditProfile: () =>

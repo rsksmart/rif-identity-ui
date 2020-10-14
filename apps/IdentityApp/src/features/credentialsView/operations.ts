@@ -130,29 +130,27 @@ export const sendRequestToServer = (
   metadata: any,
   serviceToken: string | undefined,
   callback: Callback<any>,
-) => async (dispatch: Dispatch<any>) =>
-  getAllEndpoints().then(async (settings: typeof endpointDefaults) => {
+) => (dispatch: Dispatch<any>) =>
+  getAllEndpoints().then((settings: typeof endpointDefaults) => {
     const claims = createClaim(metadata);
     const issueCredentialRequest = issueCredentialRequestFactory(agent);
 
-    const makeRequest = (err: Error | undefined, token: string) => {
-      if (err) {
-        return err;
-      }
-      return dispatch(
-        issueCredentialRequest(
-          did,
-          settings.issuerDid,
-          claims,
-          'pending',
-          {
-            url: `${settings.issuer}/requestCredential`,
-            headers: { authorization: token, 'Content-Type': 'text/plain' },
-          },
-          callback,
-        ),
-      );
-    };
+    const makeRequest = (err: Error | undefined, token: string) =>
+      err
+        ? callback(new Error(`Endpoint: ${err.message}`))
+        : dispatch(
+            issueCredentialRequest(
+              did,
+              settings.issuerDid,
+              claims,
+              'pending',
+              {
+                url: `${settings.issuer}/requestCredential`,
+                headers: { authorization: token, 'Content-Type': 'text/plain' },
+              },
+              callback,
+            ),
+          );
 
     dispatch(getServiceToken(settings.issuer, settings.issuerDid, did, makeRequest));
   });

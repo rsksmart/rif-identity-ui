@@ -6,14 +6,30 @@ import { saveProfile } from '../operations';
 import { ProfileInterface } from '../reducer';
 
 const mapStateToProps = (state: RootState) => ({
-  profile: state.profile.profile,
+  declarativeDetails: state.declarativeDetails,
+  did: state.identity.identities[0],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  handleSave: (profile: ProfileInterface) => dispatch(saveProfile(profile)),
+  handleSave: (profile: ProfileInterface, navigation: any) => {
+    const callback = (err: any) => {
+      if (err) {
+        throw err;
+      }
+      navigation.goBack();
+    };
+    dispatch(saveProfile(profile, callback));
+  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfileEditComponent);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  handleSave: (profile: ProfileInterface) => {
+    dispatchProps.handleSave(profile, ownProps.navigation);
+  },
+  profile: stateProps.declarativeDetails[stateProps.did] || [],
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ProfileEditComponent);

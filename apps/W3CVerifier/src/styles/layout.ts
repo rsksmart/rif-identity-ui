@@ -11,16 +11,11 @@ const columnGutter = {
   marginBottom: gutter,
 };
 
-// for development:
-export const addBorder = {
-  borderWidth: 1,
-  borderColor: '#FFCC33',
-};
-
 const layout = StyleSheet.create({
   container: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',
+    alignItems: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -38,20 +33,6 @@ const layout = StyleSheet.create({
   column3: {
     width: 100 / 3 + '%',
     ...columnGutter,
-  },
-
-  borderRow: {
-    borderColor: colors.primary,
-    borderWidth: 3,
-    borderRadius: 8,
-  },
-
-  textInput: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#919191',
-    paddingLeft: 10,
-    paddingRight: 10,
   },
 });
 

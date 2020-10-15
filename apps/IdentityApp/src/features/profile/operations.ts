@@ -1,45 +1,58 @@
-import { Dispatch } from 'redux';
-import { toggleEdit, updateProfile, receiveProfile } from './actions';
-import { ProfileInterface } from './reducer';
-import { StorageProvider, STORAGE_KEYS } from '../../Providers';
+import { Dispatch, AnyAction } from 'redux';
+import { agent } from '../../daf/dafSetup';
 
-export const initialStart = () => async (dispatch: Dispatch) => {
-  dispatch(toggleEdit(false));
+import { setDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { Callback } from '@rsksmart/rif-id-core/lib/operations/util';
+import { putInDataVault, dataVaultKeys } from '../../Providers/IPFSPinnerClient';
 
-  await StorageProvider.get(STORAGE_KEYS.PROFILE)
-    .then(response => {
-      if (typeof response === 'string') {
-        const profile = JSON.parse(response);
-        dispatch(updateProfile(profile));
-      }
-      dispatch(receiveProfile());
-    })
-    .catch(error => console.log(error));
-};
-
-export const saveProfile = (profile: ProfileInterface) => async (
-  dispatch: Dispatch,
-) => {
-  console.log('saving profile', profile);
-  await StorageProvider.set(STORAGE_KEYS.PROFILE, JSON.stringify(profile))
-    .then(() => {
-      dispatch(updateProfile(profile));
-    })
-    .catch(error => console.log(error));
-};
+interface Detail {
+  type: string;
+  value: any;
+}
+export interface HolderAppDeclarativeDetailsInterface {
+  fullName: Detail | undefined;
+  birthdate: Detail | undefined;
+  idNumber: Detail | undefined;
+  driversLicenseNumber: Detail | undefined;
+  civilStatus: Detail | undefined;
+  address: Detail | undefined;
+  city: Detail | undefined;
+  phone: Detail | undefined;
+  email: Detail | undefined;
+}
 
 /**
- * Helper function to determin if Profile is empty
- * @param profile 
+ * Saves Profile to LocalStorage
+ * @param profile Profile to be saved
  */
-export const isEmpty = (profile: ProfileInterface) => {
-  let isEmpty = true;
-  Object.keys(profile).map(item => {
-    if (profile[item] !== '' && profile[item] !== null) {
-      console.log('item', item);
-      isEmpty = false;
-    }
-  });
-  console.log('retuning empty!', isEmpty);
-  return isEmpty;
+export const saveProfile = (profile: any, callback: Callback<boolean>) => async (
+  dispatch: Dispatch<AnyAction>,
+) => {
+  agent.identityManager
+    .getIdentities()
+    .then(identities => identities[0].did)
+    .then((did: string) => {
+      const detailBuilder = (value: string, type?: string) =>
+        value === '' ? undefined : { type: type || 'string', value };
+
+      const declarativeDetails: HolderAppDeclarativeDetailsInterface = {
+        fullName: detailBuilder(profile.fullName),
+        birthdate: detailBuilder(profile.birthdate, 'date'),
+        idNumber: detailBuilder(profile.idNumber, 'number'),
+        driversLicenseNumber: detailBuilder(profile.driversLicenseNumber, 'number'),
+        civilStatus: detailBuilder(profile.civilStatus, 'string'),
+        address: detailBuilder(profile.address),
+        city: detailBuilder(profile.city),
+        phone: detailBuilder(profile.phone),
+        email: detailBuilder(profile.email),
+      };
+
+      putInDataVault(
+        dataVaultKeys.DECLARATIVE_DETAILS,
+        JSON.stringify(declarativeDetails),
+      ).then(res => console.log(res));
+
+      const setDeclarativeDetails = setDeclarativeDetailsFactory(agent);
+      dispatch(setDeclarativeDetails(did, declarativeDetails, callback));
+    });
 };

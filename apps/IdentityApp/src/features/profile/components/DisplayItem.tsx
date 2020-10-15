@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
-import { typeStyles } from '../../../styles/';
 
 interface DisplayItemProps {
   name: string;
@@ -8,21 +8,19 @@ interface DisplayItemProps {
 }
 
 const DisplayItem: React.FC<DisplayItemProps> = ({ name, value }) => {
-  if (value === '') {
+  const { typography }: ThemeInterface = useContext(ThemeContext);
+
+  if (value === '' || !value) {
     return <></>;
   }
 
   return (
     <View>
       <Text
-        style={{
-          ...typeStyles.paragraph,
-          ...typeStyles.bold,
-          ...styles.title,
-        }}>
+        style={[ typography.paragraphBold, styles.title ]}>
         {name}
       </Text>
-      <Text style={{ ...typeStyles.paragraph, ...styles.value }}>{value}</Text>
+      <Text style={[ typography.paragraph, styles.value ]}>{value}</Text>
     </View>
   );
 };

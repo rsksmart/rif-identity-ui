@@ -4,7 +4,8 @@ export enum SCANNED_PRESENTATION_ACTION_TYPES {
   REQUEST_VERIFY_JWT = 'REQUEST_VERIFY_JWT',
   RECEIVE_INVALID_JWT = 'RECEIVE_INVALID_JWT',
   RECEIVE_VALID_JWT = 'RECEIVE_VALID_JWT',
-  VIEW_DETAILS = 'VIEW_DETAILS'
+  VIEW_DETAILS = 'VIEW_DETAILS',
+  SHOW_PRESENTATION = 'SHOW_PRESENTATION'
 }
 
 export const requestVerifyJwt = () => ({
@@ -12,10 +13,11 @@ export const requestVerifyJwt = () => ({
   isVerifying: true,
 })
 
-export const receiveInvalidJwt = () => ({
+export const receiveInvalidJwt = (presentation: VerifiedPresentation) => ({
   type: SCANNED_PRESENTATION_ACTION_TYPES.RECEIVE_INVALID_JWT,
   isVerifying: false,
   validJwt: false,
+  presentation,
 })
 
 export const receiveValidJwt = (presentation: VerifiedPresentation) => ({
@@ -27,4 +29,10 @@ export const receiveValidJwt = (presentation: VerifiedPresentation) => ({
 
 export const viewPresentationDetails = () => ({
   type: SCANNED_PRESENTATION_ACTION_TYPES.VIEW_DETAILS,
+})
+
+
+export const showPresentationRequest = (presentation: VerifiedPresentation) => ({
+  type: SCANNED_PRESENTATION_ACTION_TYPES.SHOW_PRESENTATION,
+  presentation,
 })

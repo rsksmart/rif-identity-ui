@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import RequestTypeComponent from '../components/RequestTypeComponent';
-import { initialStart as profileStart } from '../../profile/operations';
+import { ISSUERS } from '../../../Providers';
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => dispatch(profileStart()),
+const mapStateToProps = () => ({
+  issuers: ISSUERS,
 });
 
-export default connect(null, mapDispatchToProps)(RequestTypeComponent);
+export default connect(mapStateToProps)(RequestTypeComponent);

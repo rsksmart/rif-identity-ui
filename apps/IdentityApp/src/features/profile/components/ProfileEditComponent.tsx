@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import DatePicker from './DatePicker';
 import DropDown from './DropDown';
 
-import { layoutStyles, typeStyles } from '../../../styles/';
 import EditItem from './EditItem';
 import { SquareButton } from '../../../Libraries/Button';
-import { ProfileInterface } from '../reducer';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
+import { DeclarativeDetails } from '@rsksmart/rif-id-core/lib/reducers/declarativeDetails';
 
 interface ProfileEditComponentProps {
   strings: any;
-  profile: ProfileInterface;
+  profile: DeclarativeDetails;
   handleSave: (profile: any) => void | null;
-  navigation: any;
 }
 
 const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   strings,
   profile,
   handleSave,
-  navigation,
 }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
+
   const [localProfile, setLocalProfile] = useState({
-    fullName: profile.fullName,
-    birthdate: profile.birthdate,
-    idNumber: profile.idNumber,
-    civilStatus: profile.civilStatus,
-    phone: profile.phone,
-    email: profile.email,
+    fullName: profile.fullName ? profile.fullName.value : '',
+    birthdate: profile.birthdate ? profile.birthdate.value : '',
+    idNumber: profile.idNumber ? profile.idNumber.value : '',
+    civilStatus: profile.civilStatus ? profile.civilStatus.value : '',
+    phone: profile.phone ? profile.phone.value : '',
+    email: profile.email ? profile.email.value : '',
+    address: profile.address ? profile.address.value : '',
+    city: profile.city ? profile.city.value : '',
+    driversLicenseNumber: profile.driversLicenseNumber ? profile.driversLicenseNumber.value : '',
   });
 
   const handleChange = (field: string, value: string) => {
@@ -39,19 +42,14 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
     });
   };
 
-  const handleSavePress = () => {
-    navigation.navigate('View');
-    handleSave(localProfile);
-  };
-
   return (
-    <ScrollView style={layoutStyles.container}>
+    <ScrollView style={layout.container}>
       <BackScreenComponent>
-        <View style={layoutStyles.row}>
-          <View style={layoutStyles.column1}>
-            <Text style={typeStyles.header1}>{strings.edit_personal_info}</Text>
+        <View style={layout.row}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.edit_personal_info}</Text>
             <View style={styles.buttonView}>
-              <SquareButton title={strings.save} onPress={handleSavePress} />
+              <SquareButton title={strings.save} onPress={() => handleSave(localProfile)} />
             </View>
             <EditItem
               name={strings.fullName}
@@ -72,6 +70,13 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
               keyboardType="number-pad"
             />
 
+            <EditItem
+              name={strings.driversLicenseNumber}
+              value={localProfile.driversLicenseNumber}
+              onChange={async text => handleChange('driversLicenseNumber', text)}
+              keyboardType="number-pad"
+            />
+
             <DropDown
               name={strings.civilStatus}
               value={localProfile.civilStatus}
@@ -81,6 +86,18 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
                 { label: strings.single, value: 'single' },
               ]}
               onChange={async text => handleChange('civilStatus', text)}
+            />
+
+            <EditItem
+              name={strings.address}
+              value={localProfile.address}
+              onChange={async text => handleChange('address', text)}
+            />
+
+            <EditItem
+              name={strings.city}
+              value={localProfile.city}
+              onChange={async text => handleChange('city', text)}
             />
 
             <EditItem

@@ -1,19 +1,39 @@
 import { Dispatch } from 'react';
+import { Action } from 'redux';
 import { changeLanguage } from 'redux-multilanguage';
+import { BackHandler, AppState } from 'react-native';
 import * as RootNavigation from '../AppNavigation';
 import { StorageProvider, STORAGE_KEYS } from '../Providers/index';
-import { requestIsSignedUp, receiveIsSignedUp } from './localUi/actions';
+import { requestIsSignedUp, receiveIsSignedUp, logout } from './localUi/actions';
+import { getEndpointsFromLocalStorage } from '../features/settings/operations';
+import { agent } from '../daf/dafSetup';
+import { initIdentityFactory } from '@rsksmart/rif-id-core/lib/operations/identity';
+import { initDeclarativeDetailsFactory } from '@rsksmart/rif-id-core/lib/operations/declarativeDetails';
+import { initCredentialRequestsFactory } from '@rsksmart/rif-id-core/lib/operations/credentialRequests';
+import { initCredentialsFactory } from '@rsksmart/rif-id-core/lib/operations/credentials';
 
-export const initialAppStart = () => async (dispatch: Dispatch) => {
+export const initialAppStart = () => async (dispatch: Dispatch<Function | Action>) => {
   dispatch(requestIsSignedUp());
+  dispatch(getEndpointsFromLocalStorage());
+
+  const initIdentity = initIdentityFactory(agent);
+  dispatch(initIdentity());
+
+  const initDeclarativeDetails = initDeclarativeDetailsFactory(agent);
+  dispatch(initDeclarativeDetails());
+
+  const initCredentials = initCredentialsFactory(agent);
+  dispatch(initCredentials());
+
+  const initCredentialRequests = initCredentialRequestsFactory(agent);
+  dispatch(initCredentialRequests());
+
   await StorageProvider.get(STORAGE_KEYS.PIN)
-    .then(res => {
-      console.log('CREDENTIALS!', res);
+    .then(() => {
       dispatch(receiveIsSignedUp(true));
       RootNavigation.navigate('CredentialsFlow', { screen: 'SigninWithPin' });
     })
     .catch(() => {
-      console.log('WELCOME!');
       dispatch(receiveIsSignedUp(false));
       RootNavigation.navigate('SignupFlow', { screen: 'Welcome' });
     });
@@ -21,4 +41,10 @@ export const initialAppStart = () => async (dispatch: Dispatch) => {
   await StorageProvider.get('LANGUAGE')
     .then(res => dispatch(changeLanguage(res)))
     .catch(() => dispatch(changeLanguage('en')));
+
+  // prevent Android back button:
+  BackHandler.addEventListener('hardwareBackPress', () => true);
+
+  // log out when the app is minimized:
+  AppState.addEventListener('change', (state: string) => state !== 'active' && dispatch(logout()));
 };

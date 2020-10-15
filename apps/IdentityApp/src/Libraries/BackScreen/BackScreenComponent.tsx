@@ -6,13 +6,29 @@ import * as RootNavigation from '../../AppNavigation';
 interface BackScreenComponentProps {
   children: React.ReactNode;
   visible?: boolean;
+  overrideBack?: {
+    location: string;
+    params?: {};
+  };
 }
 
-const BackScreenComponent: React.FC<BackScreenComponentProps> = ({ children, visible = true }) => {
+const BackScreenComponent: React.FC<BackScreenComponentProps> = ({
+  children,
+  overrideBack,
+  visible = true,
+}) => {
+  const handleBack = () => {
+    if (!overrideBack) {
+      RootNavigation.goBack();
+    } else {
+      RootNavigation.navigate(overrideBack.location, overrideBack.params);
+    }
+  };
+
   return (
     <View>
       {visible && (
-        <TouchableOpacity style={styles.touchable} onPress={() => RootNavigation.goBack()}>
+        <TouchableOpacity style={styles.touchable} onPress={handleBack}>
           <MaterialCommunityIcons name="arrow-left" size={30} />
         </TouchableOpacity>
       )}

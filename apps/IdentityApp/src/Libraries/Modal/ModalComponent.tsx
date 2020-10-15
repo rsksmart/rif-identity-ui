@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { Modal, StyleSheet, View } from 'react-native';
-import { layoutStyles } from '../../styles';
 
 interface ModalComponentProps {
   visible: boolean;
@@ -8,11 +8,12 @@ interface ModalComponentProps {
 }
 
 const ModalComponent: React.FC<ModalComponentProps> = ({ visible, children }) => {
+  const { layout }: ThemeInterface = useContext(ThemeContext);
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
       <View style={styles.centeredView}>
         <View style={styles.modalContainer}>
-          <View style={[styles.modalView, layoutStyles.row]}>{children}</View>
+          <View style={[styles.modalView, layout.row]}>{children}</View>
         </View>
       </View>
     </Modal>

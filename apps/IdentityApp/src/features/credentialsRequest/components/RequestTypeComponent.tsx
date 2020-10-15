@@ -1,63 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { Dimensions, StyleSheet, ScrollView, View, Text } from 'react-native';
-import { layoutStyles, typeStyles } from '../../../styles';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { SquareButton } from '../../../Libraries/Button';
+import { Dimensions, StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native';
+import { serverInterface, credentialTypes } from '../../../Providers/Issuers';
+import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 
 interface RequestTypeComponentProps {
   strings: any;
-  route: {
-    params: {
-      types: string[];
-    };
-  };
+  issuers: serverInterface[];
   navigation: any;
-  start: () => {};
+  profileIsLoaded: boolean;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
-  route,
+  issuers,
   navigation,
-  start,
 }) => {
-  const [type, setType] = useState();
-  useEffect(() => {
-    start();
-  }, [start]);
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
+  // hardcode the first server:
+  const server = issuers[0];
 
-  const items = route.params.types.map(item => ({
-    label: strings[item.toLowerCase()],
-    value: item,
-  }));
-
-  const handlePress = () => {
-    if (type) {
-      navigation.navigate('ConfirmRequest', { type: type });
-    }
+  const handlePress = (item: credentialTypes) => {
+    navigation.navigate('ConfirmRequest', {
+      type: item.name,
+      requirements: item.requirements,
+    });
   };
 
   return (
-    <ScrollView style={layoutStyles.container}>
-      <View style={{ ...layoutStyles.row, ...styles.row }}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.request_credential}</Text>
-          <Text style={typeStyles.paragraph}>{strings.request_credential_explanation}</Text>
-
-          <DropDownPicker
-            items={items}
-            containerStyle={styles.containerStyle}
-            style={styles.style}
-            itemStyle={styles.itemStyle}
-            dropDownStyle={styles.dropDownStyle}
-            onChangeItem={item => setType(item.value)}
-          />
+    <ScrollView style={layout.container}>
+      <BackScreenComponent
+        overrideBack={{ location: 'CredentialsFlow', params: { screen: 'CredentialsHome' } }}>
+        <View style={[layout.row, styles.row]}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.request_credential}</Text>
+            <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
+            <View style={styles.credentialList}>
+              {server.credentialsOffered?.map((item: credentialTypes, index: number) => (
+                <TouchableOpacity
+                  key={item.name}
+                  style={[styles.credentialButton, index % 2 === 0 ? styles.odd : {}]}
+                  onPress={() => handlePress(item)}>
+                  <Text style={typography.paragraph}>{strings[item.name.toLowerCase()]}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
         </View>
-        <View style={layoutStyles.column1}>
-          <SquareButton title={strings.confirm} onPress={handlePress} />
-        </View>
-      </View>
+      </BackScreenComponent>
     </ScrollView>
   );
 };
@@ -68,29 +59,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // tab bar was set to 95px:
     height: screenHeight - 110,
   },
-  first: {
-    justifyContent: 'flex-start',
-    flex: 1,
+  credentialList: {
+    marginTop: 20,
   },
-  second: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  credentialButton: {
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
   },
-  containerStyle: {
-    height: 56,
-  },
-  style: {
-    backgroundColor: '#f1f1f1',
-    borderColor: '#919191',
-  },
-  itemStyle: {
-    justifyContent: 'flex-start',
-  },
-  dropDownStyle: {
-    backgroundColor: '#fafafa',
+  odd: {
+    backgroundColor: '#F0F0F0',
   },
 });
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext }  from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { View, Text, TextInput } from 'react-native';
-import { typeStyles, layoutStyles } from '../../../styles/';
 
 interface EditItemProps {
   name: string;
@@ -10,15 +10,16 @@ interface EditItemProps {
 }
 
 const EditItem: React.FC<EditItemProps> = ({ name, value, onChange, keyboardType }) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
     <View>
-      <Text style={typeStyles.paragraph}>{name}</Text>
+      <Text style={typography.paragraph}>{name}</Text>
       <TextInput
-        style={layoutStyles.textInput}
+        style={layout.textInput}
         onChangeText={text => onChange(text)}
         value={value}
         editable
-        maxLength={40}
+        maxLength={120}
         keyboardType={keyboardType ? keyboardType : 'default'}
       />
     </View>

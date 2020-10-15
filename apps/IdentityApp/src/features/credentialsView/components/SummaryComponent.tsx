@@ -1,56 +1,151 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import React, { useState, useContext } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
+import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
-import { typeStyles, layoutStyles } from '../../../styles';
-import { Credential } from '../reducer';
 import SingleSummaryComponent from './SingleSummaryComponent';
 import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import { SquareButton } from '../../../Libraries/Button';
-import { QRDetailsContainer } from '../containers';
+import MissingMnemonic from './MissingMnemonic';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
+import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
+import { CredentialRequestInput } from 'daf-selective-disclosure';
+import QRCode from 'react-native-qrcode-svg';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
 
 interface SummaryComponentProps {
-  credentials: Credential[];
+  issuedCredentials: RifCredential[];
+  requestedCredentials: IssuedCredentialRequest[];
   strings: any;
   navigation: any;
-  isLoading: boolean;
+  checkPending: () => Promise<any>[];
+  createPresentation: (credentialHash: string) => Promise<any>;
+  hasMnemonic: boolean;
 }
 
 const SummaryComponent: React.FC<SummaryComponentProps> = ({
-  credentials,
+  issuedCredentials,
+  requestedCredentials,
   strings,
   navigation,
+  checkPending,
+  createPresentation,
+  hasMnemonic,
 }) => {
-  const [qrModalId, setQrModalId] = useState(0);
-  const handleClick = (clickType: string, credentialId: number) => {
+  const { layout, typography }: ThemeInterface = useContext(ThemeContext);
+  const [isCheckingPendingStatus, setIsCheckingPendingStatus] = useState<boolean>(false);
+  const [showQrModal, setShowQrModal] = useState<boolean>(false);
+  const [qrModalHash, setQrModalHash] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
+
+  const hasPending =
+    requestedCredentials.filter((item: any) => item.status === 'pending').length !== 0;
+
+  const handleClick = (
+    reducer: 'REQUESTED' | 'ISSUED',
+    clickType: string,
+    credentialIdentifier: string,
+  ) => {
     if (clickType === 'DETAILS') {
-      return navigation.navigate('Details', { credentialId: credentialId });
+      return navigation.navigate('Details', { credentialIdentifier, reducer });
     } else {
-      setQrModalId(credentialId);
+      setQrModalHash(null);
+      setShowQrModal(true);
+      setQrError(null);
+      createPresentation(credentialIdentifier)
+        .then((response: string) => {
+          setQrModalHash(response);
+        })
+        .catch(err => {
+          setQrError(err.toString());
+          console.log('err', err);
+        });
     }
   };
 
+  const handleCheckPendingStatus = async () => {
+    if (!hasPending) {
+      return;
+    }
+    setIsCheckingPendingStatus(true);
+    await checkPending();
+    setIsCheckingPendingStatus(false);
+  };
+
+  const setUpMnemonic = () => {
+    navigation.navigate('SignupFlow', { screen: 'MnemonicView' });
+  };
+
   return (
-    <ScrollView style={layoutStyles.container}>
-      <View style={layoutStyles.row}>
-        <View style={layoutStyles.column1}>
-          <Text style={typeStyles.header1}>{strings.my_credentials}</Text>
+    <ScrollView
+      style={layout.container}
+      refreshControl={
+        <RefreshControl refreshing={isCheckingPendingStatus} onRefresh={handleCheckPendingStatus} />
+      }>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.my_credentials}</Text>
         </View>
       </View>
-      <View style={{ ...layoutStyles.row, ...styles.credentialsRow }}>
-        {credentials.map(credential => (
+
+      {!hasMnemonic && <MissingMnemonic setUpMnemonic={setUpMnemonic} />}
+      {requestedCredentials.length === 0 &&
+        issuedCredentials.length === 0 &&
+        hasMnemonic &&
+        !isCheckingPendingStatus && (
+          <MessageComponent message={strings.no_credentials} type="WARNING" />
+        )}
+
+      {hasPending && !isCheckingPendingStatus && (
+        <MessageComponent message={strings.pull_down_refresh} type="WARNING" />
+      )}
+      {isCheckingPendingStatus && (
+        <MessageComponent message="Checking status of credentials, please wait." type="WARNING" />
+      )}
+
+      <View style={[layout.row, styles.credentialsRow]}>
+        {requestedCredentials.map((credential: IssuedCredentialRequest) => (
           <View style={styles.single} key={credential.id}>
             <SingleSummaryComponent
-              credential={credential}
-              onPress={async clickType => handleClick(clickType, credential.id)}
+              type={
+                credential.claims.find((item: CredentialRequestInput) => item.claimType === 'type')
+                  .claimValue
+              }
+              status={credential.status.toUpperCase()}
+              onPress={async (clickType: string) =>
+                handleClick('REQUESTED', clickType, credential.id)
+              }
+              disabled={isCheckingPendingStatus}
+            />
+          </View>
+        ))}
+
+        {issuedCredentials.map((credential: RifCredential) => (
+          <View style={styles.single} key={credential.hash}>
+            <SingleSummaryComponent
+              type={credential.credentialSubject.type}
+              status="CERTIFIED"
+              onPress={async (clickType: string) =>
+                handleClick('ISSUED', clickType, credential.hash)
+              }
+              disabled={isCheckingPendingStatus}
             />
           </View>
         ))}
       </View>
 
-      <ModalComponent visible={qrModalId !== 0}>
-        <View style={layoutStyles.column1}>
-          <QRDetailsContainer credentialId={qrModalId} />
-          <SquareButton title={strings.close} variation="hollow" onPress={() => setQrModalId(0)} />
+      <ModalComponent visible={showQrModal}>
+        <View style={layout.column1}>
+          <View style={styles.modalQr}>
+            {!qrModalHash && !qrError && <LoadingComponent />}
+            {qrModalHash && <QRCode value={qrModalHash} size={225} />}
+            {qrError && <MessageComponent message={qrError} type="ERROR" />}
+          </View>
+          <SquareButton
+            title={strings.close}
+            variation="hollow"
+            onPress={() => setShowQrModal(false)}
+          />
         </View>
       </ModalComponent>
     </ScrollView>
@@ -59,13 +154,16 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
 
 const styles = StyleSheet.create({
   credentialsRow: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   single: {
     width: '50%',
     paddingLeft: 0,
     paddingRight: 20,
     paddingBottom: 20,
+  },
+  modalQr: {
+    marginBottom: 20,
   },
 });
 

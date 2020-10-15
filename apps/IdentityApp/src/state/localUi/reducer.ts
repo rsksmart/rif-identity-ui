@@ -9,7 +9,7 @@ type LocalUiState = {
 };
 
 export const initialState = {
-  appVersion: '4',
+  appVersion: '13',
   checkingSingedUp: true,
   isSignedUp: false,
   isLoggedIn: false,
@@ -34,6 +34,11 @@ const reducer = (state: LocalUiState = initialState, action: any) => {
         ...state,
         isLoggedIn: action.isLoggedIn,
         loginError: action.loginError,
+      };
+    case LOCALUI_ACTION_TYPES.LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
       };
     default:
       return state;

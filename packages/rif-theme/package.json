@@ -1,0 +1,8 @@
+{
+  "name": "@rsksmart/rif-theme",
+  "version": "0.1.0",
+  "dependencies": {
+    "@babel/runtime": "^7.10.5",
+    "react": "^16.13.1"
+  }
+}

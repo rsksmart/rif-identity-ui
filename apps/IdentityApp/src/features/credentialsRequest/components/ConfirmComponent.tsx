@@ -1,84 +1,92 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { layoutStyles, typeStyles } from '../../../styles';
 import { SquareButton } from '../../../Libraries/Button';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
-import { ProfileInterface } from '../../../features/profile/reducer';
-import { Credential, CredentialTypes, CredentialStatus } from '../../credentialsView/reducer';
+import { CredentialTypes } from '../../credentialsView/reducer';
+import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
+import { declarativeDetails, credentialTypes } from '../../../Providers/Issuers';
+import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import { HolderAppDeclarativeDetailsInterface } from '../../profile/operations';
 
 interface RequestTypeComponentProps {
   route: {
     params: {
       type: CredentialTypes;
+      requirements: declarativeDetails[];
     };
   };
-  profile: ProfileInterface;
+  profile: HolderAppDeclarativeDetailsInterface;
   requirements: [];
-  requestCredential: (cred: Credential) => {};
+  requestCredential: (metadata: []) => Promise<any>;
+  handleEditProfile: () => {};
   strings: any;
 }
 
 const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   strings,
-  route,
   profile,
-  requirements,
   requestCredential,
+  handleEditProfile,
+  route,
 }) => {
+  const { layout, typography, colors }: ThemeInterface = useContext(ThemeContext);
+  const [isRequesting, setIsRequesting] = useState<boolean>(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
+
   const handlePress = () => {
-    const credential: Credential = {
-      id: Math.floor(Math.random() * 10000),
-      name: strings[type.toLowerCase()],
-      type: type,
-      issuer: { name: 'The App' },
-      status: CredentialStatus.PENDING,
-      infoShared: requirements[type],
-      dateRequested: new Date(),
-    };
-    requestCredential(credential);
+    setIsRequesting(true);
+    setRequestError(null);
+    let metaData = { type: type };
+    requirements.forEach((item: declarativeDetails) => {
+      metaData[item] = profile[item].value;
+    });
+    requestCredential(metaData).catch((err: Error) => {
+      setIsRequesting(false);
+      setRequestError(err.message);
+    });
   };
-  const type: string = route.params.type;
+
+  const {
+    type,
+    requirements,
+  }: { type: credentialTypes; requirements: declarativeDetails[] } = route.params;
 
   const meetsRequirements = () => {
-    const results = requirements[type].filter(
-      (item: string) => profile[item] === '' || profile[item] === null,
-    );
+    const results = requirements.filter((item: string) => !profile[item]);
     return results.length === 0;
   };
 
-  const requiredItem = (item: string) => {
-    const icon =
-      profile[item] === '' || !profile[item] ? (
-        <MaterialCommunityIcons name="close" size={20} color="#BD0000" />
-      ) : (
-        <MaterialCommunityIcons name="check" size={20} color="#008000" />
-      );
-
+  const requiredItem = (item: declarativeDetails) => {
+    const isEmpty = !profile[item];
+    const icon = isEmpty ? (
+      <MaterialCommunityIcons name="close" size={20} color={colors.red} />
+    ) : (
+      <MaterialCommunityIcons name="check" size={20} color={colors.green} />
+    );
     return (
       <Text style={styles.required} key={item}>
-        {icon} {strings[item]}
+        {icon} {strings[item]}: {!isEmpty && profile[item].value}
       </Text>
     );
   };
 
   return (
-    <ScrollView style={layoutStyles.container}>
+    <ScrollView style={layout.container}>
       <BackScreenComponent>
-        <View style={layoutStyles.row}>
-          <View style={layoutStyles.column1}>
-            <Text style={typeStyles.header1}>{strings.confirm_request}</Text>
-            <Text style={typeStyles.paragraph}>{strings.confirm_sharing}</Text>
+        <View style={layout.row}>
+          <View style={layout.column1}>
+            <Text style={typography.header1}>{strings.confirm_request}</Text>
+            <Text style={typography.paragraph}>{strings.confirm_sharing}</Text>
 
             <View style={styles.grayBox}>
-              <Text style={typeStyles.header1}>{strings[type.toLowerCase()]}</Text>
-              <Text style={[typeStyles.paragraph, typeStyles.bold]}>
-                {strings.information_requested}:
-              </Text>
+              <Text style={typography.header1}>{strings[type.toLowerCase()]}</Text>
+              <Text style={typography.paragraphBold}>{strings.information_requested}:</Text>
 
-              {requirements[type].map((item: string) => requiredItem(item))}
+              {requirements.map((item: string) => requiredItem(item))}
 
               <Text style={styles.notice}>
                 <MaterialCommunityIcons
@@ -91,13 +99,18 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
               </Text>
             </View>
             {!meetsRequirements() && (
-              <Text style={styles.warning}>{strings.missing_requirements}</Text>
+              <>
+                <MessageComponent type="WARNING" message={strings.missing_requirements} />
+                <SquareButton title="Edit Profile" onPress={handleEditProfile} />
+              </>
             )}
-            <SquareButton
-              title={strings.confirm}
-              onPress={handlePress}
-              disabled={!meetsRequirements()}
-            />
+
+            {requestError && <MessageComponent type="ERROR" message={requestError} />}
+            {isRequesting && <LoadingComponent />}
+
+            {meetsRequirements() && (
+              <SquareButton title={strings.confirm} onPress={handlePress} disabled={isRequesting} />
+            )}
           </View>
         </View>
       </BackScreenComponent>
@@ -125,10 +138,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingTop: 15,
-  },
-  warning: {
-    fontSize: 18,
-    marginBottom: 20,
   },
 });
 

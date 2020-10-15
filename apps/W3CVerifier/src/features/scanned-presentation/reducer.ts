@@ -43,6 +43,12 @@ const reducer = (state: ScannedPresentationStateInterface = initialState, action
         ...state,
         viewDetails: true,
       }
+    case SCANNED_PRESENTATION_ACTION_TYPES.SHOW_PRESENTATION: 
+      return {
+        ...state,
+        presentation: action.presentation,
+        viewDetails: false,
+      }
     default:
       return state;
   }

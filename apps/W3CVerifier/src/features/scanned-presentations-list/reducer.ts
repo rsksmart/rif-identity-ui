@@ -25,12 +25,18 @@ const reducer = (state: ScannedPresentationsStateInterface = initialState, actio
         isLoading: false,
         presentations: action.presentations
       }
-    case SCANNED_PRESENTATIONS_ACTION_TYPES.SCANNED_VALID_PRESENTATION: 
+    case SCANNED_PRESENTATIONS_ACTION_TYPES.ADD_SCANNED_PRESENTATION: 
       return {
         ...state,
         presentations: [...state.presentations,  action.presentation],
       }
     case SCANNED_PRESENTATIONS_ACTION_TYPES.RECEIVE_EMPTY_SCANNED_PRESENTATIONS: 
+      return {
+        ...state,
+        isLoading: false,
+        presentations: [],
+      }
+    case SCANNED_PRESENTATIONS_ACTION_TYPES.CLEAN_SCANNED_PRESENTATIONS: 
       return {
         ...state,
         isLoading: false,

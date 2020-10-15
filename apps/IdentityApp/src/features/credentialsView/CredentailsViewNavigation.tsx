@@ -1,19 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SummaryContainer, DetailsContainer } from './containers';
-import { connect } from 'react-redux';
-import { getCredentialsFromStorage } from './operations';
 
-interface CredentailsViewNavigationProps {
-  start: () => {};
-}
-
-const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({ start }) => {
-  useEffect(() => {
-    console.log('using effect!');
-    start();
-  }, [start]);
-
+const CredentailsViewNavigation: React.FC = () => {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
@@ -30,8 +19,4 @@ const CredentailsViewNavigation: React.FC<CredentailsViewNavigationProps> = ({ s
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  start: () => dispatch(getCredentialsFromStorage()),
-});
-
-export default connect(null, mapDispatchToProps)(CredentailsViewNavigation);
+export default CredentailsViewNavigation;

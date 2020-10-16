@@ -56,9 +56,9 @@ export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dis
       const details = Array.isArray(response) ? response[response.length - 1] : response;
       const declarativeDetails = JSON.parse(details.content);
 
-      const callback = (err: Error) => {
+      const callback = (err: Error | undefined) => {
         if (err) {
-          console.log(err);
+          console.log('declarative details callback error', err);
           dispatch(resetRestoreProcess());
           return dispatch(errorRestore('Error from DataVault'));
         }
@@ -75,18 +75,51 @@ export const restoreProfileFromDataVault = (did: string) => async (dispatch: Dis
     });
 };
 
-export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch<any>) => {
+interface IDVItem {
+  cid: string;
+  content: string;
+}
+
+/**
+ * RestoreCredentialLoop
+ * Helper function that takes an array of DataVault Credential Objects and adds them one at a time to the reducer.
+ * @param jwtResponseArray Array of DataVault Items
+ * @param finalCallback Callback function to be called at the end.
+ */
+const restoredCredentialLoop = (
+  jwtResponseArray: IDVItem[],
+  finalCallback: (err?: Error) => void,
+) => (dispatch: Dispatch<any>) => {
   const receiveCredentialRif = receiveCredentialFactory(agent);
-  getFromDataVault(dataVaultKeys.CREDENTIALS)
-    .then(credentials => {
-      credentials.map((item: any) => dispatch(receiveCredentialRif(JSON.parse(item.content))));
+  const callback = (err: Error | undefined) => {
+    if (err) {
+      return finalCallback(err);
+    }
+
+    // run it again if there are more credentials:
+    jwtResponseArray.length !== 1
+      ? dispatch(restoredCredentialLoop(jwtResponseArray.slice(1), finalCallback))
+      : finalCallback();
+  };
+
+  dispatch(receiveCredentialRif(JSON.parse(jwtResponseArray[0].content), callback));
+};
+
+/**
+ * Get Credentials from the DataVault
+ */
+export const restoreCredentialsFromDataVault = () => async (dispatch: Dispatch<any>) => {
+  getFromDataVault(dataVaultKeys.CREDENTIALS).then(credentials => {
+    const callback = (err?: Error | undefined) => {
+      if (err) {
+        dispatch(resetRestoreProcess());
+        return dispatch(errorRestore('Error Restoring Credentials'));
+      }
 
       dispatch(receiveRestore());
       RootNavigation.navigate('SignupFlow', { screen: 'PinCreate' });
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(resetRestoreProcess());
-      return dispatch(errorNoIdentity());
-    });
+    };
+
+    credentials.length === 0 ? callback() : dispatch(restoredCredentialLoop(credentials, callback));
+  });
 };

@@ -5,5 +5,5 @@
   "DATA_VAULT_ENDPOINT": "http://ec2-3-131-142-122.us-east-2.compute.amazonaws.com:5102",
   "RSK_NODE": "https://did.testnet.rsk.co:4444",
   "CONVEY_URL": "http://ec2-3-131-142-122.us-east-2.compute.amazonaws.com:5104",
-  "CONVEY_DID": "did:ethr:rsk:testnet:0xff80e2096CbE429A3915ADF0983C66c729059cAB"
+  "CONVEY_DID": "did:ethr:rsk:testnet:0xFF80e2096CBE429A3915Adf0983C66c729059CAB"
 }

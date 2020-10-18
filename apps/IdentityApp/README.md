@@ -1,6 +1,6 @@
 ## Identity Holder Wallet
 
-The holder wallet is used to store declarative detials and credentials of it's users. Built in React Native it can be packaged for both IOS and Android, however, Android is the only officially supported platform. 
+The holder wallet is used to store declarative details and credentials of it's users. Built in React Native it can be packaged for both IOS and Android, however, Android is the only officially supported platform. 
 
 ## Setting up a local Android Environment
 

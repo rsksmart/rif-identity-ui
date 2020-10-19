@@ -1,0 +1,19 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  build:
+    working_directory: ~/tmp
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - install:
+          steps:
+            - run: yarn
+            - run: yarn bootstrap
+
+workflows:
+    build-test-lint:
+      jobs:
+        - build

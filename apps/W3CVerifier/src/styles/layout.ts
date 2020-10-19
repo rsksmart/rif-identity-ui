@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import colors from './colors';
 
 // editable variables:
 const gutter = 20;

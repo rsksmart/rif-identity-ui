@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, View, Text, GestureResponderEvent } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
 import ChangeLangaugeModalContainer from '../../../Libraries/ChangeLanguage/ChangeLangaugeModalContainer';

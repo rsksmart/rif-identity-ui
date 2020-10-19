@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Text, View, TextInput, StyleSheet,
+  Text, View, StyleSheet,
 } from 'react-native';
 import { layoutStyles, typeStyles } from '../../styles/';
 import { multilanguage } from 'redux-multilanguage';
-import Button from '../../shared/Button'
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import LoadingComponent from '../shared/LoadingComponent';
-import { errorConveyLogin } from 'src/state/localUi/actions';
 
 interface ScanQRProps {
   strings: any;
@@ -26,11 +24,7 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
   isLoggingInToConvey, isLoggedInToConvey, errorConveyLogin
 }) => {
   const [isScanFinished, setIsScanFinished] = useState(false)
-  const [jwt, setJwt] = useState('')
-
-  const handleChangeJwt = (jwt: string) => setJwt(jwt)
-  
-  const handleVerifyPress = () => handleScan(jwt, navigation)
+  // const [jwt, setJwt] = useState('')
 
   const onBarCodeRead = (scanResult: any) => {
     const { data } = scanResult;
@@ -75,12 +69,12 @@ const ScanQRComponent: React.FC<ScanQRProps> = ({
       {/* <View>
         <Text style={typeStyles.paragraph}>{strings.enter_jwt}</Text>
         <TextInput
-          onChangeText={text => handleChangeJwt(text)}
+          onChangeText={text => setJwt(text)}
           value={jwt}
           editable
         />
       </View>
-      <Button title={strings.verify_jwt} onPress={handleVerifyPress} /> */}
+      <Button title={strings.verify_jwt} onPress={() => handleScan(jwt, navigation)} /> */}
       <RNCamera
         captureAudio={false}
         style={styles.preview}

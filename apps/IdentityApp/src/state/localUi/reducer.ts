@@ -1,7 +1,6 @@
 import { LOCALUI_ACTION_TYPES } from './actions';
 
 type LocalUiState = {
-  appVersion: string;
   checkingSingedUp: boolean;
   isSignedUp: boolean;
   isLoggedIn: boolean;
@@ -9,7 +8,6 @@ type LocalUiState = {
 };
 
 export const initialState = {
-  appVersion: '13',
   checkingSingedUp: true,
   isSignedUp: false,
   isLoggedIn: false,

@@ -5,6 +5,17 @@
 <p align="middle">
     RIF Self-sovereign identity UI library.
 </p>
+<p align="middle">
+    <a href="https://circleci.com/gh/rsksmart/rif-identity-ui">
+        <img src="https://img.shields.io/circleci/build/github/rsksmart/rif-identity-ui?label=CircleCI" alt="npm" />
+    </a>
+    <a href="https://lgtm.com/projects/g/rsksmart/rif-identity-ui/alerts/">
+      <img src="https://img.shields.io/lgtm/alerts/github/rsksmart/rif-identity-ui" alt="alerts">
+    </a>
+    <a href="https://lgtm.com/projects/g/rsksmart/rif-identity-ui/context:javascript">
+      <img src="https://img.shields.io/lgtm/grade/javascript/github/rsksmart/rif-identity-ui">
+    </a>
+</p>
 
 User interface packages and applications enabling RIF Self-sovereign identity models.
 

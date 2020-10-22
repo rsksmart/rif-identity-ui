@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import DatePicker from './DatePicker';
 import DropDown from './DropDown';
 

@@ -1,6 +1,6 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { Modal, StyleSheet, View } from 'react-native';
+import { Modal, StyleSheet, View, Dimensions } from 'react-native';
 
 interface ModalComponentProps {
   visible: boolean;
@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingRight: 15,
+    paddingLeft: 15,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    width: Math.round(Dimensions.get('window').width) - 45,
   },
 });
 

@@ -3,15 +3,12 @@ import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, RefreshControl, View, ScrollView, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 import SingleSummaryComponent from './SingleSummaryComponent';
-import ModalComponent from '../../../Libraries/Modal/ModalComponent';
-import { SquareButton } from '../../../Libraries/Button';
 import MissingMnemonic from './MissingMnemonic';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
 import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
 import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { CredentialRequestInput } from 'daf-selective-disclosure';
-import QRCode from 'react-native-qrcode-svg';
-import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
+import QRModal from './QRModal';
 
 interface SummaryComponentProps {
   issuedCredentials: RifCredential[];
@@ -134,20 +131,12 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         ))}
       </View>
 
-      <ModalComponent visible={showQrModal}>
-        <View style={layout.column1}>
-          <View style={styles.modalQr}>
-            {!qrModalHash && !qrError && <LoadingComponent />}
-            {qrModalHash && <QRCode value={qrModalHash} size={225} />}
-            {qrError && <MessageComponent message={qrError} type="ERROR" />}
-          </View>
-          <SquareButton
-            title={strings.close}
-            variation="hollow"
-            onPress={() => setShowQrModal(false)}
-          />
-        </View>
-      </ModalComponent>
+      <QRModal
+        showQr={showQrModal}
+        qrModalHash={qrModalHash}
+        qrError={qrError}
+        onClose={() => setShowQrModal(false)}
+      />
     </ScrollView>
   );
 };

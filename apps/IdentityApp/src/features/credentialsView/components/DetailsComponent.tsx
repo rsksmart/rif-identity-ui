@@ -1,21 +1,18 @@
 import React, { useState, useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 
 import { Credential as RifCredential } from '@rsksmart/rif-id-core/src/reducers/credentials';
 import StatusIcon from './StatusIcon';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 import { SquareButton } from '../../../Libraries/Button';
-import ModalComponent from '../../../Libraries/Modal/ModalComponent';
 import ClaimsDataComponent from './ClaimsDataComponent';
 import DeleteCredentialComponent from './DeleteCredentialComponent';
 import { IssuedCredentialRequest } from '@rsksmart/rif-id-core/lib/reducers/issuedCredentialRequests';
 import { CredentialRequestInput } from 'daf-selective-disclosure';
 import { CopyButton } from '../../../Libraries/CopyButton';
-import QRCode from 'react-native-qrcode-svg';
-import LoadingComponent from '../../../Libraries/Loading/LoadingComponent';
-import MessageComponent from '../../../Libraries/Message/MessageComponent';
+import QRModal from './QRModal';
 
 interface DetailsComponentProps {
   getCredential: () => RifCredential;
@@ -116,20 +113,12 @@ const DetailsComponent: React.FC<DetailsComponentProps> = ({
             {status === 'CERTIFIED' && (
               <View style={styles.buttonView}>
                 <SquareButton title="Show QR Code" onPress={handleQrClick} />
-                <ModalComponent visible={showQr}>
-                  <View style={layout.column1}>
-                    <View style={styles.modalQr}>
-                      {!qrModalHash && !qrError && <LoadingComponent />}
-                      {qrModalHash && <QRCode value={qrModalHash} size={225} />}
-                      {qrError && <MessageComponent message={qrError} type="ERROR" />}
-                    </View>
-                    <SquareButton
-                      title={strings.close}
-                      variation="hollow"
-                      onPress={() => setShowQr(false)}
-                    />
-                  </View>
-                </ModalComponent>
+                <QRModal
+                  showQr={showQr}
+                  qrModalHash={qrModalHash}
+                  qrError={qrError}
+                  onClose={() => setShowQr(false)}
+                />
               </View>
             )}
           </View>

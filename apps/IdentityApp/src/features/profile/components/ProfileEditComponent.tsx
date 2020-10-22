@@ -43,80 +43,78 @@ const ProfileEditComponent: React.FC<ProfileEditComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layout.container}>
-      <BackScreenComponent>
-        <View style={layout.row}>
-          <View style={layout.column1}>
-            <Text style={typography.header1}>{strings.edit_personal_info}</Text>
-            <View style={styles.buttonView}>
-              <SquareButton title={strings.save} onPress={() => handleSave(localProfile)} />
-            </View>
-            <EditItem
-              name={strings.fullName}
-              value={localProfile.fullName}
-              onChange={async text => handleChange('fullName', text)}
-            />
-
-            <DatePicker
-              name={strings.birthdate}
-              value={localProfile.birthdate}
-              onChange={(text: string) => handleChange('birthdate', text)}
-            />
-
-            <EditItem
-              name={strings.idNumber}
-              value={localProfile.idNumber}
-              onChange={async text => handleChange('idNumber', text)}
-              keyboardType="number-pad"
-            />
-
-            <EditItem
-              name={strings.driversLicenseNumber}
-              value={localProfile.driversLicenseNumber}
-              onChange={async text => handleChange('driversLicenseNumber', text)}
-              keyboardType="number-pad"
-            />
-
-            <DropDown
-              name={strings.civilStatus}
-              value={localProfile.civilStatus}
-              items={[
-                { label: '', value: '' },
-                { label: strings.married, value: 'married' },
-                { label: strings.single, value: 'single' },
-              ]}
-              onChange={async text => handleChange('civilStatus', text)}
-            />
-
-            <EditItem
-              name={strings.address}
-              value={localProfile.address}
-              onChange={async text => handleChange('address', text)}
-            />
-
-            <EditItem
-              name={strings.city}
-              value={localProfile.city}
-              onChange={async text => handleChange('city', text)}
-            />
-
-            <EditItem
-              name={strings.phone}
-              value={localProfile.phone}
-              onChange={async text => handleChange('phone', text)}
-              keyboardType="phone-pad"
-            />
-
-            <EditItem
-              name={strings.email}
-              value={localProfile.email}
-              onChange={async text => handleChange('email', text)}
-              keyboardType="email-address"
-            />
+    <BackScreenComponent style={layout.container}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.edit_personal_info}</Text>
+          <View style={styles.buttonView}>
+            <SquareButton title={strings.save} onPress={() => handleSave(localProfile)} />
           </View>
+          <EditItem
+            name={strings.fullName}
+            value={localProfile.fullName}
+            onChange={async text => handleChange('fullName', text)}
+          />
+
+          <DatePicker
+            name={strings.birthdate}
+            value={localProfile.birthdate}
+            onChange={(text: string) => handleChange('birthdate', text)}
+          />
+
+          <EditItem
+            name={strings.idNumber}
+            value={localProfile.idNumber}
+            onChange={async text => handleChange('idNumber', text)}
+            keyboardType="number-pad"
+          />
+
+          <EditItem
+            name={strings.driversLicenseNumber}
+            value={localProfile.driversLicenseNumber}
+            onChange={async text => handleChange('driversLicenseNumber', text)}
+            keyboardType="number-pad"
+          />
+
+          <DropDown
+            name={strings.civilStatus}
+            value={localProfile.civilStatus}
+            items={[
+              { label: '', value: '' },
+              { label: strings.married, value: 'married' },
+              { label: strings.single, value: 'single' },
+            ]}
+            onChange={async text => handleChange('civilStatus', text)}
+          />
+
+          <EditItem
+            name={strings.address}
+            value={localProfile.address}
+            onChange={async text => handleChange('address', text)}
+          />
+
+          <EditItem
+            name={strings.city}
+            value={localProfile.city}
+            onChange={async text => handleChange('city', text)}
+          />
+
+          <EditItem
+            name={strings.phone}
+            value={localProfile.phone}
+            onChange={async text => handleChange('phone', text)}
+            keyboardType="phone-pad"
+          />
+
+          <EditItem
+            name={strings.email}
+            value={localProfile.email}
+            onChange={async text => handleChange('email', text)}
+            keyboardType="email-address"
+          />
         </View>
-      </BackScreenComponent>
-    </ScrollView>
+      </View>
+    </BackScreenComponent>
   );
 };
 

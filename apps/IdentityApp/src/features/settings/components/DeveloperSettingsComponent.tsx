@@ -59,79 +59,77 @@ const DeveloperSettingsComponent: React.FC<DeveloperSettingsComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layout.container}>
-      <BackScreenComponent>
-        <View style={layout.row}>
-          <View style={layout.column1}>
-            <Text style={typography.header1}>{strings.advanced_settings}</Text>
-            <Text style={typography.paragraphBold}>{strings.version}</Text>
-            <Text style={typography.paragraph}>{version}</Text>
+    <BackScreenComponent style={layout.container}>
+      <View style={layout.row}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.advanced_settings}</Text>
+          <Text style={typography.paragraphBold}>{strings.version}</Text>
+          <Text style={typography.paragraph}>{version}</Text>
 
-            <Text style={typography.header2}>{strings.edit_endpionts}:</Text>
-            <EditItem
-              name={strings.issuer}
-              value={newEndpoints.issuer}
-              onChange={async text => handleChange('issuer', text)}
+          <Text style={typography.header2}>{strings.edit_endpionts}:</Text>
+          <EditItem
+            name={strings.issuer}
+            value={newEndpoints.issuer}
+            onChange={async text => handleChange('issuer', text)}
+          />
+          <EditItem
+            name={strings.issuer_did}
+            value={newEndpoints.issuerDid}
+            onChange={async text => handleChange('issuerDid', text)}
+          />
+          <EditItem
+            name={strings.ipfs_gateway}
+            value={newEndpoints.ipfs}
+            onChange={async text => handleChange('ipfs', text)}
+          />
+          <EditItem
+            name={strings.data_vault}
+            value={newEndpoints.dataVault}
+            onChange={async text => handleChange('dataVault', text)}
+          />
+          <EditItem
+            name={strings.rsk_node}
+            value={newEndpoints.rskNode}
+            onChange={async text => handleChange('rskNode', text)}
+          />
+          <EditItem
+            name={strings.convey_url}
+            value={newEndpoints.convey}
+            onChange={async text => handleChange('convey', text)}
+          />
+          <EditItem
+            name={strings.convey_did}
+            value={newEndpoints.conveyDid}
+            onChange={async text => handleChange('conveyDid', text)}
+          />
+          <View style={styles.buttonView}>
+            <SquareButton
+              title={strings.save}
+              variation="hollow"
+              onPress={handleSave}
+              disabled={isSavingEndpoints}
             />
-            <EditItem
-              name={strings.issuer_did}
-              value={newEndpoints.issuerDid}
-              onChange={async text => handleChange('issuerDid', text)}
-            />
-            <EditItem
-              name={strings.ipfs_gateway}
-              value={newEndpoints.ipfs}
-              onChange={async text => handleChange('ipfs', text)}
-            />
-            <EditItem
-              name={strings.data_vault}
-              value={newEndpoints.dataVault}
-              onChange={async text => handleChange('dataVault', text)}
-            />
-            <EditItem
-              name={strings.rsk_node}
-              value={newEndpoints.rskNode}
-              onChange={async text => handleChange('rskNode', text)}
-            />
-            <EditItem
-              name={strings.convey_url}
-              value={newEndpoints.convey}
-              onChange={async text => handleChange('convey', text)}
-            />
-            <EditItem
-              name={strings.convey_did}
-              value={newEndpoints.conveyDid}
-              onChange={async text => handleChange('conveyDid', text)}
-            />
-            <View style={styles.buttonView}>
-              <SquareButton
-                title={strings.save}
-                variation="hollow"
-                onPress={handleSave}
-                disabled={isSavingEndpoints}
-              />
-              {saved && <Text style={typography.paragraph}>{strings.settings_saved}</Text>}
-            </View>
+            {saved && <Text style={typography.paragraph}>{strings.settings_saved}</Text>}
+          </View>
 
-            <Text style={typography.header2}>{strings.copy_settings}</Text>
-            <View style={styles.buttonView}>
-              <CopyButton text={strings.copy_settings_explanation} value={clipboardData()} />
-            </View>
+          <Text style={typography.header2}>{strings.copy_settings}</Text>
+          <View style={styles.buttonView}>
+            <CopyButton text={strings.copy_settings_explanation} value={clipboardData()} />
+          </View>
 
-            <Text style={typography.header2}>{strings.danger}</Text>
-            <View style={styles.buttonView}>
-              <SquareButton title={strings.reset_app} variation="hollow" onPress={handleReset} />
-              <ModalComponent visible={resetApp}>
-                <View>
-                  <Text style={typography.header2}>App Reset</Text>
-                  <Text style={typography.paragraph}>Close the app completly and start over.</Text>
-                </View>
-              </ModalComponent>
-            </View>
+          <Text style={typography.header2}>{strings.danger}</Text>
+          <View style={styles.buttonView}>
+            <SquareButton title={strings.reset_app} variation="hollow" onPress={handleReset} />
+            <ModalComponent visible={resetApp}>
+              <View>
+                <Text style={typography.header2}>App Reset</Text>
+                <Text style={typography.paragraph}>Close the app completly and start over.</Text>
+              </View>
+            </ModalComponent>
           </View>
         </View>
-      </BackScreenComponent>
-    </ScrollView>
+      </View>
+    </BackScreenComponent>
   );
 };
 

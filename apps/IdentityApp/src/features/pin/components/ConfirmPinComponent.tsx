@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { multilanguage } from 'redux-multilanguage';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { View, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 
 import PinInput from '../../../Libraries/PinInput/PinInputComponent';
 import MessageComponent from '../../../Libraries/Message/MessageComponent';
@@ -19,12 +19,12 @@ const ConfirmPinComponent: React.FC<ConfirmPinComponentProps> = ({
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
-    <View style={layout.column1}>
+    <ScrollView style={layout.column1}>
       <Text style={typography.header1}>{strings.confirm_pin}</Text>
       <Text style={typography.paragraph}>{strings.confirm_pin_explanation}</Text>
       {errorMessage && <MessageComponent message={strings.confirm_pin_error} type="ERROR" />}
       <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
-    </View>
+    </ScrollView>
   );
 };
 

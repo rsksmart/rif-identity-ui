@@ -113,5 +113,6 @@
   "create_new_identity": "Create new Identity",
   "convey_url": "Convey URL",
   "convey_did": "Convey DID",
-  "issuer_did": "Issuer DID"
+  "issuer_did": "Issuer DID",
+  "checking_status": "Checking status of credentials, please wait."
 }

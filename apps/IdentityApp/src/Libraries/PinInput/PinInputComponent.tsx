@@ -1,4 +1,5 @@
-import React, { useState, useContext }  from 'react';
+import React, { useState, useContext } from 'react';
+import { multilanguage } from 'redux-multilanguage';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { StyleSheet, View, Text } from 'react-native';
 
@@ -8,9 +9,10 @@ interface PinButtonsProps {
   onSubmit: (pin: string) => {};
   hidePin: boolean;
   maxDigits: number;
+  strings: any;
 }
 
-const PinButtons: React.FC<PinButtonsProps> = ({ onSubmit, hidePin, maxDigits }) => {
+const PinButtons: React.FC<PinButtonsProps> = ({ onSubmit, hidePin, maxDigits, strings }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   const [sequence, setSequence] = useState([]);
 
@@ -58,7 +60,7 @@ const PinButtons: React.FC<PinButtonsProps> = ({ onSubmit, hidePin, maxDigits })
 
       <View style={layout.row}>
         <View style={[layout.column1, styles.buttonRow]}>
-          <SquareButton title="Next" onPress={handleSubmit} />
+          <SquareButton title={strings.next} onPress={handleSubmit} />
         </View>
       </View>
     </>
@@ -80,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PinButtons;
+export default multilanguage(PinButtons);

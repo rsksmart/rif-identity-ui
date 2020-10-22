@@ -97,7 +97,7 @@ const SummaryComponent: React.FC<SummaryComponentProps> = ({
         <MessageComponent message={strings.pull_down_refresh} type="WARNING" />
       )}
       {isCheckingPendingStatus && (
-        <MessageComponent message="Checking status of credentials, please wait." type="WARNING" />
+        <MessageComponent message={strings.checking_status} type="WARNING" />
       )}
 
       <View style={[layout.row, styles.credentialsRow]}>

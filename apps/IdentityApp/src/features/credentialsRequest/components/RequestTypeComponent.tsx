@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
 import { multilanguage } from 'redux-multilanguage';
-import { Dimensions, StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { serverInterface, credentialTypes } from '../../../Providers/Issuers';
 import BackScreenComponent from '../../../Libraries/BackScreen/BackScreenComponent';
 
@@ -29,27 +29,26 @@ const RequestTypeComponent: React.FC<RequestTypeComponentProps> = ({
   };
 
   return (
-    <ScrollView style={layout.container}>
-      <BackScreenComponent
-        overrideBack={{ location: 'CredentialsFlow', params: { screen: 'CredentialsHome' } }}>
-        <View style={[layout.row, styles.row]}>
-          <View style={layout.column1}>
-            <Text style={typography.header1}>{strings.request_credential}</Text>
-            <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
-            <View style={styles.credentialList}>
-              {server.credentialsOffered?.map((item: credentialTypes, index: number) => (
-                <TouchableOpacity
-                  key={item.name}
-                  style={[styles.credentialButton, index % 2 === 0 ? styles.odd : {}]}
-                  onPress={() => handlePress(item)}>
-                  <Text style={typography.paragraph}>{strings[item.name.toLowerCase()]}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+    <BackScreenComponent
+      overrideBack={{ location: 'CredentialsFlow', params: { screen: 'CredentialsHome' } }}
+      style={layout.container}>
+      <View style={[layout.row, styles.row]}>
+        <View style={layout.column1}>
+          <Text style={typography.header1}>{strings.request_credential}</Text>
+          <Text style={typography.paragraph}>{strings.request_credential_explanation}</Text>
+          <View style={styles.credentialList}>
+            {server.credentialsOffered?.map((item: credentialTypes, index: number) => (
+              <TouchableOpacity
+                key={item.name}
+                style={[styles.credentialButton, index % 2 === 0 ? styles.odd : {}]}
+                onPress={() => handlePress(item)}>
+                <Text style={typography.paragraph}>{strings[item.name.toLowerCase()]}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
-      </BackScreenComponent>
-    </ScrollView>
+      </View>
+    </BackScreenComponent>
   );
 };
 

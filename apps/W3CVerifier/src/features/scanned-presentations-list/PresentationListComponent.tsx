@@ -5,7 +5,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { VerifiedPresentation } from '../../api'
-import { layoutStyles, colors } from '../../styles';
+import { colors } from '../../styles';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 

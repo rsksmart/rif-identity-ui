@@ -101,17 +101,15 @@
   "expiration_date": "Fecha de expiración",
   "copy_settings": "Copiar los ajustes al portapapeles",
   "copy_settings_explanation": "Copia los ajustes, versión y DID. Ningún dato privado será agregado al portapapeles",
-  "fullName": "Nombre Completo",
-  "idNumber": "Documento de Identidad",
   "parkingPermitId": "Permiso de Estacionamiento",
   "typeOfParkingPermit": "Tipo de Permiso de Estacionamiento",
   "typeOfVehicle": "Tipo de Vehículo",
   "isInternational": "Es Internacional",
   "issuanceOffice": "Oficina de Emisión",
-  "driversLicenseNumber": "Número de Licencia de Conducir",
   "typeOfLicense": "Tipo de Licencia",
   "warning": "Advertencia",
   "no_identity_explanation": "No se encontraron credenciales con esta llave semilla. Verifique que sea correcta o cree una nueva identidad con la misma.",
   "check_mnemonic": "Verifique llave semilla",
-  "create_new_identity": "Crear nueva identidad"
+  "create_new_identity": "Crear nueva identidad",
+  "checking_status": "Verificando el estado de las credenciales, por favor espere."
 }

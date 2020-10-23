@@ -5,7 +5,7 @@ import { getResolver } from 'ethr-did-resolver'
 import { verifyPresentation, VerifiedPresentation as W3CVerifiedPresentation } from 'did-jwt-vc'
 import { mapFromPayload, VerifiedPresentation } from '../api';
 import {
-  ISSUER_DID, RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS,
+  RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS,
   CONVEY_URL, IPFS_GATEWAY,
 } from '../../env.json'
 import { StorageProvider, STORAGE_KEYS } from '../providers';

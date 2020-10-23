@@ -28,9 +28,9 @@ const ProfileViewComponent: React.FC<ProfileViewComponentProps> = ({
     <ScrollView style={layout.container}>
       <View style={layout.row}>
         <View style={layout.column1}>
-          <Text style={typography.header1}>{strings.personal_info}</Text>
+          <Text style={[typography.header1, styles.header]}>{strings.personal_info}</Text>
           <TouchableOpacity
-            style={styles.editButton}
+            style={[styles.settingsButton]}
             onPress={() => navigation.navigate('Settings')}>
             <FontAwesome name="cog" size={25} />
           </TouchableOpacity>
@@ -118,6 +118,17 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     zIndex: 1000,
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: -10,
+    top: 20,
+    width: 60,
+    height: 60,
+    zIndex: 1000,
+  },
+  header: {
+    paddingRight: 40,
   },
   editIcon: {
     textAlign: 'right',

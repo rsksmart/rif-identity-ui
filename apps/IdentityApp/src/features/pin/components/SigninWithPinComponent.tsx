@@ -1,6 +1,6 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import ThemeContext, { ThemeInterface } from '@rsksmart/rif-theme';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { multilanguage } from 'redux-multilanguage';
 
 import PinInput from '../../../Libraries/PinInput/PinInputComponent';
@@ -19,13 +19,13 @@ const SigninWithPinComponent: React.FC<SigninWithPinComponentProps> = ({
 }) => {
   const { layout, typography }: ThemeInterface = useContext(ThemeContext);
   return (
-    <View style={layout.container}>
+    <ScrollView style={layout.container}>
       <View style={layout.column1}>
         <Text style={typography.header1}>{strings.login_with_pin}</Text>
         {errorMessage && <MessageComponent message={strings[errorMessage]} type="ERROR" />}
         <PinInput maxDigits={8} onSubmit={onSubmit} hidePin />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

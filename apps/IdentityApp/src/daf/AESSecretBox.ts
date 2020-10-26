@@ -24,12 +24,4 @@ export class AESSecretBox extends AbstractSecretBox {
 
     return encrypted
   }
-
-  async decrypt(encryptedData: any): Promise<string> {
-    const key = crypto.createDecipher('aes-256-gcm', this.secretKey);
-    let decrypted = key.update(encryptedData, 'hex', 'utf8')
-    decrypted += key.final('utf8');
-
-    return decrypted
-  }
 }

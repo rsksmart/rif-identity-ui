@@ -21,7 +21,7 @@
     "@types/redux-logger": "^3.0.8",
     "assert": "^1.1.1",
     "asyncstorage-down": "^4.2.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "buffer": "^4.9.1",
     "constants-browserify": "^1.0.0",
     "daf-core": "6.1.1",

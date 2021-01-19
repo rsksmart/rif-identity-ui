@@ -1,6 +1,7 @@
 {
   "name": "@rsksmart/languages",
   "version": "0.1.0",
+  "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.10.5"
   }

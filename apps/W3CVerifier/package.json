@@ -64,7 +64,7 @@
     "rn-secure-storage": "^2.0.5",
     "stream-browserify": "^1.0.0",
     "timers-browserify": "^1.0.1",
-    "typeorm": "0.2.24",
+    "typeorm": "0.2.25",
     "vm-browserify": "0.0.4"
   },
   "devDependencies": {

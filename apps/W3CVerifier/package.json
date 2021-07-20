@@ -39,7 +39,7 @@
     "path-browserify": "0.0.0",
     "process": "^0.11.0",
     "react": "16.13.1",
-    "react-native": "0.63.0",
+    "react-native": "0.64.1",
     "react-native-barcode-mask": "^1.2.4",
     "react-native-camera": "^3.35.0",
     "react-native-crypto": "^2.1.0",

@@ -1,6 +1,7 @@
 /**
  * @format
  */
+import TextEncoder from 'text-encoding-polyfill';
 import './shim.js';
 
 import { AppRegistry } from 'react-native';

@@ -8,7 +8,7 @@ import {
   RPC_URL, DID_REGISTRY_ADDRESS, DEFAULT_VP_EXPIRATION_SECONDS,
   CONVEY_URL, IPFS_GATEWAY,
 } from '../../env.json'
-import { StorageProvider, STORAGE_KEYS } from '../providers';
+import { StorageProvider, STORAGE_KEYS } from '../Providers';
 import { addScannedPresentation, cleanScannedPresentations } from './scanned-presentations-list/actions';
 import { decodeJWT } from 'did-jwt'
 import axios from 'axios'

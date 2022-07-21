@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { changeLanguage } from 'redux-multilanguage';
 import * as RootNavigation from '../AppNavigation';
-import { StorageProvider, STORAGE_KEYS } from '../providers';
+import { StorageProvider, STORAGE_KEYS } from '../Providers';
 import { 
   requestScannedPresentations, receiveScannedPresentations,
   receiveEmptyScannedPresentations

@@ -13,15 +13,19 @@ export const defaults = {
 
 export const endpointsT = typeof defaults;
 
+type Endpoint = 'issuer' | 'issuerDid' | 'ipfs' | 'dataVault' | 'rskNode' | 'convey' | 'conveyDid'
 export const getEndpoint = (
-  name: 'issuer' | 'issuerDid' | 'ipfs' | 'dataVault' | 'rskNode' | 'convey' | 'conveyDid',
+  name: Endpoint,
 ) =>
   StorageProvider.get(STORAGE_KEYS.END_POINTS)
     .then(res => res && JSON.parse(res))
     .then(json => json[name])
     .catch(() => defaults[name]);
 
-export const getAllEndpoints = () =>
+type EndpointMap = {
+  [key in Endpoint]: string;
+};
+export const getAllEndpoints = (): Promise<EndpointMap> =>
   StorageProvider.get(STORAGE_KEYS.END_POINTS)
     .then(res => res && JSON.parse(res))
     .catch(() => defaults);

@@ -76,6 +76,39 @@ export const agent = new Daf.Agent({
   messageHandler,
 });
 
+export const agentWithUserMnemonic = async () => {
+
+  const mnemonic = await mnemonicStore.get();
+  if (!mnemonic) {
+    throw new Error('No mnemonic found');
+  }
+
+  const rifIdProviderWithUserMnemonic = new RIFIdentityProvider({
+    kms: rifIdKeyManagementSystem,
+    identityStore,
+    network: 'rsk:testnet',
+    rpcUrl: 'https://did.testnet.rsk.co:4444',
+  });
+
+  console.log("👀👀👀👀👀👀")
+  try {
+    await rifIdentityProvider.importMnemonic(mnemonic.mnemonic);
+  }
+  catch (err) {
+    console.log("👀 error: ", err);
+  }
+
+  const agent = new Daf.Agent({
+    dbConnection,
+    didResolver,
+    identityProviders: [rifIdProviderWithUserMnemonic],
+    actionHandler,
+    messageHandler,
+  });
+  return agent;
+}
+
+
 export const dropDafDb = () => dbConnection.then((dbconn: Connection) => dbconn.dropDatabase());
 
 

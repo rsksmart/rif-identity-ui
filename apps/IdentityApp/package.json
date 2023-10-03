@@ -38,7 +38,7 @@
     "daf-resolver": "^6.0.0",
     "daf-selective-disclosure": "^6.0.0",
     "daf-w3c": "^6.0.0",
-    "debug": "^4.1.1",
+    "debug": "^4.3.1",
     "did-jwt": "^4.4.0",
     "did-jwt-vc": "^1.0.4",
     "did-resolver": "^2.0.1",
